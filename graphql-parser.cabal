@@ -1,0 +1,86 @@
+cabal-version:       3.0
+name:                graphql-parser
+version:             0.0.1
+copyright:           2022 Solomon Bothwell, 2022 Hasura Inc
+author:              Solomon Bothwell
+maintainer:          ssbothwell@gmail.com
+license:             Apache-2.0
+license-file:        LICENSE
+category:            Parser
+build-type:          Simple
+extra-source-files:  CHANGELOG.md
+tested-with:         GHC ==8.10.7
+
+-------------------------------------------------------------------------------
+
+-- Settings shared between all components.
+common common-settings
+  default-language:    Haskell2010
+  default-extensions:
+    BlockArguments
+    DeriveGeneric
+    FlexibleContexts
+    FlexibleInstances
+    GeneralizedNewtypeDeriving
+    InstanceSigs
+    LambdaCase
+    NamedFieldPuns
+    OverloadedStrings
+    StrictData
+    RecordWildCards
+    TupleSections
+    DerivingVia
+    TypeApplications
+    TypeFamilies
+
+  ghc-options:
+    -Wall
+    -Wcpp-undef
+    -Widentities
+    -Wincomplete-record-updates
+    -Wincomplete-uni-patterns
+    -Wpartial-fields
+    -Werror=missing-home-modules
+
+common common-libraries
+  build-depends:
+    , base >= 2 && < 5
+    , aeson <1.6 || >=2 && <2.1
+    , bytestring
+    , containers
+    , text
+    , utf8-string
+    , optparse-applicative
+    , prettyprinter
+
+-------------------------------------------------------------------------------
+
+library
+  import:
+    , common-libraries
+    , common-settings
+
+  hs-source-dirs: src
+  build-depends:
+    , lens
+    , scientific
+    , unordered-containers
+    , vector
+  build-tool-depends:
+    , alex:alex
+    , happy:happy
+  exposed-modules:
+    GraphQLParser
+  other-modules:
+    Paths_graphql_parser
+
+-------------------------------------------------------------------------------
+
+executable graphQLParser
+  import:
+    , common-libraries
+    , common-settings
+
+  main-is: Main.hs
+  build-depends:
+    , graphql-parser

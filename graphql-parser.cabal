@@ -18,10 +18,11 @@ common common-settings
   default-language:    Haskell2010
   default-extensions:
     BlockArguments
-    DeriveGeneric
+    DeriveFunctor
     FlexibleContexts
     FlexibleInstances
     GeneralizedNewtypeDeriving
+    ImportQualifiedPost
     InstanceSigs
     LambdaCase
     NamedFieldPuns
@@ -48,6 +49,7 @@ common common-libraries
     , aeson <1.6 || >=2 && <2.1
     , bytestring
     , containers
+    , mtl
     , text
     , utf8-string
     , optparse-applicative
@@ -71,12 +73,16 @@ library
     , happy:happy
   exposed-modules:
     GraphQLParser
+    GraphQLParser.Monad
+    GraphQLParser.Span
+    GraphQLParser.Token
+    GraphQLParser.Lexer
   other-modules:
     Paths_graphql_parser
 
 -------------------------------------------------------------------------------
 
-executable graphQLParser
+executable graphql-parser
   import:
     , common-libraries
     , common-settings

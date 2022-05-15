@@ -19,6 +19,7 @@ common common-settings
   default-extensions:
     BlockArguments
     DeriveFunctor
+    DeriveGeneric
     FlexibleContexts
     FlexibleInstances
     GeneralizedNewtypeDeriving
@@ -46,9 +47,12 @@ common common-settings
 common common-libraries
   build-depends:
     , base >= 2 && < 5
+    , array
     , aeson <1.6 || >=2 && <2.1
     , bytestring
     , containers
+    , deepseq
+    , hashable
     , mtl
     , text
     , utf8-string
@@ -68,11 +72,12 @@ library
     , scientific
     , unordered-containers
     , vector
-  build-tool-depends:
-    , alex:alex
-    , happy:happy
+  --build-tool-depends:
+  --  , alex:alex >= 3.2.6
+  --  , happy:happy >= 1.20
   exposed-modules:
     GraphQLParser
+    GraphQLParser.Grammar
     GraphQLParser.Monad
     GraphQLParser.Span
     GraphQLParser.Token

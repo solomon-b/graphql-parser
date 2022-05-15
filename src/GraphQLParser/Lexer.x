@@ -16,7 +16,40 @@ $hex = [A-Fa-f0-9]
 tokens :-
 
 -- Whitespace insensitive
-<0> $white+                 ;
+<0> $white+                             ;
+
+-- Comments
+<0> "#".*                               ;
+
+
+-- Symbols
+<0> \{                                  { symbol SymCurlyOpen }
+<0> \}                                  { symbol SymCurlyClose }
+<0> \(                                  { symbol SymParenOpen }
+<0> \)                                  { symbol SymParenClose }
+<0> \[                                  { symbol SymSquareOpen }
+<0> \]                                  { symbol SymSquareClose }
+<0> \:                                  { symbol SymColon }
+<0> \,                                  { symbol SymComma }
+
+-- Booleans
+<0> true                                { token (TokBoolLit . (\(Loc sp _) -> Loc sp True)) }
+<0> false                               { token (TokBoolLit . (\(Loc sp _) -> Loc sp False)) }
+
+-- Numbers
+<0> \-? $digit+                                       { token (\loc -> TokIntLit (read . T.unpack <$> loc)) }
+<0> \-?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][\+\-]?[0-9]+)? { token (\loc -> TokNumLit (unLoc loc) (read . T.unpack <$> loc)) }
+
+-- Identifiers
+<0> [\_ $alpha] [\_ $alpha $digit]* { token TokIdentifier }
+
+-- Strings
+<0> \"                                  { \b -> pushStartCode literal *> symbol SymDoubleQuote b }
+<literal> (\\ \\ | \\ \` | [^ \"])+     { token TokStringLit }
+<literal> \"                            { \b -> (popStartCode *> symbol SymDoubleQuote b) }
+
+-- Directive Name
+<0> \@ ([ $alpha $digit \_ \- ]*) { token TokDirective }
 
 {
 -- | The monadic wrapper for 'alexScan'. The 'Parser' type is defined

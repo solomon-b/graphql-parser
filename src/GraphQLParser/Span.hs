@@ -1,12 +1,14 @@
 module GraphQLParser.Span where
 
 import Control.Lens (Lens', lens)
+import GHC.Generics
+import Prettyprinter (Pretty (..))
 
 --------------------------------------------------------------------------------
 -- Source Positions
 
 data AlexSourcePos = AlexSourcePos {_line :: !Int, _col :: !Int}
-  deriving (Show, Read, Eq, Ord)
+  deriving (Show, Read, Eq, Ord, Generic)
 
 col :: Lens' AlexSourcePos Int
 col = lens _col (\pos col' -> pos {_col = col'})
@@ -21,7 +23,7 @@ alexStartPos = AlexSourcePos 1 1
 -- Spans
 
 data Span = Span {_start :: AlexSourcePos, _end :: AlexSourcePos}
-  deriving (Show, Read, Eq, Ord)
+  deriving (Show, Read, Eq, Ord, Generic)
 
 instance Semigroup Span where
   (Span s1 e1) <> (Span s2 e2) = Span (min s1 s2) (max e1 e2)
@@ -37,10 +39,13 @@ end = lens _end (\pos end' -> pos {_end = end'})
 
 -- | The produce of @a@ and a 'Span' representing 'a's source position.
 data Loc a = Loc {_span :: Span, unLoc :: a}
-  deriving (Show, Eq, Ord, Functor)
+  deriving (Show, Eq, Ord, Functor, Generic)
 
 instance Semigroup a => Semigroup (Loc a) where
   Loc s1 a1 <> Loc s2 a2 = Loc (s1 <> s2) (a1 <> a2)
+
+instance Pretty a => Pretty (Loc a) where
+  pretty (Loc _ a) = pretty a
 
 span :: Lens' (Loc a) Span
 span = lens _span (\loc span' -> loc {_span = span'})

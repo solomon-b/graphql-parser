@@ -1,0 +1,49 @@
+[ SelField
+    ( Field
+        { fieldAlias = Just "empireHero"
+        , fieldName = "hero"
+        , fieldDirectives = []
+        , fieldArguments = fromList
+            [
+                ( "episode"
+                , VString "EMPIRE"
+                )
+            ]
+        , fieldSelectionSet =
+            [ SelField
+                ( Field
+                    { fieldAlias = Nothing
+                    , fieldName = "name"
+                    , fieldDirectives = []
+                    , fieldArguments = fromList []
+                    , fieldSelectionSet = []
+                    }
+                )
+            ]
+        }
+    )
+, SelField
+    ( Field
+        { fieldAlias = Just "jediHero"
+        , fieldName = "hero"
+        , fieldDirectives = []
+        , fieldArguments = fromList
+            [
+                ( "episode"
+                , VString "JEDI"
+                )
+            ]
+        , fieldSelectionSet =
+            [ SelField
+                ( Field
+                    { fieldAlias = Nothing
+                    , fieldName = "name"
+                    , fieldDirectives = []
+                    , fieldArguments = fromList []
+                    , fieldSelectionSet = []
+                    }
+                )
+            ]
+        }
+    )
+]

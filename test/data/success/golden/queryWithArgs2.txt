@@ -1,0 +1,39 @@
+[ SelField
+    ( Field
+        { fieldAlias = Nothing
+        , fieldName = "human"
+        , fieldDirectives = []
+        , fieldArguments = fromList
+            [
+                ( "id"
+                , VString "1000"
+                )
+            ]
+        , fieldSelectionSet =
+            [ SelField
+                ( Field
+                    { fieldAlias = Nothing
+                    , fieldName = "name"
+                    , fieldDirectives = []
+                    , fieldArguments = fromList []
+                    , fieldSelectionSet = []
+                    }
+                )
+            , SelField
+                ( Field
+                    { fieldAlias = Nothing
+                    , fieldName = "height"
+                    , fieldDirectives = []
+                    , fieldArguments = fromList
+                        [
+                            ( "unit"
+                            , VString "FOOT"
+                            )
+                        ]
+                    , fieldSelectionSet = []
+                    }
+                )
+            ]
+        }
+    )
+]

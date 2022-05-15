@@ -87,6 +87,40 @@ library
 
 -------------------------------------------------------------------------------
 
+test-suite graphql-parser-test
+  import:
+    , common-libraries
+    , common-settings
+
+  type: exitcode-stdio-1.0
+  hs-source-dirs: test
+  main-is: Spec.hs
+
+  build-depends:
+    , graphql-parser
+    , aeson-pretty
+    , directory
+    , filepath
+    , generic-arbitrary
+    , hspec
+    , hspec-core
+    , hspec-golden
+    , lens
+    , lens-aeson
+    , mtl
+    , parsec
+    , pretty-simple
+    , prettyprinter
+    , raw-strings-qq
+    , QuickCheck
+    , safe-exceptions
+    , scientific
+    , unordered-containers
+    , utf8-string
+    , vector
+
+-------------------------------------------------------------------------------
+
 executable graphql-parser
   import:
     , common-libraries

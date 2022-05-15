@@ -28,6 +28,7 @@ data Symbol
   | SymColon
   | SymDoubleQuote
   | SymComma
+  | SymSpread
   deriving (Show, Eq, Ord, Generic)
 
 instance Pretty Symbol where
@@ -41,6 +42,7 @@ instance Pretty Symbol where
     SymColon -> ":"
     SymDoubleQuote -> "\""
     SymComma -> ","
+    SymSpread -> "..."
 
 data Token
   = TokSymbol (Loc Symbol)

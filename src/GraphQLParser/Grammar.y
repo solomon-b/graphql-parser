@@ -13,7 +13,7 @@ import GraphQLParser.Span
 
 }
 
-%name parser field
+%name parser selectionSet
 %tokentype { Token }
 %monad { Parser }
 %error { failure }
@@ -30,6 +30,7 @@ import GraphQLParser.Span
 ']'         { TokSymbol (Loc $$ SymSquareClose) }
 '('         { TokSymbol (Loc $$ SymParenOpen) }
 ')'         { TokSymbol (Loc $$ SymParenClose) }
+'...'       { TokSymbol (Loc $$ SymSpread) }
 
 int         { TokIntLit $$ }
 float       { TokNumLit _ $$ }
@@ -69,12 +70,20 @@ field : name { Field Nothing $1 mempty mempty mempty }
       | name ':' name selectionSet { Field (Just $1) $3 mempty mempty $4 }
       | name ':' name directives selectionSet { Field (Just $1) $3 $4 mempty $5 }
 
+fragmentSpread :: { FragmentSpread }
+fragmentSpread : '...' name directives { FragmentSpread $2 $3 }
+         | '...' name { FragmentSpread $2 [] }
+
 selectionSet :: { SelectionSet }
 selectionSet : '{' selections '}' { SelectionSet $2 }
 
 selections :: { [Selection] }
-selections : field { [ SelField $1 ] }
-           | field selections { SelField $1 : $2 }
+selections : selection { [ $1 ] }
+           | selection selections { $1 : $2 }
+
+selection :: { Selection }
+selection : field { SelField $1 }
+          | fragmentSpread { SelFragSpread $1 }
 
 arguments :: { HashMap Name Value }
 arguments : argument { uncurry Map.singleton $1 }

@@ -31,6 +31,7 @@ tokens :-
 <0> \]                                  { symbol SymSquareClose }
 <0> \:                                  { symbol SymColon }
 <0> \,                                  { symbol SymComma }
+<0> \.\.\.                              { symbol SymSpread }
 
 -- Booleans
 <0> true                                { token (TokBoolLit . (\(Loc sp _) -> Loc sp True)) }

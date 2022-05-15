@@ -1,0 +1,8 @@
+{
+  leftComparison: hero(episode: "EMPIRE") {
+    ...comparisonFields
+  }
+  rightComparison: hero(episode: "JEDI") {
+    ...comparisonFields
+  }
+}

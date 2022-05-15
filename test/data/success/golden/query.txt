@@ -1,0 +1,20 @@
+[ SelField
+    ( Field
+        { fieldAlias = Nothing
+        , fieldName = "me"
+        , fieldDirectives = []
+        , fieldArguments = fromList []
+        , fieldSelectionSet =
+            [ SelField
+                ( Field
+                    { fieldAlias = Nothing
+                    , fieldName = "name"
+                    , fieldDirectives = []
+                    , fieldArguments = fromList []
+                    , fieldSelectionSet = []
+                    }
+                )
+            ]
+        }
+    )
+]

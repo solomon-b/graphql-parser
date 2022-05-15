@@ -1,0 +1,43 @@
+[ SelField
+    ( Field
+        { fieldAlias = Just "leftComparison"
+        , fieldName = "hero"
+        , fieldDirectives = []
+        , fieldArguments = fromList
+            [
+                ( "episode"
+                , VString "EMPIRE"
+                )
+            ]
+        , fieldSelectionSet =
+            [ SelFragSpread
+                ( FragmentSpread
+                    { _fsName = "comparisonFields"
+                    , _fsDirectives = []
+                    }
+                )
+            ]
+        }
+    )
+, SelField
+    ( Field
+        { fieldAlias = Just "rightComparison"
+        , fieldName = "hero"
+        , fieldDirectives = []
+        , fieldArguments = fromList
+            [
+                ( "episode"
+                , VString "JEDI"
+                )
+            ]
+        , fieldSelectionSet =
+            [ SelFragSpread
+                ( FragmentSpread
+                    { _fsName = "comparisonFields"
+                    , _fsDirectives = []
+                    }
+                )
+            ]
+        }
+    )
+]

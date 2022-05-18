@@ -119,14 +119,3 @@ test-suite graphql-parser-test
     , unordered-containers
     , utf8-string
     , vector
-
--------------------------------------------------------------------------------
-
-executable graphql-parser
-  import:
-    , common-libraries
-    , common-settings
-
-  main-is: Main.hs
-  build-depends:
-    , graphql-parser

@@ -21,7 +21,7 @@ import GraphQLParser.Token as T
 runLex :: B.ByteString -> Either ParseError [Token]
 runLex bs = M.runParser [] bs L.lexer
 
-runParse :: B.ByteString -> Either ParseError SelectionSet
+runParse :: B.ByteString -> Either ParseError ExecutableDocument
 runParse bs = M.runParser [] bs $ do
   toks <- L.lexer
   P.parser toks

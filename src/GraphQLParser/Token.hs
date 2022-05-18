@@ -5,36 +5,40 @@ module GraphQLParser.Token where
 
 import Data.Scientific (Scientific)
 import Data.Text (Text)
-import GHC.Generics
+import GHC.Generics (Generic)
 import GraphQLParser.Span (Loc (..))
 import Prettyprinter (Pretty (..))
 
 --------------------------------------------------------------------------------
 
 data Symbol
-  = SymCurlyOpen
-  | SymCurlyClose
-  | SymParenOpen
-  | SymParenClose
-  | SymSquareOpen
-  | SymSquareClose
+  = SymBang
+  | SymBling
   | SymColon
-  | SymDoubleQuote
   | SymComma
+  | SymCurlyClose
+  | SymCurlyOpen
+  | SymDoubleQuote
+  | SymParenClose
+  | SymParenOpen
+  | SymSquareClose
+  | SymSquareOpen
   | SymSpread
   deriving (Show, Eq, Ord, Generic)
 
 instance Pretty Symbol where
   pretty = \case
-    SymCurlyOpen -> "{"
-    SymCurlyClose -> "}"
-    SymParenOpen -> "("
-    SymParenClose -> ")"
-    SymSquareOpen -> "["
-    SymSquareClose -> "]"
+    SymBang -> "!"
+    SymBling -> "$"
     SymColon -> ":"
-    SymDoubleQuote -> "\""
     SymComma -> ","
+    SymCurlyClose -> "}"
+    SymCurlyOpen -> "{"
+    SymDoubleQuote -> "\""
+    SymParenClose -> ")"
+    SymParenOpen -> "("
+    SymSquareClose -> "]"
+    SymSquareOpen -> "["
     SymSpread -> "..."
 
 data Token
@@ -68,4 +72,3 @@ instance Pretty Token where
     TokNumLit txt _ -> pretty txt
     TokBoolLit b -> pretty b
     EOF -> mempty
-

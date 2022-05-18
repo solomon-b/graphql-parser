@@ -63,7 +63,7 @@ parserGoldenSpec = describe "Golden" $ do
 
 -- | Parse a template file that is expected to succeed; parse failures are
 -- rendered as 'String's and thrown in 'IO'.
-parseGraphQLSuccess :: FilePath -> IO (BS.ByteString, SelectionSet)
+parseGraphQLSuccess :: FilePath -> IO (BS.ByteString, ExecutableDocument)
 parseGraphQLSuccess path = do
   tmpl <- BS.readFile $ path
   case runParse tmpl of
@@ -101,8 +101,8 @@ goldenReadShow dir name val = Golden {..}
     actualFile = Just $ dir </> "actual" </> name <.> "txt"
     failFirstTime = False
 
--- | Alias for 'goldenReadShow' specialized to 'SelectionSet'.
-goldenQuery :: FilePath -> String -> SelectionSet -> Golden SelectionSet
+-- | Alias for 'goldenReadShow' specialized to 'ExecutableDocument'.
+goldenQuery :: FilePath -> String -> ExecutableDocument -> Golden ExecutableDocument
 goldenQuery = goldenReadShow
 
 -- | Construct a 'Golden' test for 'ParseError's rendered as 'String's.

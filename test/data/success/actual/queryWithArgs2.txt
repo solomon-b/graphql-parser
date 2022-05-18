@@ -1,45 +1,54 @@
-Left
-    ( Left
-        ( Field
-            { fieldAlias = Nothing
-            , fieldName = "human"
-            , fieldArguments = fromList
-                [
-                    ( "id"
-                    , VString "1000"
-                    )
-                ]
-            , fieldDirectives = []
-            , fieldSelectionSet = Just
-                ( Left
-                    ( Left
-                        ( Field
-                            { fieldAlias = Nothing
-                            , fieldName = "name"
-                            , fieldArguments = fromList []
-                            , fieldDirectives = []
-                            , fieldSelectionSet = Nothing
-                            }
-                        )
-                    ) :|
-                    [ Left
-                        ( Left
-                            ( Field
-                                { fieldAlias = Nothing
-                                , fieldName = "height"
-                                , fieldArguments = fromList
-                                    [
-                                        ( "unit"
-                                        , VString "FOOT"
-                                        )
-                                    ]
-                                , fieldDirectives = []
-                                , fieldSelectionSet = Nothing
-                                }
+[ Left
+    ( OperationDefinition
+        { opType = Query
+        , opName = Nothing
+        , opVariables = []
+        , opDirectives = []
+        , opSelectionSet = Left
+            ( Left
+                ( Field
+                    { fieldAlias = Nothing
+                    , fieldName = "human"
+                    , fieldArguments = fromList
+                        [
+                            ( "id"
+                            , VString "1000"
                             )
+                        ]
+                    , fieldDirectives = []
+                    , fieldSelectionSet = Just
+                        ( Left
+                            ( Left
+                                ( Field
+                                    { fieldAlias = Nothing
+                                    , fieldName = "name"
+                                    , fieldArguments = fromList []
+                                    , fieldDirectives = []
+                                    , fieldSelectionSet = Nothing
+                                    }
+                                )
+                            ) :|
+                            [ Left
+                                ( Left
+                                    ( Field
+                                        { fieldAlias = Nothing
+                                        , fieldName = "height"
+                                        , fieldArguments = fromList
+                                            [
+                                                ( "unit"
+                                                , VString "FOOT"
+                                                )
+                                            ]
+                                        , fieldDirectives = []
+                                        , fieldSelectionSet = Nothing
+                                        }
+                                    )
+                                )
+                            ]
                         )
-                    ]
+                    }
                 )
-            }
-        )
-    ) :| []
+            ) :| []
+        }
+    )
+]

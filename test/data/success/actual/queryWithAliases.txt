@@ -1,57 +1,66 @@
-Left
-    ( Left
-        ( Field
-            { fieldAlias = Just "empireHero"
-            , fieldName = "hero"
-            , fieldArguments = fromList
-                [
-                    ( "episode"
-                    , VString "EMPIRE"
-                    )
-                ]
-            , fieldDirectives = []
-            , fieldSelectionSet = Just
-                ( Left
-                    ( Left
-                        ( Field
-                            { fieldAlias = Nothing
-                            , fieldName = "name"
-                            , fieldArguments = fromList []
-                            , fieldDirectives = []
-                            , fieldSelectionSet = Nothing
-                            }
-                        )
-                    ) :| []
-                )
-            }
-        )
-    ) :|
-    [ Left
-        ( Left
-            ( Field
-                { fieldAlias = Just "jediHero"
-                , fieldName = "hero"
-                , fieldArguments = fromList
-                    [
-                        ( "episode"
-                        , VString "JEDI"
-                        )
-                    ]
-                , fieldDirectives = []
-                , fieldSelectionSet = Just
-                    ( Left
-                        ( Left
-                            ( Field
-                                { fieldAlias = Nothing
-                                , fieldName = "name"
-                                , fieldArguments = fromList []
-                                , fieldDirectives = []
-                                , fieldSelectionSet = Nothing
-                                }
+[ Left
+    ( OperationDefinition
+        { opType = Query
+        , opName = Nothing
+        , opVariables = []
+        , opDirectives = []
+        , opSelectionSet = Left
+            ( Left
+                ( Field
+                    { fieldAlias = Just "empireHero"
+                    , fieldName = "hero"
+                    , fieldArguments = fromList
+                        [
+                            ( "episode"
+                            , VString "EMPIRE"
                             )
-                        ) :| []
+                        ]
+                    , fieldDirectives = []
+                    , fieldSelectionSet = Just
+                        ( Left
+                            ( Left
+                                ( Field
+                                    { fieldAlias = Nothing
+                                    , fieldName = "name"
+                                    , fieldArguments = fromList []
+                                    , fieldDirectives = []
+                                    , fieldSelectionSet = Nothing
+                                    }
+                                )
+                            ) :| []
+                        )
+                    }
+                )
+            ) :|
+            [ Left
+                ( Left
+                    ( Field
+                        { fieldAlias = Just "jediHero"
+                        , fieldName = "hero"
+                        , fieldArguments = fromList
+                            [
+                                ( "episode"
+                                , VString "JEDI"
+                                )
+                            ]
+                        , fieldDirectives = []
+                        , fieldSelectionSet = Just
+                            ( Left
+                                ( Left
+                                    ( Field
+                                        { fieldAlias = Nothing
+                                        , fieldName = "name"
+                                        , fieldArguments = fromList []
+                                        , fieldDirectives = []
+                                        , fieldSelectionSet = Nothing
+                                        }
+                                    )
+                                ) :| []
+                            )
+                        }
                     )
-                }
-            )
-        )
-    ]
+                )
+            ]
+        }
+    )
+]

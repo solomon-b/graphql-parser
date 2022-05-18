@@ -21,7 +21,6 @@ tokens :-
 -- Comments
 <0> "#".*                               ;
 
-
 -- Symbols
 <0> \{                                  { symbol SymCurlyOpen }
 <0> \}                                  { symbol SymCurlyClose }
@@ -32,6 +31,7 @@ tokens :-
 <0> \:                                  { symbol SymColon }
 <0> \,                                  { symbol SymComma }
 <0> \.\.\.                              { symbol SymSpread }
+<0> \$                                  { symbol SymBling }
 
 -- Booleans
 <0> true                                { token (TokBoolLit . (\(Loc sp _) -> Loc sp True)) }

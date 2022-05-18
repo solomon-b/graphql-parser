@@ -26,15 +26,15 @@ type a \/ b = Either a b
 -- operated on by a GraphQL service or client. A 'Document' contains
 -- multiple 'Definition's, either executable or representative of a
 -- GraphQL type system.
---
--- A 'Document' containing strictly '[ExecutableDefinition]' where at
--- least one value is a 'OperationDefinition' is considered an
--- Executable Document.
 newtype Document definition = Document [definition]
   deriving newtype (Eq, Ord, Show, Read)
 
--- | 'Document's are only executable by a GraphQL service if they are
--- 'ExecutableDocument' and contain at least one 'OperationDefinition'.
+-- | A 'Document' containing strictly '[ExecutableDefinition]' where at
+-- least one value is a 'OperationDefinition' is considered an
+-- Executable Document.
+--
+-- 'Document's are only executable by a GraphQL service if they are
+-- 'ExecutableDocument'.
 type ExecutableDocument = Document ExecutableDefinition
 
 --------------------------------------------------------------------------------
@@ -43,19 +43,29 @@ type ExecutableDocument = Document ExecutableDefinition
 -- | A 'Document' which contains 'TypeSystemDefinitionOrExtension' must
 -- not be executed; GraphQL execution services which receive a
 -- 'Document' containing these should return a descriptive error.
-type TypeSystemDocument = Document TypeSystemDefinitionOrExtension
+--type TypeSystemDocument = Document TypeSystemDefinitionOrExtension
 
-type TypeSystemDefinitionOrExtension = TypeSystemDefinition \/ TypeSystemExtension
+--type TypeSystemDefinitionOrExtension = TypeSystemDefinition \/ TypeSystemExtension
+
+type TypeSystemDocument = SchemaDefinition \/ TypeDefinition \/ DirectiveDefinition
 
 -- TODO:
-data TypeSystemDefinition = TypeSystemDefinition
+data SchemaDefinition = SchemaDefinition
+  deriving stock (Eq, Ord, Show, Read)
+
+-- TODO:
+data TypeDefinition = TypeDefinition
+  deriving stock (Eq, Ord, Show, Read)
+
+-- TODO:
+data DirectiveDefinition = DirectiveDefinition
   deriving stock (Eq, Ord, Show, Read)
 
 -- TODO:
 data TypeSystemExtension = TypeSystemExtension
   deriving stock (Eq, Ord, Show, Read)
 
---------------------------------------------------------------------------------
+------------------------------------------------------- ------------------------
 -- Executable Definitions
 
 type ExecutableDefinition = OperationDefinition \/ FragmentDefinition
@@ -70,7 +80,7 @@ type ExecutableDefinition = OperationDefinition \/ FragmentDefinition
 data OperationDefinition = OperationDefinition
   { opType :: OperationType,
     opName :: Maybe Name,
-    opArguments :: [VariableDefinition],
+    opVariables :: [VariableDefinition],
     opDirectives :: [Directive],
     opSelectionSet :: SelectionSet
   }
@@ -84,8 +94,8 @@ data OperationDefinition = OperationDefinition
 -- Fragments allow for the reuse of common repeated selections of
 -- 'Field's, reducing duplicated text in the 'Document'.
 data FragmentDefinition = FragmentDefinition
-  { fragName :: Name,
-    fragTypeCondition :: Name,
+  { fragName :: FragmentName,
+    fragTypeCondition :: Type,
     fragDirectives :: [Directive],
     fragSelectionSet :: SelectionSet
   }
@@ -96,7 +106,7 @@ data FragmentDefinition = FragmentDefinition
 -- selection at the same level as the fragment invocation. This
 -- happens through multiple levels of fragment spreads.
 data FragmentSpread = FragmentSpread
-  { fsName :: Name,
+  { fsName :: FragmentName,
     fsDirectives :: [Directive]
   }
   deriving stock (Eq, Generic, Ord, Show, Read)
@@ -105,7 +115,7 @@ data FragmentSpread = FragmentSpread
 -- condition upon a type condition when querying against an interface
 -- or union.
 data InlineFragment = InlineFragment
-  { ifTypeCondition :: Name,
+  { ifTypeCondition :: Maybe Name,
     ifDirectives :: [Directive],
     ifSelectionSet :: SelectionSet
   }
@@ -151,7 +161,8 @@ newtype EnumValue = EnumValue {unEnum :: Text}
   deriving anyclass (Hashable, NFData)
 
 data Value
-  = VNull
+  = VVar Text
+  | VNull
   | VInt Integer
   | VFloat Scientific
   | VString Text
@@ -184,7 +195,7 @@ newtype Arguments = Arguments {unArguments :: HashMap Name Value}
   deriving newtype (Eq, Ord, Show, Read, Semigroup, Monoid)
   deriving anyclass (Hashable, NFData)
 
-data Type = NamedType Name | ListType [Type] | NonNullType Type
+data Type = NamedType Name | ListType Type | NonNullType Type
   deriving stock (Generic)
   deriving stock (Eq, Ord, Show, Read)
   deriving anyclass (Hashable, NFData)

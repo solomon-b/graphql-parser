@@ -1,0 +1,134 @@
+
+
+executableDocument
+  : executableDefinition
+  | executableDefinition executableDocument
+
+executableDefinition
+  : operationDefinition
+  | fragmentDefinition
+
+operationDefinition
+  : operationType selectionSet
+  | operationType name selectionSet
+  | operationType variableDefinitions selectionSet
+  | operationType directives selectionSet
+  | operationType name variableDefinitions selectionSet
+  | operationType name directives selectionSet
+  | operationType variableDefinitions directives selectionSet
+  | operationType name variableDefinitions directives selectionSet
+  | selectionSet
+
+fragmentDefinition
+  : 'fragment' fragmentName 'on' type directives selectionSet
+  | 'fragment' fragmentName 'on' type selectionSet
+
+fragmentSpread
+  : '...' fragmentName directives
+  | '...' fragmentName
+
+inlineFragment
+  : '...' 'on' name directives selectionSet
+  | '...' name selectionSet
+  | '...' selectionSet
+
+fragmentName
+  : name
+
+field
+  : name
+  | name directives
+  | name '(' arguments ')'
+  | name '(' arguments ')' directives
+  | name '(' arguments ')' selectionSet
+  | name '(' arguments ')' directives selectionSet
+  | name selectionSet
+  | name directives selectionSet
+  | name ':' name
+  | name ':' name directives
+  | name ':' name '(' arguments ')'
+  | name ':' name '(' arguments ')' directives
+  | name ':' name '(' arguments ')' selectionSet
+  | name ':' name '(' arguments ')' directives selectionSet
+  | name ':' name selectionSet
+  | name ':' name directives selectionSet
+
+selectionSet
+  : '{' selections '}'
+
+selections
+  : selection
+  | selection selections
+
+selection
+  : field
+  | fragmentSpread
+  | inlineFragment
+
+values
+  : value
+  | value ',' values
+
+value
+  : 'null'
+  | '"' string '"'
+  | float
+  | int
+  | bool
+  | vlist
+  | vobject
+
+vlist
+  : '[' ']'
+  | '[' values ']'
+
+vobject
+  : '{' '}'
+  | '{' object '}'
+
+object
+  : objectField
+  | objectField ',' object
+
+objectField
+  : name ':' value
+
+operationType
+  : 'query'
+  | 'mutation'
+  | 'subscription'
+
+name
+  : ident
+
+arguments
+  : argument
+  | arguments ',' argument
+
+argument
+  : name ':' value
+
+variableDefinitions
+  : '(' variableDefinitions_ ')'
+
+variableDefinitions_
+  : variableDefinition
+  | variableDefinition ',' variableDefinitions
+
+variableDefinition
+  : '$' name ':' type
+  | '$' name ':' type value
+  | '$' name ':' type value directives
+
+type
+  : name
+  | type '!'
+  | '[' type ']'
+
+directives
+  : directive
+  | directive directives
+
+directive
+  : dir
+  | dir '(' arguments ')'

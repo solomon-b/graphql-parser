@@ -95,7 +95,7 @@ data ParseError
   = EmptyTokenStream Span B.ByteString
   | UnexpectedToken (Loc Token) B.ByteString
   | InvalidLexeme AlexSourcePos B.ByteString
-  deriving Show
+  deriving (Show)
 
 instance Pretty ParseError where
   pretty = \case

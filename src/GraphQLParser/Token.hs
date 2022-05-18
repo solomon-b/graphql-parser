@@ -3,18 +3,11 @@
 
 module GraphQLParser.Token where
 
-import Control.DeepSeq (NFData)
-import Data.ByteString.Lazy qualified as BL
-import Data.HashMap.Strict (HashMap)
-import Data.Hashable (Hashable)
 import Data.Scientific (Scientific)
 import Data.Text (Text)
-import Data.Text.Encoding qualified as TE
-import Data.Vector qualified as V
 import GHC.Generics
 import GraphQLParser.Span (Loc (..))
-import Prettyprinter (Doc, Pretty (..), defaultLayoutOptions, layoutPretty)
-import Prettyprinter.Render.Text (renderStrict)
+import Prettyprinter (Pretty (..))
 
 --------------------------------------------------------------------------------
 
@@ -76,60 +69,3 @@ instance Pretty Token where
     TokBoolLit b -> pretty b
     EOF -> mempty
 
---------------------------------------------------------------------------------
--- GraphQL IR
-
-newtype Name = Name {unName :: Text}
-  deriving newtype (Eq, Ord, Show, Read, Hashable, NFData)
-
-newtype EnumValue = EnumValue {unEnum :: Text}
-  deriving newtype (Eq, Ord, Show, Read)
-
-data Directive = Directive
-  { name :: Name,
-    arguments :: HashMap Name Value
-  }
-  deriving stock (Eq, Ord, Show, Read)
-
--- TODO(Solomon): Description, Type
-data Field = Field
-  { fieldAlias :: Maybe Name,
-    fieldName :: Name,
-    fieldDirectives :: [Directive],
-    fieldArguments :: HashMap Name Value,
-    fieldSelectionSet :: SelectionSet
-  }
-  deriving stock (Eq, Ord, Show, Read)
-
-newtype SelectionSet = SelectionSet [Selection]
-  deriving newtype (Eq, Ord, Show, Read, Semigroup, Monoid)
-
--- TODO(Solomon): Fragment Spread and Fragment Inline
-newtype Selection = SelField Field
-  deriving newtype (Eq, Ord, Show, Read)
-
-data Value
-  = VNull
-  | VInt Integer
-  | VFloat Scientific
-  | VString Text
-  | VBoolean Bool
-  | VEnum EnumValue
-  | VList [Value]
-  | VObject (HashMap Name Value)
-  deriving stock (Eq, Ord, Show, Read)
-
---------------------------------------------------------------------------------
--- Pretty helpers
-
-renderDoc :: Doc ann -> Text
-renderDoc = renderStrict . layoutPretty defaultLayoutOptions
-
-renderPretty :: Pretty a => a -> Text
-renderPretty = renderDoc . pretty
-
-renderVect :: Pretty a => V.Vector a -> Text
-renderVect = renderDoc . foldMap pretty
-
-renderBL :: BL.ByteString -> Text
-renderBL = TE.decodeUtf8 . BL.toStrict

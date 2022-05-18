@@ -1,39 +1,47 @@
-[ SelField
-    ( Field
-        { fieldAlias = Nothing
-        , fieldName = "hero"
-        , fieldDirectives = []
-        , fieldArguments = fromList []
-        , fieldSelectionSet =
-            [ SelField
-                ( Field
-                    { fieldAlias = Nothing
-                    , fieldName = "name"
-                    , fieldDirectives = []
-                    , fieldArguments = fromList []
-                    , fieldSelectionSet = []
-                    }
-                )
-            , SelField
-                ( Field
-                    { fieldAlias = Nothing
-                    , fieldName = "friends"
-                    , fieldDirectives = []
-                    , fieldArguments = fromList []
-                    , fieldSelectionSet =
-                        [ SelField
+Left
+    ( Left
+        ( Field
+            { fieldAlias = Nothing
+            , fieldName = "hero"
+            , fieldArguments = fromList []
+            , fieldDirectives = []
+            , fieldSelectionSet = Just
+                ( Left
+                    ( Left
+                        ( Field
+                            { fieldAlias = Nothing
+                            , fieldName = "name"
+                            , fieldArguments = fromList []
+                            , fieldDirectives = []
+                            , fieldSelectionSet = Nothing
+                            }
+                        )
+                    ) :|
+                    [ Left
+                        ( Left
                             ( Field
                                 { fieldAlias = Nothing
-                                , fieldName = "name"
-                                , fieldDirectives = []
+                                , fieldName = "friends"
                                 , fieldArguments = fromList []
-                                , fieldSelectionSet = []
+                                , fieldDirectives = []
+                                , fieldSelectionSet = Just
+                                    ( Left
+                                        ( Left
+                                            ( Field
+                                                { fieldAlias = Nothing
+                                                , fieldName = "name"
+                                                , fieldArguments = fromList []
+                                                , fieldDirectives = []
+                                                , fieldSelectionSet = Nothing
+                                                }
+                                            )
+                                        ) :| []
+                                    )
                                 }
                             )
-                        ]
-                    }
+                        )
+                    ]
                 )
-            ]
-        }
-    )
-]
+            }
+        )
+    ) :| []

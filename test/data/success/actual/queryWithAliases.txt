@@ -1,49 +1,57 @@
-[ SelField
-    ( Field
-        { fieldAlias = Just "empireHero"
-        , fieldName = "hero"
-        , fieldDirectives = []
-        , fieldArguments = fromList
-            [
-                ( "episode"
-                , VString "EMPIRE"
+Left
+    ( Left
+        ( Field
+            { fieldAlias = Just "empireHero"
+            , fieldName = "hero"
+            , fieldArguments = fromList
+                [
+                    ( "episode"
+                    , VString "EMPIRE"
+                    )
+                ]
+            , fieldDirectives = []
+            , fieldSelectionSet = Just
+                ( Left
+                    ( Left
+                        ( Field
+                            { fieldAlias = Nothing
+                            , fieldName = "name"
+                            , fieldArguments = fromList []
+                            , fieldDirectives = []
+                            , fieldSelectionSet = Nothing
+                            }
+                        )
+                    ) :| []
                 )
-            ]
-        , fieldSelectionSet =
-            [ SelField
-                ( Field
-                    { fieldAlias = Nothing
-                    , fieldName = "name"
-                    , fieldDirectives = []
-                    , fieldArguments = fromList []
-                    , fieldSelectionSet = []
-                    }
-                )
-            ]
-        }
-    )
-, SelField
-    ( Field
-        { fieldAlias = Just "jediHero"
-        , fieldName = "hero"
-        , fieldDirectives = []
-        , fieldArguments = fromList
-            [
-                ( "episode"
-                , VString "JEDI"
-                )
-            ]
-        , fieldSelectionSet =
-            [ SelField
-                ( Field
-                    { fieldAlias = Nothing
-                    , fieldName = "name"
-                    , fieldDirectives = []
-                    , fieldArguments = fromList []
-                    , fieldSelectionSet = []
-                    }
-                )
-            ]
-        }
-    )
-]
+            }
+        )
+    ) :|
+    [ Left
+        ( Left
+            ( Field
+                { fieldAlias = Just "jediHero"
+                , fieldName = "hero"
+                , fieldArguments = fromList
+                    [
+                        ( "episode"
+                        , VString "JEDI"
+                        )
+                    ]
+                , fieldDirectives = []
+                , fieldSelectionSet = Just
+                    ( Left
+                        ( Left
+                            ( Field
+                                { fieldAlias = Nothing
+                                , fieldName = "name"
+                                , fieldArguments = fromList []
+                                , fieldDirectives = []
+                                , fieldSelectionSet = Nothing
+                                }
+                            )
+                        ) :| []
+                    )
+                }
+            )
+        )
+    ]

@@ -1,20 +1,23 @@
-[ SelField
-    ( Field
-        { fieldAlias = Nothing
-        , fieldName = "me"
-        , fieldDirectives = []
-        , fieldArguments = fromList []
-        , fieldSelectionSet =
-            [ SelField
-                ( Field
-                    { fieldAlias = Nothing
-                    , fieldName = "name"
-                    , fieldDirectives = []
-                    , fieldArguments = fromList []
-                    , fieldSelectionSet = []
-                    }
+Left
+    ( Left
+        ( Field
+            { fieldAlias = Nothing
+            , fieldName = "me"
+            , fieldArguments = fromList []
+            , fieldDirectives = []
+            , fieldSelectionSet = Just
+                ( Left
+                    ( Left
+                        ( Field
+                            { fieldAlias = Nothing
+                            , fieldName = "name"
+                            , fieldArguments = fromList []
+                            , fieldDirectives = []
+                            , fieldSelectionSet = Nothing
+                            }
+                        )
+                    ) :| []
                 )
-            ]
-        }
-    )
-]
+            }
+        )
+    ) :| []

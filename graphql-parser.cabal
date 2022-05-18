@@ -78,6 +78,7 @@ library
   exposed-modules:
     GraphQLParser
     GraphQLParser.Grammar
+    GraphQLParser.IR
     GraphQLParser.Monad
     GraphQLParser.Span
     GraphQLParser.Token

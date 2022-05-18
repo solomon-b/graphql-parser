@@ -4,10 +4,13 @@
 module GraphQLParser.Grammar where
 
 import Control.Monad.State (gets)
+import Data.Coerce
 import Data.HashMap.Strict (HashMap)
 import Data.HashMap.Strict as Map
+import Data.List.NonEmpty qualified as NE
 import Data.Text (Text)
 import GraphQLParser.Monad
+import GraphQLParser.IR
 import GraphQLParser.Token
 import GraphQLParser.Span
 
@@ -54,40 +57,40 @@ directives : directive { [$1] }
 
 field :: { Field }
 field : name { Field Nothing $1 mempty mempty mempty }
-      | name directives { Field Nothing $1 $2 mempty mempty }
-      | name '(' arguments ')' { Field Nothing $1 mempty $3 mempty }
-      | name '(' arguments ')' directives { Field Nothing $1 $5 $3 mempty }
-      | name '(' arguments ')' selectionSet { Field Nothing $1 mempty $3 $5 }
-      | name '(' arguments ')' directives selectionSet { Field Nothing $1 $5 $3 $6 }
-      | name selectionSet { Field Nothing $1 mempty mempty $2 }
-      | name directives selectionSet { Field Nothing $1 $2 mempty $3 }
+      | name directives { Field Nothing $1 mempty $2 mempty }
+      | name '(' arguments ')' { Field Nothing $1 $3 mempty mempty }
+      | name '(' arguments ')' directives { Field Nothing $1 $3 $5 mempty }
+      | name '(' arguments ')' selectionSet { Field Nothing $1 $3 mempty (Just $5) }
+      | name '(' arguments ')' directives selectionSet { Field Nothing $1 $3 $5 (Just $6) }
+      | name selectionSet { Field Nothing $1 mempty mempty (Just $2) }
+      | name directives selectionSet { Field Nothing $1 mempty $2 (Just $3) }
       | name ':' name { Field (Just $1) $3 mempty mempty mempty }
-      | name ':' name directives { Field (Just $1) $3 $4 mempty mempty }
-      | name ':' name '(' arguments ')' { Field (Just $1) $3 mempty $5 mempty }
-      | name ':' name '(' arguments ')' directives { Field (Just $1) $3 $7 $5 mempty }
-      | name ':' name '(' arguments ')' selectionSet { Field (Just $1) $3 mempty $5 $7 }
-      | name ':' name '(' arguments ')' directives selectionSet { Field (Just $1) $3 $7 $5 $8 }
-      | name ':' name selectionSet { Field (Just $1) $3 mempty mempty $4 }
-      | name ':' name directives selectionSet { Field (Just $1) $3 $4 mempty $5 }
+      | name ':' name directives { Field (Just $1) $3 mempty $4 mempty }
+      | name ':' name '(' arguments ')' { Field (Just $1) $3 $5 mempty mempty }
+      | name ':' name '(' arguments ')' directives { Field (Just $1) $3 $5 $7 mempty }
+      | name ':' name '(' arguments ')' selectionSet { Field (Just $1) $3 $5 mempty (Just $7) }
+      | name ':' name '(' arguments ')' directives selectionSet { Field (Just $1) $3 $5 $7 (Just $8) }
+      | name ':' name selectionSet { Field (Just $1) $3 mempty mempty (Just $4) }
+      | name ':' name directives selectionSet { Field (Just $1) $3 mempty $4 (Just $5) }
 
 fragmentSpread :: { FragmentSpread }
 fragmentSpread : '...' name directives { FragmentSpread $2 $3 }
-         | '...' name { FragmentSpread $2 [] }
+               | '...' name { FragmentSpread $2 [] }
 
 selectionSet :: { SelectionSet }
-selectionSet : '{' selections '}' { SelectionSet $2 }
+selectionSet : '{' selections '}' { SelectionSet (NE.fromList $2) }
 
 selections :: { [Selection] }
 selections : selection { [ $1 ] }
            | selection selections { $1 : $2 }
 
 selection :: { Selection }
-selection : field { SelField $1 }
-          | fragmentSpread { SelFragSpread $1 }
+selection : field { Left (Left $1) }
+          | fragmentSpread { Left (Right $1) }
 
-arguments :: { HashMap Name Value }
-arguments : argument { uncurry Map.singleton $1 }
-          | arguments ',' argument { uncurry Map.insert $3 $1 }
+arguments :: { Arguments }
+arguments : argument { Arguments (uncurry Map.singleton $1) }
+          | arguments ',' argument { coerce (uncurry Map.insert $3 (coerce $1)) }
 
 argument :: { (Name, Value) }
 argument : name ':' value { ($1, $3) }

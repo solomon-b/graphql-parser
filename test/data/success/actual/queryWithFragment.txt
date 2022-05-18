@@ -1,43 +1,51 @@
-[ SelField
-    ( Field
-        { fieldAlias = Just "leftComparison"
-        , fieldName = "hero"
-        , fieldDirectives = []
-        , fieldArguments = fromList
-            [
-                ( "episode"
-                , VString "EMPIRE"
+Left
+    ( Left
+        ( Field
+            { fieldAlias = Just "leftComparison"
+            , fieldName = "hero"
+            , fieldArguments = fromList
+                [
+                    ( "episode"
+                    , VString "EMPIRE"
+                    )
+                ]
+            , fieldDirectives = []
+            , fieldSelectionSet = Just
+                ( Left
+                    ( Right
+                        ( FragmentSpread
+                            { fsName = "comparisonFields"
+                            , fsDirectives = []
+                            }
+                        )
+                    ) :| []
                 )
-            ]
-        , fieldSelectionSet =
-            [ SelFragSpread
-                ( FragmentSpread
-                    { _fsName = "comparisonFields"
-                    , _fsDirectives = []
-                    }
-                )
-            ]
-        }
-    )
-, SelField
-    ( Field
-        { fieldAlias = Just "rightComparison"
-        , fieldName = "hero"
-        , fieldDirectives = []
-        , fieldArguments = fromList
-            [
-                ( "episode"
-                , VString "JEDI"
-                )
-            ]
-        , fieldSelectionSet =
-            [ SelFragSpread
-                ( FragmentSpread
-                    { _fsName = "comparisonFields"
-                    , _fsDirectives = []
-                    }
-                )
-            ]
-        }
-    )
-]
+            }
+        )
+    ) :|
+    [ Left
+        ( Left
+            ( Field
+                { fieldAlias = Just "rightComparison"
+                , fieldName = "hero"
+                , fieldArguments = fromList
+                    [
+                        ( "episode"
+                        , VString "JEDI"
+                        )
+                    ]
+                , fieldDirectives = []
+                , fieldSelectionSet = Just
+                    ( Left
+                        ( Right
+                            ( FragmentSpread
+                                { fsName = "comparisonFields"
+                                , fsDirectives = []
+                                }
+                            )
+                        ) :| []
+                    )
+                }
+            )
+        )
+    ]

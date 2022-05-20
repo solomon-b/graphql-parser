@@ -1,0 +1,117 @@
+[ Left
+    ( OperationDefinition
+        { opType = Query
+        , opName = Just "FragmentTyping"
+        , opVariables = []
+        , opDirectives = []
+        , opSelectionSet = Left
+            ( Left
+                ( Field
+                    { fieldAlias = Nothing
+                    , fieldName = "profiles"
+                    , fieldArguments = fromList
+                        [
+                            ( "handles"
+                            , VList
+                                [ VString "zuck"
+                                , VString "coca-cola"
+                                ]
+                            )
+                        ]
+                    , fieldDirectives = []
+                    , fieldSelectionSet = Just
+                        ( Left
+                            ( Left
+                                ( Field
+                                    { fieldAlias = Nothing
+                                    , fieldName = "handle"
+                                    , fieldArguments = fromList []
+                                    , fieldDirectives = []
+                                    , fieldSelectionSet = Nothing
+                                    }
+                                )
+                            ) :|
+                            [ Left
+                                ( Right
+                                    ( FragmentSpread
+                                        { fsName = "userFragment"
+                                        , fsDirectives = []
+                                        }
+                                    )
+                                )
+                            , Left
+                                ( Right
+                                    ( FragmentSpread
+                                        { fsName = "pageFragment"
+                                        , fsDirectives = []
+                                        }
+                                    )
+                                )
+                            ]
+                        )
+                    }
+                )
+            ) :| []
+        }
+    )
+, Right
+    ( FragmentDefinition
+        { fragName = "userFragment"
+        , fragTypeCondition = NamedType "User"
+        , fragDirectives = []
+        , fragSelectionSet = Left
+            ( Left
+                ( Field
+                    { fieldAlias = Nothing
+                    , fieldName = "friends"
+                    , fieldArguments = fromList []
+                    , fieldDirectives = []
+                    , fieldSelectionSet = Just
+                        ( Left
+                            ( Left
+                                ( Field
+                                    { fieldAlias = Nothing
+                                    , fieldName = "count"
+                                    , fieldArguments = fromList []
+                                    , fieldDirectives = []
+                                    , fieldSelectionSet = Nothing
+                                    }
+                                )
+                            ) :| []
+                        )
+                    }
+                )
+            ) :| []
+        }
+    )
+, Right
+    ( FragmentDefinition
+        { fragName = "pageFragment"
+        , fragTypeCondition = NamedType "Page"
+        , fragDirectives = []
+        , fragSelectionSet = Left
+            ( Left
+                ( Field
+                    { fieldAlias = Nothing
+                    , fieldName = "likers"
+                    , fieldArguments = fromList []
+                    , fieldDirectives = []
+                    , fieldSelectionSet = Just
+                        ( Left
+                            ( Left
+                                ( Field
+                                    { fieldAlias = Nothing
+                                    , fieldName = "count"
+                                    , fieldArguments = fromList []
+                                    , fieldDirectives = []
+                                    , fieldSelectionSet = Nothing
+                                    }
+                                )
+                            ) :| []
+                        )
+                    }
+                )
+            ) :| []
+        }
+    )
+]

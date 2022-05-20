@@ -1,0 +1,20 @@
+[ Left
+    ( OperationDefinition
+        { opType = Query
+        , opName = Nothing
+        , opVariables = []
+        , opDirectives = []
+        , opSelectionSet = Left
+            ( Left
+                ( Field
+                    { fieldAlias = Nothing
+                    , fieldName = "field"
+                    , fieldArguments = fromList []
+                    , fieldDirectives = []
+                    , fieldSelectionSet = Nothing
+                    }
+                )
+            ) :| []
+        }
+    )
+]

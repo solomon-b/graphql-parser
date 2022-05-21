@@ -6,7 +6,8 @@ module GraphQLParser
     module P,
     module S,
     runLex,
-    runParse,
+    runParseExecutable,
+    runParseTypeSystem,
   )
 where
 
@@ -21,7 +22,12 @@ import GraphQLParser.Token as T
 runLex :: B.ByteString -> Either ParseError [Token]
 runLex bs = M.runParser [] bs L.lexer
 
-runParse :: B.ByteString -> Either ParseError ExecutableDocument
-runParse bs = M.runParser [] bs $ do
+runParseExecutable :: B.ByteString -> Either ParseError ExecutableDocument
+runParseExecutable bs = M.runParser [] bs $ do
   toks <- L.lexer
-  P.parser toks
+  P.parseExecutableDocument toks
+
+runParseTypeSystem :: B.ByteString -> Either ParseError TypeSystemDocument 
+runParseTypeSystem bs = M.runParser [] bs $ do
+  toks <- L.lexer
+  P.parseTypeSystemDocument toks

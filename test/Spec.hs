@@ -66,7 +66,7 @@ parserGoldenSpec = describe "Golden" $ do
 parseGraphQLSuccess :: FilePath -> IO (BS.ByteString, ExecutableDocument)
 parseGraphQLSuccess path = do
   tmpl <- BS.readFile $ path
-  case runParse tmpl of
+  case runParseExecutable tmpl of
     Left err -> throwString $ "Unexpected parsing failure " <> show err
     Right gql -> pure (tmpl, gql)
 
@@ -74,7 +74,7 @@ parseGraphQLSuccess path = do
 parseGraphQLFailure :: FilePath -> IO ParseError
 parseGraphQLFailure path = do
   tmpl <- BS.readFile $ path
-  case runParse tmpl of
+  case runParseExecutable tmpl of
     Left err -> pure err
     Right gql -> throwString $ "Unexpected parsing success " <> show gql
 

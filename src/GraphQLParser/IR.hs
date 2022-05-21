@@ -37,35 +37,190 @@ newtype Document definition = Document [definition]
 -- 'ExecutableDocument'.
 type ExecutableDocument = Document ExecutableDefinition
 
+type TypeSystemDocument = Document TypeSystemDefinitionOrExtension
+
 --------------------------------------------------------------------------------
 -- Type System Definitions
 
 -- | A 'Document' which contains 'TypeSystemDefinitionOrExtension' must
 -- not be executed; GraphQL execution services which receive a
 -- 'Document' containing these should return a descriptive error.
---type TypeSystemDocument = Document TypeSystemDefinitionOrExtension
+type TypeSystemDefinitionOrExtension = TypeSystemDefinition \/ TypeSystemExtension
 
---type TypeSystemDefinitionOrExtension = TypeSystemDefinition \/ TypeSystemExtension
+type TypeSystemDefinition = SchemaDefinition \/ TypeDefinition \/ DirectiveDefinition
 
-type TypeSystemDocument = SchemaDefinition \/ TypeDefinition \/ DirectiveDefinition
+--------------------------------------------------------------------------------
+-- Schema Definitions
 
--- TODO:
+-- | A GraphQL service’s collective type system capabilities are
+-- referred to as that service’s "schema". A schema is defined in
+-- terms of the types and directives it supports as well as the root
+-- operation types for each kind of operation: query, mutation, and
+-- subscription; this determines the place in the type system where
+-- those operations begin.
 data SchemaDefinition = SchemaDefinition
+  { sdDescription :: Maybe Description,
+    sdDirectives :: [Directive],
+    sdRootOperations :: [RootOperationTypeDefinition]
+  }
   deriving stock (Eq, Ord, Show, Read)
 
--- TODO:
-data TypeDefinition = TypeDefinition
+-- | A 'SchemaDefiniton' defines the initial root operation type for
+-- each kind of operation it supports: @Query@, @Mutation@, and
+-- @Subscription@; this determines the place in the type system where
+-- those operations begin.
+data RootOperationTypeDefinition = RootOperationTypeDefinition
+  { roType :: OperationType,
+    roTypeName :: Name
+  }
   deriving stock (Eq, Ord, Show, Read)
 
--- TODO:
+--------------------------------------------------------------------------------
+-- Type Definitions
+
+-- | The fundamental unit of any GraphQL Schema is the type. 
+type TypeDefinition =
+  ScalarTypeDefinition \/ ObjectTypeDefinition \/ InterfaceTypeDefinition \/ UnionTypeDefinition \/ EnumTypeDefinition \/ InputObjectTypeDefinition
+
+data ScalarTypeDefinition = ScalarTypeDefinition
+  { scalarDescription :: Maybe Description,
+    scalarName :: Name,
+    scalarDirectives :: [Directive]
+  }
+  deriving stock (Eq, Ord, Show, Read)
+
+-- | GraphQL operations are hierarchical and composed, describing a
+-- tree of information. While Scalar types describe the leaf values of
+-- these hierarchical operations, Objects describe the intermediate
+-- levels.
+data ObjectTypeDefinition = ObjectTypeDefinition
+  { objectDescription :: Maybe Description,
+    objectName :: Name,
+    objectInterfaces :: [Name],
+    objectDirectives :: [Directive],
+    objectFields :: [FieldDefinition]
+  }
+  deriving stock (Eq, Ord, Show, Read)
+
+data FieldDefinition = FieldDefinition
+  { fieldDefDescription :: Maybe Description,
+    fieldDefName :: Name,
+    fieldDefArgumentsDef :: [InputValueDefinition],
+    fieldDefType :: Type,
+    fieldDefDirectives :: [Directive]
+  }
+  deriving stock (Eq, Ord, Show, Read)
+
+-- | GraphQL interfaces represent a list of named fields and their
+-- arguments. GraphQL objects and interfaces can then implement these
+-- interfaces which requires that the implementing type will define
+-- all fields defined by those interfaces.
+data InterfaceTypeDefinition = InterfaceTypeDefinition
+  { interfaceDescription :: Maybe Description,
+    interfaceName :: Name,
+    interfaceInterfaces :: [Name],
+    interfaceDirectives :: [Directive],
+    interfaceFields :: [FieldDefinition]
+  }
+  deriving stock (Eq, Ord, Show, Read)
+
+-- | GraphQL Unions represent an object that could be one of a list of
+-- GraphQL Object types, but provides for no guaranteed fields between
+-- those types. They also differ from interfaces in that Object types
+-- declare what interfaces they implement, but are not aware of what
+-- unions contain them.
+data UnionTypeDefinition = UnionTypeDefinition
+  { unionDescription :: Maybe Description,
+    unionName :: Name,
+    unionDirectives :: [Directive],
+    unionMemberTypes :: [Name]
+  }
+  deriving stock (Eq, Ord, Show, Read)
+
+-- | GraphQL Enum types, like Scalar types, also represent leaf values
+-- in a GraphQL type system. However Enum types describe the set of
+-- possible values.
+data EnumTypeDefinition = EnumTypeDefinition
+  { enumDescription :: Maybe Description,
+    enumName :: Name,
+    enumDirectives :: [Directive],
+    enumValues :: [EnumValueDefinition]
+  }
+  deriving stock (Eq, Ord, Show, Read)
+
+data EnumValueDefinition = EnumValueDefinition
+  { enumValueDescription :: Maybe Description,
+    enumValue :: Name,
+    enumValueDirectives :: [Directive]
+  }
+  deriving stock (Eq, Ord, Show, Read)
+
+-- | A GraphQL Input Object defines a set of input fields; the input
+-- fields are either scalars, enums, or other input objects. This
+-- allows arguments to accept arbitrarily complex structs.
+data InputObjectTypeDefinition = InputObjectTypeDefinition
+  { inputDescription :: Maybe Description,
+    inputName :: Name,
+    inputDirectives :: [Directive],
+    inputValues :: [InputValueDefinition]
+  }
+  deriving stock (Eq, Ord, Show, Read)
+
+data InputValueDefinition = InputValueDefinition
+  { inputValueDescription :: Maybe Description,
+    inputValue :: Name,
+    inputType :: Type,
+    inputDefaultValue :: Maybe Value,
+    inputValueDirectives :: [Directive]
+  }
+  deriving stock (Eq, Ord, Show, Read)
+
+--------------------------------------------------------------------------------
+-- Directive Definitions
+
 data DirectiveDefinition = DirectiveDefinition
+  { dirDefDescription :: Maybe Description,
+    dirDefName :: Name,
+    dirDefArguments :: [InputValueDefinition],
+    dirDefLocations :: [DirectiveLocation]
+  }
   deriving stock (Eq, Ord, Show, Read)
+
+type DirectiveLocation = ExecutableDirectiveLocation \/ TypeSystemDirectiveLocation
+
+data ExecutableDirectiveLocation
+  = EDLQUERY
+  | EDLMUTATION
+  | EDLSUBSCRIPTION
+  | EDLFIELD
+  | EDLFRAGMENT_DEFINITION
+  | EDLFRAGMENT_SPREAD
+  | EDLINLINE_FRAGMENT
+  | EDLVARIABLE_DEFINITION
+  deriving stock (Eq, Generic, Ord, Show, Read)
+
+data TypeSystemDirectiveLocation
+  = TSDLSCHEMA
+  | TSDLSCALAR
+  | TSDLOBJECT
+  | TSDLFIELD_DEFINITION
+  | TSDLARGUMENT_DEFINITION
+  | TSDLINTERFACE
+  | TSDLUNION
+  | TSDLENUM
+  | TSDLENUM_VALUE
+  | TSDLINPUT_OBJECT
+  | TSDLINPUT_FIELD_DEFINITION
+  deriving stock (Eq, Generic, Ord, Show, Read)
+
+--------------------------------------------------------------------------------
+-- Type System Extension Definitions
 
 -- TODO:
 data TypeSystemExtension = TypeSystemExtension
   deriving stock (Eq, Ord, Show, Read)
 
-------------------------------------------------------- ------------------------
+--------------------------------------------------------------------------------
 -- Executable Definitions
 
 type ExecutableDefinition = OperationDefinition \/ FragmentDefinition
@@ -175,6 +330,14 @@ data Value
 
 --------------------------------------------------------------------------------
 -- Misc
+
+-- | Documentation is a first-class feature of GraphQL type
+-- systems. To ensure the documentation of a GraphQL service remains
+-- consistent with its capabilities, descriptions of GraphQL
+-- definitions are provided alongside their definitions and made
+-- available via introspection.
+newtype Description = Description { unDescription :: Text }
+  deriving stock (Eq, Ord, Show, Read)
 
 data OperationType = Query | Mutation | Subscription
   deriving stock (Eq, Ord, Show, Read)

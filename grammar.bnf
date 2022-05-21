@@ -4,16 +4,123 @@ executableDocument
   : executableDefinition
   | executableDefinition executableDocument
 
+typeSystemDefinition
+  : schemaDefinition
+  | typeDefinition
+
+schemaDefinition
+  : description 'schema' directives rootOperationTypeDefinitions
+
+rootOperationTypeDefinitions
+  : rootOperationTypeDefinition
+  | rootOperationTypeDefinition rootOperationTypeDefinitions
+
+rootOperationTypeDefinition
+  : operationType ':' name
+
+typeDefinition
+  : scalarTypeDefinition
+  | objectTypeDefinition
+  | interfaceTypeDefinition
+  | unionTypeDefinition
+  | enumTypeDefinition
+  | inputObjectTypeDefinition
+
+scalarTypeDefinition
+  : description 'scalar' name directives
+
+objectTypeDefinition
+  : description 'type' name implementsInterfaces directives fieldsDefinition
+
+interfaceTypeDefinition
+  : description 'interface' name implementsInterfaces directives fieldsDefinition
+
+implementsInterfaces
+  : implementsInterfaces '&' name
+  | 'implements' name
+
+fieldsDefinition
+  : '{' fieldDefinitions '}'
+
+fieldDefinitions
+  : fieldDefinition
+  | fieldDefinition fieldDefinitions
+
+fieldDefinition
+  : description name argumentsDefinition ':' type directives
+
+unionTypeDefinition
+  : description 'union' name directives '=' unionMembers
+
+unionMembers
+  : name
+  | name '|' unionMembers
+
+enumTypeDefinition
+  : description 'enum' name directives '{' enumValuesDefinition '}'
+
+enumValuesDefinition
+  : enumValueDefinition enumValuesDefinition
+
+enumValueDefinition
+  : description name directives
+
+inputObjectTypeDefinition
+  : description 'input' name directives inputFieldsDefinition
+
+directiveDefinition
+  : description 'directive' dir argumentsDefinition optRepeatable 'on' directiveLocations
+
+directiveLocations
+  : directiveLocation
+  | directiveLocation '|' directiveLocations
+
+directiveLocation
+  : executableDirectiveLocation
+  | typeSystemDirectiveLocation
+
+executableDirectiveLocation
+  : 'QUERY'
+  | 'MUTATION'
+  | 'SUBSCRIPTION'
+  | 'FIELD'
+  | 'FRAGMENT_DEFINITION'
+  | 'FRAGMENT_SPREAD'
+  | 'INLINE_FRAGMENT'
+  | 'VARIABLE_DEFINITION'
+
+typeSystemDirectiveLocation
+  : 'SCHEMA'
+  | 'SCALAR'
+  | 'OBJECT'
+  | 'FIELD_DEFINITION'
+  | 'ARGUMENT_DEFINITION'
+  | 'INTERFACE'
+  | 'UNION'
+  | 'ENUM'
+  | 'ENUM_VALUE'
+  | 'INPUT_OBJECT'
+  | 'INPUT_FIELD_DEFINITION'
+
+inputFieldsDefinition
+  : '{' inputValuesDefinition '}'
+
+argumentsDefinition
+  : '(' inputValuesDefinition ')'
+
+inputValuesDefinition
+  : inputValueDefinition
+  | inputValueDefinition inputValuesDefinition
+
+inputValueDefinition
+  : description name ':' type optValue directives
+
 executableDefinition
   : operationDefinition
   | fragmentDefinition
 
 operationDefinition
-  : operationType selectionSet
-  | operationType name selectionSet
-  | operationType variableDefinitions selectionSet
-  | operationType directives selectionSet
-  | operationType name variableDefinitions selectionSet
+  : operationType directives selectionSet
   | operationType name directives selectionSet
   | operationType variableDefinitions directives selectionSet
   | operationType name variableDefinitions directives selectionSet
@@ -21,37 +128,22 @@ operationDefinition
 
 fragmentDefinition
   : 'fragment' fragmentName 'on' type directives selectionSet
-  | 'fragment' fragmentName 'on' type selectionSet
 
 fragmentSpread
   : '...' fragmentName directives
-  | '...' fragmentName
 
 inlineFragment
   : '...' 'on' name directives selectionSet
-  | '...' name selectionSet
-  | '...' selectionSet
+  | '...' directives selectionSet
 
 fragmentName
   : name
 
 field
-  : name
-  | name directives
-  | name '(' arguments ')'
-  | name '(' arguments ')' directives
-  | name '(' arguments ')' selectionSet
-  | name '(' arguments ')' directives selectionSet
-  | name selectionSet
-  | name directives selectionSet
-  | name ':' name
-  | name ':' name directives
-  | name ':' name '(' arguments ')'
-  | name ':' name '(' arguments ')' directives
-  | name ':' name '(' arguments ')' selectionSet
-  | name ':' name '(' arguments ')' directives selectionSet
-  | name ':' name selectionSet
-  | name ':' name directives selectionSet
+  : aliasAndName directives
+  | aliasAndName '(' arguments ')' directives
+  | aliasAndName '(' arguments ')' directives selectionSet
+  | aliasAndName directives selectionSet
 
 selectionSet
   : '{' selections '}'
@@ -69,6 +161,10 @@ values
   : value
   | value ',' values
 
+optValue
+  : value
+  | {- empty -}
+
 value
   : 'null'
   | '"' string '"'
@@ -77,6 +173,7 @@ value
   | bool
   | vlist
   | vobject
+  | '$' ident
 
 vlist
   : '[' ']'
@@ -98,6 +195,10 @@ operationType
   | 'mutation'
   | 'subscription'
 
+aliasAndName
+  : name ':' name
+  | name
+
 name
   : ident
 
@@ -107,6 +208,7 @@ arguments
 
 argument
   : name ':' value
+  | '$' name ':' value
 
 variableDefinitions
   : '(' variableDefinitions_ ')'
@@ -116,9 +218,7 @@ variableDefinitions_
   | variableDefinition ',' variableDefinitions
 
 variableDefinition
-  : '$' name ':' type
-  | '$' name ':' type value
-  | '$' name ':' type value directives
+  : '$' name ':' type optValue directives
 
 type
   : name
@@ -126,9 +226,21 @@ type
   | '[' type ']'
 
 directives
+  : directives_
+  | {- empty -}
+
+directives_
   : directive
-  | directive directives
+  | directive directives_
 
 directive
   : dir
   | dir '(' arguments ')'
+
+description
+  : string
+  | {- empty -}
+
+optRepeatable
+  : 'repeatable'
+  | {- empty -}

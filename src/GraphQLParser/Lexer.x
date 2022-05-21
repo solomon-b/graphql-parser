@@ -22,6 +22,8 @@ tokens :-
 <0> "#".*                               ;
 
 -- Symbols
+<0> \=                                  { symbol SymEq }
+<0> \|                                  { symbol SymPipe }
 <0> \{                                  { symbol SymCurlyOpen }
 <0> \}                                  { symbol SymCurlyClose }
 <0> \(                                  { symbol SymParenOpen }
@@ -32,6 +34,7 @@ tokens :-
 <0> \,                                  { symbol SymComma }
 <0> \.\.\.                              { symbol SymSpread }
 <0> \$                                  { symbol SymBling }
+<0> \&                                  { symbol SymAmpersand }
 
 -- Booleans
 <0> true                                { token (TokBoolLit . (\(Loc sp _) -> Loc sp True)) }
@@ -45,6 +48,7 @@ tokens :-
 <0> [\_ $alpha] [\_ $alpha $digit]* { token TokIdentifier }
 
 -- Strings
+-- TODO: Other String Declarations: https://spec.graphql.org/October2021/#StringValue
 <0> \"                                  { \b -> pushStartCode literal *> symbol SymDoubleQuote b }
 <literal> (\\ \\ | \\ \` | [^ \"])+     { token TokStringLit }
 <literal> \"                            { \b -> (popStartCode *> symbol SymDoubleQuote b) }

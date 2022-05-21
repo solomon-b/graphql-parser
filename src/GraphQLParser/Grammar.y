@@ -17,7 +17,8 @@ import GraphQLParser.Span
 
 --------------------------------------------------------------------------------
 
-%name parser executableDocument
+%name parseExecutableDocument executableDocument
+%name parseTypeSystemDocument typeSystemDocument
 %tokentype { Token }
 %monad { Parser }
 %error { failure }
@@ -26,17 +27,56 @@ import GraphQLParser.Span
 
 --------------------------------------------------------------------------------
 
+-- Reserved Words
+'directive'    { TokIdentifier (Loc $$ "directive") }
+'enum'         { TokIdentifier (Loc $$ "enum") }
+'fragment'     { TokIdentifier (Loc $$ "fragment") }
+'implements'   { TokIdentifier (Loc $$ "implements") }
+'interface'    { TokIdentifier (Loc $$ "interface") }
+'input'        { TokIdentifier (Loc $$ "input") }
 'query'        { TokIdentifier (Loc $$ "query") }
 'mutation'     { TokIdentifier (Loc $$ "mutation") }
-'subscription' { TokIdentifier (Loc $$ "subscription") }
 'null'         { TokIdentifier (Loc $$ "null") }
 'on'           { TokIdentifier (Loc $$ "on") }
-'fragment'     { TokIdentifier (Loc $$ "fragment") }
+'repeatable'   { TokIdentifier (Loc $$ "repeatable") }
+'scalar'       { TokIdentifier (Loc $$ "scalar") }
+'schema'       { TokIdentifier (Loc $$ "schema") }
+'subscription' { TokIdentifier (Loc $$ "subscription") }
+'type'         { TokIdentifier (Loc $$ "type") }
+'union'        { TokIdentifier (Loc $$ "union") }
+
+-- Executable Directive Locations
+'QUERY'               { TokIdentifier (Loc $$ "QUERY") }
+'MUTATION'            { TokIdentifier (Loc $$ "MUTATION") }
+'SUBSCRIPTION'        { TokIdentifier (Loc $$ "SUBSCRIPTION") }
+'FIELD'               { TokIdentifier (Loc $$ "FIELD") }
+'FRAGMENT_DEFINITION' { TokIdentifier (Loc $$ "FRAGMENT_DEFINITION") }
+'FRAGMENT_SPREAD'     { TokIdentifier (Loc $$ "FRAGMENT_SPREAD") }
+'INLINE_FRAGMENT'     { TokIdentifier (Loc $$ "INLINE_FRAGMENT") }
+'VARIABLE_DEFINITION' { TokIdentifier (Loc $$ "VARIABLE_DEFINITION") }
+
+-- Type System Directive Locations
+'SCHEMA'                 { TokIdentifier (Loc $$ "SCHEMA") }
+'SCALAR'                 { TokIdentifier (Loc $$ "SCALAR") }
+'OBJECT'                 { TokIdentifier (Loc $$ "OBJECT") }
+'FIELD_DEFINITION'       { TokIdentifier (Loc $$ "FIELD_DEFINITION") }
+'ARGUMENT_DEFINITION'    { TokIdentifier (Loc $$ "ARGUMENT_DEFINITION") }
+'INTERFACE'              { TokIdentifier (Loc $$ "INTERFACE") }
+'UNION'                  { TokIdentifier (Loc $$ "UNION") }
+'ENUM'                   { TokIdentifier (Loc $$ "ENUM") }
+'ENUM_VALUE'             { TokIdentifier (Loc $$ "ENUM_VALUE") }
+'INPUT_OBJECT'           { TokIdentifier (Loc $$ "INPUT_OBJECT") }
+'INPUT_FIELD_DEFINITION' { TokIdentifier (Loc $$ "INPUT_FIELD_DEFINITION") }
+
+-- Symbols
 '$'            { TokSymbol (Loc $$ SymBling) }
+'&'            { TokSymbol (Loc $$ SymAmpersand) }
 '!'            { TokSymbol (Loc $$ SymBang) }
 '"'            { TokSymbol (Loc $$ SymDoubleQuote) }
 ','            { TokSymbol (Loc $$ SymComma) }
 ':'            { TokSymbol (Loc $$ SymColon) }
+'='            { TokSymbol (Loc $$ SymEq) }
+'|'            { TokSymbol (Loc $$ SymPipe) }
 '{'            { TokSymbol (Loc $$ SymCurlyOpen) }
 '}'            { TokSymbol (Loc $$ SymCurlyClose) }
 '['            { TokSymbol (Loc $$ SymSquareOpen) }
@@ -45,6 +85,7 @@ import GraphQLParser.Span
 ')'            { TokSymbol (Loc $$ SymParenClose) }
 '...'          { TokSymbol (Loc $$ SymSpread) }
 
+-- Scalars
 int            { TokIntLit $$ }
 float          { TokNumLit _ $$ }
 bool           { TokBoolLit $$ }
@@ -61,19 +102,180 @@ executabledocument
   : executableDefinition { Document (pure $1) }
   | executableDefinition executableDocument { coerce ($1 : coerce $2)}
 
--- TODO:
--- typeSystemDocument :: { TypeSystemDocument }
+typeSystemDocument :: { TypeSystemDocument }
+typesystemdocument
+  : typeSystemDefinition { Document (pure $ Left $1) }
+  | typeSystemDefinition typeSystemDocument { coerce (Left $1 : coerce @_ @[TypeSystemDefinitionOrExtension] $2) }
 
 --------------------------------------------------------------------------------
 
 -- TODO:
 -- typeSystemDefinitionOrExtension :: { TypeSystemDefinitionOrExtension }
 
--- TODO:
--- typeSystemDefinition :: { TypeSystemDefinition }
+typeSystemDefinition :: { TypeSystemDefinition }
+typeSystemDefinition
+  : schemaDefinition { Left $ Left $1 }
+  | typeDefinition { Left $ Right $1 }
+  | directiveDefinition { Right $1 }
 
 -- TODO:
 -- typeSystemExtension :: { TypeSystemExtension }
+
+--------------------------------------------------------------------------------
+
+schemaDefinition :: { SchemaDefinition }
+schemaDefinition
+  : description 'schema' directives rootOperationTypeDefinitions { SchemaDefinition $1 $3 $4 }
+
+rootOperationTypeDefinitions :: { [RootOperationTypeDefinition] }
+rootOperationTypeDefinitions
+  : rootOperationTypeDefinition { [$1] }
+  | rootOperationTypeDefinition rootOperationTypeDefinitions { $1 : $2 }
+
+rootOperationTypeDefinition :: { RootOperationTypeDefinition }
+rootOperationTypeDefinition
+  : operationType ':' name { RootOperationTypeDefinition $1 $3 }
+
+--------------------------------------------------------------------------------
+
+typeDefinition :: { TypeDefinition }
+typedefinition
+  : scalarTypeDefinition { Left $ Left $ Left $ Left $ Left $1 }
+  | objectTypeDefinition { Left $ Left $ Left $ Left $ Right $1 }
+  | interfaceTypeDefinition { Left $ Left $ Left $ Right $1 }
+  | unionTypeDefinition { Left $ Left $ Right $1 }
+  | enumTypeDefinition { Left $ Right $1 }
+  | inputObjectTypeDefinition { Right $1 }
+
+--------------------------------------------------------------------------------
+
+scalarTypeDefinition :: { ScalarTypeDefinition }
+scalarTypeDefinition
+  : description 'scalar' name directives { ScalarTypeDefinition $1 $3 $4 } 
+
+--------------------------------------------------------------------------------
+
+objectTypeDefinition :: { ObjectTypeDefinition }
+objectTypeDefinition
+  : description 'type' name implementsInterfaces directives fieldsDefinition { ObjectTypeDefinition $1 $3 $4 $5 $6 }
+
+--------------------------------------------------------------------------------
+
+interfaceTypeDefinition :: { InterfaceTypeDefinition }
+interfaceTypeDefinition
+  : description 'interface' name implementsInterfaces directives fieldsDefinition { InterfaceTypeDefinition $1 $3 $4 $5 $6 }
+
+-- TODO: Replace 'concat' with 'cons'
+implementsInterfaces :: { [Name] }
+implementsInterfaces
+  : implementsInterfaces '&' name { $1 <> [$3] }
+  | 'implements' name { [$2] }
+
+--------------------------------------------------------------------------------
+
+fieldsDefinition :: { [FieldDefinition] }
+fieldsDefinition
+  : '{' fieldDefinitions '}' { $2 }
+
+fieldDefinitions :: { [FieldDefinition] }
+fieldDefinitions
+  : fieldDefinition { [$1] }
+  | fieldDefinition fieldDefinitions { $1 : $2 }
+
+fieldDefinition :: { FieldDefinition }
+fieldDefinition
+  : description name argumentsDefinition ':' type directives { FieldDefinition $1 $2 $3 $5 $6 }
+
+--------------------------------------------------------------------------------
+
+unionTypeDefinition :: { UnionTypeDefinition }
+unionTypeDefinition
+  : description 'union' name directives '=' unionMembers { UnionTypeDefinition $1 $3 $4 $6 } 
+
+unionMembers :: { [Name] }
+unionMembers
+  : name { [$1] }
+  | name '|' unionMembers { $1 : $3 }
+
+--------------------------------------------------------------------------------
+
+enumTypeDefinition :: { EnumTypeDefinition }
+enumTypeDefinition
+: description 'enum' name directives '{' enumValuesDefinition '}' { EnumTypeDefinition $1 $3 $4 $6 }
+
+enumValuesDefinition :: { [EnumValueDefinition] }
+enumValuesDefinition
+  : enumValueDefinition enumValuesDefinition { $1 : $2 }
+
+enumValueDefinition :: { EnumValueDefinition }
+enumValueDefinition
+  : description name directives { EnumValueDefinition $1 $2 $3 } 
+
+--------------------------------------------------------------------------------
+
+inputObjectTypeDefinition :: { InputObjectTypeDefinition }
+inputObjectTypeDefinition
+  : description 'input' name directives inputFieldsDefinition { InputObjectTypeDefinition $1 $3 $4 $5 }
+
+--------------------------------------------------------------------------------
+
+directiveDefinition :: { DirectiveDefinition }
+directivedefinition
+  : description 'directive' dir argumentsDefinition optRepeatable 'on' directiveLocations { DirectiveDefinition $1 (Name $ unLoc $3) $4 $7 }
+
+directiveLocations :: { [DirectiveLocation] }
+directivelocations
+  : directiveLocation { [$1] }
+  | directiveLocation '|' directiveLocations { $1 : $3 }
+
+directiveLocation :: { DirectiveLocation }
+directivelocation
+: executableDirectiveLocation { Left $1 }
+| typeSystemDirectiveLocation { Right $1 }
+
+executableDirectiveLocation :: { ExecutableDirectiveLocation }
+executableDirectiveLocation
+  : 'QUERY' { EDLQUERY }
+  | 'MUTATION' { EDLMUTATION }
+  | 'SUBSCRIPTION' { EDLSUBSCRIPTION }
+  | 'FIELD' { EDLFIELD }
+  | 'FRAGMENT_DEFINITION' { EDLFRAGMENT_DEFINITION }
+  | 'FRAGMENT_SPREAD' { EDLFRAGMENT_SPREAD }
+  | 'INLINE_FRAGMENT' { EDLINLINE_FRAGMENT }
+  | 'VARIABLE_DEFINITION' { EDLVARIABLE_DEFINITION }
+
+typeSystemDirectiveLocation :: { TypeSystemDirectiveLocation }
+typeSystemDirectiveLocation
+: 'SCHEMA' { TSDLSCHEMA }
+| 'SCALAR' { TSDLSCALAR }
+| 'OBJECT' { TSDLOBJECT }
+| 'FIELD_DEFINITION' { TSDLFIELD_DEFINITION }
+| 'ARGUMENT_DEFINITION' { TSDLARGUMENT_DEFINITION }
+| 'INTERFACE' { TSDLINTERFACE }
+| 'UNION' { TSDLUNION }
+| 'ENUM' { TSDLENUM }
+| 'ENUM_VALUE' { TSDLENUM_VALUE }
+| 'INPUT_OBJECT' { TSDLINPUT_OBJECT }
+| 'INPUT_FIELD_DEFINITION' { TSDLINPUT_FIELD_DEFINITION }
+
+--------------------------------------------------------------------------------
+
+inputFieldsDefinition :: { [InputValueDefinition] }
+inputFieldsDefinition
+  : '{' inputValuesDefinition '}' { $2 }
+
+argumentsDefinition :: { [InputValueDefinition] }
+argumentsDefinition
+  : '(' inputValuesDefinition ')' { $2 }
+
+inputValuesDefinition :: { [InputValueDefinition] }
+inputValuesDefinition
+  : inputValueDefinition { [$1] }
+  | inputValueDefinition inputValuesDefinition { $1 : $2 }
+
+inputValueDefinition :: { InputValueDefinition }
+inputValueDefinition
+  : description name ':' type optValue directives { InputValueDefinition $1 $2 $4 $5 $6 }
 
 --------------------------------------------------------------------------------
 
@@ -84,11 +286,7 @@ executabledefinition
 
 operationDefinition :: { OperationDefinition }
 operationDefinition
- : operationType selectionSet { OperationDefinition $1 Nothing [] [] $2 }
- | operationType name selectionSet { OperationDefinition $1 (Just $2) [] [] $3 }
- | operationType variableDefinitions selectionSet { OperationDefinition  $1 Nothing $2 [] $3 }
- | operationType directives selectionSet { OperationDefinition  $1 Nothing [] $2 $3 }
- | operationType name variableDefinitions selectionSet { OperationDefinition  $1 (Just $2) $3 [] $4 }
+ : operationType directives selectionSet { OperationDefinition  $1 Nothing [] $2 $3 }
  | operationType name directives selectionSet { OperationDefinition  $1 (Just $2) [] $3 $4 }
  | operationType variableDefinitions directives selectionSet { OperationDefinition  $1 Nothing $2 $3 $4 }
  | operationType name variableDefinitions directives selectionSet { OperationDefinition  $1 (Just $2) $3 $4 $5 }
@@ -99,19 +297,15 @@ operationDefinition
 fragmentDefinition :: { FragmentDefinition }
 fragmentDefinition
   : 'fragment' fragmentName 'on' type directives selectionSet { FragmentDefinition $2 $4 $5 $6 }
-  | 'fragment' fragmentName 'on' type selectionSet { FragmentDefinition $2 $4 mempty $5 }
 
 fragmentSpread :: { FragmentSpread }
 fragmentSpread
   : '...' fragmentName directives { FragmentSpread $2 $3 }
-  | '...' fragmentName { FragmentSpread $2 [] }
 
 inlineFragment :: { InlineFragment }
 inlineFragment
   : '...' 'on' name directives selectionSet { InlineFragment (Just $3) $4 $5 }
-  | '...' 'on' name selectionSet { InlineFragment (Just $3) mempty $4 }
   | '...' directives selectionSet { InlineFragment Nothing $2 $3 }
-  | '...' selectionSet { InlineFragment Nothing mempty $2 }
 
 -- TODO: Fail if `Name` == `on`
 fragmentName :: { FragmentName }
@@ -122,22 +316,10 @@ fragmentname
 
 field :: { Field }
 field
-  : name { Field Nothing $1 mempty mempty mempty }
-  | name directives { Field Nothing $1 mempty $2 mempty }
-  | name '(' arguments ')' { Field Nothing $1 $3 mempty mempty }
-  | name '(' arguments ')' directives { Field Nothing $1 $3 $5 mempty }
-  | name '(' arguments ')' selectionSet { Field Nothing $1 $3 mempty (Just $5) }
-  | name '(' arguments ')' directives selectionSet { Field Nothing $1 $3 $5 (Just $6) }
-  | name selectionSet { Field Nothing $1 mempty mempty (Just $2) }
-  | name directives selectionSet { Field Nothing $1 mempty $2 (Just $3) }
-  | name ':' name { Field (Just $1) $3 mempty mempty mempty }
-  | name ':' name directives { Field (Just $1) $3 mempty $4 mempty }
-  | name ':' name '(' arguments ')' { Field (Just $1) $3 $5 mempty mempty }
-  | name ':' name '(' arguments ')' directives { Field (Just $1) $3 $5 $7 mempty }
-  | name ':' name '(' arguments ')' selectionSet { Field (Just $1) $3 $5 mempty (Just $7) }
-  | name ':' name '(' arguments ')' directives selectionSet { Field (Just $1) $3 $5 $7 (Just $8) }
-  | name ':' name selectionSet { Field (Just $1) $3 mempty mempty (Just $4) }
-  | name ':' name directives selectionSet { Field (Just $1) $3 mempty $4 (Just $5) }
+  : aliasAndName directives { Field (fst $1) (snd $1) mempty $2 mempty }
+  | aliasAndName '(' arguments ')' directives { Field (fst $1) (snd $1) $3 $5 mempty }
+  | aliasAndName '(' arguments ')' directives selectionSet { Field (fst $1) (snd $1) $3 $5 (Just $6) }
+  | aliasAndName directives selectionSet { Field (fst $1) (snd $1) mempty $2 (Just $3) }
 
 --------------------------------------------------------------------------------
 
@@ -162,6 +344,11 @@ values :: { [Value] }
 values
   : value { [$1] }
   | value ',' values { $1 : $3 }
+
+optValue :: { Maybe Value }
+optValue
+  : value { Just $1 }
+  | { Nothing }
 
 value :: { Value }
 value
@@ -201,6 +388,11 @@ operationtype
   | 'mutation' { Mutation }
   | 'subscription' { Subscription }
 
+aliasAndName :: { (Maybe Name, Name) }
+aliasAndName
+  : name ':' name { (Just $1, $3) }
+  | name { (Nothing, $1) }
+
 name :: { Name }
 name
   : ident { Name (unLoc $1) }
@@ -226,9 +418,7 @@ variabledefinitions_
 
 variableDefinition :: { VariableDefinition }
 variabledefinition
-  : '$' name ':' type { VariableDefinition $2 $4 Nothing mempty }
-  | '$' name ':' type value { VariableDefinition $2 $4 (Just $5) mempty }
-  | '$' name ':' type value directives { VariableDefinition $2 $4 (Just $5) $6 }
+  : '$' name ':' type optValue directives { VariableDefinition $2 $4 $5 $6 }
 
 type :: { Type }
 type
@@ -238,13 +428,28 @@ type
 
 directives :: { [Directive] }
 directives
+  : directives_ { $1 }
+  | { [] }
+
+directives_ :: { [Directive] }
+directives_
   : directive { [$1] }
-  | directive directives { $1 : $2 }
+  | directive directives_ { $1 : $2 }
 
 directive :: { Directive }
 directive
   : dir { Directive (Name $ unLoc $1) mempty }
   | dir '(' arguments ')' { Directive (Name $ unLoc $1) $3 }
+
+description :: { Maybe Description }
+description
+  : string { Just (Description (unLoc $1)) }
+  | { Nothing }
+
+optRepeatable :: { Maybe Span }
+optRepeatable
+: 'repeatable' { Just $1 }
+| { Nothing }
 
 --------------------------------------------------------------------------------
 

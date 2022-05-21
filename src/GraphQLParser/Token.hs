@@ -12,15 +12,18 @@ import Prettyprinter (Pretty (..))
 --------------------------------------------------------------------------------
 
 data Symbol
-  = SymBang
+  = SymAmpersand
+  | SymBang
   | SymBling
   | SymColon
   | SymComma
   | SymCurlyClose
   | SymCurlyOpen
   | SymDoubleQuote
+  | SymEq
   | SymParenClose
   | SymParenOpen
+  | SymPipe
   | SymSquareClose
   | SymSquareOpen
   | SymSpread
@@ -28,6 +31,7 @@ data Symbol
 
 instance Pretty Symbol where
   pretty = \case
+    SymAmpersand -> "&"
     SymBang -> "!"
     SymBling -> "$"
     SymColon -> ":"
@@ -35,8 +39,10 @@ instance Pretty Symbol where
     SymCurlyClose -> "}"
     SymCurlyOpen -> "{"
     SymDoubleQuote -> "\""
+    SymEq -> "="
     SymParenClose -> ")"
     SymParenOpen -> "("
+    SymPipe -> "|"
     SymSquareClose -> "]"
     SymSquareOpen -> "["
     SymSpread -> "..."

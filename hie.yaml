@@ -2,3 +2,6 @@ cradle:
   cabal:
     - path: "src"
       component: "lib:graphql-parser"
+
+    - path: "test"
+      component: "graphql-parser:test:graphql-parser-test"

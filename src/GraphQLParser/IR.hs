@@ -17,6 +17,7 @@ import Data.Text.Prettyprint.Doc.Render.Text (renderStrict)
 import Data.Vector qualified as V
 import GHC.Generics (Generic)
 import Prettyprinter (Doc, Pretty (pretty), defaultLayoutOptions, layoutPretty)
+import Language.Haskell.TH.Syntax (Lift)
 
 type a \/ b = Either a b
 
@@ -27,6 +28,7 @@ type a \/ b = Either a b
 -- multiple 'Definition's, either executable or representative of a
 -- GraphQL type system.
 newtype Document definition = Document [definition]
+  deriving stock (Lift)
   deriving newtype (Eq, Ord, Show, Read)
 
 -- | A 'Document' containing strictly '[ExecutableDefinition]' where at
@@ -239,7 +241,7 @@ data OperationDefinition = OperationDefinition
     opDirectives :: [Directive],
     opSelectionSet :: SelectionSet
   }
-  deriving stock (Eq, Ord, Show, Read)
+  deriving stock (Eq, Ord, Show, Read, Lift)
 
 --------------------------------------------------------------------------------
 -- Fragments
@@ -254,7 +256,7 @@ data FragmentDefinition = FragmentDefinition
     fragDirectives :: [Directive],
     fragSelectionSet :: SelectionSet
   }
-  deriving stock (Eq, Generic, Ord, Show, Read)
+  deriving stock (Eq, Generic, Ord, Show, Read, Lift)
 
 -- | Fragments are consumed by using the spread operator @(...)@. All
 -- 'Field's selected by the fragment will be added to the 'Field'
@@ -264,7 +266,7 @@ data FragmentSpread = FragmentSpread
   { fsName :: FragmentName,
     fsDirectives :: [Directive]
   }
-  deriving stock (Eq, Generic, Ord, Show, Read)
+  deriving stock (Eq, Generic, Ord, Show, Read, Lift)
 
 -- | 'InlineFragment' can be used directly within a 'Selection' to
 -- condition upon a type condition when querying against an interface
@@ -274,9 +276,10 @@ data InlineFragment = InlineFragment
     ifDirectives :: [Directive],
     ifSelectionSet :: SelectionSet
   }
-  deriving stock (Eq, Generic, Ord, Show, Read)
+  deriving stock (Eq, Generic, Ord, Show, Read, Lift)
 
 newtype FragmentName = FragmentName {unFragmentName :: Name}
+  deriving stock (Lift)
   deriving newtype (Eq, Ord, Show, Read, Hashable, NFData)
 
 --------------------------------------------------------------------------------
@@ -296,13 +299,14 @@ data Field = Field
     fieldDirectives :: [Directive],
     fieldSelectionSet :: Maybe SelectionSet
   }
-  deriving stock (Eq, Ord, Show, Read)
+  deriving stock (Eq, Ord, Show, Read, Lift)
 
 --------------------------------------------------------------------------------
 -- Selections
 
 -- | The set of information selected by an operation.
 newtype SelectionSet = SelectionSet (NE.NonEmpty Selection)
+  deriving stock (Lift)
   deriving newtype (Eq, Ord, Show, Read, Semigroup)
 
 type Selection = Field \/ FragmentSpread \/ InlineFragment
@@ -311,7 +315,7 @@ type Selection = Field \/ FragmentSpread \/ InlineFragment
 -- Values
 
 newtype EnumValue = EnumValue {unEnum :: Text}
-  deriving stock (Generic)
+  deriving stock (Generic, Lift)
   deriving newtype (Eq, Ord, Show, Read)
   deriving anyclass (Hashable, NFData)
 
@@ -325,7 +329,7 @@ data Value
   | VEnum EnumValue
   | VList [Value]
   | VObject (HashMap Name Value)
-  deriving stock (Eq, Ord, Show, Read, Generic)
+  deriving stock (Eq, Ord, Show, Read, Generic, Lift)
   deriving anyclass (Hashable, NFData)
 
 --------------------------------------------------------------------------------
@@ -340,9 +344,10 @@ newtype Description = Description { unDescription :: Text }
   deriving stock (Eq, Ord, Show, Read)
 
 data OperationType = Query | Mutation | Subscription
-  deriving stock (Eq, Ord, Show, Read)
+  deriving stock (Eq, Ord, Show, Read, Lift)
 
 newtype Name = Name {unName :: Text}
+  deriving stock (Lift)
   deriving newtype (Eq, Ord, Show, Read, Hashable, NFData)
 
 data VariableDefinition = VariableDefinition
@@ -351,15 +356,15 @@ data VariableDefinition = VariableDefinition
     varDefaultValue :: Maybe Value,
     varDirectives :: [Directive]
   }
-  deriving stock (Eq, Ord, Show, Read)
+  deriving stock (Eq, Ord, Show, Read, Lift)
 
 newtype Arguments = Arguments {unArguments :: HashMap Name Value}
-  deriving stock (Generic)
+  deriving stock (Generic, Lift)
   deriving newtype (Eq, Ord, Show, Read, Semigroup, Monoid)
   deriving anyclass (Hashable, NFData)
 
 data Type = NamedType Name | ListType Type | NonNullType Type
-  deriving stock (Generic)
+  deriving stock (Generic, Lift)
   deriving stock (Eq, Ord, Show, Read)
   deriving anyclass (Hashable, NFData)
 
@@ -367,7 +372,7 @@ data Directive = Directive
   { name :: Name,
     arguments :: Arguments
   }
-  deriving stock (Eq, Ord, Show, Read)
+  deriving stock (Eq, Ord, Show, Read, Lift)
 
 --------------------------------------------------------------------------------
 -- Pretty helpers

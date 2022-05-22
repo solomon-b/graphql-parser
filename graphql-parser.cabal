@@ -20,6 +20,7 @@ common common-settings
     BlockArguments
     DeriveFunctor
     DeriveGeneric
+    DeriveLift
     FlexibleContexts
     FlexibleInstances
     GeneralizedNewtypeDeriving
@@ -70,6 +71,8 @@ library
   build-depends:
     , lens
     , scientific
+    , template-haskell
+    , th-compat
     , unordered-containers
     , vector
   --build-tool-depends:
@@ -80,6 +83,7 @@ library
     GraphQLParser.Grammar
     GraphQLParser.IR
     GraphQLParser.Monad
+    GraphQLParser.QQ
     GraphQLParser.Span
     GraphQLParser.Token
     GraphQLParser.Lexer

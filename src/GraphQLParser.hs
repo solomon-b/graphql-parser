@@ -7,6 +7,7 @@ module GraphQLParser
     module S,
     runLex,
     runParseExecutable,
+    runParseName,
     runParseTypeSystem,
   )
 where
@@ -31,3 +32,11 @@ runParseTypeSystem :: B.ByteString -> Either ParseError TypeSystemDocument
 runParseTypeSystem bs = M.runParser [] bs $ do
   toks <- L.lexer
   P.parseTypeSystemDocument toks
+
+runParseName :: MonadFail m => B.ByteString -> m Name 
+runParseName bs =
+  let result = M.runParser [] bs $ do
+        toks <- L.lexer
+        P.parseName toks
+      errorMessage = show $ bs <> " is not valid GraphQL name"
+  in either (\_ -> fail errorMessage) pure result

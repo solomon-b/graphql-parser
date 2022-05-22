@@ -19,6 +19,7 @@ import GraphQLParser.Span
 
 %name parseExecutableDocument executableDocument
 %name parseTypeSystemDocument typeSystemDocument
+%name parseName name
 %tokentype { Token }
 %monad { Parser }
 %error { failure }

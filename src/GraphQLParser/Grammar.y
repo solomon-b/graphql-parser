@@ -6,7 +6,7 @@ module GraphQLParser.Grammar where
 import Control.Monad.State (gets)
 import Data.Coerce
 import Data.HashMap.Strict (HashMap)
-import Data.HashMap.Strict as Map
+import Data.HashMap.Strict qualified as Map
 import Data.List.NonEmpty qualified as NE
 import Data.Text (Text)
 import GraphQLParser.Monad

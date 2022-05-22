@@ -1,6 +1,5 @@
 {-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE TypeOperators #-}
-{-# OPTIONS_GHC -Wno-deprecations #-}
 
 -- | GraphQL IR
 module GraphQLParser.IR where
@@ -13,11 +12,11 @@ import Data.List.NonEmpty qualified as NE
 import Data.Scientific (Scientific)
 import Data.Text (Text)
 import Data.Text.Encoding qualified as TE
-import Data.Text.Prettyprint.Doc.Render.Text (renderStrict)
 import Data.Vector qualified as V
 import GHC.Generics (Generic)
-import Prettyprinter (Doc, Pretty (pretty), defaultLayoutOptions, layoutPretty)
 import Language.Haskell.TH.Syntax (Lift)
+import Prettyprinter (Doc, Pretty (pretty), defaultLayoutOptions, layoutPretty)
+import Prettyprinter.Render.Text (renderStrict)
 
 type a \/ b = Either a b
 
@@ -80,7 +79,7 @@ data RootOperationTypeDefinition = RootOperationTypeDefinition
 --------------------------------------------------------------------------------
 -- Type Definitions
 
--- | The fundamental unit of any GraphQL Schema is the type. 
+-- | The fundamental unit of any GraphQL Schema is the type.
 type TypeDefinition =
   ScalarTypeDefinition \/ ObjectTypeDefinition \/ InterfaceTypeDefinition \/ UnionTypeDefinition \/ EnumTypeDefinition \/ InputObjectTypeDefinition
 
@@ -340,7 +339,7 @@ data Value
 -- consistent with its capabilities, descriptions of GraphQL
 -- definitions are provided alongside their definitions and made
 -- available via introspection.
-newtype Description = Description { unDescription :: Text }
+newtype Description = Description {unDescription :: Text}
   deriving stock (Eq, Ord, Show, Read)
 
 data OperationType = Query | Mutation | Subscription

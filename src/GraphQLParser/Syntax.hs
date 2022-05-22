@@ -64,7 +64,7 @@ data SchemaDefinition = SchemaDefinition
     sdDirectives :: [Directive],
     sdRootOperations :: [RootOperationTypeDefinition]
   }
-  deriving stock (Eq, Ord, Show, Read)
+  deriving stock (Eq, Ord, Show, Read, Lift)
 
 -- | A 'SchemaDefiniton' defines the initial root operation type for
 -- each kind of operation it supports: @Query@, @Mutation@, and
@@ -74,7 +74,7 @@ data RootOperationTypeDefinition = RootOperationTypeDefinition
   { roType :: OperationType,
     roTypeName :: Name
   }
-  deriving stock (Eq, Ord, Show, Read)
+  deriving stock (Eq, Ord, Show, Read, Lift)
 
 --------------------------------------------------------------------------------
 -- Type Definitions
@@ -88,7 +88,7 @@ data ScalarTypeDefinition = ScalarTypeDefinition
     scalarName :: Name,
     scalarDirectives :: [Directive]
   }
-  deriving stock (Eq, Ord, Show, Read)
+  deriving stock (Eq, Ord, Show, Read, Lift)
 
 -- | GraphQL operations are hierarchical and composed, describing a
 -- tree of information. While Scalar types describe the leaf values of
@@ -101,7 +101,7 @@ data ObjectTypeDefinition = ObjectTypeDefinition
     objectDirectives :: [Directive],
     objectFields :: [FieldDefinition]
   }
-  deriving stock (Eq, Ord, Show, Read)
+  deriving stock (Eq, Ord, Show, Read, Lift)
 
 data FieldDefinition = FieldDefinition
   { fieldDefDescription :: Maybe Description,
@@ -110,7 +110,7 @@ data FieldDefinition = FieldDefinition
     fieldDefType :: Type,
     fieldDefDirectives :: [Directive]
   }
-  deriving stock (Eq, Ord, Show, Read)
+  deriving stock (Eq, Ord, Show, Read, Lift)
 
 -- | GraphQL interfaces represent a list of named fields and their
 -- arguments. GraphQL objects and interfaces can then implement these
@@ -123,7 +123,7 @@ data InterfaceTypeDefinition = InterfaceTypeDefinition
     interfaceDirectives :: [Directive],
     interfaceFields :: [FieldDefinition]
   }
-  deriving stock (Eq, Ord, Show, Read)
+  deriving stock (Eq, Ord, Show, Read, Lift)
 
 -- | GraphQL Unions represent an object that could be one of a list of
 -- GraphQL Object types, but provides for no guaranteed fields between
@@ -136,7 +136,7 @@ data UnionTypeDefinition = UnionTypeDefinition
     unionDirectives :: [Directive],
     unionMemberTypes :: [Name]
   }
-  deriving stock (Eq, Ord, Show, Read)
+  deriving stock (Eq, Ord, Show, Read, Lift)
 
 -- | GraphQL Enum types, like Scalar types, also represent leaf values
 -- in a GraphQL type system. However Enum types describe the set of
@@ -147,14 +147,14 @@ data EnumTypeDefinition = EnumTypeDefinition
     enumDirectives :: [Directive],
     enumValues :: [EnumValueDefinition]
   }
-  deriving stock (Eq, Ord, Show, Read)
+  deriving stock (Eq, Ord, Show, Read, Lift)
 
 data EnumValueDefinition = EnumValueDefinition
   { enumValueDescription :: Maybe Description,
     enumValue :: Name,
     enumValueDirectives :: [Directive]
   }
-  deriving stock (Eq, Ord, Show, Read)
+  deriving stock (Eq, Ord, Show, Read, Lift)
 
 -- | A GraphQL Input Object defines a set of input fields; the input
 -- fields are either scalars, enums, or other input objects. This
@@ -165,7 +165,7 @@ data InputObjectTypeDefinition = InputObjectTypeDefinition
     inputDirectives :: [Directive],
     inputValues :: [InputValueDefinition]
   }
-  deriving stock (Eq, Ord, Show, Read)
+  deriving stock (Eq, Ord, Show, Read, Lift)
 
 data InputValueDefinition = InputValueDefinition
   { inputValueDescription :: Maybe Description,
@@ -174,7 +174,7 @@ data InputValueDefinition = InputValueDefinition
     inputDefaultValue :: Maybe Value,
     inputValueDirectives :: [Directive]
   }
-  deriving stock (Eq, Ord, Show, Read)
+  deriving stock (Eq, Ord, Show, Read, Lift)
 
 --------------------------------------------------------------------------------
 -- Directive Definitions
@@ -185,7 +185,7 @@ data DirectiveDefinition = DirectiveDefinition
     dirDefArguments :: [InputValueDefinition],
     dirDefLocations :: [DirectiveLocation]
   }
-  deriving stock (Eq, Ord, Show, Read)
+  deriving stock (Eq, Ord, Show, Read, Lift)
 
 type DirectiveLocation = ExecutableDirectiveLocation \/ TypeSystemDirectiveLocation
 
@@ -198,7 +198,7 @@ data ExecutableDirectiveLocation
   | EDLFRAGMENT_SPREAD
   | EDLINLINE_FRAGMENT
   | EDLVARIABLE_DEFINITION
-  deriving stock (Eq, Generic, Ord, Show, Read)
+  deriving stock (Eq, Generic, Ord, Show, Read, Lift)
 
 data TypeSystemDirectiveLocation
   = TSDLSCHEMA
@@ -212,14 +212,14 @@ data TypeSystemDirectiveLocation
   | TSDLENUM_VALUE
   | TSDLINPUT_OBJECT
   | TSDLINPUT_FIELD_DEFINITION
-  deriving stock (Eq, Generic, Ord, Show, Read)
+  deriving stock (Eq, Generic, Ord, Show, Read, Lift)
 
 --------------------------------------------------------------------------------
 -- Type System Extension Definitions
 
 -- TODO:
 data TypeSystemExtension = TypeSystemExtension
-  deriving stock (Eq, Ord, Show, Read)
+  deriving stock (Eq, Ord, Show, Read, Lift)
 
 --------------------------------------------------------------------------------
 -- Executable Definitions
@@ -340,7 +340,7 @@ data Value
 -- definitions are provided alongside their definitions and made
 -- available via introspection.
 newtype Description = Description {unDescription :: Text}
-  deriving stock (Eq, Ord, Show, Read)
+  deriving stock (Eq, Ord, Show, Read, Lift)
 
 data OperationType = Query | Mutation | Subscription
   deriving stock (Eq, Ord, Show, Read, Lift)

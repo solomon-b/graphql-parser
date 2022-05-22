@@ -18,7 +18,7 @@ import Data.Text (Text)
 import Data.Text qualified as Text
 import Data.Text.Encoding qualified as TE
 import GraphQLParser (runParseName, runParseExecutable)
-import GraphQLParser.IR qualified as IR
+import GraphQLParser.Syntax qualified as Syntax
 import Language.Haskell.TH.Quote (QuasiQuoter (..))
 import Language.Haskell.TH.Syntax (lift)
 import Language.Haskell.TH.Syntax.Compat (SpliceQ, examineSplice, liftSplice, unTypeQQuote)
@@ -26,7 +26,7 @@ import Language.Haskell.TH.Syntax.Compat (SpliceQ, examineSplice, liftSplice, un
 -------------------------------------------------------------------------------
 
 -- | Construct a 'Name' value at compile-time.
-litName :: Text -> SpliceQ IR.Name
+litName :: Text -> SpliceQ Syntax.Name
 litName txt = liftSplice do
   name' <- runParseName $ TE.encodeUtf8 txt
   examineSplice [||name'||]
@@ -41,7 +41,7 @@ nameQQ =
     quoteDec _ = error "executableDoc does not support quoting declarations"
     quoteExp = unTypeQQuote . examineSplice . litName . Text.pack
 
--- | Construct 'IR.ExecutableDocument' literals at compile time via
+-- | Construct 'Syntax.ExecutableDocument' literals at compile time via
 -- quasiquotation.
 executableDocQQ :: QuasiQuoter
 executableDocQQ =

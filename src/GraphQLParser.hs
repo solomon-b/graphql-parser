@@ -1,6 +1,6 @@
 module GraphQLParser
   ( module T,
-    module IR,
+    module Syntax,
     module L,
     module M,
     module P,
@@ -14,7 +14,7 @@ where
 
 import Data.ByteString qualified as B
 import GraphQLParser.Grammar as P
-import GraphQLParser.IR as IR
+import GraphQLParser.Syntax as Syntax
 import GraphQLParser.Lexer as L
 import GraphQLParser.Monad as M
 import GraphQLParser.Span as S

@@ -81,10 +81,10 @@ library
   exposed-modules:
     GraphQLParser
     GraphQLParser.Grammar
-    GraphQLParser.IR
     GraphQLParser.Monad
     GraphQLParser.QQ
     GraphQLParser.Span
+    GraphQLParser.Syntax
     GraphQLParser.Token
     GraphQLParser.Lexer
   other-modules:

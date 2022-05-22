@@ -2,7 +2,7 @@
 {-# LANGUAGE TypeOperators #-}
 
 -- | GraphQL IR
-module GraphQLParser.IR where
+module GraphQLParser.Syntax where
 
 import Control.DeepSeq (NFData)
 import Data.ByteString.Lazy qualified as BL

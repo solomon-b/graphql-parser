@@ -10,9 +10,9 @@ import Data.HashMap.Strict qualified as Map
 import Data.List.NonEmpty qualified as NE
 import Data.Text (Text)
 import GraphQLParser.Monad
-import GraphQLParser.IR
 import GraphQLParser.Token
 import GraphQLParser.Span
+import GraphQLParser.Syntax
 }
 
 --------------------------------------------------------------------------------

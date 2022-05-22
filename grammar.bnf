@@ -4,9 +4,14 @@ executableDocument
   : executableDefinition
   | executableDefinition executableDocument
 
+typeSystemDocument
+  : typeSystemDefinition
+  | typeSystemDefinition typeSystemDocument
+
 typeSystemDefinition
   : schemaDefinition
   | typeDefinition
+  | directiveDefinition
 
 schemaDefinition
   : description 'schema' directives rootOperationTypeDefinitions

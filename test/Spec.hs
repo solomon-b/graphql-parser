@@ -4,25 +4,22 @@
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
 import Control.Exception.Safe (throwString)
-import qualified Data.ByteString as BS
-import qualified Data.ByteString.Lazy as BL
+import Data.ByteString qualified as B
+import Data.ByteString qualified as BS
+import Data.ByteString.Lazy qualified as BL
 import Data.Foldable (for_)
-#if !MIN_VERSION_aeson(2,0,3)
-import qualified Data.Vector as V
-#endif
 import Data.Scientific (Scientific)
-import qualified Data.Text as T
-import qualified Data.Text.Encoding as TE
-import qualified Data.Text.Lazy as TL
-import qualified Data.Text.Lazy.Encoding as TEL
-import qualified Data.Text.Lazy.IO as TLIO
+import Data.Text qualified as T
+import Data.Text.Lazy qualified as TL
+import Data.Text.Lazy.Encoding qualified as TEL
+import Data.Text.Lazy.IO qualified as TLIO
 import GraphQLParser
 import System.Directory (listDirectory)
 import System.FilePath
 import Test.Hspec
 import Test.Hspec.Golden
-import qualified Test.QuickCheck as Q
-import qualified Test.QuickCheck.Arbitrary.Generic as QAG
+import Test.QuickCheck qualified as Q
+import Test.QuickCheck.Arbitrary.Generic qualified as QAG
 import Text.Pretty.Simple (pShowNoColor)
 import Text.Read (readEither)
 
@@ -35,48 +32,50 @@ main = hspec $ do
 --------------------------------------------------------------------------------
 -- Parsing tests.
 
+type ParserOf a = B.ByteString -> Either ParseError a
+
 -- | Parser tests.
 parserSpec :: Spec
 parserSpec = describe "Parser" $ do
-  parserGoldenSpec
+  parserGoldenSpec runParseExecutable "test/data/executableDocument"
 
 -- | 'Golden' parser tests for each of the files in the @examples@ subdirectory
 -- found in the project directory hard-coded into this function.
-parserGoldenSpec :: Spec
-parserGoldenSpec = describe "Golden" $ do
-  (dirSuc, pathsSuc) <- runIO $ fetchGoldenFiles "test/data/success"
-  (dirFail, pathsFail) <- runIO $ fetchGoldenFiles "test/data/failure"
+parserGoldenSpec :: ParserOf ExecutableDocument -> FilePath -> Spec
+parserGoldenSpec runParse testPath = describe "Golden" $ do
+  (dirSuc, pathsSuc) <- runIO $ fetchGoldenFiles $ testPath </> "success"
+  --(dirFail, pathsFail) <- runIO $ fetchGoldenFiles $ testPath </> "failure"
 
   describe "Success" $
     for_ pathsSuc $ \path -> do
       let name = dropExtension $ takeFileName path
-      before (parseGraphQLSuccess path) $
+      before (parseGraphQLSuccess runParse path) $
         it ("parses " <> name) $
           \(_, valueExt) -> goldenQuery dirSuc name valueExt
 
-  describe "Failure" $
-    for_ pathsFail $ \path -> do
-      let name = dropExtension $ takeFileName path
-      before (parseGraphQLFailure path) $
-        it ("fails to parse " <> name) $
-          \parseError' -> goldenParseError dirFail name parseError'
+--describe "Failure" $
+--  for_ pathsFail $ \path -> do
+--    let name = dropExtension $ takeFileName path
+--    before (parseGraphQLFailure path) $
+--      it ("fails to parse " <> name) $
+--        \parseError' -> goldenParseError dirFail name parseError'
 
 -- | Parse a template file that is expected to succeed; parse failures are
 -- rendered as 'String's and thrown in 'IO'.
-parseGraphQLSuccess :: FilePath -> IO (BS.ByteString, ExecutableDocument)
-parseGraphQLSuccess path = do
-  tmpl <- BS.readFile $ path
-  case runParseExecutable tmpl of
+parseGraphQLSuccess :: ParserOf ExecutableDocument -> FilePath -> IO (BS.ByteString, ExecutableDocument)
+parseGraphQLSuccess runParse path = do
+  tmpl <- BS.readFile path
+  case runParse tmpl of
     Left err -> throwString $ "Unexpected parsing failure " <> show err
     Right gql -> pure (tmpl, gql)
 
 -- | Parse a template file that is expected to fail.
-parseGraphQLFailure :: FilePath -> IO ParseError
-parseGraphQLFailure path = do
-  tmpl <- BS.readFile $ path
-  case runParseExecutable tmpl of
-    Left err -> pure err
-    Right gql -> throwString $ "Unexpected parsing success " <> show gql
+-- parseGraphQLFailure :: FilePath -> IO ParseError
+-- parseGraphQLFailure path = do
+--  tmpl <- BS.readFile path
+--  case runParseExecutable tmpl of
+--    Left err -> pure err
+--    Right gql -> throwString $ "Unexpected parsing success " <> show gql
 
 --------------------------------------------------------------------------------
 -- Golden test construction functions.
@@ -110,16 +109,16 @@ goldenQuery = goldenReadShow
 -- Since 'ParseError' doesn't export a 'Show' instance that satisfies the
 -- 'Read' <-> 'Show' roundtrip law, we must deal with its errors in terms of
 -- the text it produces.
-goldenParseError :: FilePath -> String -> ParseError -> Golden String
-goldenParseError dir name parseError' = Golden {..}
-  where
-    output = show parseError'
-    encodePretty = id
-    writeToFile path actual = BS.writeFile path . TE.encodeUtf8 . T.pack $ actual
-    readFromFile path = T.unpack . TE.decodeUtf8 <$> BS.readFile path
-    goldenFile = dir </> "golden" </> name <.> "txt"
-    actualFile = Just $ dir </> "actual" </> name <.> "txt"
-    failFirstTime = False
+-- goldenParseError :: FilePath -> String -> ParseError -> Golden String
+-- goldenParseError dir name parseError' = Golden {..}
+--  where
+--    output = show parseError'
+--    encodePretty = id
+--    writeToFile path actual = BS.writeFile path . TE.encodeUtf8 . T.pack $ actual
+--    readFromFile path = T.unpack . TE.decodeUtf8 <$> BS.readFile path
+--    goldenFile = dir </> "golden" </> name <.> "txt"
+--    actualFile = Just $ dir </> "actual" </> name <.> "txt"
+--    failFirstTime = False
 
 --------------------------------------------------------------------------------
 -- QuickCheck helpers and orphan instances.
@@ -161,22 +160,6 @@ instance (Q.Arbitrary a) => Q.Arbitrary (Loc a) where
 instance Q.Arbitrary Span where
   arbitrary = QAG.genericArbitrary
   shrink = QAG.genericShrink
-
-#if !MIN_VERSION_aeson(2,0,3)
-instance Q.Arbitrary J.Value where
-  arbitrary = Q.sized sizedArbitraryValue
-    where
-      sizedArbitraryValue n
-        | n <= 0 = Q.oneof [pure J.Null, boolean', number', string']
-        | otherwise = Q.resize n' $ Q.oneof [pure J.Null, boolean', number', string', array', object']
-        where
-          n' = n `div` 2
-          boolean' = J.Bool <$> Q.arbitrary
-          number' = J.Number <$> Q.arbitrary
-          string' = J.String <$> Q.arbitrary
-          array' = J.Array . V.fromList <$> Q.arbitrary
-          object' = J.Object . Compat.fromList <$> Q.arbitrary
-#endif
 
 --------------------------------------------------------------------------------
 -- General test helpers.

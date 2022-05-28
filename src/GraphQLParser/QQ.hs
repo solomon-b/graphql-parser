@@ -18,7 +18,7 @@ import Data.ByteString.Char8 qualified as Char8
 import Data.Text (Text)
 import Data.Text qualified as Text
 import Data.Text.Encoding qualified as TE
-import GraphQLParser (runParseName, runParseExecutable, runParseTypeSystem)
+import GraphQLParser (runParseExecutable, runParseName, runParseTypeSystem)
 import GraphQLParser.Syntax qualified as Syntax
 import Language.Haskell.TH.Quote (QuasiQuoter (..))
 import Language.Haskell.TH.Syntax (lift)

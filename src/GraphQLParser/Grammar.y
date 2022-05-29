@@ -137,7 +137,7 @@ typeSystemDefinition
 
 schemaDefinition :: { SchemaDefinition }
 schemaDefinition
-  : description 'schema' directives rootOperationTypeDefinitions { SchemaDefinition $1 $3 $4 }
+  : description 'schema' directives '{' rootOperationTypeDefinitions '}' { SchemaDefinition $1 $3 $5 }
 
 rootOperationTypeDefinitions :: { [RootOperationTypeDefinition] }
 rootOperationTypeDefinitions

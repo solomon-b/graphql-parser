@@ -86,11 +86,13 @@ import GraphQLParser.Syntax
 '('            { TokSymbol (Loc $$ SymParenOpen) }
 ')'            { TokSymbol (Loc $$ SymParenClose) }
 '...'          { TokSymbol (Loc $$ SymSpread) }
+'"""'          { TokSymbol (Loc $$ SymBlockQuote) }
 
 -- Scalars
 int            { TokIntLit $$ }
 float          { TokNumLit _ $$ }
 bool           { TokBoolLit $$ }
+blockString    { TokStringBlock $$ }
 string         { TokStringLit $$ }
 ident          { TokIdentifier $$ }
 dir            { TokDirective $$ }
@@ -351,16 +353,17 @@ selection
   | inlineFragment { Right $1 }
 
 --------------------------------------------------------------------------------
-
-values :: { [Value] }
-values
-  : value { [$1] }
-  | value ',' values { $1 : $3 }
+-- Input Values
 
 optValue :: { Maybe Value }
 optValue
   : value { Just $1 }
   | { Nothing }
+
+values :: { [Value] }
+values
+  : value { [$1] }
+  | value ',' values { $1 : $3 }
 
 value :: { Value }
 value
@@ -372,6 +375,12 @@ value
   | vlist { $1 }
   | vobject { $1 }
   | '$' ident { VVar (unLoc $2) }
+
+stringValue :: { Text }
+stringValue
+  : '"' '"' { "" }
+  | '"' string '"' { unLoc $2 }
+  | '"""' blockString '"""' { unLoc $2 }
       
 vlist :: { Value }
 vlist
@@ -455,7 +464,7 @@ directive
 
 description :: { Maybe Description }
 description
-  : string { Just (Description (unLoc $1)) }
+  : stringValue { Just (Description $1) }
   | { Nothing }
 
 optRepeatable :: { Maybe Span }

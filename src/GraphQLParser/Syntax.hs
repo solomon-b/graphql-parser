@@ -11,6 +11,7 @@ import Data.Hashable (Hashable)
 import Data.List.NonEmpty qualified as NE
 import Data.Scientific (Scientific)
 import Data.Text (Text)
+import Data.Text qualified as T
 import Data.Text.Encoding qualified as TE
 import Data.Vector qualified as V
 import GHC.Generics (Generic)
@@ -346,7 +347,14 @@ data Value
 -- definitions are provided alongside their definitions and made
 -- available via introspection.
 newtype Description = Description {unDescription :: Text}
-  deriving stock (Eq, Ord, Show, Read, Lift)
+  deriving stock (Eq, Ord, Read, Lift)
+
+-- NOTE: We must escape newlines in Descriptions for our golden test
+-- read/show ISO. This show instance must never be used when pretty
+-- printing.
+instance Show Description where
+  show (Description txt) =
+    "Description\n" <> "{ unDescription =" <> show (T.replace "\n" "\\n" txt) <> "}"
 
 data OperationType = Query | Mutation | Subscription
   deriving stock (Eq, Ord, Show, Read, Lift)

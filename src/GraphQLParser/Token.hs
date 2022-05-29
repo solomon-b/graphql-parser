@@ -15,6 +15,7 @@ data Symbol
   = SymAmpersand
   | SymBang
   | SymBling
+  | SymBlockQuote
   | SymColon
   | SymComma
   | SymCurlyClose
@@ -34,6 +35,7 @@ instance Pretty Symbol where
     SymAmpersand -> "&"
     SymBang -> "!"
     SymBling -> "$"
+    SymBlockQuote -> "\"\"\""
     SymColon -> ":"
     SymComma -> ","
     SymCurlyClose -> "}"
@@ -49,6 +51,7 @@ instance Pretty Symbol where
 
 data Token
   = TokSymbol (Loc Symbol)
+  | TokStringBlock (Loc Text)
   | TokStringLit (Loc Text)
   | TokIdentifier (Loc Text)
   | TokDirective (Loc Text)
@@ -60,6 +63,7 @@ data Token
 
 overLoc :: (forall a. Loc a -> Loc a) -> Token -> Token
 overLoc f (TokSymbol loc) = TokSymbol $ f loc
+overLoc f (TokStringBlock loc) = TokStringBlock $ f loc
 overLoc f (TokStringLit loc) = TokStringLit $ f loc
 overLoc f (TokDirective loc) = TokDirective $ f loc
 overLoc f (TokIdentifier loc) = TokIdentifier $ f loc
@@ -71,6 +75,7 @@ overLoc _ EOF = EOF
 instance Pretty Token where
   pretty = \case
     TokSymbol sym -> pretty sym
+    TokStringBlock str -> "\"\"\"" <> pretty str <> "\"\"\""
     TokStringLit str -> "\"" <> pretty str <> "\""
     TokDirective iden -> "@" <> pretty iden
     TokIdentifier iden -> pretty iden

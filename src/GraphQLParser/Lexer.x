@@ -2,6 +2,7 @@
 module GraphQLParser.Lexer where
 
 import Control.Monad.State (gets)
+import Data.ByteString qualified as B
 import Data.Text qualified as T
 import GraphQLParser.Monad
 import GraphQLParser.Span
@@ -53,10 +54,31 @@ tokens :-
 <literal> (\\ \\ | \\ \` | [^ \"])+     { token TokStringLit }
 <literal> \"                            { \b -> (popStartCode *> symbol SymDoubleQuote b) }
 
+
+<0> \" \" \"                            { \b -> pushStartCode blockString *> symbol SymBlockQuote b }
+<blockString> (\n | \\ \\ | \\ \` | [^ \"])+ { \b -> token TokStringBlock (stripStartEnd "\n" b) }
+<blockString> \" \" \"                  { \b -> (popStartCode *> symbol SymBlockQuote b) }
+
 -- Directive Name
 <0> \@ ([ $alpha $digit \_ \- ]*) { token TokDirective }
 
 {
+
+stripStart :: B.ByteString -> B.ByteString -> B.ByteString
+stripStart pre bs =
+  case B.stripPrefix pre bs of
+    Nothing -> bs
+    Just bs' -> bs'
+
+stripEnd :: B.ByteString -> B.ByteString -> B.ByteString
+stripEnd suff bs =
+  case B.stripSuffix suff bs of
+    Nothing -> bs
+    Just bs' -> bs'
+
+stripStartEnd :: B.ByteString -> B.ByteString -> B.ByteString
+stripStartEnd pat bs = stripEnd pat $ stripStart pat bs
+
 -- | The monadic wrapper for 'alexScan'. The 'Parser' type is defined
 -- in 'GraphQLParser.Monad' as a transformer stack of 'StateT' and
 -- 'Except'. The Start Code Stack, current 'Span', and 'AlexInput' are

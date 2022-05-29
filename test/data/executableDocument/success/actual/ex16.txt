@@ -1,49 +1,51 @@
 [ Left
-    ( OperationDefinition
-        { opType = Query
-        , opName = Nothing
-        , opVariables = []
-        , opDirectives = []
-        , opSelectionSet = Left
-            ( Left
-                ( Field
-                    { fieldAlias = Just "zuck"
-                    , fieldName = "user"
-                    , fieldArguments = fromList
-                        [
-                            ( "id"
-                            , VInt 4
-                            )
-                        ]
-                    , fieldDirectives = []
-                    , fieldSelectionSet = Just
-                        ( Left
-                            ( Left
-                                ( Field
-                                    { fieldAlias = Nothing
-                                    , fieldName = "id"
-                                    , fieldArguments = fromList []
-                                    , fieldDirectives = []
-                                    , fieldSelectionSet = Nothing
-                                    }
+    ( Left
+        ( OperationDefinition
+            { opType = Query
+            , opName = Nothing
+            , opVariables = []
+            , opDirectives = []
+            , opSelectionSet = Left
+                ( Left
+                    ( Field
+                        { fieldAlias = Just "zuck"
+                        , fieldName = "user"
+                        , fieldArguments = fromList
+                            [
+                                ( "id"
+                                , VInt 4
                                 )
-                            ) :|
-                            [ Left
+                            ]
+                        , fieldDirectives = []
+                        , fieldSelectionSet = Just
+                            ( Left
                                 ( Left
                                     ( Field
                                         { fieldAlias = Nothing
-                                        , fieldName = "name"
+                                        , fieldName = "id"
                                         , fieldArguments = fromList []
                                         , fieldDirectives = []
                                         , fieldSelectionSet = Nothing
                                         }
                                     )
-                                )
-                            ]
-                        )
-                    }
-                )
-            ) :| []
-        }
+                                ) :|
+                                [ Left
+                                    ( Left
+                                        ( Field
+                                            { fieldAlias = Nothing
+                                            , fieldName = "name"
+                                            , fieldArguments = fromList []
+                                            , fieldDirectives = []
+                                            , fieldSelectionSet = Nothing
+                                            }
+                                        )
+                                    )
+                                ]
+                            )
+                        }
+                    )
+                ) :| []
+            }
+        )
     )
 ]

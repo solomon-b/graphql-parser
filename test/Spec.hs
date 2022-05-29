@@ -37,11 +37,12 @@ type ParserOf a = B.ByteString -> Either ParseError a
 -- | Parser tests.
 parserSpec :: Spec
 parserSpec = describe "Parser" $ do
-  parserGoldenSpec runParseExecutable "test/data/executableDocument"
+  parserGoldenSpec runParseGraphQL "test/data/executableDocument"
+  parserGoldenSpec runParseGraphQL "test/data/typeSystemDocument"
 
 -- | 'Golden' parser tests for each of the files in the @examples@ subdirectory
 -- found in the project directory hard-coded into this function.
-parserGoldenSpec :: ParserOf ExecutableDocument -> FilePath -> Spec
+parserGoldenSpec :: ParserOf GraphQLDocument -> FilePath -> Spec
 parserGoldenSpec runParse testPath = describe "Golden" $ do
   (dirSuc, pathsSuc) <- runIO $ fetchGoldenFiles $ testPath </> "success"
   --(dirFail, pathsFail) <- runIO $ fetchGoldenFiles $ testPath </> "failure"
@@ -62,7 +63,7 @@ parserGoldenSpec runParse testPath = describe "Golden" $ do
 
 -- | Parse a template file that is expected to succeed; parse failures are
 -- rendered as 'String's and thrown in 'IO'.
-parseGraphQLSuccess :: ParserOf ExecutableDocument -> FilePath -> IO (BS.ByteString, ExecutableDocument)
+parseGraphQLSuccess :: ParserOf GraphQLDocument -> FilePath -> IO (BS.ByteString, GraphQLDocument)
 parseGraphQLSuccess runParse path = do
   tmpl <- BS.readFile path
   case runParse tmpl of
@@ -101,7 +102,7 @@ goldenReadShow dir name val = Golden {..}
     failFirstTime = False
 
 -- | Alias for 'goldenReadShow' specialized to 'ExecutableDocument'.
-goldenQuery :: FilePath -> String -> ExecutableDocument -> Golden ExecutableDocument
+goldenQuery :: FilePath -> String -> GraphQLDocument -> Golden GraphQLDocument
 goldenQuery = goldenReadShow
 
 -- | Construct a 'Golden' test for 'ParseError's rendered as 'String's.

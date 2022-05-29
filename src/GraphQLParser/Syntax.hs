@@ -30,6 +30,12 @@ newtype Document definition = Document [definition]
   deriving stock (Lift)
   deriving newtype (Eq, Ord, Show, Read)
 
+-- | A GraphQL Document describes a complete file or request string
+-- operated on by a GraphQL service or client. A document contains
+-- multiple definitions, either executable or representative of a
+-- GraphQL type system.
+type GraphQLDocument = Document (ExecutableDefinition \/ TypeSystemDefinitionOrExtension)
+
 -- | A 'Document' containing strictly '[ExecutableDefinition]' where at
 -- least one value is a 'OperationDefinition' is considered an
 -- Executable Document.

@@ -1,106 +1,108 @@
 [ Left
-    ( OperationDefinition
-        { opType = Query
-        , opName = Just "inlineFragmentNoType"
-        , opVariables =
-            [ VariableDefinition
-                { varName = "expandedInfo"
-                , varType = NamedType "Boolean"
-                , varDefaultValue = Nothing
-                , varDirectives = []
-                }
-            ]
-        , opDirectives = []
-        , opSelectionSet = Left
-            ( Left
-                ( Field
-                    { fieldAlias = Nothing
-                    , fieldName = "user"
-                    , fieldArguments = fromList
-                        [
-                            ( "handle"
-                            , VString "zuck"
-                            )
-                        ]
-                    , fieldDirectives = []
-                    , fieldSelectionSet = Just
-                        ( Left
-                            ( Left
-                                ( Field
-                                    { fieldAlias = Nothing
-                                    , fieldName = "id"
-                                    , fieldArguments = fromList []
-                                    , fieldDirectives = []
-                                    , fieldSelectionSet = Nothing
-                                    }
+    ( Left
+        ( OperationDefinition
+            { opType = Query
+            , opName = Just "inlineFragmentNoType"
+            , opVariables =
+                [ VariableDefinition
+                    { varName = "expandedInfo"
+                    , varType = NamedType "Boolean"
+                    , varDefaultValue = Nothing
+                    , varDirectives = []
+                    }
+                ]
+            , opDirectives = []
+            , opSelectionSet = Left
+                ( Left
+                    ( Field
+                        { fieldAlias = Nothing
+                        , fieldName = "user"
+                        , fieldArguments = fromList
+                            [
+                                ( "handle"
+                                , VString "zuck"
                                 )
-                            ) :|
-                            [ Left
+                            ]
+                        , fieldDirectives = []
+                        , fieldSelectionSet = Just
+                            ( Left
                                 ( Left
                                     ( Field
                                         { fieldAlias = Nothing
-                                        , fieldName = "name"
+                                        , fieldName = "id"
                                         , fieldArguments = fromList []
                                         , fieldDirectives = []
                                         , fieldSelectionSet = Nothing
                                         }
                                     )
-                                )
-                            , Right
-                                ( InlineFragment
-                                    { ifTypeCondition = Nothing
-                                    , ifDirectives =
-                                        [ Directive
-                                            { name = "@include"
-                                            , arguments = fromList
-                                                [
-                                                    ( "if"
-                                                    , VVar "expandedInfo"
-                                                    )
-                                                ]
+                                ) :|
+                                [ Left
+                                    ( Left
+                                        ( Field
+                                            { fieldAlias = Nothing
+                                            , fieldName = "name"
+                                            , fieldArguments = fromList []
+                                            , fieldDirectives = []
+                                            , fieldSelectionSet = Nothing
                                             }
-                                        ]
-                                    , ifSelectionSet = Left
-                                        ( Left
-                                            ( Field
-                                                { fieldAlias = Nothing
-                                                , fieldName = "firstName"
-                                                , fieldArguments = fromList []
-                                                , fieldDirectives = []
-                                                , fieldSelectionSet = Nothing
+                                        )
+                                    )
+                                , Right
+                                    ( InlineFragment
+                                        { ifTypeCondition = Nothing
+                                        , ifDirectives =
+                                            [ Directive
+                                                { name = "@include"
+                                                , arguments = fromList
+                                                    [
+                                                        ( "if"
+                                                        , VVar "expandedInfo"
+                                                        )
+                                                    ]
                                                 }
-                                            )
-                                        ) :|
-                                        [ Left
+                                            ]
+                                        , ifSelectionSet = Left
                                             ( Left
                                                 ( Field
                                                     { fieldAlias = Nothing
-                                                    , fieldName = "lastName"
+                                                    , fieldName = "firstName"
                                                     , fieldArguments = fromList []
                                                     , fieldDirectives = []
                                                     , fieldSelectionSet = Nothing
                                                     }
                                                 )
-                                            )
-                                        , Left
-                                            ( Left
-                                                ( Field
-                                                    { fieldAlias = Nothing
-                                                    , fieldName = "birthday"
-                                                    , fieldArguments = fromList []
-                                                    , fieldDirectives = []
-                                                    , fieldSelectionSet = Nothing
-                                                    }
+                                            ) :|
+                                            [ Left
+                                                ( Left
+                                                    ( Field
+                                                        { fieldAlias = Nothing
+                                                        , fieldName = "lastName"
+                                                        , fieldArguments = fromList []
+                                                        , fieldDirectives = []
+                                                        , fieldSelectionSet = Nothing
+                                                        }
+                                                    )
                                                 )
-                                            )
-                                        ]
-                                    }
-                                )
-                            ]
-                        )
-                    }
-                )
-            ) :| []
-        }
+                                            , Left
+                                                ( Left
+                                                    ( Field
+                                                        { fieldAlias = Nothing
+                                                        , fieldName = "birthday"
+                                                        , fieldArguments = fromList []
+                                                        , fieldDirectives = []
+                                                        , fieldSelectionSet = Nothing
+                                                        }
+                                                    )
+                                                )
+                                            ]
+                                        }
+                                    )
+                                ]
+                            )
+                        }
+                    )
+                ) :| []
+            }
+        )
     )
 ]

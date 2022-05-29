@@ -17,6 +17,7 @@ import GraphQLParser.Syntax
 
 --------------------------------------------------------------------------------
 
+%name parseGraphQLDocument graphqlDocument
 %name parseExecutableDocument executableDocument
 %name parseTypeSystemDocument typeSystemDocument
 %name parseName name
@@ -97,6 +98,16 @@ dir            { TokDirective $$ }
 %%
 
 --------------------------------------------------------------------------------
+
+graphqlDocument :: { GraphQLDocument }
+graphqlDocument
+  : executableOrTypeSystemDefiniton { Document (pure $1) }
+  | executableOrTypeSystemDefiniton graphqlDocument { coerce ($1 : coerce @_ @[Either ExecutableDefinition TypeSystemDefinitionOrExtension] $2)}
+
+executableOrTypeSystemDefiniton :: { Either ExecutableDefinition TypeSystemDefinitionOrExtension }
+executableOrTypeSystemDefiniton
+  : executableDefinition { Left $1 }
+  | typeSystemDefinition { Right (Left $1) }
 
 executableDocument :: { ExecutableDocument }
 executabledocument

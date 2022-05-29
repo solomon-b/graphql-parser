@@ -1,83 +1,28 @@
 [ Left
-    ( OperationDefinition
-        { opType = Query
-        , opName = Just "noFragments"
-        , opVariables = []
-        , opDirectives = []
-        , opSelectionSet = Left
-            ( Left
-                ( Field
-                    { fieldAlias = Nothing
-                    , fieldName = "user"
-                    , fieldArguments = fromList
-                        [
-                            ( "id"
-                            , VInt 4
-                            )
-                        ]
-                    , fieldDirectives = []
-                    , fieldSelectionSet = Just
-                        ( Left
-                            ( Left
-                                ( Field
-                                    { fieldAlias = Nothing
-                                    , fieldName = "friends"
-                                    , fieldArguments = fromList
-                                        [
-                                            ( "first"
-                                            , VInt 10
-                                            )
-                                        ]
-                                    , fieldDirectives = []
-                                    , fieldSelectionSet = Just
-                                        ( Left
-                                            ( Left
-                                                ( Field
-                                                    { fieldAlias = Nothing
-                                                    , fieldName = "id"
-                                                    , fieldArguments = fromList []
-                                                    , fieldDirectives = []
-                                                    , fieldSelectionSet = Nothing
-                                                    }
-                                                )
-                                            ) :|
-                                            [ Left
-                                                ( Left
-                                                    ( Field
-                                                        { fieldAlias = Nothing
-                                                        , fieldName = "name"
-                                                        , fieldArguments = fromList []
-                                                        , fieldDirectives = []
-                                                        , fieldSelectionSet = Nothing
-                                                        }
-                                                    )
-                                                )
-                                            , Left
-                                                ( Left
-                                                    ( Field
-                                                        { fieldAlias = Nothing
-                                                        , fieldName = "profilePic"
-                                                        , fieldArguments = fromList
-                                                            [
-                                                                ( "size"
-                                                                , VInt 50
-                                                                )
-                                                            ]
-                                                        , fieldDirectives = []
-                                                        , fieldSelectionSet = Nothing
-                                                        }
-                                                    )
-                                                )
-                                            ]
-                                        )
-                                    }
+    ( Left
+        ( OperationDefinition
+            { opType = Query
+            , opName = Just "noFragments"
+            , opVariables = []
+            , opDirectives = []
+            , opSelectionSet = Left
+                ( Left
+                    ( Field
+                        { fieldAlias = Nothing
+                        , fieldName = "user"
+                        , fieldArguments = fromList
+                            [
+                                ( "id"
+                                , VInt 4
                                 )
-                            ) :|
-                            [ Left
+                            ]
+                        , fieldDirectives = []
+                        , fieldSelectionSet = Just
+                            ( Left
                                 ( Left
                                     ( Field
                                         { fieldAlias = Nothing
-                                        , fieldName = "mutualFriends"
+                                        , fieldName = "friends"
                                         , fieldArguments = fromList
                                             [
                                                 ( "first"
@@ -128,12 +73,69 @@
                                             )
                                         }
                                     )
-                                )
-                            ]
-                        )
-                    }
-                )
-            ) :| []
-        }
+                                ) :|
+                                [ Left
+                                    ( Left
+                                        ( Field
+                                            { fieldAlias = Nothing
+                                            , fieldName = "mutualFriends"
+                                            , fieldArguments = fromList
+                                                [
+                                                    ( "first"
+                                                    , VInt 10
+                                                    )
+                                                ]
+                                            , fieldDirectives = []
+                                            , fieldSelectionSet = Just
+                                                ( Left
+                                                    ( Left
+                                                        ( Field
+                                                            { fieldAlias = Nothing
+                                                            , fieldName = "id"
+                                                            , fieldArguments = fromList []
+                                                            , fieldDirectives = []
+                                                            , fieldSelectionSet = Nothing
+                                                            }
+                                                        )
+                                                    ) :|
+                                                    [ Left
+                                                        ( Left
+                                                            ( Field
+                                                                { fieldAlias = Nothing
+                                                                , fieldName = "name"
+                                                                , fieldArguments = fromList []
+                                                                , fieldDirectives = []
+                                                                , fieldSelectionSet = Nothing
+                                                                }
+                                                            )
+                                                        )
+                                                    , Left
+                                                        ( Left
+                                                            ( Field
+                                                                { fieldAlias = Nothing
+                                                                , fieldName = "profilePic"
+                                                                , fieldArguments = fromList
+                                                                    [
+                                                                        ( "size"
+                                                                        , VInt 50
+                                                                        )
+                                                                    ]
+                                                                , fieldDirectives = []
+                                                                , fieldSelectionSet = Nothing
+                                                                }
+                                                            )
+                                                        )
+                                                    ]
+                                                )
+                                            }
+                                        )
+                                    )
+                                ]
+                            )
+                        }
+                    )
+                ) :| []
+            }
+        )
     )
 ]

@@ -215,11 +215,12 @@ unionMembers
 
 enumTypeDefinition :: { EnumTypeDefinition }
 enumTypeDefinition
-: description 'enum' name directives '{' enumValuesDefinition '}' { EnumTypeDefinition $1 $3 $4 $6 }
+  : description 'enum' name directives '{' enumValuesDefinition '}' { EnumTypeDefinition $1 $3 $4 $6 }
 
 enumValuesDefinition :: { [EnumValueDefinition] }
 enumValuesDefinition
-  : enumValueDefinition enumValuesDefinition { $1 : $2 }
+  : enumValueDefinition { [$1] }
+  | enumValueDefinition enumValuesDefinition { $1 : $2 }
 
 enumValueDefinition :: { EnumValueDefinition }
 enumValueDefinition

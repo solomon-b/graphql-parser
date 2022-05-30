@@ -1,0 +1,125 @@
+[ Left
+    ( Left
+        ( OperationDefinition
+            { opType = Query
+            , opName = Nothing
+            , opVariables = []
+            , opDirectives = []
+            , opSelectionSet = Left
+                ( Left
+                    ( Field
+                        { fieldAlias = Nothing
+                        , fieldName = "foo"
+                        , fieldArguments = fromList []
+                        , fieldDirectives = []
+                        , fieldSelectionSet = Nothing
+                        }
+                    )
+                ) :|
+                [ Left
+                    ( Right
+                        ( FragmentSpread
+                            { fsName = "Ignored"
+                            , fsDirectives = []
+                            }
+                        )
+                    )
+                , Left
+                    ( Right
+                        ( FragmentSpread
+                            { fsName = "Matching"
+                            , fsDirectives = []
+                            }
+                        )
+                    )
+                , Left
+                    ( Left
+                        ( Field
+                            { fieldAlias = Nothing
+                            , fieldName = "bar"
+                            , fieldArguments = fromList []
+                            , fieldDirectives = []
+                            , fieldSelectionSet = Nothing
+                            }
+                        )
+                    )
+                ]
+            }
+        )
+    )
+, Left
+    ( Right
+        ( FragmentDefinition
+            { fragName = "Ignored"
+            , fragTypeCondition = NamedType "UnknownType"
+            , fragDirectives = []
+            , fragSelectionSet = Left
+                ( Left
+                    ( Field
+                        { fieldAlias = Nothing
+                        , fieldName = "qux"
+                        , fieldArguments = fromList []
+                        , fieldDirectives = []
+                        , fieldSelectionSet = Nothing
+                        }
+                    )
+                ) :|
+                [ Left
+                    ( Left
+                        ( Field
+                            { fieldAlias = Nothing
+                            , fieldName = "baz"
+                            , fieldArguments = fromList []
+                            , fieldDirectives = []
+                            , fieldSelectionSet = Nothing
+                            }
+                        )
+                    )
+                ]
+            }
+        )
+    )
+, Left
+    ( Right
+        ( FragmentDefinition
+            { fragName = "Matching"
+            , fragTypeCondition = NamedType "Query"
+            , fragDirectives = []
+            , fragSelectionSet = Left
+                ( Left
+                    ( Field
+                        { fieldAlias = Nothing
+                        , fieldName = "bar"
+                        , fieldArguments = fromList []
+                        , fieldDirectives = []
+                        , fieldSelectionSet = Nothing
+                        }
+                    )
+                ) :|
+                [ Left
+                    ( Left
+                        ( Field
+                            { fieldAlias = Nothing
+                            , fieldName = "qux"
+                            , fieldArguments = fromList []
+                            , fieldDirectives = []
+                            , fieldSelectionSet = Nothing
+                            }
+                        )
+                    )
+                , Left
+                    ( Left
+                        ( Field
+                            { fieldAlias = Nothing
+                            , fieldName = "foo"
+                            , fieldArguments = fromList []
+                            , fieldDirectives = []
+                            , fieldSelectionSet = Nothing
+                            }
+                        )
+                    )
+                ]
+            }
+        )
+    )
+]

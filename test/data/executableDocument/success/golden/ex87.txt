@@ -1,0 +1,34 @@
+[ Left
+    ( Left
+        ( OperationDefinition
+            { opType = Query
+            , opName = Just "withNullableVariable"
+            , opVariables =
+                [ VariableDefinition
+                    { varName = "var"
+                    , varType = NamedType "String"
+                    , varDefaultValue = Nothing
+                    , varDirectives = []
+                    }
+                ]
+            , opDirectives = []
+            , opSelectionSet = Left
+                ( Left
+                    ( Field
+                        { fieldAlias = Nothing
+                        , fieldName = "fieldWithNonNullArg"
+                        , fieldArguments = fromList
+                            [
+                                ( "nonNullArg"
+                                , VVar "var"
+                                )
+                            ]
+                        , fieldDirectives = []
+                        , fieldSelectionSet = Nothing
+                        }
+                    )
+                ) :| []
+            }
+        )
+    )
+]

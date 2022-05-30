@@ -35,6 +35,7 @@ tokens :-
 <0> \,                                  { symbol SymComma }
 <0> \.\.\.                              { symbol SymSpread }
 <0> \$                                  { symbol SymBling }
+<0> \!                                  { symbol SymBang }
 <0> \&                                  { symbol SymAmpersand }
 
 -- Booleans

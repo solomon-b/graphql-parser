@@ -210,6 +210,7 @@ fieldDefinition
 unionTypeDefinition :: { UnionTypeDefinition }
 unionTypeDefinition
   : description 'union' name directives '=' unionMembers { UnionTypeDefinition $1 $3 $4 $6 } 
+  | description 'union' name directives '=' '|' unionMembers { UnionTypeDefinition $1 $3 $4 $7 } 
 
 unionMembers :: { [Name] }
 unionMembers
@@ -242,6 +243,7 @@ inputObjectTypeDefinition
 directiveDefinition :: { DirectiveDefinition }
 directivedefinition
   : description 'directive' dir argumentsDefinition optRepeatable 'on' directiveLocations { DirectiveDefinition $1 (Name $ unLoc $3) $4 $7 }
+  | description 'directive' dir argumentsDefinition optRepeatable 'on' '|' directiveLocations { DirectiveDefinition $1 (Name $ unLoc $3) $4 $8 }
 
 directiveLocations :: { [DirectiveLocation] }
 directivelocations
@@ -476,8 +478,8 @@ description
 
 optRepeatable :: { Maybe Span }
 optRepeatable
-: 'repeatable' { Just $1 }
-| { Nothing }
+  : 'repeatable' { Just $1 }
+  | { Nothing }
 
 --------------------------------------------------------------------------------
 

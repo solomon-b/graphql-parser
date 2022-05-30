@@ -1,0 +1,40 @@
+[ Left
+    ( Left
+        ( OperationDefinition
+            { opType = Query
+            , opName = Just "myQuery"
+            , opVariables =
+                [ VariableDefinition
+                    { varName = "someTest"
+                    , varType = NonNullType
+                        ( NamedType "Boolean" )
+                    , varDefaultValue = Nothing
+                    , varDirectives = []
+                    }
+                ]
+            , opDirectives = []
+            , opSelectionSet = Left
+                ( Left
+                    ( Field
+                        { fieldAlias = Nothing
+                        , fieldName = "experimentalField"
+                        , fieldArguments = fromList []
+                        , fieldDirectives =
+                            [ Directive
+                                { name = "@skip"
+                                , arguments = fromList
+                                    [
+                                        ( "if"
+                                        , VVar "someTest"
+                                        )
+                                    ]
+                                }
+                            ]
+                        , fieldSelectionSet = Nothing
+                        }
+                    )
+                ) :| []
+            }
+        )
+    )
+]

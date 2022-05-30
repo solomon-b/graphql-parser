@@ -1,0 +1,67 @@
+[ Right
+    ( Left
+        ( Left
+            ( Right
+                ( Left
+                    ( Left
+                        ( Left
+                            ( Left
+                                ( Left
+                                    ( ScalarTypeDefinition
+                                        { scalarDescription = Nothing
+                                        , scalarName = "UUID"
+                                        , scalarDirectives =
+                                            [ Directive
+                                                { name = "@specifiedBy"
+                                                , arguments = fromList
+                                                    [
+                                                        ( "url"
+                                                        , VString "https://tools.ietf.org/html/rfc4122"
+                                                        )
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+, Right
+    ( Left
+        ( Left
+            ( Right
+                ( Left
+                    ( Left
+                        ( Left
+                            ( Left
+                                ( Left
+                                    ( ScalarTypeDefinition
+                                        { scalarDescription = Nothing
+                                        , scalarName = "URL"
+                                        , scalarDirectives =
+                                            [ Directive
+                                                { name = "@specifiedBy"
+                                                , arguments = fromList
+                                                    [
+                                                        ( "url"
+                                                        , VString "https://tools.ietf.org/html/rfc3986"
+                                                        )
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+]

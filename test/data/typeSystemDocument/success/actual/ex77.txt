@@ -1,0 +1,24 @@
+[ Right
+    ( Left
+        ( Left
+            ( Right
+                ( Left
+                    ( Left
+                        ( Right
+                            ( UnionTypeDefinition
+                                { unionDescription = Nothing
+                                , unionName = "SearchResult"
+                                , unionDirectives = []
+                                , unionMemberTypes =
+                                    [ "Photo"
+                                    , "Person"
+                                    ]
+                                }
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+]

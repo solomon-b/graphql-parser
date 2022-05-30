@@ -1,0 +1,153 @@
+[ Right
+    ( Left
+        ( Left
+            ( Right
+                ( Left
+                    ( Left
+                        ( Left
+                            ( Right
+                                ( InterfaceTypeDefinition
+                                    { interfaceDescription = Nothing
+                                    , interfaceName = "NamedEntity"
+                                    , interfaceInterfaces = []
+                                    , interfaceDirectives = []
+                                    , interfaceFields =
+                                        [ FieldDefinition
+                                            { fieldDefDescription = Nothing
+                                            , fieldDefName = "name"
+                                            , fieldDefArgumentsDef = []
+                                            , fieldDefType = NamedType "String"
+                                            , fieldDefDirectives = []
+                                            }
+                                        ]
+                                    }
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+, Right
+    ( Left
+        ( Left
+            ( Right
+                ( Left
+                    ( Left
+                        ( Left
+                            ( Right
+                                ( InterfaceTypeDefinition
+                                    { interfaceDescription = Nothing
+                                    , interfaceName = "ValuedEntity"
+                                    , interfaceInterfaces = []
+                                    , interfaceDirectives = []
+                                    , interfaceFields =
+                                        [ FieldDefinition
+                                            { fieldDefDescription = Nothing
+                                            , fieldDefName = "value"
+                                            , fieldDefArgumentsDef = []
+                                            , fieldDefType = NamedType "Int"
+                                            , fieldDefDirectives = []
+                                            }
+                                        ]
+                                    }
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+, Right
+    ( Left
+        ( Left
+            ( Right
+                ( Left
+                    ( Left
+                        ( Left
+                            ( Left
+                                ( Right
+                                    ( ObjectTypeDefinition
+                                        { objectDescription = Nothing
+                                        , objectName = "Person"
+                                        , objectInterfaces = [ "NamedEntity" ]
+                                        , objectDirectives = []
+                                        , objectFields =
+                                            [ FieldDefinition
+                                                { fieldDefDescription = Nothing
+                                                , fieldDefName = "name"
+                                                , fieldDefArgumentsDef = []
+                                                , fieldDefType = NamedType "String"
+                                                , fieldDefDirectives = []
+                                                }
+                                            , FieldDefinition
+                                                { fieldDefDescription = Nothing
+                                                , fieldDefName = "age"
+                                                , fieldDefArgumentsDef = []
+                                                , fieldDefType = NamedType "Int"
+                                                , fieldDefDirectives = []
+                                                }
+                                            ]
+                                        }
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+, Right
+    ( Left
+        ( Left
+            ( Right
+                ( Left
+                    ( Left
+                        ( Left
+                            ( Left
+                                ( Right
+                                    ( ObjectTypeDefinition
+                                        { objectDescription = Nothing
+                                        , objectName = "Business"
+                                        , objectInterfaces =
+                                            [ "NamedEntity"
+                                            , "ValuedEntity"
+                                            ]
+                                        , objectDirectives = []
+                                        , objectFields =
+                                            [ FieldDefinition
+                                                { fieldDefDescription = Nothing
+                                                , fieldDefName = "name"
+                                                , fieldDefArgumentsDef = []
+                                                , fieldDefType = NamedType "String"
+                                                , fieldDefDirectives = []
+                                                }
+                                            , FieldDefinition
+                                                { fieldDefDescription = Nothing
+                                                , fieldDefName = "value"
+                                                , fieldDefArgumentsDef = []
+                                                , fieldDefType = NamedType "Int"
+                                                , fieldDefDirectives = []
+                                                }
+                                            , FieldDefinition
+                                                { fieldDefDescription = Nothing
+                                                , fieldDefName = "employeeCount"
+                                                , fieldDefArgumentsDef = []
+                                                , fieldDefType = NamedType "Int"
+                                                , fieldDefDirectives = []
+                                                }
+                                            ]
+                                        }
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+]

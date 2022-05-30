@@ -1,0 +1,32 @@
+[ Right
+    ( Left
+        ( Left
+            ( Right
+                ( Right
+                    ( InputObjectTypeDefinition
+                        { inputDescription = Nothing
+                        , inputName = "Point2D"
+                        , inputDirectives = []
+                        , inputValues =
+                            [ InputValueDefinition
+                                { inputValueDescription = Nothing
+                                , inputValue = "x"
+                                , inputType = NamedType "Float"
+                                , inputDefaultValue = Nothing
+                                , inputValueDirectives = []
+                                }
+                            , InputValueDefinition
+                                { inputValueDescription = Nothing
+                                , inputValue = "y"
+                                , inputType = NamedType "Float"
+                                , inputDefaultValue = Nothing
+                                , inputValueDirectives = []
+                                }
+                            ]
+                        }
+                    )
+                )
+            )
+        )
+    )
+]

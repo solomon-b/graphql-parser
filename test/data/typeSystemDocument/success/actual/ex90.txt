@@ -1,0 +1,67 @@
+[ Right
+    ( Left
+        ( Right
+            ( DirectiveDefinition
+                { dirDefDescription = Nothing
+                , dirDefName = "@example"
+                , dirDefArguments = []
+                , dirDefLocations =
+                    [ Right TSDLFIELD_DEFINITION
+                    , Right TSDLARGUMENT_DEFINITION
+                    ]
+                }
+            )
+        )
+    )
+, Right
+    ( Left
+        ( Left
+            ( Right
+                ( Left
+                    ( Left
+                        ( Left
+                            ( Left
+                                ( Right
+                                    ( ObjectTypeDefinition
+                                        { objectDescription = Nothing
+                                        , objectName = "SomeType"
+                                        , objectInterfaces = []
+                                        , objectDirectives = []
+                                        , objectFields =
+                                            [ FieldDefinition
+                                                { fieldDefDescription = Nothing
+                                                , fieldDefName = "field"
+                                                , fieldDefArgumentsDef =
+                                                    [ InputValueDefinition
+                                                        { inputValueDescription = Nothing
+                                                        , inputValue = "arg"
+                                                        , inputType = NamedType "Int"
+                                                        , inputDefaultValue = Nothing
+                                                        , inputValueDirectives =
+                                                            [ Directive
+                                                                { name = "@example"
+                                                                , arguments = fromList []
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                , fieldDefType = NamedType "String"
+                                                , fieldDefDirectives =
+                                                    [ Directive
+                                                        { name = "@example"
+                                                        , arguments = fromList []
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+]

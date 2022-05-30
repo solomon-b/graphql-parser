@@ -1,0 +1,37 @@
+[ Right
+    ( Left
+        ( Left
+            ( Right
+                ( Right
+                    ( InputObjectTypeDefinition
+                        { inputDescription = Nothing
+                        , inputName = "Example"
+                        , inputDirectives = []
+                        , inputValues =
+                            [ InputValueDefinition
+                                { inputValueDescription = Nothing
+                                , inputValue = "self"
+                                , inputType = NonNullType
+                                    ( ListType
+                                        ( NonNullType
+                                            ( NamedType "Example" )
+                                        )
+                                    )
+                                , inputDefaultValue = Nothing
+                                , inputValueDirectives = []
+                                }
+                            , InputValueDefinition
+                                { inputValueDescription = Nothing
+                                , inputValue = "value"
+                                , inputType = NamedType "String"
+                                , inputDefaultValue = Nothing
+                                , inputValueDirectives = []
+                                }
+                            ]
+                        }
+                    )
+                )
+            )
+        )
+    )
+]

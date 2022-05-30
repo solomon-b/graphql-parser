@@ -1,0 +1,463 @@
+[ Right
+    ( Left
+        ( Left
+            ( Right
+                ( Left
+                    ( Left
+                        ( Left
+                            ( Left
+                                ( Right
+                                    ( ObjectTypeDefinition
+                                        { objectDescription = Nothing
+                                        , objectName = "Query"
+                                        , objectInterfaces = []
+                                        , objectDirectives = []
+                                        , objectFields =
+                                            [ FieldDefinition
+                                                { fieldDefDescription = Nothing
+                                                , fieldDefName = "dog"
+                                                , fieldDefArgumentsDef = []
+                                                , fieldDefType = NamedType "Dog"
+                                                , fieldDefDirectives = []
+                                                }
+                                            ]
+                                        }
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+, Right
+    ( Left
+        ( Left
+            ( Right
+                ( Left
+                    ( Right
+                        ( EnumTypeDefinition
+                            { enumDescription = Nothing
+                            , enumName = "DogCommand"
+                            , enumDirectives = []
+                            , enumValues =
+                                [ EnumValueDefinition
+                                    { enumValueDescription = Nothing
+                                    , enumValue = "SIT"
+                                    , enumValueDirectives = []
+                                    }
+                                , EnumValueDefinition
+                                    { enumValueDescription = Nothing
+                                    , enumValue = "DOWN"
+                                    , enumValueDirectives = []
+                                    }
+                                , EnumValueDefinition
+                                    { enumValueDescription = Nothing
+                                    , enumValue = "HEEL"
+                                    , enumValueDirectives = []
+                                    }
+                                ]
+                            }
+                        )
+                    )
+                )
+            )
+        )
+    )
+, Right
+    ( Left
+        ( Left
+            ( Right
+                ( Left
+                    ( Left
+                        ( Left
+                            ( Left
+                                ( Right
+                                    ( ObjectTypeDefinition
+                                        { objectDescription = Nothing
+                                        , objectName = "Dog"
+                                        , objectInterfaces = [ "Pet" ]
+                                        , objectDirectives = []
+                                        , objectFields =
+                                            [ FieldDefinition
+                                                { fieldDefDescription = Nothing
+                                                , fieldDefName = "name"
+                                                , fieldDefArgumentsDef = []
+                                                , fieldDefType = NonNullType
+                                                    ( NamedType "String" )
+                                                , fieldDefDirectives = []
+                                                }
+                                            , FieldDefinition
+                                                { fieldDefDescription = Nothing
+                                                , fieldDefName = "nickname"
+                                                , fieldDefArgumentsDef = []
+                                                , fieldDefType = NamedType "String"
+                                                , fieldDefDirectives = []
+                                                }
+                                            , FieldDefinition
+                                                { fieldDefDescription = Nothing
+                                                , fieldDefName = "barkVolume"
+                                                , fieldDefArgumentsDef = []
+                                                , fieldDefType = NamedType "Int"
+                                                , fieldDefDirectives = []
+                                                }
+                                            , FieldDefinition
+                                                { fieldDefDescription = Nothing
+                                                , fieldDefName = "doesKnowCommand"
+                                                , fieldDefArgumentsDef =
+                                                    [ InputValueDefinition
+                                                        { inputValueDescription = Nothing
+                                                        , inputValue = "dogCommand"
+                                                        , inputType = NonNullType
+                                                            ( NamedType "DogCommand" )
+                                                        , inputDefaultValue = Nothing
+                                                        , inputValueDirectives = []
+                                                        }
+                                                    ]
+                                                , fieldDefType = NonNullType
+                                                    ( NamedType "Boolean" )
+                                                , fieldDefDirectives = []
+                                                }
+                                            , FieldDefinition
+                                                { fieldDefDescription = Nothing
+                                                , fieldDefName = "isHouseTrained"
+                                                , fieldDefArgumentsDef =
+                                                    [ InputValueDefinition
+                                                        { inputValueDescription = Nothing
+                                                        , inputValue = "atOtherHomes"
+                                                        , inputType = NamedType "Boolean"
+                                                        , inputDefaultValue = Nothing
+                                                        , inputValueDirectives = []
+                                                        }
+                                                    ]
+                                                , fieldDefType = NonNullType
+                                                    ( NamedType "Boolean" )
+                                                , fieldDefDirectives = []
+                                                }
+                                            , FieldDefinition
+                                                { fieldDefDescription = Nothing
+                                                , fieldDefName = "owner"
+                                                , fieldDefArgumentsDef = []
+                                                , fieldDefType = NamedType "Human"
+                                                , fieldDefDirectives = []
+                                                }
+                                            ]
+                                        }
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+, Right
+    ( Left
+        ( Left
+            ( Right
+                ( Left
+                    ( Left
+                        ( Left
+                            ( Right
+                                ( InterfaceTypeDefinition
+                                    { interfaceDescription = Nothing
+                                    , interfaceName = "Sentient"
+                                    , interfaceInterfaces = []
+                                    , interfaceDirectives = []
+                                    , interfaceFields =
+                                        [ FieldDefinition
+                                            { fieldDefDescription = Nothing
+                                            , fieldDefName = "name"
+                                            , fieldDefArgumentsDef = []
+                                            , fieldDefType = NonNullType
+                                                ( NamedType "String" )
+                                            , fieldDefDirectives = []
+                                            }
+                                        ]
+                                    }
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+, Right
+    ( Left
+        ( Left
+            ( Right
+                ( Left
+                    ( Left
+                        ( Left
+                            ( Right
+                                ( InterfaceTypeDefinition
+                                    { interfaceDescription = Nothing
+                                    , interfaceName = "Pet"
+                                    , interfaceInterfaces = []
+                                    , interfaceDirectives = []
+                                    , interfaceFields =
+                                        [ FieldDefinition
+                                            { fieldDefDescription = Nothing
+                                            , fieldDefName = "name"
+                                            , fieldDefArgumentsDef = []
+                                            , fieldDefType = NonNullType
+                                                ( NamedType "String" )
+                                            , fieldDefDirectives = []
+                                            }
+                                        ]
+                                    }
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+, Right
+    ( Left
+        ( Left
+            ( Right
+                ( Left
+                    ( Left
+                        ( Left
+                            ( Left
+                                ( Right
+                                    ( ObjectTypeDefinition
+                                        { objectDescription = Nothing
+                                        , objectName = "Alien"
+                                        , objectInterfaces = [ "Sentient" ]
+                                        , objectDirectives = []
+                                        , objectFields =
+                                            [ FieldDefinition
+                                                { fieldDefDescription = Nothing
+                                                , fieldDefName = "name"
+                                                , fieldDefArgumentsDef = []
+                                                , fieldDefType = NonNullType
+                                                    ( NamedType "String" )
+                                                , fieldDefDirectives = []
+                                                }
+                                            , FieldDefinition
+                                                { fieldDefDescription = Nothing
+                                                , fieldDefName = "homePlanet"
+                                                , fieldDefArgumentsDef = []
+                                                , fieldDefType = NamedType "String"
+                                                , fieldDefDirectives = []
+                                                }
+                                            ]
+                                        }
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+, Right
+    ( Left
+        ( Left
+            ( Right
+                ( Left
+                    ( Left
+                        ( Left
+                            ( Left
+                                ( Right
+                                    ( ObjectTypeDefinition
+                                        { objectDescription = Nothing
+                                        , objectName = "Human"
+                                        , objectInterfaces = [ "Sentient" ]
+                                        , objectDirectives = []
+                                        , objectFields =
+                                            [ FieldDefinition
+                                                { fieldDefDescription = Nothing
+                                                , fieldDefName = "name"
+                                                , fieldDefArgumentsDef = []
+                                                , fieldDefType = NonNullType
+                                                    ( NamedType "String" )
+                                                , fieldDefDirectives = []
+                                                }
+                                            , FieldDefinition
+                                                { fieldDefDescription = Nothing
+                                                , fieldDefName = "pets"
+                                                , fieldDefArgumentsDef = []
+                                                , fieldDefType = ListType
+                                                    ( NonNullType
+                                                        ( NamedType "Pet" )
+                                                    )
+                                                , fieldDefDirectives = []
+                                                }
+                                            ]
+                                        }
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+, Right
+    ( Left
+        ( Left
+            ( Right
+                ( Left
+                    ( Right
+                        ( EnumTypeDefinition
+                            { enumDescription = Nothing
+                            , enumName = "CatCommand"
+                            , enumDirectives = []
+                            , enumValues =
+                                [ EnumValueDefinition
+                                    { enumValueDescription = Nothing
+                                    , enumValue = "JUMP"
+                                    , enumValueDirectives = []
+                                    }
+                                ]
+                            }
+                        )
+                    )
+                )
+            )
+        )
+    )
+, Right
+    ( Left
+        ( Left
+            ( Right
+                ( Left
+                    ( Left
+                        ( Left
+                            ( Left
+                                ( Right
+                                    ( ObjectTypeDefinition
+                                        { objectDescription = Nothing
+                                        , objectName = "Cat"
+                                        , objectInterfaces = [ "Pet" ]
+                                        , objectDirectives = []
+                                        , objectFields =
+                                            [ FieldDefinition
+                                                { fieldDefDescription = Nothing
+                                                , fieldDefName = "name"
+                                                , fieldDefArgumentsDef = []
+                                                , fieldDefType = NonNullType
+                                                    ( NamedType "String" )
+                                                , fieldDefDirectives = []
+                                                }
+                                            , FieldDefinition
+                                                { fieldDefDescription = Nothing
+                                                , fieldDefName = "nickname"
+                                                , fieldDefArgumentsDef = []
+                                                , fieldDefType = NamedType "String"
+                                                , fieldDefDirectives = []
+                                                }
+                                            , FieldDefinition
+                                                { fieldDefDescription = Nothing
+                                                , fieldDefName = "doesKnowCommand"
+                                                , fieldDefArgumentsDef =
+                                                    [ InputValueDefinition
+                                                        { inputValueDescription = Nothing
+                                                        , inputValue = "catCommand"
+                                                        , inputType = NonNullType
+                                                            ( NamedType "CatCommand" )
+                                                        , inputDefaultValue = Nothing
+                                                        , inputValueDirectives = []
+                                                        }
+                                                    ]
+                                                , fieldDefType = NonNullType
+                                                    ( NamedType "Boolean" )
+                                                , fieldDefDirectives = []
+                                                }
+                                            , FieldDefinition
+                                                { fieldDefDescription = Nothing
+                                                , fieldDefName = "meowVolume"
+                                                , fieldDefArgumentsDef = []
+                                                , fieldDefType = NamedType "Int"
+                                                , fieldDefDirectives = []
+                                                }
+                                            ]
+                                        }
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+, Right
+    ( Left
+        ( Left
+            ( Right
+                ( Left
+                    ( Left
+                        ( Right
+                            ( UnionTypeDefinition
+                                { unionDescription = Nothing
+                                , unionName = "CatOrDog"
+                                , unionDirectives = []
+                                , unionMemberTypes =
+                                    [ "Cat"
+                                    , "Dog"
+                                    ]
+                                }
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+, Right
+    ( Left
+        ( Left
+            ( Right
+                ( Left
+                    ( Left
+                        ( Right
+                            ( UnionTypeDefinition
+                                { unionDescription = Nothing
+                                , unionName = "DogOrHuman"
+                                , unionDirectives = []
+                                , unionMemberTypes =
+                                    [ "Dog"
+                                    , "Human"
+                                    ]
+                                }
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+, Right
+    ( Left
+        ( Left
+            ( Right
+                ( Left
+                    ( Left
+                        ( Right
+                            ( UnionTypeDefinition
+                                { unionDescription = Nothing
+                                , unionName = "HumanOrAlien"
+                                , unionDirectives = []
+                                , unionMemberTypes =
+                                    [ "Human"
+                                    , "Alien"
+                                    ]
+                                }
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+]

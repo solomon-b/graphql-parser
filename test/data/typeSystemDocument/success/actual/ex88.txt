@@ -1,0 +1,38 @@
+[ Right
+    ( Left
+        ( Right
+            ( DirectiveDefinition
+                { dirDefDescription = Nothing
+                , dirDefName = "@example"
+                , dirDefArguments = []
+                , dirDefLocations = [ Left EDLFIELD ]
+                }
+            )
+        )
+    )
+, Left
+    ( Right
+        ( FragmentDefinition
+            { fragName = "SomeFragment"
+            , fragTypeCondition = NamedType "SomeType"
+            , fragDirectives = []
+            , fragSelectionSet = Left
+                ( Left
+                    ( Field
+                        { fieldAlias = Nothing
+                        , fieldName = "field"
+                        , fieldArguments = fromList []
+                        , fieldDirectives =
+                            [ Directive
+                                { name = "@example"
+                                , arguments = fromList []
+                                }
+                            ]
+                        , fieldSelectionSet = Nothing
+                        }
+                    )
+                ) :| []
+            }
+        )
+    )
+]

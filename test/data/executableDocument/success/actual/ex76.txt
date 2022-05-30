@@ -1,0 +1,58 @@
+[ Left
+    ( Left
+        ( OperationDefinition
+            { opType = Query
+            , opName = Nothing
+            , opVariables = []
+            , opDirectives = []
+            , opSelectionSet = Left
+                ( Left
+                    ( Field
+                        { fieldAlias = Nothing
+                        , fieldName = "firstSearchResult"
+                        , fieldArguments = fromList []
+                        , fieldDirectives = []
+                        , fieldSelectionSet = Just
+                            ( Right
+                                ( InlineFragment
+                                    { ifTypeCondition = Just "Person"
+                                    , ifDirectives = []
+                                    , ifSelectionSet = Left
+                                        ( Left
+                                            ( Field
+                                                { fieldAlias = Nothing
+                                                , fieldName = "name"
+                                                , fieldArguments = fromList []
+                                                , fieldDirectives = []
+                                                , fieldSelectionSet = Nothing
+                                                }
+                                            )
+                                        ) :| []
+                                    }
+                                ) :|
+                                [ Right
+                                    ( InlineFragment
+                                        { ifTypeCondition = Just "Photo"
+                                        , ifDirectives = []
+                                        , ifSelectionSet = Left
+                                            ( Left
+                                                ( Field
+                                                    { fieldAlias = Nothing
+                                                    , fieldName = "height"
+                                                    , fieldArguments = fromList []
+                                                    , fieldDirectives = []
+                                                    , fieldSelectionSet = Nothing
+                                                    }
+                                                )
+                                            ) :| []
+                                        }
+                                    )
+                                ]
+                            )
+                        }
+                    )
+                ) :| []
+            }
+        )
+    )
+]

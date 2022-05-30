@@ -1,0 +1,49 @@
+[ Right
+    ( Left
+        ( Left
+            ( Right
+                ( Left
+                    ( Left
+                        ( Left
+                            ( Left
+                                ( Right
+                                    ( ObjectTypeDefinition
+                                        { objectDescription = Nothing
+                                        , objectName = "Person"
+                                        , objectInterfaces = []
+                                        , objectDirectives = []
+                                        , objectFields =
+                                            [ FieldDefinition
+                                                { fieldDefDescription = Nothing
+                                                , fieldDefName = "name"
+                                                , fieldDefArgumentsDef = []
+                                                , fieldDefType = NamedType "String"
+                                                , fieldDefDirectives = []
+                                                }
+                                            , FieldDefinition
+                                                { fieldDefDescription = Nothing
+                                                , fieldDefName = "picture"
+                                                , fieldDefArgumentsDef =
+                                                    [ InputValueDefinition
+                                                        { inputValueDescription = Nothing
+                                                        , inputValue = "size"
+                                                        , inputType = NamedType "Int"
+                                                        , inputDefaultValue = Nothing
+                                                        , inputValueDirectives = []
+                                                        }
+                                                    ]
+                                                , fieldDefType = NamedType "Url"
+                                                , fieldDefDirectives = []
+                                                }
+                                            ]
+                                        }
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+]

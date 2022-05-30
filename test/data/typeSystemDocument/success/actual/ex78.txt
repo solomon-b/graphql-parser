@@ -1,0 +1,40 @@
+[ Right
+    ( Left
+        ( Left
+            ( Right
+                ( Left
+                    ( Right
+                        ( EnumTypeDefinition
+                            { enumDescription = Nothing
+                            , enumName = "Direction"
+                            , enumDirectives = []
+                            , enumValues =
+                                [ EnumValueDefinition
+                                    { enumValueDescription = Nothing
+                                    , enumValue = "NORTH"
+                                    , enumValueDirectives = []
+                                    }
+                                , EnumValueDefinition
+                                    { enumValueDescription = Nothing
+                                    , enumValue = "EAST"
+                                    , enumValueDirectives = []
+                                    }
+                                , EnumValueDefinition
+                                    { enumValueDescription = Nothing
+                                    , enumValue = "SOUTH"
+                                    , enumValueDirectives = []
+                                    }
+                                , EnumValueDefinition
+                                    { enumValueDescription = Nothing
+                                    , enumValue = "WEST"
+                                    , enumValueDirectives = []
+                                    }
+                                ]
+                            }
+                        )
+                    )
+                )
+            )
+        )
+    )
+]

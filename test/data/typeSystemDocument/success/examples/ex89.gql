@@ -1,0 +1,4 @@
+directive @example on
+  | FIELD
+  | FRAGMENT_SPREAD
+  | INLINE_FRAGMENT

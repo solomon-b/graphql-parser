@@ -179,11 +179,16 @@ interfaceTypeDefinition :: { InterfaceTypeDefinition }
 interfaceTypeDefinition
   : description 'interface' name implementsInterfaces directives fieldsDefinition { InterfaceTypeDefinition $1 $3 $4 $5 $6 }
 
--- TODO: Replace 'concat' with 'cons'
 implementsInterfaces :: { [Name] }
 implementsInterfaces
-  : implementsInterfaces '&' name { $1 <> [$3] }
-  | 'implements' name { [$2] }
+  : 'implements' implementsInterfaces_ { $2 }
+  | { [] }
+
+-- TODO: Replace 'concat' with 'snoc'
+implementsInterfaces_ :: { [Name] }
+implementsInterfaces_
+  : name { [$1] }
+  | implementsInterfaces_ '&' name { $1 <> [$3] }
 
 --------------------------------------------------------------------------------
 
@@ -282,6 +287,7 @@ inputFieldsDefinition
 argumentsDefinition :: { [InputValueDefinition] }
 argumentsDefinition
   : '(' inputValuesDefinition ')' { $2 }
+  | { [] }
 
 inputValuesDefinition :: { [InputValueDefinition] }
 inputValuesDefinition

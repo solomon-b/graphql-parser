@@ -1,5 +1,13 @@
 
 
+graphqlDocument
+  : executableOrTypeSystemDefiniton
+  | executableOrTypeSystemDefiniton graphqlDocument
+
+executableOrTypeSystemDefiniton
+  : executableDefinition
+  | typeSystemDefinition
+
 executableDocument
   : executableDefinition
   | executableDefinition executableDocument
@@ -14,7 +22,7 @@ typeSystemDefinition
   | directiveDefinition
 
 schemaDefinition
-  : description 'schema' directives rootOperationTypeDefinitions
+  : description 'schema' directives '{' rootOperationTypeDefinitions '}'
 
 rootOperationTypeDefinitions
   : rootOperationTypeDefinition
@@ -41,8 +49,12 @@ interfaceTypeDefinition
   : description 'interface' name implementsInterfaces directives fieldsDefinition
 
 implementsInterfaces
-  : implementsInterfaces '&' name
-  | 'implements' name
+  : 'implements' implementsInterfaces_
+  | {- empty -}
+
+implementsInterfaces_
+  : name
+  | implementsInterfaces_ '&' name
 
 fieldsDefinition
   : '{' fieldDefinitions '}'
@@ -65,7 +77,8 @@ enumTypeDefinition
   : description 'enum' name directives '{' enumValuesDefinition '}'
 
 enumValuesDefinition
-  : enumValueDefinition enumValuesDefinition
+  : enumValueDefinition
+  | enumValueDefinition enumValuesDefinition
 
 enumValueDefinition
   : description name directives
@@ -112,6 +125,7 @@ inputFieldsDefinition
 
 argumentsDefinition
   : '(' inputValuesDefinition ')'
+  | {- empty -}
 
 inputValuesDefinition
   : inputValueDefinition
@@ -162,13 +176,13 @@ selection
   | fragmentSpread
   | inlineFragment
 
-values
-  : value
-  | value ',' values
-
 optValue
   : value
   | {- empty -}
+
+values
+  : value
+  | value ',' values
 
 value
   : 'null'
@@ -179,6 +193,11 @@ value
   | vlist
   | vobject
   | '$' ident
+
+stringValue
+  : '"' '"'
+  | '"' string '"'
+  | '"""' blockString '"""'
 
 vlist
   : '[' ']'
@@ -243,7 +262,7 @@ directive
   | dir '(' arguments ')'
 
 description
-  : string
+  : stringValue
   | {- empty -}
 
 optRepeatable

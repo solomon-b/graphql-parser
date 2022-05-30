@@ -1,0 +1,126 @@
+[ Right
+    ( Left
+        ( Left
+            ( Left
+                ( SchemaDefinition
+                    { sdDescription = Just Description
+
+                        {  unDescription ="A simple GraphQL schema which is well described." }
+                    , sdDirectives = []
+                    , sdRootOperations =
+                        [ RootOperationTypeDefinition
+                            { roType = Query
+                            , roTypeName = "Query"
+                            }
+                        ]
+                    }
+                )
+            )
+        )
+    )
+, Right
+    ( Left
+        ( Left
+            ( Right
+                ( Left
+                    ( Left
+                        ( Left
+                            ( Left
+                                ( Right
+                                    ( ObjectTypeDefinition
+                                        { objectDescription = Just Description
+
+                                            {  unDescription ="Root type for all your query operations" }
+                                        , objectName = "Query"
+                                        , objectInterfaces = []
+                                        , objectDirectives = []
+                                        , objectFields =
+                                            [ FieldDefinition
+                                                { fieldDefDescription = Just Description
+
+                                                    {  unDescription ="  Translates a string from a given language into a different language.\n  " }
+                                                , fieldDefName = "translate"
+                                                , fieldDefArgumentsDef =
+                                                    [ InputValueDefinition
+                                                        { inputValueDescription = Just Description
+
+                                                            {  unDescription ="The original language that `text` is provided in." }
+                                                        , inputValue = "fromLanguage"
+                                                        , inputType = NamedType "Language"
+                                                        , inputDefaultValue = Just
+                                                            ( VString "The translated language to be returned." )
+                                                        , inputValueDirectives = []
+                                                        }
+                                                    , InputValueDefinition
+                                                        { inputValueDescription = Nothing
+                                                        , inputValue = "toLanguage"
+                                                        , inputType = NamedType "Language"
+                                                        , inputDefaultValue = Just
+                                                            ( VString "The text to be translated." )
+                                                        , inputValueDirectives = []
+                                                        }
+                                                    , InputValueDefinition
+                                                        { inputValueDescription = Nothing
+                                                        , inputValue = "text"
+                                                        , inputType = NamedType "String"
+                                                        , inputDefaultValue = Nothing
+                                                        , inputValueDirectives = []
+                                                        }
+                                                    ]
+                                                , fieldDefType = NamedType "String"
+                                                , fieldDefDirectives = []
+                                                }
+                                            ]
+                                        }
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+, Right
+    ( Left
+        ( Left
+            ( Right
+                ( Left
+                    ( Right
+                        ( EnumTypeDefinition
+                            { enumDescription = Just Description
+
+                                {  unDescription ="The set of languages supported by `translate`." }
+                            , enumName = "Language"
+                            , enumDirectives = []
+                            , enumValues =
+                                [ EnumValueDefinition
+                                    { enumValueDescription = Just Description
+
+                                        {  unDescription ="English" }
+                                    , enumValue = "EN"
+                                    , enumValueDirectives = []
+                                    }
+                                , EnumValueDefinition
+                                    { enumValueDescription = Just Description
+
+                                        {  unDescription ="French" }
+                                    , enumValue = "FR"
+                                    , enumValueDirectives = []
+                                    }
+                                , EnumValueDefinition
+                                    { enumValueDescription = Just Description
+
+                                        {  unDescription ="Chinese" }
+                                    , enumValue = "CH"
+                                    , enumValueDirectives = []
+                                    }
+                                ]
+                            }
+                        )
+                    )
+                )
+            )
+        )
+    )
+]

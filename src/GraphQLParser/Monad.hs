@@ -1,6 +1,9 @@
+{-# LANGUAGE DeriveAnyClass #-}
+
 module GraphQLParser.Monad where
 
 import Codec.Binary.UTF8.String qualified as UTF8
+import Control.DeepSeq (NFData)
 import Control.Monad.Except
 import Control.Monad.State
 import Data.ByteString qualified as B
@@ -10,6 +13,7 @@ import Data.Char (chr)
 import Data.List.NonEmpty qualified as NE
 import Data.Text qualified as T
 import Data.Text.Encoding qualified as TE
+import GHC.Generics (Generic)
 import GHC.Word (Word8)
 import GraphQLParser.Span
 import GraphQLParser.Token
@@ -95,7 +99,8 @@ data ParseError
   = EmptyTokenStream Span B.ByteString
   | UnexpectedToken (Loc Token) B.ByteString
   | InvalidLexeme AlexSourcePos B.ByteString
-  deriving (Show)
+  deriving stock (Show, Generic)
+  deriving anyclass (NFData)
 
 instance Pretty ParseError where
   pretty = \case

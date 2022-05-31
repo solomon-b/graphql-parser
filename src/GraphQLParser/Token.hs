@@ -3,6 +3,7 @@
 
 module GraphQLParser.Token where
 
+import Control.DeepSeq (NFData)
 import Data.Scientific (Scientific)
 import Data.Text (Text)
 import GHC.Generics (Generic)
@@ -28,7 +29,8 @@ data Symbol
   | SymSquareClose
   | SymSquareOpen
   | SymSpread
-  deriving (Show, Eq, Ord, Generic)
+  deriving stock (Show, Eq, Ord, Generic)
+  deriving anyclass (NFData)
 
 instance Pretty Symbol where
   pretty = \case
@@ -59,7 +61,8 @@ data Token
   | TokNumLit Text (Loc Scientific)
   | TokBoolLit (Loc Bool)
   | EOF
-  deriving (Show, Eq, Ord, Generic)
+  deriving stock (Show, Eq, Ord, Generic)
+  deriving anyclass (NFData)
 
 overLoc :: (forall a. Loc a -> Loc a) -> Token -> Token
 overLoc f (TokSymbol loc) = TokSymbol $ f loc

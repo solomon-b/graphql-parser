@@ -54,6 +54,7 @@ common common-libraries
     , containers
     , deepseq
     , hashable
+    , hedgehog
     , mtl
     , text
     , utf8-string
@@ -80,6 +81,7 @@ library
   --  , happy:happy >= 1.20
   exposed-modules:
     GraphQLParser
+    GraphQLParser.Generator
     GraphQLParser.Grammar
     GraphQLParser.Monad
     GraphQLParser.QQ

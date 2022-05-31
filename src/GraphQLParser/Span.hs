@@ -1,5 +1,8 @@
+{-# LANGUAGE DeriveAnyClass #-}
+
 module GraphQLParser.Span where
 
+import Control.DeepSeq (NFData)
 import Control.Lens (Lens', lens)
 import GHC.Generics
 import Prettyprinter (Pretty (..))
@@ -8,7 +11,8 @@ import Prettyprinter (Pretty (..))
 -- Source Positions
 
 data AlexSourcePos = AlexSourcePos {_line :: !Int, _col :: !Int}
-  deriving (Show, Read, Eq, Ord, Generic)
+  deriving stock (Show, Read, Eq, Ord, Generic)
+  deriving anyclass (NFData)
 
 col :: Lens' AlexSourcePos Int
 col = lens _col (\pos col' -> pos {_col = col'})
@@ -23,7 +27,8 @@ alexStartPos = AlexSourcePos 1 1
 -- Spans
 
 data Span = Span {_start :: AlexSourcePos, _end :: AlexSourcePos}
-  deriving (Show, Read, Eq, Ord, Generic)
+  deriving stock (Show, Read, Eq, Ord, Generic)
+  deriving anyclass (NFData)
 
 instance Semigroup Span where
   (Span s1 e1) <> (Span s2 e2) = Span (min s1 s2) (max e1 e2)
@@ -39,7 +44,8 @@ end = lens _end (\pos end' -> pos {_end = end'})
 
 -- | The produce of @a@ and a 'Span' representing 'a's source position.
 data Loc a = Loc {_span :: Span, unLoc :: a}
-  deriving (Show, Eq, Ord, Functor, Generic)
+  deriving stock (Show, Eq, Ord, Functor, Generic)
+  deriving anyclass (NFData)
 
 instance Semigroup a => Semigroup (Loc a) where
   Loc s1 a1 <> Loc s2 a2 = Loc (s1 <> s2) (a1 <> a2)

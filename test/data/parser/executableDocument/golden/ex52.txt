@@ -1,0 +1,75 @@
+[ ExecDef
+    ( OpDef
+        ( OperationDefinition
+            { opType = Query
+            , opName = Nothing
+            , opVariables = Nothing
+            , opDirectives = []
+            , opSelectionSet = Left
+                ( Left
+                    ( Field
+                        { fieldAlias = Nothing
+                        , fieldName = "foo"
+                        , fieldArguments = fromList []
+                        , fieldDirectives = []
+                        , fieldSelectionSet = Nothing
+                        }
+                    )
+                ) :|
+                [ Left
+                    ( Right
+                        ( FragmentSpread
+                            { fsName = "Frag"
+                            , fsDirectives = []
+                            }
+                        )
+                    )
+                , Left
+                    ( Left
+                        ( Field
+                            { fieldAlias = Nothing
+                            , fieldName = "qux"
+                            , fieldArguments = fromList []
+                            , fieldDirectives = []
+                            , fieldSelectionSet = Nothing
+                            }
+                        )
+                    )
+                ]
+            }
+        )
+    )
+, ExecDef
+    ( FragDef
+        ( FragmentDefinition
+            { fragName = "Frag"
+            , fragTypeCondition = TypeCondition
+                { unTypeCondition = "Query" }
+            , fragDirectives = []
+            , fragSelectionSet = Left
+                ( Left
+                    ( Field
+                        { fieldAlias = Nothing
+                        , fieldName = "bar"
+                        , fieldArguments = fromList []
+                        , fieldDirectives = []
+                        , fieldSelectionSet = Nothing
+                        }
+                    )
+                ) :|
+                [ Left
+                    ( Left
+                        ( Field
+                            { fieldAlias = Nothing
+                            , fieldName = "baz"
+                            , fieldArguments = fromList []
+                            , fieldDirectives = []
+                            , fieldSelectionSet = Nothing
+                            }
+                        )
+                    )
+                ]
+            }
+        )
+    )
+]

@@ -1,0 +1,34 @@
+[ TypeSysDef
+    ( TypeDef
+        ( ETDef
+            ( EnumTypeDefinition
+                { enumDescription = Nothing
+                , enumName = "Direction"
+                , enumDirectives = []
+                , enumValues =
+                    [ EnumValueDefinition
+                        { evDescription = Nothing
+                        , evName = "NORTH"
+                        , evDirectives = []
+                        }
+                    , EnumValueDefinition
+                        { evDescription = Nothing
+                        , evName = "EAST"
+                        , evDirectives = []
+                        }
+                    , EnumValueDefinition
+                        { evDescription = Nothing
+                        , evName = "SOUTH"
+                        , evDirectives = []
+                        }
+                    , EnumValueDefinition
+                        { evDescription = Nothing
+                        , evName = "WEST"
+                        , evDirectives = []
+                        }
+                    ]
+                }
+            )
+        )
+    )
+]

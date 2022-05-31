@@ -1,0 +1,31 @@
+[ ExecDef
+    ( OpDef
+        ( OperationDefinition
+            { opType = Query
+            , opName = Nothing
+            , opVariables = Nothing
+            , opDirectives = []
+            , opSelectionSet = Left
+                ( Left
+                    ( Field
+                        { fieldAlias = Nothing
+                        , fieldName = "picture"
+                        , fieldArguments = fromList
+                            [
+                                ( "width"
+                                , VInt 200
+                                )
+                            ,
+                                ( "height"
+                                , VInt 100
+                                )
+                            ]
+                        , fieldDirectives = []
+                        , fieldSelectionSet = Nothing
+                        }
+                    )
+                ) :| []
+            }
+        )
+    )
+]

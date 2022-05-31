@@ -10,10 +10,12 @@ import Data.ByteString.Lazy qualified as BL
 import Data.Foldable (for_)
 import Data.Scientific (Scientific)
 import Data.Text qualified as T
+import Data.Text.Encoding qualified as TE
 import Data.Text.Lazy qualified as TL
 import Data.Text.Lazy.Encoding qualified as TEL
 import Data.Text.Lazy.IO qualified as TLIO
 import GraphQLParser
+import Prettyprinter (pretty)
 import System.Directory (listDirectory)
 import System.FilePath
 import Test.Hspec
@@ -28,6 +30,7 @@ import Text.Read (readEither)
 main :: IO ()
 main = hspec $ do
   parserSpec
+  prettySpec
 
 --------------------------------------------------------------------------------
 -- Parsing tests.
@@ -37,29 +40,22 @@ type ParserOf a = B.ByteString -> Either ParseError a
 -- | Parser tests.
 parserSpec :: Spec
 parserSpec = describe "Parser" $ do
-  parserGoldenSpec runParseGraphQL "test/data/executableDocument"
-  parserGoldenSpec runParseGraphQL "test/data/typeSystemDocument"
+  parserGoldenSpec runParseGraphQL "test/data/parser/executableDocument"
+  parserGoldenSpec runParseGraphQL "test/data/parser/typeSystemDocument"
 
 -- | 'Golden' parser tests for each of the files in the @examples@ subdirectory
 -- found in the project directory hard-coded into this function.
 parserGoldenSpec :: ParserOf GraphQLDocument -> FilePath -> Spec
 parserGoldenSpec runParse testPath = describe "Golden" $ do
-  (dirSuc, pathsSuc) <- runIO $ fetchGoldenFiles $ testPath </> "success"
-  --(dirFail, pathsFail) <- runIO $ fetchGoldenFiles $ testPath </> "failure"
+  (dirSuc, examplePaths) <- runIO $ fetchGoldenFiles testPath
 
   describe "Success" $
-    for_ pathsSuc $ \path -> do
-      let name = dropExtension $ takeFileName path
+    for_ examplePaths $ \path -> do
+      let name = takeBaseName path
       before (parseGraphQLSuccess runParse path) $
-        it ("parses " <> name) $
-          \(_, valueExt) -> goldenQuery dirSuc name valueExt
-
---describe "Failure" $
---  for_ pathsFail $ \path -> do
---    let name = dropExtension $ takeFileName path
---    before (parseGraphQLFailure path) $
---      it ("fails to parse " <> name) $
---        \parseError' -> goldenParseError dirFail name parseError'
+        after (writePrettyExample path . snd) $
+          it ("parses " <> name) $
+            \(_, valueExt) -> goldenQuery dirSuc name valueExt
 
 -- | Parse a template file that is expected to succeed; parse failures are
 -- rendered as 'String's and thrown in 'IO'.
@@ -70,13 +66,40 @@ parseGraphQLSuccess runParse path = do
     Left err -> throwString $ "Unexpected parsing failure " <> show err
     Right gql -> pure (tmpl, gql)
 
--- | Parse a template file that is expected to fail.
--- parseGraphQLFailure :: FilePath -> IO ParseError
--- parseGraphQLFailure path = do
---  tmpl <- BS.readFile path
---  case runParseExecutable tmpl of
---    Left err -> pure err
---    Right gql -> throwString $ "Unexpected parsing success " <> show gql
+--------------------------------------------------------------------------------
+-- Pretty Printer Round Trip.
+
+-- | Parser tests.
+prettySpec :: Spec
+prettySpec = describe "Pretty Printer" $ do
+  prettyGoldenSpec "test/data/printer"
+
+-- | 'Golden' parser tests for each of the files in the @examples@ subdirectory
+-- found in the project directory hard-coded into this function.
+prettyGoldenSpec :: FilePath -> Spec
+prettyGoldenSpec testPath = describe "Golden" $ do
+  (dirSuc, examplePaths) <- runIO $ fetchGoldenFiles $ testPath
+
+  describe "Success" $
+    for_ examplePaths $ \path -> do
+      let name = takeFileName path
+      before (readPrettyExample path) $
+        it ("pretty prints " <> name) $
+          \valueExt -> do
+            let prettyTerm = TE.encodeUtf8 $ renderPretty valueExt
+            runParseGraphQL prettyTerm `shouldBe` Right valueExt
+
+-- | Write serialized haskell terms to printer example folder for
+-- pretty printer round trip.
+writePrettyExample :: FilePath -> GraphQLDocument -> IO ()
+writePrettyExample path =
+  let newPath = "test/data/printer/examples" </> takeBaseName path
+   in BS.writeFile newPath . BL.toStrict . TEL.encodeUtf8 . pShowNoColor
+
+readPrettyExample :: FilePath -> IO GraphQLDocument
+readPrettyExample path = do
+  eVal <- readEither . TL.unpack <$> TLIO.readFile path
+  either throwString pure eVal
 
 --------------------------------------------------------------------------------
 -- Golden test construction functions.

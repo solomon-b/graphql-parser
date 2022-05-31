@@ -1,0 +1,42 @@
+[ ExecDef
+    ( OpDef
+        ( OperationDefinition
+            { opType = Query
+            , opName = Just "myQuery"
+            , opVariables = Just
+                ( VariableDefinition
+                    { varName = "someTest"
+                    , varType = NonNullType
+                        ( NamedType "Boolean" )
+                    , varDefaultValue = Nothing
+                    , varDirectives = []
+                    } :| []
+                )
+            , opDirectives = []
+            , opSelectionSet = Left
+                ( Left
+                    ( Field
+                        { fieldAlias = Nothing
+                        , fieldName = "experimentalField"
+                        , fieldArguments = fromList []
+                        , fieldDirectives =
+                            [ Directive
+                                { dName = "include"
+                                , dArguments = Just
+                                    ( fromList
+                                        [
+                                            ( "if"
+                                            , VVar "someTest"
+                                            )
+                                        ]
+                                    )
+                                }
+                            ]
+                        , fieldSelectionSet = Nothing
+                        }
+                    )
+                ) :| []
+            }
+        )
+    )
+]

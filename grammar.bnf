@@ -1,9 +1,9 @@
 %right LOW
-%right '{' '"' '"""'
+%right '$' '{' '"' '"""'
 
 graphqlDocument
-  : executableOrTypeSystemDefiniton
-  | executableOrTypeSystemDefiniton graphqlDocument
+  : graphqlDefinition
+  | graphqlDefinition graphqlDocument
 
 executableOrTypeSystemDefiniton
   : executableDefinition
@@ -17,17 +17,24 @@ typeSystemDocument
   : typeSystemDefinition
   | typeSystemDefinition typeSystemDocument
 
+graphqlDefinition
+  : typeSystemDefinition
+  | executableDefinition
+
 typeSystemDefinition
   : schemaDefinition
   | typeDefinition
   | directiveDefinition
 
 schemaDefinition
-  : description 'schema' directives '{' rootOperationTypeDefinitions '}'
+  : description 'schema' directives '{' rootOperationTypesDefinition '}'
 
-rootOperationTypeDefinitions
+rootOperationTypesDefinition
+  : rootOperationTypesDefinition_
+
+rootOperationTypesDefinition_
   : rootOperationTypeDefinition
-  | rootOperationTypeDefinition rootOperationTypeDefinitions
+  | rootOperationTypeDefinition rootOperationTypesDefinition_
 
 rootOperationTypeDefinition
   : operationType ':' name
@@ -55,10 +62,12 @@ implementsInterfaces
 
 implementsInterfaces_
   : name
+  | '&' name
   | implementsInterfaces_ '&' name
 
 fieldsDefinition
   : '{' fieldDefinitions '}'
+  | {- empty -} %prec LOW
 
 fieldDefinitions
   : fieldDefinition
@@ -89,8 +98,8 @@ inputObjectTypeDefinition
   : description 'input' name directives inputFieldsDefinition
 
 directiveDefinition
-  : description 'directive' dir argumentsDefinition optRepeatable 'on' directiveLocations
-  | description 'directive' dir argumentsDefinition optRepeatable 'on' '|' directiveLocations
+  : description 'directive' '@' dir argumentsDefinition optRepeatable 'on' directiveLocations
+  | description 'directive' '@' dir argumentsDefinition optRepeatable 'on' '|' directiveLocations
 
 directiveLocations
   : directiveLocation
@@ -186,7 +195,7 @@ optValue
 
 values
   : value
-  | value ',' values
+  | value values
 
 value
   : 'null'
@@ -213,7 +222,7 @@ vobject
 
 object
   : objectField
-  | objectField ',' object
+  | objectField object
 
 objectField
   : name ':' value
@@ -232,7 +241,7 @@ name
 
 arguments
   : argument
-  | arguments ',' argument
+  | arguments argument
 
 argument
   : name ':' value
@@ -243,7 +252,7 @@ variableDefinitions
 
 variableDefinitions_
   : variableDefinition
-  | variableDefinition ',' variableDefinitions
+  | variableDefinition variableDefinitions_
 
 variableDefinition
   : '$' name ':' type optValue directives
@@ -265,8 +274,8 @@ directives_
   | directive directives_
 
 directive
-  : dir
-  | dir '(' arguments ')'
+  : '@' dir
+  | '@' dir '(' arguments ')'
 
 description
   : stringValue

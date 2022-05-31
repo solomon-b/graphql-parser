@@ -1,0 +1,37 @@
+[ TypeSysDef
+    ( DirDef
+        ( DirectiveDefinition
+            { dirDefDescription = Nothing
+            , dirDefName = "example"
+            , dirDefArguments = []
+            , dirDefLocations = [ ExecDirLoc EDLFIELD ]
+            }
+        )
+    )
+, ExecDef
+    ( FragDef
+        ( FragmentDefinition
+            { fragName = "SomeFragment"
+            , fragTypeCondition = TypeCondition
+                { unTypeCondition = "SomeType" }
+            , fragDirectives = []
+            , fragSelectionSet = Left
+                ( Left
+                    ( Field
+                        { fieldAlias = Nothing
+                        , fieldName = "field"
+                        , fieldArguments = fromList []
+                        , fieldDirectives =
+                            [ Directive
+                                { dName = "example"
+                                , dArguments = Nothing
+                                }
+                            ]
+                        , fieldSelectionSet = Nothing
+                        }
+                    )
+                ) :| []
+            }
+        )
+    )
+]

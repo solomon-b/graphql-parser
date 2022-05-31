@@ -14,11 +14,11 @@ import Prettyprinter (Pretty (..))
 
 data Symbol
   = SymAmpersand
+  | SymAt
   | SymBang
   | SymBling
   | SymBlockQuote
   | SymColon
-  | SymComma
   | SymCurlyClose
   | SymCurlyOpen
   | SymDoubleQuote
@@ -35,11 +35,11 @@ data Symbol
 instance Pretty Symbol where
   pretty = \case
     SymAmpersand -> "&"
+    SymAt -> "@"
     SymBang -> "!"
     SymBling -> "$"
     SymBlockQuote -> "\"\"\""
     SymColon -> ":"
-    SymComma -> ","
     SymCurlyClose -> "}"
     SymCurlyOpen -> "{"
     SymDoubleQuote -> "\""

@@ -1,0 +1,37 @@
+[ TypeSysDef
+    ( TypeDef
+        ( OTDef
+            ( ObjectTypeDefinition
+                { objectDescription = Nothing
+                , objectName = "Person"
+                , objectInterfaces = Nothing
+                , objectDirectives = []
+                , objectFields = Just
+                    ( FieldDefinition
+                        { fieldDefDescription = Nothing
+                        , fieldDefName = "name"
+                        , fieldDefArgumentsDef = []
+                        , fieldDefType = NamedType "String"
+                        , fieldDefDirectives = []
+                        } :|
+                        [ FieldDefinition
+                            { fieldDefDescription = Nothing
+                            , fieldDefName = "age"
+                            , fieldDefArgumentsDef = []
+                            , fieldDefType = NamedType "Int"
+                            , fieldDefDirectives = []
+                            }
+                        , FieldDefinition
+                            { fieldDefDescription = Nothing
+                            , fieldDefName = "picture"
+                            , fieldDefArgumentsDef = []
+                            , fieldDefType = NamedType "Url"
+                            , fieldDefDirectives = []
+                            }
+                        ]
+                    )
+                }
+            )
+        )
+    )
+]

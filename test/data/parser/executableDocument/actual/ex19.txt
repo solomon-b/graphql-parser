@@ -1,0 +1,128 @@
+[ ExecDef
+    ( OpDef
+        ( OperationDefinition
+            { opType = Query
+            , opName = Just "withFragments"
+            , opVariables = Nothing
+            , opDirectives = []
+            , opSelectionSet = Left
+                ( Left
+                    ( Field
+                        { fieldAlias = Nothing
+                        , fieldName = "user"
+                        , fieldArguments = fromList
+                            [
+                                ( "id"
+                                , VInt 4
+                                )
+                            ]
+                        , fieldDirectives = []
+                        , fieldSelectionSet = Just
+                            ( Left
+                                ( Left
+                                    ( Field
+                                        { fieldAlias = Nothing
+                                        , fieldName = "friends"
+                                        , fieldArguments = fromList
+                                            [
+                                                ( "first"
+                                                , VInt 10
+                                                )
+                                            ]
+                                        , fieldDirectives = []
+                                        , fieldSelectionSet = Just
+                                            ( Left
+                                                ( Right
+                                                    ( FragmentSpread
+                                                        { fsName = "friendFields"
+                                                        , fsDirectives = []
+                                                        }
+                                                    )
+                                                ) :| []
+                                            )
+                                        }
+                                    )
+                                ) :|
+                                [ Left
+                                    ( Left
+                                        ( Field
+                                            { fieldAlias = Nothing
+                                            , fieldName = "mutualFriends"
+                                            , fieldArguments = fromList
+                                                [
+                                                    ( "first"
+                                                    , VInt 10
+                                                    )
+                                                ]
+                                            , fieldDirectives = []
+                                            , fieldSelectionSet = Just
+                                                ( Left
+                                                    ( Right
+                                                        ( FragmentSpread
+                                                            { fsName = "friendFields"
+                                                            , fsDirectives = []
+                                                            }
+                                                        )
+                                                    ) :| []
+                                                )
+                                            }
+                                        )
+                                    )
+                                ]
+                            )
+                        }
+                    )
+                ) :| []
+            }
+        )
+    )
+, ExecDef
+    ( FragDef
+        ( FragmentDefinition
+            { fragName = "friendFields"
+            , fragTypeCondition = TypeCondition
+                { unTypeCondition = "User" }
+            , fragDirectives = []
+            , fragSelectionSet = Left
+                ( Left
+                    ( Field
+                        { fieldAlias = Nothing
+                        , fieldName = "id"
+                        , fieldArguments = fromList []
+                        , fieldDirectives = []
+                        , fieldSelectionSet = Nothing
+                        }
+                    )
+                ) :|
+                [ Left
+                    ( Left
+                        ( Field
+                            { fieldAlias = Nothing
+                            , fieldName = "name"
+                            , fieldArguments = fromList []
+                            , fieldDirectives = []
+                            , fieldSelectionSet = Nothing
+                            }
+                        )
+                    )
+                , Left
+                    ( Left
+                        ( Field
+                            { fieldAlias = Nothing
+                            , fieldName = "profilePic"
+                            , fieldArguments = fromList
+                                [
+                                    ( "size"
+                                    , VInt 50
+                                    )
+                                ]
+                            , fieldDirectives = []
+                            , fieldSelectionSet = Nothing
+                            }
+                        )
+                    )
+                ]
+            }
+        )
+    )
+]

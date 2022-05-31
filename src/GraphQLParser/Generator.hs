@@ -90,7 +90,7 @@ generate = Gen.sample
 
 genDocument :: Gen GraphQLDocument
 genDocument =
-  Document <$> Gen.list (Range.linear 0 3) (Gen.choice [Left <$> genExecutableDefinition, Right . Left <$> genTypeSystemDefinition])
+  Document <$> Gen.list (Range.linear 0 3) (Gen.choice [ExecDef <$> genExecutableDefinition, TypeSysDef <$> genTypeSystemDefinition])
 
 genExecutableDocument :: Gen ExecutableDocument
 genExecutableDocument =
@@ -215,8 +215,8 @@ genIndentation = do
 genExecutableDefinition :: Gen ExecutableDefinition
 genExecutableDefinition =
   Gen.choice
-    [ Left <$> genOperationDefinition,
-      Right <$> genFragmentDefinition
+    [ OpDef <$> genOperationDefinition,
+      FragDef <$> genFragmentDefinition
     ]
 
 genOperationDefinition :: Gen OperationDefinition
@@ -224,9 +224,13 @@ genOperationDefinition =
   OperationDefinition
     <$> genOperationType
     <*> Gen.maybe genName
-    <*> mkList genVariableDefinition
+    <*> Gen.maybe genVariablesDefinition
     <*> genDirectives
     <*> genSelectionSet
+
+genVariablesDefinition :: Gen VariablesDefinition
+genVariablesDefinition =
+  fmap VariablesDefinition (mkListNonEmpty genVariableDefinition)
 
 genVariableDefinition :: Gen VariableDefinition
 genVariableDefinition =
@@ -247,9 +251,9 @@ genFragmentDefinition =
 genTypeSystemDefinition :: Gen TypeSystemDefinition
 genTypeSystemDefinition =
   Gen.choice
-    [ Left . Left <$> genSchemaDefinition,
-      Left . Right <$> genTypeDefinition,
-      Right <$> genDirectiveDefinition
+    [ SchemaDef <$> genSchemaDefinition,
+      TypeDef <$> genTypeDefinition,
+      DirDef <$> genDirectiveDefinition
     ]
 
 genSchemaDefinition :: Gen SchemaDefinition
@@ -257,7 +261,7 @@ genSchemaDefinition =
   SchemaDefinition
     <$> Gen.maybe genDescription
     <*> genDirectives
-    <*> mkList genRootOperationTypeDefinition
+    <*> fmap RootOperationTypesDefinition (mkListNonEmpty genRootOperationTypeDefinition)
 
 genRootOperationTypeDefinition :: Gen RootOperationTypeDefinition
 genRootOperationTypeDefinition =
@@ -276,12 +280,12 @@ genOperationType =
 genTypeDefinition :: Gen TypeDefinition
 genTypeDefinition =
   Gen.choice
-    [ Left . Left . Left . Left . Left <$> genScalarTypeDefinition,
-      Left . Left . Left . Left . Right <$> genObjectTypeDefinition,
-      Left . Left . Left . Right <$> genInterfaceTypeDefinition,
-      Left . Left . Right <$> genUnionTypeDefinition,
-      Left . Right <$> genEnumTypeDefinition,
-      Right <$> genInputObjectTypeDefinition
+    [ STDef <$> genScalarTypeDefinition,
+      OTDef <$> genObjectTypeDefinition,
+      ITDef <$> genInterfaceTypeDefinition,
+      UTDef <$> genUnionTypeDefinition,
+      ETDef <$> genEnumTypeDefinition,
+      IOTDef <$> genInputObjectTypeDefinition
     ]
 
 genScalarTypeDefinition :: Gen ScalarTypeDefinition
@@ -296,18 +300,18 @@ genObjectTypeDefinition =
   ObjectTypeDefinition
     <$> Gen.maybe genDescription
     <*> genName
-    <*> mkList genName
+    <*> Gen.maybe genImplementsInterfaces
     <*> genDirectives
-    <*> genFieldDefinitions
+    <*> Gen.maybe genFieldDefinitions
 
 genInterfaceTypeDefinition :: Gen InterfaceTypeDefinition
 genInterfaceTypeDefinition =
   InterfaceTypeDefinition
     <$> Gen.maybe genDescription
     <*> genName
-    <*> mkList genName
+    <*> Gen.maybe genImplementsInterfaces
     <*> genDirectives
-    <*> genFieldDefinitions
+    <*> Gen.maybe genFieldDefinitions
 
 genUnionTypeDefinition :: Gen UnionTypeDefinition
 genUnionTypeDefinition =
@@ -349,6 +353,10 @@ genEnumValueDefinition =
     <*> genName
     <*> genDirectives
 
+genImplementsInterfaces :: Gen ImplementsInterfaces
+genImplementsInterfaces =
+  ImplementsInterfaces <$> mkListNonEmpty genName
+
 genFieldDefinition :: Gen FieldDefinition
 genFieldDefinition =
   FieldDefinition
@@ -358,8 +366,8 @@ genFieldDefinition =
     <*> genType
     <*> genDirectives
 
-genFieldDefinitions :: Gen [FieldDefinition]
-genFieldDefinitions = mkList genFieldDefinition
+genFieldDefinitions :: Gen FieldsDefinition
+genFieldDefinitions = FieldsDefinition <$> mkListNonEmpty genFieldDefinition
 
 genDirectiveDefinition :: Gen DirectiveDefinition
 genDirectiveDefinition =
@@ -378,8 +386,8 @@ genArgumentsDefinition = ArgumentsDefinition <$> Gen.list (Range.linear 1 10) ge
 genDirectiveLocation :: Gen DirectiveLocation
 genDirectiveLocation =
   Gen.choice
-    [ Left <$> genExecutableDirectiveLocation,
-      Right <$> genTypeSystemDirectiveLocation
+    [ ExecDirLoc <$> genExecutableDirectiveLocation,
+      TypeSysDirLoc <$> genTypeSystemDirectiveLocation
     ]
 
 genExecutableDirectiveLocation :: Gen ExecutableDirectiveLocation
@@ -411,7 +419,6 @@ genTypeSystemDirectiveLocation =
     ]
 
 -------------------------------------------------------------------------------
-
 -- Structure
 
 genSelectionSet :: Gen SelectionSet

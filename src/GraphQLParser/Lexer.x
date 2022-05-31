@@ -18,6 +18,7 @@ tokens :-
 
 -- Whitespace insensitive
 <0> $white+                             ;
+<0> \,                                  ;
 
 -- Comments
 <0> "#".*                               ;
@@ -32,7 +33,6 @@ tokens :-
 <0> \[                                  { symbol SymSquareOpen }
 <0> \]                                  { symbol SymSquareClose }
 <0> \:                                  { symbol SymColon }
-<0> \,                                  { symbol SymComma }
 <0> \.\.\.                              { symbol SymSpread }
 <0> \$                                  { symbol SymBling }
 <0> \!                                  { symbol SymBang }
@@ -61,7 +61,8 @@ tokens :-
 <blockString> \" \" \"                  { \b -> (popStartCode *> symbol SymBlockQuote b) }
 
 -- Directive Name
-<0> \@ ([ $alpha $digit \_ \- ]*) { token TokDirective }
+<0> \@                                  { \b -> pushStartCode directive *> symbol SymAt b }
+<directive> ([ $alpha $digit \_ \- ]*)  { \b -> (popStartCode *> token TokDirective b) }
 
 {
 

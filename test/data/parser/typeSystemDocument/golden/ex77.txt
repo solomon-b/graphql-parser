@@ -1,0 +1,16 @@
+[ TypeSysDef
+    ( TypeDef
+        ( UTDef
+            ( UnionTypeDefinition
+                { unionDescription = Nothing
+                , unionName = "SearchResult"
+                , unionDirectives = []
+                , unionMemberTypes =
+                    [ "Photo"
+                    , "Person"
+                    ]
+                }
+            )
+        )
+    )
+]

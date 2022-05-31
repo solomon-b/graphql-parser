@@ -1,0 +1,15 @@
+[ TypeSysDef
+    ( DirDef
+        ( DirectiveDefinition
+            { dirDefDescription = Nothing
+            , dirDefName = "example"
+            , dirDefArguments = []
+            , dirDefLocations =
+                [ ExecDirLoc EDLFIELD
+                , ExecDirLoc EDLFRAGMENT_SPREAD
+                , ExecDirLoc EDLINLINE_FRAGMENT
+                ]
+            }
+        )
+    )
+]

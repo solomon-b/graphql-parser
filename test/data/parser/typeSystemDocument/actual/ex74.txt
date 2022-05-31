@@ -1,0 +1,95 @@
+[ TypeSysDef
+    ( TypeDef
+        ( UTDef
+            ( UnionTypeDefinition
+                { unionDescription = Nothing
+                , unionName = "SearchResult"
+                , unionDirectives = []
+                , unionMemberTypes =
+                    [ "Photo"
+                    , "Person"
+                    ]
+                }
+            )
+        )
+    )
+, TypeSysDef
+    ( TypeDef
+        ( OTDef
+            ( ObjectTypeDefinition
+                { objectDescription = Nothing
+                , objectName = "Person"
+                , objectInterfaces = Nothing
+                , objectDirectives = []
+                , objectFields = Just
+                    ( FieldDefinition
+                        { fieldDefDescription = Nothing
+                        , fieldDefName = "name"
+                        , fieldDefArgumentsDef = []
+                        , fieldDefType = NamedType "String"
+                        , fieldDefDirectives = []
+                        } :|
+                        [ FieldDefinition
+                            { fieldDefDescription = Nothing
+                            , fieldDefName = "age"
+                            , fieldDefArgumentsDef = []
+                            , fieldDefType = NamedType "Int"
+                            , fieldDefDirectives = []
+                            }
+                        ]
+                    )
+                }
+            )
+        )
+    )
+, TypeSysDef
+    ( TypeDef
+        ( OTDef
+            ( ObjectTypeDefinition
+                { objectDescription = Nothing
+                , objectName = "Photo"
+                , objectInterfaces = Nothing
+                , objectDirectives = []
+                , objectFields = Just
+                    ( FieldDefinition
+                        { fieldDefDescription = Nothing
+                        , fieldDefName = "height"
+                        , fieldDefArgumentsDef = []
+                        , fieldDefType = NamedType "Int"
+                        , fieldDefDirectives = []
+                        } :|
+                        [ FieldDefinition
+                            { fieldDefDescription = Nothing
+                            , fieldDefName = "width"
+                            , fieldDefArgumentsDef = []
+                            , fieldDefType = NamedType "Int"
+                            , fieldDefDirectives = []
+                            }
+                        ]
+                    )
+                }
+            )
+        )
+    )
+, TypeSysDef
+    ( TypeDef
+        ( OTDef
+            ( ObjectTypeDefinition
+                { objectDescription = Nothing
+                , objectName = "SearchQuery"
+                , objectInterfaces = Nothing
+                , objectDirectives = []
+                , objectFields = Just
+                    ( FieldDefinition
+                        { fieldDefDescription = Nothing
+                        , fieldDefName = "firstSearchResult"
+                        , fieldDefArgumentsDef = []
+                        , fieldDefType = NamedType "SearchResult"
+                        , fieldDefDirectives = []
+                        } :| []
+                    )
+                }
+            )
+        )
+    )
+]

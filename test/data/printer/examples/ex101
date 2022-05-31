@@ -1,0 +1,355 @@
+[ TypeSysDef
+    ( TypeDef
+        ( OTDef
+            ( ObjectTypeDefinition
+                { objectDescription = Nothing
+                , objectName = "Query"
+                , objectInterfaces = Nothing
+                , objectDirectives = []
+                , objectFields = Just
+                    ( FieldDefinition
+                        { fieldDefDescription = Nothing
+                        , fieldDefName = "dog"
+                        , fieldDefArgumentsDef = []
+                        , fieldDefType = NamedType "Dog"
+                        , fieldDefDirectives = []
+                        } :| []
+                    )
+                }
+            )
+        )
+    )
+, TypeSysDef
+    ( TypeDef
+        ( ETDef
+            ( EnumTypeDefinition
+                { enumDescription = Nothing
+                , enumName = "DogCommand"
+                , enumDirectives = []
+                , enumValues =
+                    [ EnumValueDefinition
+                        { evDescription = Nothing
+                        , evName = "SIT"
+                        , evDirectives = []
+                        }
+                    , EnumValueDefinition
+                        { evDescription = Nothing
+                        , evName = "DOWN"
+                        , evDirectives = []
+                        }
+                    , EnumValueDefinition
+                        { evDescription = Nothing
+                        , evName = "HEEL"
+                        , evDirectives = []
+                        }
+                    ]
+                }
+            )
+        )
+    )
+, TypeSysDef
+    ( TypeDef
+        ( OTDef
+            ( ObjectTypeDefinition
+                { objectDescription = Nothing
+                , objectName = "Dog"
+                , objectInterfaces = Just
+                    ( "Pet" :| [] )
+                , objectDirectives = []
+                , objectFields = Just
+                    ( FieldDefinition
+                        { fieldDefDescription = Nothing
+                        , fieldDefName = "name"
+                        , fieldDefArgumentsDef = []
+                        , fieldDefType = NonNullType
+                            ( NamedType "String" )
+                        , fieldDefDirectives = []
+                        } :|
+                        [ FieldDefinition
+                            { fieldDefDescription = Nothing
+                            , fieldDefName = "nickname"
+                            , fieldDefArgumentsDef = []
+                            , fieldDefType = NamedType "String"
+                            , fieldDefDirectives = []
+                            }
+                        , FieldDefinition
+                            { fieldDefDescription = Nothing
+                            , fieldDefName = "barkVolume"
+                            , fieldDefArgumentsDef = []
+                            , fieldDefType = NamedType "Int"
+                            , fieldDefDirectives = []
+                            }
+                        , FieldDefinition
+                            { fieldDefDescription = Nothing
+                            , fieldDefName = "doesKnowCommand"
+                            , fieldDefArgumentsDef =
+                                [ InputValueDefinition
+                                    { inputValueDescription = Nothing
+                                    , inputValueName = "dogCommand"
+                                    , inputValueType = NonNullType
+                                        ( NamedType "DogCommand" )
+                                    , inputValueDefault = Nothing
+                                    , inputValueDirectives = []
+                                    }
+                                ]
+                            , fieldDefType = NonNullType
+                                ( NamedType "Boolean" )
+                            , fieldDefDirectives = []
+                            }
+                        , FieldDefinition
+                            { fieldDefDescription = Nothing
+                            , fieldDefName = "isHouseTrained"
+                            , fieldDefArgumentsDef =
+                                [ InputValueDefinition
+                                    { inputValueDescription = Nothing
+                                    , inputValueName = "atOtherHomes"
+                                    , inputValueType = NamedType "Boolean"
+                                    , inputValueDefault = Nothing
+                                    , inputValueDirectives = []
+                                    }
+                                ]
+                            , fieldDefType = NonNullType
+                                ( NamedType "Boolean" )
+                            , fieldDefDirectives = []
+                            }
+                        , FieldDefinition
+                            { fieldDefDescription = Nothing
+                            , fieldDefName = "owner"
+                            , fieldDefArgumentsDef = []
+                            , fieldDefType = NamedType "Human"
+                            , fieldDefDirectives = []
+                            }
+                        ]
+                    )
+                }
+            )
+        )
+    )
+, TypeSysDef
+    ( TypeDef
+        ( ITDef
+            ( InterfaceTypeDefinition
+                { interfaceDescription = Nothing
+                , interfaceName = "Sentient"
+                , interfaceInterfaces = Nothing
+                , interfaceDirectives = []
+                , interfaceFields = Just
+                    ( FieldDefinition
+                        { fieldDefDescription = Nothing
+                        , fieldDefName = "name"
+                        , fieldDefArgumentsDef = []
+                        , fieldDefType = NonNullType
+                            ( NamedType "String" )
+                        , fieldDefDirectives = []
+                        } :| []
+                    )
+                }
+            )
+        )
+    )
+, TypeSysDef
+    ( TypeDef
+        ( ITDef
+            ( InterfaceTypeDefinition
+                { interfaceDescription = Nothing
+                , interfaceName = "Pet"
+                , interfaceInterfaces = Nothing
+                , interfaceDirectives = []
+                , interfaceFields = Just
+                    ( FieldDefinition
+                        { fieldDefDescription = Nothing
+                        , fieldDefName = "name"
+                        , fieldDefArgumentsDef = []
+                        , fieldDefType = NonNullType
+                            ( NamedType "String" )
+                        , fieldDefDirectives = []
+                        } :| []
+                    )
+                }
+            )
+        )
+    )
+, TypeSysDef
+    ( TypeDef
+        ( OTDef
+            ( ObjectTypeDefinition
+                { objectDescription = Nothing
+                , objectName = "Alien"
+                , objectInterfaces = Just
+                    ( "Sentient" :| [] )
+                , objectDirectives = []
+                , objectFields = Just
+                    ( FieldDefinition
+                        { fieldDefDescription = Nothing
+                        , fieldDefName = "name"
+                        , fieldDefArgumentsDef = []
+                        , fieldDefType = NonNullType
+                            ( NamedType "String" )
+                        , fieldDefDirectives = []
+                        } :|
+                        [ FieldDefinition
+                            { fieldDefDescription = Nothing
+                            , fieldDefName = "homePlanet"
+                            , fieldDefArgumentsDef = []
+                            , fieldDefType = NamedType "String"
+                            , fieldDefDirectives = []
+                            }
+                        ]
+                    )
+                }
+            )
+        )
+    )
+, TypeSysDef
+    ( TypeDef
+        ( OTDef
+            ( ObjectTypeDefinition
+                { objectDescription = Nothing
+                , objectName = "Human"
+                , objectInterfaces = Just
+                    ( "Sentient" :| [] )
+                , objectDirectives = []
+                , objectFields = Just
+                    ( FieldDefinition
+                        { fieldDefDescription = Nothing
+                        , fieldDefName = "name"
+                        , fieldDefArgumentsDef = []
+                        , fieldDefType = NonNullType
+                            ( NamedType "String" )
+                        , fieldDefDirectives = []
+                        } :|
+                        [ FieldDefinition
+                            { fieldDefDescription = Nothing
+                            , fieldDefName = "pets"
+                            , fieldDefArgumentsDef = []
+                            , fieldDefType = ListType
+                                ( NonNullType
+                                    ( NamedType "Pet" )
+                                )
+                            , fieldDefDirectives = []
+                            }
+                        ]
+                    )
+                }
+            )
+        )
+    )
+, TypeSysDef
+    ( TypeDef
+        ( ETDef
+            ( EnumTypeDefinition
+                { enumDescription = Nothing
+                , enumName = "CatCommand"
+                , enumDirectives = []
+                , enumValues =
+                    [ EnumValueDefinition
+                        { evDescription = Nothing
+                        , evName = "JUMP"
+                        , evDirectives = []
+                        }
+                    ]
+                }
+            )
+        )
+    )
+, TypeSysDef
+    ( TypeDef
+        ( OTDef
+            ( ObjectTypeDefinition
+                { objectDescription = Nothing
+                , objectName = "Cat"
+                , objectInterfaces = Just
+                    ( "Pet" :| [] )
+                , objectDirectives = []
+                , objectFields = Just
+                    ( FieldDefinition
+                        { fieldDefDescription = Nothing
+                        , fieldDefName = "name"
+                        , fieldDefArgumentsDef = []
+                        , fieldDefType = NonNullType
+                            ( NamedType "String" )
+                        , fieldDefDirectives = []
+                        } :|
+                        [ FieldDefinition
+                            { fieldDefDescription = Nothing
+                            , fieldDefName = "nickname"
+                            , fieldDefArgumentsDef = []
+                            , fieldDefType = NamedType "String"
+                            , fieldDefDirectives = []
+                            }
+                        , FieldDefinition
+                            { fieldDefDescription = Nothing
+                            , fieldDefName = "doesKnowCommand"
+                            , fieldDefArgumentsDef =
+                                [ InputValueDefinition
+                                    { inputValueDescription = Nothing
+                                    , inputValueName = "catCommand"
+                                    , inputValueType = NonNullType
+                                        ( NamedType "CatCommand" )
+                                    , inputValueDefault = Nothing
+                                    , inputValueDirectives = []
+                                    }
+                                ]
+                            , fieldDefType = NonNullType
+                                ( NamedType "Boolean" )
+                            , fieldDefDirectives = []
+                            }
+                        , FieldDefinition
+                            { fieldDefDescription = Nothing
+                            , fieldDefName = "meowVolume"
+                            , fieldDefArgumentsDef = []
+                            , fieldDefType = NamedType "Int"
+                            , fieldDefDirectives = []
+                            }
+                        ]
+                    )
+                }
+            )
+        )
+    )
+, TypeSysDef
+    ( TypeDef
+        ( UTDef
+            ( UnionTypeDefinition
+                { unionDescription = Nothing
+                , unionName = "CatOrDog"
+                , unionDirectives = []
+                , unionMemberTypes =
+                    [ "Cat"
+                    , "Dog"
+                    ]
+                }
+            )
+        )
+    )
+, TypeSysDef
+    ( TypeDef
+        ( UTDef
+            ( UnionTypeDefinition
+                { unionDescription = Nothing
+                , unionName = "DogOrHuman"
+                , unionDirectives = []
+                , unionMemberTypes =
+                    [ "Dog"
+                    , "Human"
+                    ]
+                }
+            )
+        )
+    )
+, TypeSysDef
+    ( TypeDef
+        ( UTDef
+            ( UnionTypeDefinition
+                { unionDescription = Nothing
+                , unionName = "HumanOrAlien"
+                , unionDirectives = []
+                , unionMemberTypes =
+                    [ "Human"
+                    , "Alien"
+                    ]
+                }
+            )
+        )
+    )
+]

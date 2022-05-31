@@ -1,0 +1,47 @@
+[ TypeSysDef
+    ( TypeDef
+        ( STDef
+            ( ScalarTypeDefinition
+                { scalarDescription = Nothing
+                , scalarName = "UUID"
+                , scalarDirectives =
+                    [ Directive
+                        { dName = "specifiedBy"
+                        , dArguments = Just
+                            ( fromList
+                                [
+                                    ( "url"
+                                    , VString "https://tools.ietf.org/html/rfc4122"
+                                    )
+                                ]
+                            )
+                        }
+                    ]
+                }
+            )
+        )
+    )
+, TypeSysDef
+    ( TypeDef
+        ( STDef
+            ( ScalarTypeDefinition
+                { scalarDescription = Nothing
+                , scalarName = "URL"
+                , scalarDirectives =
+                    [ Directive
+                        { dName = "specifiedBy"
+                        , dArguments = Just
+                            ( fromList
+                                [
+                                    ( "url"
+                                    , VString "https://tools.ietf.org/html/rfc3986"
+                                    )
+                                ]
+                            )
+                        }
+                    ]
+                }
+            )
+        )
+    )
+]

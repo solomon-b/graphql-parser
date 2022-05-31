@@ -1,0 +1,72 @@
+[ ExecDef
+    ( OpDef
+        ( OperationDefinition
+            { opType = Query
+            , opName = Nothing
+            , opVariables = Nothing
+            , opDirectives = []
+            , opSelectionSet = Left
+                ( Left
+                    ( Field
+                        { fieldAlias = Nothing
+                        , fieldName = "me"
+                        , fieldArguments = fromList []
+                        , fieldDirectives = []
+                        , fieldSelectionSet = Just
+                            ( Left
+                                ( Left
+                                    ( Field
+                                        { fieldAlias = Nothing
+                                        , fieldName = "name"
+                                        , fieldArguments = fromList []
+                                        , fieldDirectives = []
+                                        , fieldSelectionSet = Nothing
+                                        }
+                                    )
+                                ) :| []
+                            )
+                        }
+                    )
+                ) :| []
+            }
+        )
+    )
+, ExecDef
+    ( OpDef
+        ( OperationDefinition
+            { opType = Query
+            , opName = Nothing
+            , opVariables = Nothing
+            , opDirectives = []
+            , opSelectionSet = Left
+                ( Left
+                    ( Field
+                        { fieldAlias = Nothing
+                        , fieldName = "user"
+                        , fieldArguments = fromList
+                            [
+                                ( "id"
+                                , VInt 4
+                                )
+                            ]
+                        , fieldDirectives = []
+                        , fieldSelectionSet = Just
+                            ( Left
+                                ( Left
+                                    ( Field
+                                        { fieldAlias = Nothing
+                                        , fieldName = "name"
+                                        , fieldArguments = fromList []
+                                        , fieldDirectives = []
+                                        , fieldSelectionSet = Nothing
+                                        }
+                                    )
+                                ) :| []
+                            )
+                        }
+                    )
+                ) :| []
+            }
+        )
+    )
+]

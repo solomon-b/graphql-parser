@@ -1,5 +1,4 @@
 {
-
   description = "Graphql Parser";
 
   inputs = {

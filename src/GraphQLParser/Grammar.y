@@ -26,7 +26,7 @@ import GraphQLParser.Syntax
 %error { failure }
 
 %right LOW
-%right '{' '"' '"""'
+%right '$' '{' '"' '"""'
 
 %token
 
@@ -74,11 +74,11 @@ import GraphQLParser.Syntax
 'INPUT_FIELD_DEFINITION' { TokIdentifier (Loc $$ "INPUT_FIELD_DEFINITION") }
 
 -- Symbols
+'@'            { TokSymbol (Loc $$ SymAt) }
 '$'            { TokSymbol (Loc $$ SymBling) }
 '&'            { TokSymbol (Loc $$ SymAmpersand) }
 '!'            { TokSymbol (Loc $$ SymBang) }
 '"'            { TokSymbol (Loc $$ SymDoubleQuote) }
-','            { TokSymbol (Loc $$ SymComma) }
 ':'            { TokSymbol (Loc $$ SymColon) }
 '='            { TokSymbol (Loc $$ SymEq) }
 '|'            { TokSymbol (Loc $$ SymPipe) }
@@ -106,13 +106,13 @@ dir            { TokDirective $$ }
 
 graphqlDocument :: { GraphQLDocument }
 graphqlDocument
-  : executableOrTypeSystemDefiniton { Document (pure $1) }
-  | executableOrTypeSystemDefiniton graphqlDocument { coerce ($1 : coerce @_ @[Either ExecutableDefinition TypeSystemDefinitionOrExtension] $2)}
+  : graphqlDefinition { Document (pure $1) }
+  | graphqlDefinition graphqlDocument { coerce ($1 : coerce @_ @[GraphQLDefinition] $2)}
 
 executableOrTypeSystemDefiniton :: { Either ExecutableDefinition TypeSystemDefinitionOrExtension }
 executableOrTypeSystemDefiniton
   : executableDefinition { Left $1 }
-  | typeSystemDefinition { Right (Left $1) }
+  | typeSystemDefinition { Right (TyDefinition $1) }
 
 executableDocument :: { ExecutableDocument }
 executabledocument
@@ -121,8 +121,15 @@ executabledocument
 
 typeSystemDocument :: { TypeSystemDocument }
 typesystemdocument
-  : typeSystemDefinition { Document (pure $ Left $1) }
-  | typeSystemDefinition typeSystemDocument { coerce (Left $1 : coerce @_ @[TypeSystemDefinitionOrExtension] $2) }
+  : typeSystemDefinition { Document (pure $ TyDefinition $1) }
+  | typeSystemDefinition typeSystemDocument { coerce (TyDefinition $1 : coerce @_ @[TypeSystemDefinitionOrExtension] $2) }
+
+--------------------------------------------------------------------------------
+
+graphqlDefinition :: { GraphQLDefinition }
+graphqldefinition
+  : typeSystemDefinition { TypeSysDef $1 }
+  | executableDefinition { ExecDef $1 }
 
 --------------------------------------------------------------------------------
 
@@ -131,9 +138,9 @@ typesystemdocument
 
 typeSystemDefinition :: { TypeSystemDefinition }
 typeSystemDefinition
-  : schemaDefinition { Left $ Left $1 }
-  | typeDefinition { Left $ Right $1 }
-  | directiveDefinition { Right $1 }
+  : schemaDefinition { SchemaDef $1 }
+  | typeDefinition { TypeDef $1 }
+  | directiveDefinition { DirDef $1 }
 
 -- TODO:
 -- typeSystemExtension :: { TypeSystemExtension }
@@ -142,12 +149,16 @@ typeSystemDefinition
 
 schemaDefinition :: { SchemaDefinition }
 schemaDefinition
-  : description 'schema' directives '{' rootOperationTypeDefinitions '}' { SchemaDefinition $1 $3 $5 }
+  : description 'schema' directives '{' rootOperationTypesDefinition '}' { SchemaDefinition $1 $3 $5 }
 
-rootOperationTypeDefinitions :: { [RootOperationTypeDefinition] }
-rootOperationTypeDefinitions
-  : rootOperationTypeDefinition { [$1] }
-  | rootOperationTypeDefinition rootOperationTypeDefinitions { $1 : $2 }
+rootOperationTypesDefinition :: { RootOperationTypesDefinition }
+rootOperationTypesDefinition
+  : rootOperationTypesDefinition_ { RootOperationTypesDefinition $1 }
+
+rootOperationTypesDefinition_ :: { NE.NonEmpty RootOperationTypeDefinition }
+rootOperationTypesDefinition_
+  : rootOperationTypeDefinition { pure $1 }
+  | rootOperationTypeDefinition rootOperationTypesDefinition_ { $1 NE.<| $2 }
 
 rootOperationTypeDefinition :: { RootOperationTypeDefinition }
 rootOperationTypeDefinition
@@ -157,12 +168,12 @@ rootOperationTypeDefinition
 
 typeDefinition :: { TypeDefinition }
 typedefinition
-  : scalarTypeDefinition { Left $ Left $ Left $ Left $ Left $1 }
-  | objectTypeDefinition { Left $ Left $ Left $ Left $ Right $1 }
-  | interfaceTypeDefinition { Left $ Left $ Left $ Right $1 }
-  | unionTypeDefinition { Left $ Left $ Right $1 }
-  | enumTypeDefinition { Left $ Right $1 }
-  | inputObjectTypeDefinition { Right $1 }
+  : scalarTypeDefinition { STDef $1 }
+  | objectTypeDefinition { OTDef $1 }
+  | interfaceTypeDefinition { ITDef $1 }
+  | unionTypeDefinition { UTDef $1 }
+  | enumTypeDefinition { ETDef $1 }
+  | inputObjectTypeDefinition { IOTDef $1 }
 
 --------------------------------------------------------------------------------
 
@@ -182,27 +193,29 @@ interfaceTypeDefinition :: { InterfaceTypeDefinition }
 interfaceTypeDefinition
   : description 'interface' name implementsInterfaces directives fieldsDefinition { InterfaceTypeDefinition $1 $3 $4 $5 $6 }
 
-implementsInterfaces :: { [Name] }
+implementsInterfaces :: { Maybe ImplementsInterfaces }
 implementsInterfaces
-  : 'implements' implementsInterfaces_ { $2 }
-  | { [] }
+  : 'implements' implementsInterfaces_ { Just (ImplementsInterfaces $2) }
+  | { Nothing }
 
 -- TODO: Replace 'concat' with 'snoc'
-implementsInterfaces_ :: { [Name] }
+implementsInterfaces_ :: { NE.NonEmpty Name }
 implementsInterfaces_
-  : name { [$1] }
-  | implementsInterfaces_ '&' name { $1 <> [$3] }
+  : name { pure $1 }
+  | '&' name { pure $2 }
+  | implementsInterfaces_ '&' name { $1 <> pure $3 }
 
 --------------------------------------------------------------------------------
 
-fieldsDefinition :: { [FieldDefinition] }
+fieldsDefinition :: { Maybe FieldsDefinition }
 fieldsDefinition
-  : '{' fieldDefinitions '}' { $2 }
+  : '{' fieldDefinitions '}' { Just (FieldsDefinition $2) }
+  | %prec LOW { Nothing}
 
-fieldDefinitions :: { [FieldDefinition] }
+fieldDefinitions :: { NE.NonEmpty FieldDefinition }
 fieldDefinitions
-  : fieldDefinition { [$1] }
-  | fieldDefinition fieldDefinitions { $1 : $2 }
+  : fieldDefinition { pure $1 }
+  | fieldDefinition fieldDefinitions { $1 NE.<| $2 }
 
 fieldDefinition :: { FieldDefinition }
 fieldDefinition
@@ -245,8 +258,8 @@ inputObjectTypeDefinition
 
 directiveDefinition :: { DirectiveDefinition }
 directivedefinition
-  : description 'directive' dir argumentsDefinition optRepeatable 'on' directiveLocations { DirectiveDefinition $1 (Name $ unLoc $3) $4 $7 }
-  | description 'directive' dir argumentsDefinition optRepeatable 'on' '|' directiveLocations { DirectiveDefinition $1 (Name $ unLoc $3) $4 $8 }
+  : description 'directive' '@' dir argumentsDefinition optRepeatable 'on' directiveLocations { DirectiveDefinition $1 (Name $ unLoc $4) $5 $8 }
+  | description 'directive' '@' dir argumentsDefinition optRepeatable 'on' '|' directiveLocations { DirectiveDefinition $1 (Name $ unLoc $4) $5 $9 }
 
 directiveLocations :: { [DirectiveLocation] }
 directivelocations
@@ -255,8 +268,8 @@ directivelocations
 
 directiveLocation :: { DirectiveLocation }
 directivelocation
-: executableDirectiveLocation { Left $1 }
-| typeSystemDirectiveLocation { Right $1 }
+: executableDirectiveLocation { ExecDirLoc $1 }
+| typeSystemDirectiveLocation { TypeSysDirLoc $1 }
 
 executableDirectiveLocation :: { ExecutableDirectiveLocation }
 executableDirectiveLocation
@@ -308,16 +321,16 @@ inputValueDefinition
 
 executableDefinition :: { ExecutableDefinition }
 executabledefinition
-  : operationDefinition { Left $1}
-  | fragmentDefinition { Right $1}
+  : operationDefinition { OpDef $1}
+  | fragmentDefinition { FragDef $1}
 
 operationDefinition :: { OperationDefinition }
 operationDefinition
- : operationType directives selectionSet { OperationDefinition  $1 Nothing [] $2 $3 }
- | operationType name directives selectionSet { OperationDefinition  $1 (Just $2) [] $3 $4 }
- | operationType variableDefinitions directives selectionSet { OperationDefinition $1 Nothing $2 $3 $4 }
- | operationType name variableDefinitions directives selectionSet { OperationDefinition  $1 (Just $2) $3 $4 $5 }
- | selectionSet { OperationDefinition Query Nothing [] mempty $1 }
+ : operationType directives selectionSet { OperationDefinition  $1 Nothing mempty $2 $3 }
+ | operationType name directives selectionSet { OperationDefinition  $1 (Just $2) mempty $3 $4 }
+| operationType variableDefinitions directives selectionSet { OperationDefinition $1 Nothing (Just $2) $3 $4 }
+ | operationType name variableDefinitions directives selectionSet { OperationDefinition  $1 (Just $2) (Just $3) $4 $5 }
+ | selectionSet { OperationDefinition Query Nothing mempty mempty $1 }
 
 --------------------------------------------------------------------------------
 
@@ -376,7 +389,7 @@ optValue
 values :: { [Value] }
 values
   : value { [$1] }
-  | value ',' values { $1 : $3 }
+  | value values { $1 : $2 }
 
 value :: { Value }
 value
@@ -408,7 +421,7 @@ vobject
 object :: { HashMap Name Value }
 object
   : objectField { uncurry Map.singleton $1 }
-  | objectField ',' object { uncurry Map.insert $1 $3 }
+  | objectField object { uncurry Map.insert $1 $2 }
 
 objectField :: { (Name, Value) }
 objectField
@@ -434,21 +447,21 @@ name
 arguments :: { Arguments }
 arguments
   : argument { Arguments (uncurry Map.singleton $1) }
-  | arguments ',' argument { coerce (uncurry Map.insert $3 (coerce $1)) }
+  | arguments argument { coerce (uncurry Map.insert $2 (coerce $1)) }
 
 argument :: { (Name, Value) }
 argument
   : name ':' value { ($1, $3) }
   | '$' name ':' value { ($2, $4) }
 
-variableDefinitions :: { [VariableDefinition] }
+variableDefinitions :: { VariablesDefinition }
 variabledefinitions
-  : '(' variableDefinitions_ ')' { $2 }
+  : '(' variableDefinitions_ ')' { VariablesDefinition $2 }
 
-variableDefinitions_ :: { [VariableDefinition] }
+variableDefinitions_ :: { NE.NonEmpty VariableDefinition }
 variabledefinitions_
-  : variableDefinition { [ $1 ] }
-  | variableDefinition ',' variableDefinitions { $1 : $3 }
+  : variableDefinition { pure $1 }
+  | variableDefinition variableDefinitions_ { $1 NE.<| $2 }
 
 variableDefinition :: { VariableDefinition }
 variabledefinition
@@ -476,8 +489,8 @@ directives_
 
 directive :: { Directive }
 directive
-  : dir { Directive (Name $ unLoc $1) Nothing }
-  | dir '(' arguments ')' { Directive (Name $ unLoc $1) (Just $3) }
+  : '@' dir { Directive (Name $ unLoc $2) Nothing }
+  | '@' dir '(' arguments ')' { Directive (Name $ unLoc $2) (Just $4) }
 
 description :: { Maybe Description }
 description

@@ -1,0 +1,28 @@
+[ TypeSysDef
+    ( TypeDef
+        ( IOTDef
+            ( InputObjectTypeDefinition
+                { inputDescription = Nothing
+                , inputName = "Point2D"
+                , inputDirectives = []
+                , inputValues =
+                    [ InputValueDefinition
+                        { inputValueDescription = Nothing
+                        , inputValueName = "x"
+                        , inputValueType = NamedType "Float"
+                        , inputValueDefault = Nothing
+                        , inputValueDirectives = []
+                        }
+                    , InputValueDefinition
+                        { inputValueDescription = Nothing
+                        , inputValueName = "y"
+                        , inputValueType = NamedType "Float"
+                        , inputValueDefault = Nothing
+                        , inputValueDirectives = []
+                        }
+                    ]
+                }
+            )
+        )
+    )
+]

@@ -1,0 +1,39 @@
+[ ExecDef
+    ( OpDef
+        ( OperationDefinition
+            { opType = Query
+            , opName = Nothing
+            , opVariables = Nothing
+            , opDirectives = []
+            , opSelectionSet = Left
+                ( Left
+                    ( Field
+                        { fieldAlias = Nothing
+                        , fieldName = "nearestThing"
+                        , fieldArguments = fromList
+                            [
+                                ( "location"
+                                , VObject
+                                    ( fromList
+                                        [
+                                            ( "lat"
+                                            , VFloat
+                                                ( -53.211 )
+                                            )
+                                        ,
+                                            ( "lon"
+                                            , VFloat 12.43
+                                            )
+                                        ]
+                                    )
+                                )
+                            ]
+                        , fieldDirectives = []
+                        , fieldSelectionSet = Nothing
+                        }
+                    )
+                ) :| []
+            }
+        )
+    )
+]

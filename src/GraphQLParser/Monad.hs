@@ -99,7 +99,7 @@ data ParseError
   = EmptyTokenStream Span B.ByteString
   | UnexpectedToken (Loc Token) B.ByteString
   | InvalidLexeme AlexSourcePos B.ByteString
-  deriving stock (Show, Generic)
+  deriving stock (Eq, Ord, Show, Generic)
   deriving anyclass (NFData)
 
 instance Pretty ParseError where

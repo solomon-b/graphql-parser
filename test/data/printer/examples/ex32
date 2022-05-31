@@ -1,0 +1,74 @@
+[ ExecDef
+    ( OpDef
+        ( OperationDefinition
+            { opType = Query
+            , opName = Just "getZuckProfile"
+            , opVariables = Just
+                ( VariableDefinition
+                    { varName = "devicePicSize"
+                    , varType = NamedType "Int"
+                    , varDefaultValue = Nothing
+                    , varDirectives = []
+                    } :| []
+                )
+            , opDirectives = []
+            , opSelectionSet = Left
+                ( Left
+                    ( Field
+                        { fieldAlias = Nothing
+                        , fieldName = "user"
+                        , fieldArguments = fromList
+                            [
+                                ( "id"
+                                , VInt 4
+                                )
+                            ]
+                        , fieldDirectives = []
+                        , fieldSelectionSet = Just
+                            ( Left
+                                ( Left
+                                    ( Field
+                                        { fieldAlias = Nothing
+                                        , fieldName = "id"
+                                        , fieldArguments = fromList []
+                                        , fieldDirectives = []
+                                        , fieldSelectionSet = Nothing
+                                        }
+                                    )
+                                ) :|
+                                [ Left
+                                    ( Left
+                                        ( Field
+                                            { fieldAlias = Nothing
+                                            , fieldName = "name"
+                                            , fieldArguments = fromList []
+                                            , fieldDirectives = []
+                                            , fieldSelectionSet = Nothing
+                                            }
+                                        )
+                                    )
+                                , Left
+                                    ( Left
+                                        ( Field
+                                            { fieldAlias = Nothing
+                                            , fieldName = "profilePic"
+                                            , fieldArguments = fromList
+                                                [
+                                                    ( "size"
+                                                    , VVar "devicePicSize"
+                                                    )
+                                                ]
+                                            , fieldDirectives = []
+                                            , fieldSelectionSet = Nothing
+                                            }
+                                        )
+                                    )
+                                ]
+                            )
+                        }
+                    )
+                ) :| []
+            }
+        )
+    )
+]

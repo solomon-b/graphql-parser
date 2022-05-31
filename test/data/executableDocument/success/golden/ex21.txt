@@ -60,7 +60,8 @@
     ( Right
         ( FragmentDefinition
             { fragName = "userFragment"
-            , fragTypeCondition = NamedType "User"
+            , fragTypeCondition = TypeCondition
+                { unTypeCondition = "User" }
             , fragDirectives = []
             , fragSelectionSet = Left
                 ( Left
@@ -92,7 +93,8 @@
     ( Right
         ( FragmentDefinition
             { fragName = "pageFragment"
-            , fragTypeCondition = NamedType "Page"
+            , fragTypeCondition = TypeCondition
+                { unTypeCondition = "Page" }
             , fragDirectives = []
             , fragSelectionSet = Left
                 ( Left

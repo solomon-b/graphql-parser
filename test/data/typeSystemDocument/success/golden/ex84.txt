@@ -10,17 +10,17 @@
                         , inputValues =
                             [ InputValueDefinition
                                 { inputValueDescription = Nothing
-                                , inputValue = "a"
-                                , inputType = NamedType "String"
-                                , inputDefaultValue = Nothing
+                                , inputValueName = "a"
+                                , inputValueType = NamedType "String"
+                                , inputValueDefault = Nothing
                                 , inputValueDirectives = []
                                 }
                             , InputValueDefinition
                                 { inputValueDescription = Nothing
-                                , inputValue = "b"
-                                , inputType = NonNullType
+                                , inputValueName = "b"
+                                , inputValueType = NonNullType
                                     ( NamedType "Int" )
-                                , inputDefaultValue = Nothing
+                                , inputValueDefault = Nothing
                                 , inputValueDirectives = []
                                 }
                             ]

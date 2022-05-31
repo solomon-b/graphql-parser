@@ -27,13 +27,15 @@
                                                 , fieldDefType = NamedType "String"
                                                 , fieldDefDirectives =
                                                     [ Directive
-                                                        { name = "@deprecated"
-                                                        , arguments = fromList
-                                                            [
-                                                                ( "reason"
-                                                                , VString "Use `newField`."
-                                                                )
-                                                            ]
+                                                        { dName = "@deprecated"
+                                                        , dArguments = Just
+                                                            ( fromList
+                                                                [
+                                                                    ( "reason"
+                                                                    , VString "Use `newField`."
+                                                                    )
+                                                                ]
+                                                            )
                                                         }
                                                     ]
                                                 }

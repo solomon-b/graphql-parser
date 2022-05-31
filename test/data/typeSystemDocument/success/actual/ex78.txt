@@ -10,24 +10,24 @@
                             , enumDirectives = []
                             , enumValues =
                                 [ EnumValueDefinition
-                                    { enumValueDescription = Nothing
-                                    , enumValue = "NORTH"
-                                    , enumValueDirectives = []
+                                    { evDescription = Nothing
+                                    , evName = "NORTH"
+                                    , evDirectives = []
                                     }
                                 , EnumValueDefinition
-                                    { enumValueDescription = Nothing
-                                    , enumValue = "EAST"
-                                    , enumValueDirectives = []
+                                    { evDescription = Nothing
+                                    , evName = "EAST"
+                                    , evDirectives = []
                                     }
                                 , EnumValueDefinition
-                                    { enumValueDescription = Nothing
-                                    , enumValue = "SOUTH"
-                                    , enumValueDirectives = []
+                                    { evDescription = Nothing
+                                    , evName = "SOUTH"
+                                    , evDirectives = []
                                     }
                                 , EnumValueDefinition
-                                    { enumValueDescription = Nothing
-                                    , enumValue = "WEST"
-                                    , enumValueDirectives = []
+                                    { evDescription = Nothing
+                                    , evName = "WEST"
+                                    , evDirectives = []
                                     }
                                 ]
                             }

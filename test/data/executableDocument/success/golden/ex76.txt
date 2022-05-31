@@ -15,7 +15,10 @@
                         , fieldSelectionSet = Just
                             ( Right
                                 ( InlineFragment
-                                    { ifTypeCondition = Just "Person"
+                                    { ifTypeCondition = Just
+                                        ( TypeCondition
+                                            { unTypeCondition = "Person" }
+                                        )
                                     , ifDirectives = []
                                     , ifSelectionSet = Left
                                         ( Left
@@ -32,7 +35,10 @@
                                 ) :|
                                 [ Right
                                     ( InlineFragment
-                                        { ifTypeCondition = Just "Photo"
+                                        { ifTypeCondition = Just
+                                            ( TypeCondition
+                                                { unTypeCondition = "Photo" }
+                                            )
                                         , ifDirectives = []
                                         , ifSelectionSet = Left
                                             ( Left

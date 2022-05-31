@@ -1,4 +1,5 @@
-
+%right LOW
+%right '{' '"' '"""'
 
 graphqlDocument
   : executableOrTypeSystemDefiniton
@@ -68,6 +69,7 @@ fieldDefinition
 
 unionTypeDefinition
   : description 'union' name directives '=' unionMembers
+  | description 'union' name directives '=' '|' unionMembers
 
 unionMembers
   : name
@@ -88,6 +90,7 @@ inputObjectTypeDefinition
 
 directiveDefinition
   : description 'directive' dir argumentsDefinition optRepeatable 'on' directiveLocations
+  | description 'directive' dir argumentsDefinition optRepeatable 'on' '|' directiveLocations
 
 directiveLocations
   : directiveLocation
@@ -122,6 +125,7 @@ typeSystemDirectiveLocation
 
 inputFieldsDefinition
   : '{' inputValuesDefinition '}'
+  | {- empty -} %prec LOW
 
 argumentsDefinition
   : '(' inputValuesDefinition ')'
@@ -146,13 +150,13 @@ operationDefinition
   | selectionSet
 
 fragmentDefinition
-  : 'fragment' fragmentName 'on' type directives selectionSet
+  : 'fragment' fragmentName typeCondition directives selectionSet
 
 fragmentSpread
   : '...' fragmentName directives
 
 inlineFragment
-  : '...' 'on' name directives selectionSet
+  : '...' typeCondition directives selectionSet
   | '...' directives selectionSet
 
 fragmentName
@@ -178,7 +182,7 @@ selection
 
 optValue
   : value
-  | {- empty -}
+  | {- empty -} %prec LOW
 
 values
   : value
@@ -186,7 +190,7 @@ values
 
 value
   : 'null'
-  | '"' string '"'
+  | stringValue
   | float
   | int
   | bool
@@ -243,6 +247,9 @@ variableDefinitions_
 
 variableDefinition
   : '$' name ':' type optValue directives
+
+typeCondition
+  : 'on' name
 
 type
   : name

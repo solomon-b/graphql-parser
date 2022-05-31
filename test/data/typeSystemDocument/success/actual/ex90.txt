@@ -34,13 +34,13 @@
                                                 , fieldDefArgumentsDef =
                                                     [ InputValueDefinition
                                                         { inputValueDescription = Nothing
-                                                        , inputValue = "arg"
-                                                        , inputType = NamedType "Int"
-                                                        , inputDefaultValue = Nothing
+                                                        , inputValueName = "arg"
+                                                        , inputValueType = NamedType "Int"
+                                                        , inputValueDefault = Nothing
                                                         , inputValueDirectives =
                                                             [ Directive
-                                                                { name = "@example"
-                                                                , arguments = fromList []
+                                                                { dName = "@example"
+                                                                , dArguments = Nothing
                                                                 }
                                                             ]
                                                         }
@@ -48,8 +48,8 @@
                                                 , fieldDefType = NamedType "String"
                                                 , fieldDefDirectives =
                                                     [ Directive
-                                                        { name = "@example"
-                                                        , arguments = fromList []
+                                                        { dName = "@example"
+                                                        , dArguments = Nothing
                                                         }
                                                     ]
                                                 }

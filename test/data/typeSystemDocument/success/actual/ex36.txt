@@ -45,25 +45,25 @@
                                                         { inputValueDescription = Just Description
 
                                                             {  unDescription ="The original language that `text` is provided in." }
-                                                        , inputValue = "fromLanguage"
-                                                        , inputType = NamedType "Language"
-                                                        , inputDefaultValue = Just
+                                                        , inputValueName = "fromLanguage"
+                                                        , inputValueType = NamedType "Language"
+                                                        , inputValueDefault = Just
                                                             ( VString "The translated language to be returned." )
                                                         , inputValueDirectives = []
                                                         }
                                                     , InputValueDefinition
                                                         { inputValueDescription = Nothing
-                                                        , inputValue = "toLanguage"
-                                                        , inputType = NamedType "Language"
-                                                        , inputDefaultValue = Just
+                                                        , inputValueName = "toLanguage"
+                                                        , inputValueType = NamedType "Language"
+                                                        , inputValueDefault = Just
                                                             ( VString "The text to be translated." )
                                                         , inputValueDirectives = []
                                                         }
                                                     , InputValueDefinition
                                                         { inputValueDescription = Nothing
-                                                        , inputValue = "text"
-                                                        , inputType = NamedType "String"
-                                                        , inputDefaultValue = Nothing
+                                                        , inputValueName = "text"
+                                                        , inputValueType = NamedType "String"
+                                                        , inputValueDefault = Nothing
                                                         , inputValueDirectives = []
                                                         }
                                                     ]
@@ -95,25 +95,25 @@
                             , enumDirectives = []
                             , enumValues =
                                 [ EnumValueDefinition
-                                    { enumValueDescription = Just Description
+                                    { evDescription = Just Description
 
                                         {  unDescription ="English" }
-                                    , enumValue = "EN"
-                                    , enumValueDirectives = []
+                                    , evName = "EN"
+                                    , evDirectives = []
                                     }
                                 , EnumValueDefinition
-                                    { enumValueDescription = Just Description
+                                    { evDescription = Just Description
 
                                         {  unDescription ="French" }
-                                    , enumValue = "FR"
-                                    , enumValueDirectives = []
+                                    , evName = "FR"
+                                    , evDirectives = []
                                     }
                                 , EnumValueDefinition
-                                    { enumValueDescription = Just Description
+                                    { evDescription = Just Description
 
                                         {  unDescription ="Chinese" }
-                                    , enumValue = "CH"
-                                    , enumValueDirectives = []
+                                    , evName = "CH"
+                                    , evDirectives = []
                                     }
                                 ]
                             }

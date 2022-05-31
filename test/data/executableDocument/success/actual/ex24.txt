@@ -52,13 +52,15 @@
                                         { ifTypeCondition = Nothing
                                         , ifDirectives =
                                             [ Directive
-                                                { name = "@include"
-                                                , arguments = fromList
-                                                    [
-                                                        ( "if"
-                                                        , VVar "expandedInfo"
-                                                        )
-                                                    ]
+                                                { dName = "@include"
+                                                , dArguments = Just
+                                                    ( fromList
+                                                        [
+                                                            ( "if"
+                                                            , VVar "expandedInfo"
+                                                            )
+                                                        ]
+                                                    )
                                                 }
                                             ]
                                         , ifSelectionSet = Left

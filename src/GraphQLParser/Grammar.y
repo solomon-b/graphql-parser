@@ -25,6 +25,9 @@ import GraphQLParser.Syntax
 %monad { Parser }
 %error { failure }
 
+%right LOW
+%right '{' '"' '"""'
+
 %token
 
 --------------------------------------------------------------------------------
@@ -282,14 +285,15 @@ typeSystemDirectiveLocation
 
 --------------------------------------------------------------------------------
 
-inputFieldsDefinition :: { [InputValueDefinition] }
+inputFieldsDefinition :: { InputFieldsDefinition}
 inputFieldsDefinition
-  : '{' inputValuesDefinition '}' { $2 }
+  : '{' inputValuesDefinition '}' { InputFieldsDefinition $2 }
+  | %prec LOW { mempty }
 
-argumentsDefinition :: { [InputValueDefinition] }
+argumentsDefinition :: { ArgumentsDefinition }
 argumentsDefinition
-  : '(' inputValuesDefinition ')' { $2 }
-  | { [] }
+  : '(' inputValuesDefinition ')' { ArgumentsDefinition $2 }
+  | { mempty }
 
 inputValuesDefinition :: { [InputValueDefinition] }
 inputValuesDefinition
@@ -311,15 +315,15 @@ operationDefinition :: { OperationDefinition }
 operationDefinition
  : operationType directives selectionSet { OperationDefinition  $1 Nothing [] $2 $3 }
  | operationType name directives selectionSet { OperationDefinition  $1 (Just $2) [] $3 $4 }
- | operationType variableDefinitions directives selectionSet { OperationDefinition  $1 Nothing $2 $3 $4 }
+ | operationType variableDefinitions directives selectionSet { OperationDefinition $1 Nothing $2 $3 $4 }
  | operationType name variableDefinitions directives selectionSet { OperationDefinition  $1 (Just $2) $3 $4 $5 }
- | selectionSet { OperationDefinition Query Nothing [] [] $1 }
+ | selectionSet { OperationDefinition Query Nothing [] mempty $1 }
 
 --------------------------------------------------------------------------------
 
 fragmentDefinition :: { FragmentDefinition }
 fragmentDefinition
-  : 'fragment' fragmentName 'on' type directives selectionSet { FragmentDefinition $2 $4 $5 $6 }
+  : 'fragment' fragmentName typeCondition directives selectionSet { FragmentDefinition $2 $3 $4 $5 }
 
 fragmentSpread :: { FragmentSpread }
 fragmentSpread
@@ -327,7 +331,7 @@ fragmentSpread
 
 inlineFragment :: { InlineFragment }
 inlineFragment
-  : '...' 'on' name directives selectionSet { InlineFragment (Just $3) $4 $5 }
+  : '...' typeCondition directives selectionSet { InlineFragment (Just $2) $3 $4 }
   | '...' directives selectionSet { InlineFragment Nothing $2 $3 }
 
 -- TODO: Fail if `Name` == `on`
@@ -367,7 +371,7 @@ selection
 optValue :: { Maybe Value }
 optValue
   : value { Just $1 }
-  | { Nothing }
+  | %prec LOW { Nothing }
 
 values :: { [Value] }
 values
@@ -377,7 +381,7 @@ values
 value :: { Value }
 value
   : 'null' { VNull }
-  | '"' string '"' { VString (unLoc $2) }
+  | stringValue { VString $1 }
   | float { VFloat (unLoc $1) }
   | int { VInt (unLoc $1) }
   | bool { VBoolean (unLoc $1) }
@@ -450,16 +454,20 @@ variableDefinition :: { VariableDefinition }
 variabledefinition
   : '$' name ':' type optValue directives { VariableDefinition $2 $4 $5 $6 }
 
+typeCondition :: { TypeCondition }
+typeCondition
+  : 'on' name { TypeCondition $2 }
+
 type :: { Type }
 type
   : name { NamedType $1 }
   | type '!' { NonNullType $1 }
   | '[' type ']' { ListType $2 }
 
-directives :: { [Directive] }
+directives :: { Directives }
 directives
-  : directives_ { $1 }
-  | { [] }
+  : directives_ { Directives $1 }
+  | { mempty }
 
 directives_ :: { [Directive] }
 directives_
@@ -468,8 +476,8 @@ directives_
 
 directive :: { Directive }
 directive
-  : dir { Directive (Name $ unLoc $1) mempty }
-  | dir '(' arguments ')' { Directive (Name $ unLoc $1) $3 }
+  : dir { Directive (Name $ unLoc $1) Nothing }
+  | dir '(' arguments ')' { Directive (Name $ unLoc $1) (Just $3) }
 
 description :: { Maybe Description }
 description

@@ -43,7 +43,8 @@
     ( Right
         ( FragmentDefinition
             { fragName = "Frag"
-            , fragTypeCondition = NamedType "Query"
+            , fragTypeCondition = TypeCondition
+                { unTypeCondition = "Query" }
             , fragDirectives = []
             , fragSelectionSet = Left
                 ( Left

@@ -51,7 +51,8 @@
     ( Right
         ( FragmentDefinition
             { fragName = "Ignored"
-            , fragTypeCondition = NamedType "UnknownType"
+            , fragTypeCondition = TypeCondition
+                { unTypeCondition = "UnknownType" }
             , fragDirectives = []
             , fragSelectionSet = Left
                 ( Left
@@ -83,7 +84,8 @@
     ( Right
         ( FragmentDefinition
             { fragName = "Matching"
-            , fragTypeCondition = NamedType "Query"
+            , fragTypeCondition = TypeCondition
+                { unTypeCondition = "Query" }
             , fragDirectives = []
             , fragSelectionSet = Left
                 ( Left

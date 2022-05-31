@@ -10,16 +10,16 @@
                         , inputValues =
                             [ InputValueDefinition
                                 { inputValueDescription = Nothing
-                                , inputValue = "x"
-                                , inputType = NamedType "Float"
-                                , inputDefaultValue = Nothing
+                                , inputValueName = "x"
+                                , inputValueType = NamedType "Float"
+                                , inputValueDefault = Nothing
                                 , inputValueDirectives = []
                                 }
                             , InputValueDefinition
                                 { inputValueDescription = Nothing
-                                , inputValue = "y"
-                                , inputType = NamedType "Float"
-                                , inputDefaultValue = Nothing
+                                , inputValueName = "y"
+                                , inputValueType = NamedType "Float"
+                                , inputValueDefault = Nothing
                                 , inputValueDirectives = []
                                 }
                             ]

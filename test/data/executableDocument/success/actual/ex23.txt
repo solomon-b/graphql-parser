@@ -34,7 +34,10 @@
                                 ) :|
                                 [ Right
                                     ( InlineFragment
-                                        { ifTypeCondition = Just "User"
+                                        { ifTypeCondition = Just
+                                            ( TypeCondition
+                                                { unTypeCondition = "User" }
+                                            )
                                         , ifDirectives = []
                                         , ifSelectionSet = Left
                                             ( Left
@@ -63,7 +66,10 @@
                                     )
                                 , Right
                                     ( InlineFragment
-                                        { ifTypeCondition = Just "Page"
+                                        { ifTypeCondition = Just
+                                            ( TypeCondition
+                                                { unTypeCondition = "Page" }
+                                            )
                                         , ifDirectives = []
                                         , ifSelectionSet = Left
                                             ( Left

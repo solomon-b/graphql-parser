@@ -32,7 +32,6 @@ QuasiQuoters are provided to construct literal values at compile time:
 
 # TODO
 
-- Fix Shift/Reduce Conflict with `StringValue`s
 - Type System Extensions
 - Criterion Profiling
 - Pretty Printer

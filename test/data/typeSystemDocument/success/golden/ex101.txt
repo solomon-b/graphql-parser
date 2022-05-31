@@ -43,19 +43,19 @@
                             , enumDirectives = []
                             , enumValues =
                                 [ EnumValueDefinition
-                                    { enumValueDescription = Nothing
-                                    , enumValue = "SIT"
-                                    , enumValueDirectives = []
+                                    { evDescription = Nothing
+                                    , evName = "SIT"
+                                    , evDirectives = []
                                     }
                                 , EnumValueDefinition
-                                    { enumValueDescription = Nothing
-                                    , enumValue = "DOWN"
-                                    , enumValueDirectives = []
+                                    { evDescription = Nothing
+                                    , evName = "DOWN"
+                                    , evDirectives = []
                                     }
                                 , EnumValueDefinition
-                                    { enumValueDescription = Nothing
-                                    , enumValue = "HEEL"
-                                    , enumValueDirectives = []
+                                    { evDescription = Nothing
+                                    , evName = "HEEL"
+                                    , evDirectives = []
                                     }
                                 ]
                             }
@@ -108,10 +108,10 @@
                                                 , fieldDefArgumentsDef =
                                                     [ InputValueDefinition
                                                         { inputValueDescription = Nothing
-                                                        , inputValue = "dogCommand"
-                                                        , inputType = NonNullType
+                                                        , inputValueName = "dogCommand"
+                                                        , inputValueType = NonNullType
                                                             ( NamedType "DogCommand" )
-                                                        , inputDefaultValue = Nothing
+                                                        , inputValueDefault = Nothing
                                                         , inputValueDirectives = []
                                                         }
                                                     ]
@@ -125,9 +125,9 @@
                                                 , fieldDefArgumentsDef =
                                                     [ InputValueDefinition
                                                         { inputValueDescription = Nothing
-                                                        , inputValue = "atOtherHomes"
-                                                        , inputType = NamedType "Boolean"
-                                                        , inputDefaultValue = Nothing
+                                                        , inputValueName = "atOtherHomes"
+                                                        , inputValueType = NamedType "Boolean"
+                                                        , inputValueDefault = Nothing
                                                         , inputValueDirectives = []
                                                         }
                                                     ]
@@ -314,9 +314,9 @@
                             , enumDirectives = []
                             , enumValues =
                                 [ EnumValueDefinition
-                                    { enumValueDescription = Nothing
-                                    , enumValue = "JUMP"
-                                    , enumValueDirectives = []
+                                    { evDescription = Nothing
+                                    , evName = "JUMP"
+                                    , evDirectives = []
                                     }
                                 ]
                             }
@@ -362,10 +362,10 @@
                                                 , fieldDefArgumentsDef =
                                                     [ InputValueDefinition
                                                         { inputValueDescription = Nothing
-                                                        , inputValue = "catCommand"
-                                                        , inputType = NonNullType
+                                                        , inputValueName = "catCommand"
+                                                        , inputValueType = NonNullType
                                                             ( NamedType "CatCommand" )
-                                                        , inputDefaultValue = Nothing
+                                                        , inputValueDefault = Nothing
                                                         , inputValueDirectives = []
                                                         }
                                                     ]

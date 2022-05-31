@@ -12,13 +12,15 @@
                                         , scalarName = "UUID"
                                         , scalarDirectives =
                                             [ Directive
-                                                { name = "@specifiedBy"
-                                                , arguments = fromList
-                                                    [
-                                                        ( "url"
-                                                        , VString "https://tools.ietf.org/html/rfc4122"
-                                                        )
-                                                    ]
+                                                { dName = "@specifiedBy"
+                                                , dArguments = Just
+                                                    ( fromList
+                                                        [
+                                                            ( "url"
+                                                            , VString "https://tools.ietf.org/html/rfc4122"
+                                                            )
+                                                        ]
+                                                    )
                                                 }
                                             ]
                                         }
@@ -45,13 +47,15 @@
                                         , scalarName = "URL"
                                         , scalarDirectives =
                                             [ Directive
-                                                { name = "@specifiedBy"
-                                                , arguments = fromList
-                                                    [
-                                                        ( "url"
-                                                        , VString "https://tools.ietf.org/html/rfc3986"
-                                                        )
-                                                    ]
+                                                { dName = "@specifiedBy"
+                                                , dArguments = Just
+                                                    ( fromList
+                                                        [
+                                                            ( "url"
+                                                            , VString "https://tools.ietf.org/html/rfc3986"
+                                                            )
+                                                        ]
+                                                    )
                                                 }
                                             ]
                                         }

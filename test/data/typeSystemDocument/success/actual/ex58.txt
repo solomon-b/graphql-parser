@@ -26,9 +26,9 @@
                                                 , fieldDefArgumentsDef =
                                                     [ InputValueDefinition
                                                         { inputValueDescription = Nothing
-                                                        , inputValue = "size"
-                                                        , inputType = NamedType "Int"
-                                                        , inputDefaultValue = Nothing
+                                                        , inputValueName = "size"
+                                                        , inputValueType = NamedType "Int"
+                                                        , inputValueDefault = Nothing
                                                         , inputValueDirectives = []
                                                         }
                                                     ]

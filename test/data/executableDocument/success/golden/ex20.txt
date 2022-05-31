@@ -80,7 +80,8 @@
     ( Right
         ( FragmentDefinition
             { fragName = "friendFields"
-            , fragTypeCondition = NamedType "User"
+            , fragTypeCondition = TypeCondition
+                { unTypeCondition = "User" }
             , fragDirectives = []
             , fragSelectionSet = Left
                 ( Left
@@ -120,7 +121,8 @@
     ( Right
         ( FragmentDefinition
             { fragName = "standardProfilePic"
-            , fragTypeCondition = NamedType "User"
+            , fragTypeCondition = TypeCondition
+                { unTypeCondition = "User" }
             , fragDirectives = []
             , fragSelectionSet = Left
                 ( Left

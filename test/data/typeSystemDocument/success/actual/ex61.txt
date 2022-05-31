@@ -20,8 +20,8 @@
                                                 , fieldDefType = NamedType "String"
                                                 , fieldDefDirectives =
                                                     [ Directive
-                                                        { name = "@deprecated"
-                                                        , arguments = fromList []
+                                                        { dName = "@deprecated"
+                                                        , dArguments = Nothing
                                                         }
                                                     ]
                                                 }

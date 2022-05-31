@@ -21,13 +21,15 @@
                         , fieldArguments = fromList []
                         , fieldDirectives =
                             [ Directive
-                                { name = "@include"
-                                , arguments = fromList
-                                    [
-                                        ( "if"
-                                        , VVar "someTest"
-                                        )
-                                    ]
+                                { dName = "@include"
+                                , dArguments = Just
+                                    ( fromList
+                                        [
+                                            ( "if"
+                                            , VVar "someTest"
+                                            )
+                                        ]
+                                    )
                                 }
                             ]
                         , fieldSelectionSet = Nothing

@@ -10,21 +10,21 @@
                         , inputValues =
                             [ InputValueDefinition
                                 { inputValueDescription = Nothing
-                                , inputValue = "self"
-                                , inputType = NonNullType
+                                , inputValueName = "self"
+                                , inputValueType = NonNullType
                                     ( ListType
                                         ( NonNullType
                                             ( NamedType "Example" )
                                         )
                                     )
-                                , inputDefaultValue = Nothing
+                                , inputValueDefault = Nothing
                                 , inputValueDirectives = []
                                 }
                             , InputValueDefinition
                                 { inputValueDescription = Nothing
-                                , inputValue = "value"
-                                , inputType = NamedType "String"
-                                , inputDefaultValue = Nothing
+                                , inputValueName = "value"
+                                , inputValueType = NamedType "String"
+                                , inputValueDefault = Nothing
                                 , inputValueDirectives = []
                                 }
                             ]

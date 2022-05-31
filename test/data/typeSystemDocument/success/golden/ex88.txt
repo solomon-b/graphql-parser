@@ -14,7 +14,8 @@
     ( Right
         ( FragmentDefinition
             { fragName = "SomeFragment"
-            , fragTypeCondition = NamedType "SomeType"
+            , fragTypeCondition = TypeCondition
+                { unTypeCondition = "SomeType" }
             , fragDirectives = []
             , fragSelectionSet = Left
                 ( Left
@@ -24,8 +25,8 @@
                         , fieldArguments = fromList []
                         , fieldDirectives =
                             [ Directive
-                                { name = "@example"
-                                , arguments = fromList []
+                                { dName = "@example"
+                                , dArguments = Nothing
                                 }
                             ]
                         , fieldSelectionSet = Nothing

@@ -26,7 +26,10 @@
                                 ) :|
                                 [ Right
                                     ( InlineFragment
-                                        { ifTypeCondition = Just "Person"
+                                        { ifTypeCondition = Just
+                                            ( TypeCondition
+                                                { unTypeCondition = "Person" }
+                                            )
                                         , ifDirectives = []
                                         , ifSelectionSet = Left
                                             ( Left

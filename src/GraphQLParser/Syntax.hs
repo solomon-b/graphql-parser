@@ -29,7 +29,7 @@ type a \/ b = Either a b
 -- GraphQL type system.
 newtype Document definition = Document [definition]
   deriving stock (Lift)
-  deriving newtype (Eq, Ord, Show, Read)
+  deriving newtype (Eq, Ord, Show, Read, NFData)
 
 -- | A GraphQL Document describes a complete file or request string
 -- operated on by a GraphQL service or client. A document contains
@@ -68,10 +68,11 @@ type TypeSystemDefinition = SchemaDefinition \/ TypeDefinition \/ DirectiveDefin
 -- those operations begin.
 data SchemaDefinition = SchemaDefinition
   { sdDescription :: Maybe Description,
-    sdDirectives :: [Directive],
+    sdDirectives :: Directives,
     sdRootOperations :: [RootOperationTypeDefinition]
   }
-  deriving stock (Eq, Ord, Show, Read, Lift)
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
 
 -- | A 'SchemaDefiniton' defines the initial root operation type for
 -- each kind of operation it supports: @Query@, @Mutation@, and
@@ -81,7 +82,8 @@ data RootOperationTypeDefinition = RootOperationTypeDefinition
   { roType :: OperationType,
     roTypeName :: Name
   }
-  deriving stock (Eq, Ord, Show, Read, Lift)
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
 
 --------------------------------------------------------------------------------
 -- Type Definitions
@@ -93,9 +95,10 @@ type TypeDefinition =
 data ScalarTypeDefinition = ScalarTypeDefinition
   { scalarDescription :: Maybe Description,
     scalarName :: Name,
-    scalarDirectives :: [Directive]
+    scalarDirectives :: Directives
   }
-  deriving stock (Eq, Ord, Show, Read, Lift)
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
 
 -- | GraphQL operations are hierarchical and composed, describing a
 -- tree of information. While Scalar types describe the leaf values of
@@ -105,19 +108,21 @@ data ObjectTypeDefinition = ObjectTypeDefinition
   { objectDescription :: Maybe Description,
     objectName :: Name,
     objectInterfaces :: [Name],
-    objectDirectives :: [Directive],
+    objectDirectives :: Directives,
     objectFields :: [FieldDefinition]
   }
-  deriving stock (Eq, Ord, Show, Read, Lift)
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
 
 data FieldDefinition = FieldDefinition
   { fieldDefDescription :: Maybe Description,
     fieldDefName :: Name,
-    fieldDefArgumentsDef :: [InputValueDefinition],
+    fieldDefArgumentsDef :: ArgumentsDefinition,
     fieldDefType :: Type,
-    fieldDefDirectives :: [Directive]
+    fieldDefDirectives :: Directives
   }
-  deriving stock (Eq, Ord, Show, Read, Lift)
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
 
 -- | GraphQL interfaces represent a list of named fields and their
 -- arguments. GraphQL objects and interfaces can then implement these
@@ -127,10 +132,11 @@ data InterfaceTypeDefinition = InterfaceTypeDefinition
   { interfaceDescription :: Maybe Description,
     interfaceName :: Name,
     interfaceInterfaces :: [Name],
-    interfaceDirectives :: [Directive],
+    interfaceDirectives :: Directives,
     interfaceFields :: [FieldDefinition]
   }
-  deriving stock (Eq, Ord, Show, Read, Lift)
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
 
 -- | GraphQL Unions represent an object that could be one of a list of
 -- GraphQL Object types, but provides for no guaranteed fields between
@@ -140,10 +146,11 @@ data InterfaceTypeDefinition = InterfaceTypeDefinition
 data UnionTypeDefinition = UnionTypeDefinition
   { unionDescription :: Maybe Description,
     unionName :: Name,
-    unionDirectives :: [Directive],
+    unionDirectives :: Directives,
     unionMemberTypes :: [Name]
   }
-  deriving stock (Eq, Ord, Show, Read, Lift)
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
 
 -- | GraphQL Enum types, like Scalar types, also represent leaf values
 -- in a GraphQL type system. However Enum types describe the set of
@@ -151,17 +158,19 @@ data UnionTypeDefinition = UnionTypeDefinition
 data EnumTypeDefinition = EnumTypeDefinition
   { enumDescription :: Maybe Description,
     enumName :: Name,
-    enumDirectives :: [Directive],
+    enumDirectives :: Directives,
     enumValues :: [EnumValueDefinition]
   }
-  deriving stock (Eq, Ord, Show, Read, Lift)
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
 
 data EnumValueDefinition = EnumValueDefinition
-  { enumValueDescription :: Maybe Description,
-    enumValue :: Name,
-    enumValueDirectives :: [Directive]
+  { evDescription :: Maybe Description,
+    evName :: Name,
+    evDirectives :: Directives
   }
-  deriving stock (Eq, Ord, Show, Read, Lift)
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
 
 -- | A GraphQL Input Object defines a set of input fields; the input
 -- fields are either scalars, enums, or other input objects. This
@@ -169,19 +178,32 @@ data EnumValueDefinition = EnumValueDefinition
 data InputObjectTypeDefinition = InputObjectTypeDefinition
   { inputDescription :: Maybe Description,
     inputName :: Name,
-    inputDirectives :: [Directive],
-    inputValues :: [InputValueDefinition]
+    inputDirectives :: Directives,
+    inputValues :: InputFieldsDefinition
   }
-  deriving stock (Eq, Ord, Show, Read, Lift)
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
+
+newtype InputFieldsDefinition = InputFieldsDefinition {unInputFieldsDefinition :: [InputValueDefinition]}
+  deriving stock (Lift, Generic)
+  deriving newtype (Eq, Ord, Show, Read, Semigroup, Monoid)
+  deriving anyclass (NFData)
+
+
+newtype ArgumentsDefinition = ArgumentsDefinition {unArgumentsDefinition :: [InputValueDefinition]}
+  deriving stock (Lift, Generic)
+  deriving newtype (Eq, Ord, Show, Read, Semigroup, Monoid)
+  deriving anyclass (NFData)
 
 data InputValueDefinition = InputValueDefinition
   { inputValueDescription :: Maybe Description,
-    inputValue :: Name,
-    inputType :: Type,
-    inputDefaultValue :: Maybe Value,
-    inputValueDirectives :: [Directive]
+    inputValueName :: Name,
+    inputValueType :: Type,
+    inputValueDefault :: Maybe Value,
+    inputValueDirectives :: Directives
   }
-  deriving stock (Eq, Ord, Show, Read, Lift)
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
 
 --------------------------------------------------------------------------------
 -- Directive Definitions
@@ -189,10 +211,11 @@ data InputValueDefinition = InputValueDefinition
 data DirectiveDefinition = DirectiveDefinition
   { dirDefDescription :: Maybe Description,
     dirDefName :: Name,
-    dirDefArguments :: [InputValueDefinition],
+    dirDefArguments :: ArgumentsDefinition,
     dirDefLocations :: [DirectiveLocation]
   }
-  deriving stock (Eq, Ord, Show, Read, Lift)
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
 
 type DirectiveLocation = ExecutableDirectiveLocation \/ TypeSystemDirectiveLocation
 
@@ -205,7 +228,8 @@ data ExecutableDirectiveLocation
   | EDLFRAGMENT_SPREAD
   | EDLINLINE_FRAGMENT
   | EDLVARIABLE_DEFINITION
-  deriving stock (Eq, Generic, Ord, Show, Read, Lift)
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
 
 data TypeSystemDirectiveLocation
   = TSDLSCHEMA
@@ -219,7 +243,8 @@ data TypeSystemDirectiveLocation
   | TSDLENUM_VALUE
   | TSDLINPUT_OBJECT
   | TSDLINPUT_FIELD_DEFINITION
-  deriving stock (Eq, Generic, Ord, Show, Read, Lift)
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
 
 --------------------------------------------------------------------------------
 -- Type System Extension Definitions
@@ -244,10 +269,11 @@ data OperationDefinition = OperationDefinition
   { opType :: OperationType,
     opName :: Maybe Name,
     opVariables :: [VariableDefinition],
-    opDirectives :: [Directive],
+    opDirectives :: Directives,
     opSelectionSet :: SelectionSet
   }
-  deriving stock (Eq, Ord, Show, Read, Lift)
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
 
 --------------------------------------------------------------------------------
 -- Fragments
@@ -258,11 +284,12 @@ data OperationDefinition = OperationDefinition
 -- 'Field's, reducing duplicated text in the 'Document'.
 data FragmentDefinition = FragmentDefinition
   { fragName :: FragmentName,
-    fragTypeCondition :: Type,
-    fragDirectives :: [Directive],
+    fragTypeCondition :: TypeCondition,
+    fragDirectives :: Directives,
     fragSelectionSet :: SelectionSet
   }
-  deriving stock (Eq, Generic, Ord, Show, Read, Lift)
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
 
 -- | Fragments are consumed by using the spread operator @(...)@. All
 -- 'Field's selected by the fragment will be added to the 'Field'
@@ -270,19 +297,21 @@ data FragmentDefinition = FragmentDefinition
 -- happens through multiple levels of fragment spreads.
 data FragmentSpread = FragmentSpread
   { fsName :: FragmentName,
-    fsDirectives :: [Directive]
+    fsDirectives :: Directives
   }
-  deriving stock (Eq, Generic, Ord, Show, Read, Lift)
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
 
 -- | 'InlineFragment' can be used directly within a 'Selection' to
 -- condition upon a type condition when querying against an interface
 -- or union.
 data InlineFragment = InlineFragment
-  { ifTypeCondition :: Maybe Name,
-    ifDirectives :: [Directive],
+  { ifTypeCondition :: Maybe TypeCondition,
+    ifDirectives :: Directives,
     ifSelectionSet :: SelectionSet
   }
-  deriving stock (Eq, Generic, Ord, Show, Read, Lift)
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
 
 newtype FragmentName = FragmentName {unFragmentName :: Name}
   deriving stock (Lift)
@@ -302,18 +331,20 @@ data Field = Field
   { fieldAlias :: Maybe Name,
     fieldName :: Name,
     fieldArguments :: Arguments,
-    fieldDirectives :: [Directive],
+    fieldDirectives :: Directives,
     fieldSelectionSet :: Maybe SelectionSet
   }
-  deriving stock (Eq, Ord, Show, Read, Lift)
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
 
 --------------------------------------------------------------------------------
 -- Selections
 
 -- | The set of information selected by an operation.
 newtype SelectionSet = SelectionSet (NE.NonEmpty Selection)
-  deriving stock (Lift)
+  deriving stock (Lift, Generic)
   deriving newtype (Eq, Ord, Show, Read, Semigroup)
+  deriving anyclass (NFData)
 
 type Selection = Field \/ FragmentSpread \/ InlineFragment
 
@@ -347,7 +378,8 @@ data Value
 -- definitions are provided alongside their definitions and made
 -- available via introspection.
 newtype Description = Description {unDescription :: Text}
-  deriving stock (Eq, Ord, Read, Lift)
+  deriving stock (Eq, Ord, Read, Lift, Generic)
+  deriving anyclass (NFData)
 
 -- NOTE: We must escape newlines in Descriptions for our golden test
 -- read/show ISO. This show instance must never be used when pretty
@@ -357,7 +389,8 @@ instance Show Description where
     "Description\n" <> "{ unDescription =" <> show (T.replace "\n" "\\n" txt) <> "}"
 
 data OperationType = Query | Mutation | Subscription
-  deriving stock (Eq, Ord, Show, Read, Lift)
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
 
 newtype Name = Name {unName :: Text}
   deriving stock (Lift)
@@ -367,13 +400,19 @@ data VariableDefinition = VariableDefinition
   { varName :: Name,
     varType :: Type,
     varDefaultValue :: Maybe Value,
-    varDirectives :: [Directive]
+    varDirectives :: Directives
   }
-  deriving stock (Eq, Ord, Show, Read, Lift)
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
 
 newtype Arguments = Arguments {unArguments :: HashMap Name Value}
   deriving stock (Generic, Lift)
   deriving newtype (Eq, Ord, Show, Read, Semigroup, Monoid)
+  deriving anyclass (Hashable, NFData)
+
+newtype TypeCondition = TypeCondition {unTypeCondition :: Name}
+  deriving stock (Generic, Lift)
+  deriving stock (Eq, Ord, Show, Read)
   deriving anyclass (Hashable, NFData)
 
 data Type = NamedType Name | ListType Type | NonNullType Type
@@ -381,11 +420,17 @@ data Type = NamedType Name | ListType Type | NonNullType Type
   deriving stock (Eq, Ord, Show, Read)
   deriving anyclass (Hashable, NFData)
 
+
+newtype Directives = Directives {unDirectives :: [Directive]}
+  deriving stock (Lift, Generic)
+  deriving newtype (Eq, Ord, Show, Read, Semigroup, Monoid)
+  deriving anyclass (NFData)
 data Directive = Directive
-  { name :: Name,
-    arguments :: Arguments
+  { dName :: Name,
+    dArguments :: Maybe Arguments
   }
-  deriving stock (Eq, Ord, Show, Read, Lift)
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
 
 --------------------------------------------------------------------------------
 -- Pretty helpers

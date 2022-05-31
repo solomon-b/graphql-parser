@@ -21,13 +21,15 @@
                         , fieldArguments = fromList []
                         , fieldDirectives =
                             [ Directive
-                                { name = "@skip"
-                                , arguments = fromList
-                                    [
-                                        ( "if"
-                                        , VVar "someTest"
-                                        )
-                                    ]
+                                { dName = "@skip"
+                                , dArguments = Just
+                                    ( fromList
+                                        [
+                                            ( "if"
+                                            , VVar "someTest"
+                                            )
+                                        ]
+                                    )
                                 }
                             ]
                         , fieldSelectionSet = Nothing

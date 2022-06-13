@@ -125,3 +125,39 @@ test-suite graphql-parser-test
     , unordered-containers
     , utf8-string
     , vector
+
+-------------------------------------------------------------------------------
+
+benchmark graphql-parser-benchmarks
+  import:
+    , common-libraries
+    , common-settings
+
+  type: exitcode-stdio-1.0
+  hs-source-dirs: test
+  main-is: Benchmarks.hs
+
+  build-depends:
+    , graphql-parser
+    , aeson-pretty
+    , directory
+    , filepath
+    , generic-arbitrary
+    , hspec
+    , hspec-core
+    , hspec-golden
+    , lens
+    , lens-aeson
+    , mtl
+    , parsec
+    , pretty-simple
+    , prettyprinter
+    , raw-strings-qq
+    , QuickCheck
+    , safe-exceptions
+    , scientific
+    , tasty-bench
+    , text-builder
+    , unordered-containers
+    , utf8-string
+    , vector

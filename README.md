@@ -32,7 +32,6 @@ QuasiQuoters are provided to construct literal values at compile time:
 
 # TODO
 
-- Criterion Profiling
 - Review and clean up prettty printer output
 - Review and clean up parser grammar
 - Type System Extensions

@@ -1,37 +1,35 @@
-[ ExecDef
-    ( OpDef
+[ DefinitionExecutable
+    ( ExecutableDefinitionOperation
         ( OperationDefinition
-            { opType = Query
-            , opName = Nothing
-            , opVariables = Nothing
-            , opDirectives = []
-            , opSelectionSet = Left
-                ( Left
-                    ( Field
-                        { fieldAlias = Nothing
-                        , fieldName = "nearestThing"
-                        , fieldArguments = fromList
-                            [
-                                ( "location"
-                                , VObject
-                                    ( fromList
-                                        [
-                                            ( "lat"
-                                            , VFloat
-                                                ( -53.211 )
-                                            )
-                                        ,
-                                            ( "lon"
-                                            , VFloat 12.43
-                                            )
-                                        ]
-                                    )
+            { _odType = OperationTypeQuery
+            , _odName = Nothing
+            , _odVariables = Nothing
+            , _odDirectives = Nothing
+            , _odSelectionSet = SelectionField
+                ( Field
+                    { _fAlias = Nothing
+                    , _fName = "nearestThing"
+                    , _fArguments = fromList
+                        [
+                            ( "location"
+                            , VObject
+                                ( fromList
+                                    [
+                                        ( "lat"
+                                        , VFloat
+                                            ( -53.211 )
+                                        )
+                                    ,
+                                        ( "lon"
+                                        , VFloat 12.43
+                                        )
+                                    ]
                                 )
-                            ]
-                        , fieldDirectives = []
-                        , fieldSelectionSet = Nothing
-                        }
-                    )
+                            )
+                        ]
+                    , _fDirectives = Nothing
+                    , _fSelectionSet = Nothing
+                    }
                 ) :| []
             }
         )

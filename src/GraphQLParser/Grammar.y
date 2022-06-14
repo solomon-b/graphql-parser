@@ -18,8 +18,6 @@ import GraphQLParser.Syntax
 --------------------------------------------------------------------------------
 
 %name parseGraphQLDocument graphqlDocument
-%name parseExecutableDocument executableDocument
-%name parseTypeSystemDocument typeSystemDocument
 %name parseName name
 %tokentype { Token }
 %monad { Parser }
@@ -104,32 +102,22 @@ dir            { TokDirective $$ }
 
 --------------------------------------------------------------------------------
 
-graphqlDocument :: { GraphQLDocument }
+graphqlDocument :: { Document }
 graphqlDocument
   : graphqlDefinition { Document (pure $1) }
-  | graphqlDefinition graphqlDocument { coerce ($1 : coerce @_ @[GraphQLDefinition] $2)}
+  | graphqlDefinition graphqlDocument { coerce ($1 : coerce $2)}
 
 executableOrTypeSystemDefiniton :: { Either ExecutableDefinition TypeSystemDefinitionOrExtension }
 executableOrTypeSystemDefiniton
   : executableDefinition { Left $1 }
   | typeSystemDefinition { Right (TyDefinition $1) }
 
-executableDocument :: { ExecutableDocument }
-executabledocument
-  : executableDefinition { Document (pure $1) }
-  | executableDefinition executableDocument { coerce ($1 : coerce $2)}
-
-typeSystemDocument :: { TypeSystemDocument }
-typesystemdocument
-  : typeSystemDefinition { Document (pure $ TyDefinition $1) }
-  | typeSystemDefinition typeSystemDocument { coerce (TyDefinition $1 : coerce @_ @[TypeSystemDefinitionOrExtension] $2) }
-
 --------------------------------------------------------------------------------
 
-graphqlDefinition :: { GraphQLDefinition }
+graphqlDefinition :: { Definition }
 graphqldefinition
-  : typeSystemDefinition { TypeSysDef $1 }
-  | executableDefinition { ExecDef $1 }
+  : typeSystemDefinition { DefinitionTypeSystem $1 }
+  | executableDefinition { DefinitionExecutable $1 }
 
 --------------------------------------------------------------------------------
 
@@ -138,9 +126,9 @@ graphqldefinition
 
 typeSystemDefinition :: { TypeSystemDefinition }
 typeSystemDefinition
-  : schemaDefinition { SchemaDef $1 }
-  | typeDefinition { TypeDef $1 }
-  | directiveDefinition { DirDef $1 }
+  : schemaDefinition { TypeSystemDefinitionSchema $1 }
+  | typeDefinition { TypeSystemDefinitionType $1 }
+  | directiveDefinition { TypeSystemDefinitionDirective $1 }
 
 -- TODO:
 -- typeSystemExtension :: { TypeSystemExtension }
@@ -321,36 +309,31 @@ inputValueDefinition
 
 executableDefinition :: { ExecutableDefinition }
 executabledefinition
-  : operationDefinition { OpDef $1}
-  | fragmentDefinition { FragDef $1}
+  : operationDefinition { ExecutableDefinitionOperation $1}
+  | fragmentDefinition { ExecutableDefinitionFragment $1}
 
 operationDefinition :: { OperationDefinition }
 operationDefinition
- : operationType directives selectionSet { OperationDefinition  $1 Nothing mempty $2 $3 }
- | operationType name directives selectionSet { OperationDefinition  $1 (Just $2) mempty $3 $4 }
-| operationType variableDefinitions directives selectionSet { OperationDefinition $1 Nothing (Just $2) $3 $4 }
+ : operationType directives selectionSet { OperationDefinition $1 Nothing mempty $2 $3 }
+ | operationType name directives selectionSet { OperationDefinition $1 (Just $2) mempty $3 $4 }
+ | operationType variableDefinitions directives selectionSet { OperationDefinition $1 Nothing (Just $2) $3 $4 }
  | operationType name variableDefinitions directives selectionSet { OperationDefinition  $1 (Just $2) (Just $3) $4 $5 }
- | selectionSet { OperationDefinition Query Nothing mempty mempty $1 }
+ | selectionSet { OperationDefinition OperationTypeQuery Nothing mempty Nothing $1 }
 
 --------------------------------------------------------------------------------
 
 fragmentDefinition :: { FragmentDefinition }
 fragmentDefinition
-  : 'fragment' fragmentName typeCondition directives selectionSet { FragmentDefinition $2 $3 $4 $5 }
+  : 'fragment' name typeCondition directives selectionSet { FragmentDefinition $2 $3 $4 $5 }
 
 fragmentSpread :: { FragmentSpread }
 fragmentSpread
-  : '...' fragmentName directives { FragmentSpread $2 $3 }
+  : '...' name directives { FragmentSpread $2 $3 }
 
 inlineFragment :: { InlineFragment }
 inlineFragment
   : '...' typeCondition directives selectionSet { InlineFragment (Just $2) $3 $4 }
   | '...' directives selectionSet { InlineFragment Nothing $2 $3 }
-
--- TODO: Fail if `Name` == `on`
-fragmentName :: { FragmentName }
-fragmentname
-  : name { FragmentName $1 }
 
 --------------------------------------------------------------------------------
 
@@ -374,9 +357,9 @@ selections
 
 selection :: { Selection }
 selection
-  : field { Left (Left $1) }
-  | fragmentSpread { Left (Right $1) }
-  | inlineFragment { Right $1 }
+  : field { SelectionField $1 }
+  | fragmentSpread { SelectionFragmentSpread $1 }
+  | inlineFragment { SelectionInlineFragment $1 }
 
 --------------------------------------------------------------------------------
 -- Input Values
@@ -431,9 +414,9 @@ objectField
 
 operationType :: { OperationType }
 operationtype
-  : 'query' { Query }
-  | 'mutation' { Mutation }
-  | 'subscription' { Subscription }
+  : 'query' { OperationTypeQuery }
+  | 'mutation' { OperationTypeMutation }
+  | 'subscription' { OperationTypeSubscription }
 
 aliasAndName :: { (Maybe Name, Name) }
 aliasAndName
@@ -477,15 +460,15 @@ type
   | type '!' { NonNullType $1 }
   | '[' type ']' { ListType $2 }
 
-directives :: { Directives }
+directives :: { Maybe Directives }
 directives
-  : directives_ { Directives $1 }
-  | { mempty }
+  : directives_ { Just (Directives $1) }
+  | { Nothing }
 
-directives_ :: { [Directive] }
+directives_ :: { NE.NonEmpty Directive }
 directives_
-  : directive { [$1] }
-  | directive directives_ { $1 : $2 }
+  : directive { $1 NE.:| [] }
+  | directive directives_ { $1 NE.<| $2 }
 
 directive :: { Directive }
 directive

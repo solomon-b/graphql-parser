@@ -1,29 +1,27 @@
-[ ExecDef
-    ( OpDef
+[ DefinitionExecutable
+    ( ExecutableDefinitionOperation
         ( OperationDefinition
-            { opType = Query
-            , opName = Nothing
-            , opVariables = Nothing
-            , opDirectives = []
-            , opSelectionSet = Left
-                ( Left
-                    ( Field
-                        { fieldAlias = Nothing
-                        , fieldName = "picture"
-                        , fieldArguments = fromList
-                            [
-                                ( "width"
-                                , VInt 200
-                                )
-                            ,
-                                ( "height"
-                                , VInt 100
-                                )
-                            ]
-                        , fieldDirectives = []
-                        , fieldSelectionSet = Nothing
-                        }
-                    )
+            { _odType = OperationTypeQuery
+            , _odName = Nothing
+            , _odVariables = Nothing
+            , _odDirectives = Nothing
+            , _odSelectionSet = SelectionField
+                ( Field
+                    { _fAlias = Nothing
+                    , _fName = "picture"
+                    , _fArguments = fromList
+                        [
+                            ( "width"
+                            , VInt 200
+                            )
+                        ,
+                            ( "height"
+                            , VInt 100
+                            )
+                        ]
+                    , _fDirectives = Nothing
+                    , _fSelectionSet = Nothing
+                    }
                 ) :| []
             }
         )

@@ -12,9 +12,9 @@ import Text.Builder qualified as STB -- Strict Text Builder
 
 -------------------------------------------------------------------------------
 
-genDocs :: Int -> IO [(Int, ExecutableDocument)]
+genDocs :: Int -> IO [(Int, Document)]
 genDocs num =
-  for [1 .. num] $ \n -> (n,) <$> generate genExecutableDocument
+  for [1 .. num] $ \n -> (n,) <$> generate genDocument
 
 genTexts :: Int -> IO [(Int, [Text])]
 genTexts num =
@@ -38,4 +38,4 @@ main = do
 
     mkPGrp qs =
       bgroup "parsing executableDocument" $
-        map (\(n, q) -> bench (show n) $ whnf runParseExecutable q) qs
+        map (\(n, q) -> bench (show n) $ whnf runParseGraphQL q) qs

@@ -31,37 +31,21 @@ type a \/ b = Either a b
 -- operated on by a GraphQL service or client. A 'Document' contains
 -- multiple 'Definition's, either executable or representative of a
 -- GraphQL type system.
-newtype Document definition = Document [definition]
+newtype Document = Document {getDefinitions :: [Definition]}
   deriving stock (Lift)
   deriving newtype (Eq, Ord, Show, Read, NFData)
 
-instance Pretty definition => Pretty (Document definition) where
+instance Pretty Document where
   pretty (Document defs) = foldMap ((<> line) . pretty) defs
 
--- | A GraphQL Document describes a complete file or request string
--- operated on by a GraphQL service or client. A document contains
--- multiple definitions, either executable or representative of a
--- GraphQL type system.
-type GraphQLDocument = Document GraphQLDefinition
-
-data GraphQLDefinition = ExecDef ExecutableDefinition | TypeSysDef TypeSystemDefinition
+data Definition = DefinitionExecutable ExecutableDefinition | DefinitionTypeSystem TypeSystemDefinition
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
 
-instance Pretty GraphQLDefinition where
+instance Pretty Definition where
   pretty = \case
-    ExecDef ed -> pretty ed
-    TypeSysDef ts -> pretty ts
-
--- | A 'Document' containing strictly '[ExecutableDefinition]' where at
--- least one value is a 'OperationDefinition' is considered an
--- Executable Document.
---
--- 'Document's are only executable by a GraphQL service if they are
--- 'ExecutableDocument'.
-type ExecutableDocument = Document ExecutableDefinition
-
-type TypeSystemDocument = Document TypeSystemDefinitionOrExtension
+    DefinitionExecutable ed -> pretty ed
+    DefinitionTypeSystem ts -> pretty ts
 
 --------------------------------------------------------------------------------
 -- Type System Definitions
@@ -76,17 +60,17 @@ data TypeSystemDefinitionOrExtension
   deriving anyclass (NFData)
 
 data TypeSystemDefinition
-  = SchemaDef SchemaDefinition
-  | TypeDef TypeDefinition
-  | DirDef DirectiveDefinition
+  = TypeSystemDefinitionSchema SchemaDefinition
+  | TypeSystemDefinitionType TypeDefinition
+  | TypeSystemDefinitionDirective DirectiveDefinition
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
 
 instance Pretty TypeSystemDefinition where
   pretty = \case
-    SchemaDef sd -> pretty sd
-    TypeDef ty -> pretty ty
-    DirDef dd -> pretty dd
+    TypeSystemDefinitionSchema sd -> pretty sd
+    TypeSystemDefinitionType ty -> pretty ty
+    TypeSystemDefinitionDirective dd -> pretty dd
 
 --------------------------------------------------------------------------------
 -- Schema Definitions
@@ -98,9 +82,9 @@ instance Pretty TypeSystemDefinition where
 -- subscription; this determines the place in the type system where
 -- those operations begin.
 data SchemaDefinition = SchemaDefinition
-  { sdDescription :: Maybe Description,
-    sdDirectives :: Directives,
-    sdRootOperations :: RootOperationTypesDefinition
+  { _sdDescription :: Maybe Description,
+    _sdDirectives :: Maybe Directives,
+    _sdRootOperationTypeDefinitions :: RootOperationTypesDefinition
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
@@ -108,10 +92,10 @@ data SchemaDefinition = SchemaDefinition
 instance Pretty SchemaDefinition where
   pretty SchemaDefinition {..} =
     sep
-      [ pretty sdDescription,
+      [ pretty _sdDescription,
         "schema",
-        pretty sdDirectives,
-        pretty sdRootOperations
+        pretty _sdDirectives,
+        pretty _sdRootOperationTypeDefinitions
       ]
 
 newtype RootOperationTypesDefinition = RootOperationTypesDefinition
@@ -129,15 +113,15 @@ instance Pretty RootOperationTypesDefinition where
 -- @Subscription@; this determines the place in the type system where
 -- those operations begin.
 data RootOperationTypeDefinition = RootOperationTypeDefinition
-  { roType :: OperationType,
-    roTypeName :: Name
+  { _rotdOperationType :: OperationType,
+    _rotdNamedType :: Name
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
 
 instance Pretty RootOperationTypeDefinition where
   pretty RootOperationTypeDefinition {..} =
-    sep [pretty roType <> ":", pretty roTypeName]
+    sep [pretty _rotdOperationType <> ":", pretty _rotdNamedType]
 
 --------------------------------------------------------------------------------
 -- Type Definitions
@@ -163,9 +147,9 @@ instance Pretty TypeDefinition where
     IOTDef iotd -> pretty iotd
 
 data ScalarTypeDefinition = ScalarTypeDefinition
-  { scalarDescription :: Maybe Description,
-    scalarName :: Name,
-    scalarDirectives :: Directives
+  { _stDescription :: Maybe Description,
+    _stName :: Name,
+    _stDirectives :: Maybe Directives
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
@@ -173,10 +157,10 @@ data ScalarTypeDefinition = ScalarTypeDefinition
 instance Pretty ScalarTypeDefinition where
   pretty ScalarTypeDefinition {..} =
     sep
-      [ pretty scalarDescription,
+      [ pretty _stDescription,
         "scalar",
-        pretty scalarName,
-        pretty scalarDirectives
+        pretty _stName,
+        pretty _stDirectives
       ]
 
 -- | GraphQL operations are hierarchical and composed, describing a
@@ -184,11 +168,11 @@ instance Pretty ScalarTypeDefinition where
 -- these hierarchical operations, Objects describe the intermediate
 -- levels.
 data ObjectTypeDefinition = ObjectTypeDefinition
-  { objectDescription :: Maybe Description,
-    objectName :: Name,
-    objectInterfaces :: Maybe ImplementsInterfaces,
-    objectDirectives :: Directives,
-    objectFields :: Maybe FieldsDefinition
+  { _otdDescription :: Maybe Description,
+    _otdName :: Name,
+    _otdImplementsInterfaces :: Maybe ImplementsInterfaces,
+    _otdDirectives :: Maybe Directives,
+    _otdFieldsDefinition :: Maybe FieldsDefinition
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
@@ -196,12 +180,12 @@ data ObjectTypeDefinition = ObjectTypeDefinition
 instance Pretty ObjectTypeDefinition where
   pretty ObjectTypeDefinition {..} =
     sep
-      [ pretty objectDescription,
+      [ pretty _otdDescription,
         "type",
-        pretty objectName,
-        pretty objectInterfaces,
-        pretty objectDirectives,
-        pretty objectFields
+        pretty _otdName,
+        pretty _otdImplementsInterfaces,
+        pretty _otdDirectives,
+        pretty _otdFieldsDefinition
       ]
 
 newtype FieldsDefinition = FieldsDefinition {unFieldsDefinition :: NE.NonEmpty FieldDefinition}
@@ -214,11 +198,11 @@ instance Pretty FieldsDefinition where
     encloseSep "{" "}" line (foldr (\x xs -> pretty x : xs) [] unFieldsDefinition)
 
 data FieldDefinition = FieldDefinition
-  { fieldDefDescription :: Maybe Description,
-    fieldDefName :: Name,
-    fieldDefArgumentsDef :: ArgumentsDefinition,
-    fieldDefType :: Type,
-    fieldDefDirectives :: Directives
+  { _fldDescription :: Maybe Description,
+    _fldName :: Name,
+    _fldArgumentsDefinition :: ArgumentsDefinition,
+    _fldType :: Type,
+    _fldDirectives :: Maybe Directives
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
@@ -226,12 +210,12 @@ data FieldDefinition = FieldDefinition
 instance Pretty FieldDefinition where
   pretty FieldDefinition {..} =
     sep
-      [ pretty fieldDefDescription,
-        pretty fieldDefName,
-        pretty fieldDefArgumentsDef,
+      [ pretty _fldDescription,
+        pretty _fldName,
+        pretty _fldArgumentsDefinition,
         ":",
-        pretty fieldDefType,
-        pretty fieldDefDirectives
+        pretty _fldType,
+        pretty _fldDirectives
       ]
 
 -- | GraphQL interfaces represent a list of named fields and their
@@ -239,11 +223,11 @@ instance Pretty FieldDefinition where
 -- interfaces which requires that the implementing type will define
 -- all fields defined by those interfaces.
 data InterfaceTypeDefinition = InterfaceTypeDefinition
-  { interfaceDescription :: Maybe Description,
-    interfaceName :: Name,
-    interfaceInterfaces :: Maybe ImplementsInterfaces,
-    interfaceDirectives :: Directives,
-    interfaceFields :: Maybe FieldsDefinition
+  { _itDescription :: Maybe Description,
+    _itName :: Name,
+    _itInterfaces :: Maybe ImplementsInterfaces,
+    _itDirectives :: Maybe Directives,
+    _itFields :: Maybe FieldsDefinition
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
@@ -251,12 +235,12 @@ data InterfaceTypeDefinition = InterfaceTypeDefinition
 instance Pretty InterfaceTypeDefinition where
   pretty InterfaceTypeDefinition {..} =
     sep
-      [ pretty interfaceDescription,
+      [ pretty _itDescription,
         "interface",
-        pretty interfaceName,
-        pretty interfaceInterfaces,
-        pretty interfaceDirectives,
-        pretty interfaceFields
+        pretty _itName,
+        pretty _itInterfaces,
+        pretty _itDirectives,
+        pretty _itFields
       ]
 
 newtype ImplementsInterfaces = ImplementsInterfaces {unInterfaces :: NE.NonEmpty Name}
@@ -274,10 +258,10 @@ instance Pretty ImplementsInterfaces where
 -- declare what interfaces they implement, but are not aware of what
 -- unions contain them.
 data UnionTypeDefinition = UnionTypeDefinition
-  { unionDescription :: Maybe Description,
-    unionName :: Name,
-    unionDirectives :: Directives,
-    unionMemberTypes :: [Name]
+  { _utdDescription :: Maybe Description,
+    _utdName :: Name,
+    _utdDirectives :: Maybe Directives,
+    _utdMemberTypes :: [Name]
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
@@ -285,22 +269,22 @@ data UnionTypeDefinition = UnionTypeDefinition
 instance Pretty UnionTypeDefinition where
   pretty UnionTypeDefinition {..} =
     sep
-      [ pretty unionDescription,
+      [ pretty _utdDescription,
         "union",
-        pretty unionName,
-        pretty unionDirectives,
+        pretty _utdName,
+        pretty _utdDirectives,
         "=",
-        foldMap (\n -> "|" <+> pretty n <> line) unionMemberTypes
+        foldMap (\n -> "|" <+> pretty n <> line) _utdMemberTypes
       ]
 
 -- | GraphQL Enum types, like Scalar types, also represent leaf values
 -- in a GraphQL type system. However Enum types describe the set of
 -- possible values.
 data EnumTypeDefinition = EnumTypeDefinition
-  { enumDescription :: Maybe Description,
-    enumName :: Name,
-    enumDirectives :: Directives,
-    enumValues :: [EnumValueDefinition]
+  { _etdDescription :: Maybe Description,
+    _etdName :: Name,
+    _etdDirectives :: Maybe Directives,
+    _etdValueDefinitions :: [EnumValueDefinition]
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
@@ -308,17 +292,17 @@ data EnumTypeDefinition = EnumTypeDefinition
 instance Pretty EnumTypeDefinition where
   pretty EnumTypeDefinition {..} =
     sep
-      [ pretty enumDescription,
+      [ pretty _etdDescription,
         "enum",
-        pretty enumName,
-        pretty enumDirectives,
-        encloseSep "{" "}" line (fmap pretty enumValues)
+        pretty _etdName,
+        pretty _etdDirectives,
+        encloseSep "{" "}" line (fmap pretty _etdValueDefinitions)
       ]
 
 data EnumValueDefinition = EnumValueDefinition
-  { evDescription :: Maybe Description,
-    evName :: Name,
-    evDirectives :: Directives
+  { _evdDescription :: Maybe Description,
+    _evdName :: Name,
+    _evdDirectives :: Maybe Directives
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
@@ -326,19 +310,19 @@ data EnumValueDefinition = EnumValueDefinition
 instance Pretty EnumValueDefinition where
   pretty EnumValueDefinition {..} =
     sep
-      [ pretty evDescription,
-        pretty evName,
-        pretty evDirectives
+      [ pretty _evdDescription,
+        pretty _evdName,
+        pretty _evdDirectives
       ]
 
 -- | A GraphQL Input Object defines a set of input fields; the input
 -- fields are either scalars, enums, or other input objects. This
 -- allows arguments to accept arbitrarily complex structs.
 data InputObjectTypeDefinition = InputObjectTypeDefinition
-  { inputDescription :: Maybe Description,
-    inputName :: Name,
-    inputDirectives :: Directives,
-    inputValues :: InputFieldsDefinition
+  { _iotDescription :: Maybe Description,
+    _iotName :: Name,
+    _iotDirectives :: Maybe Directives,
+    _iotValueDefinitions :: InputFieldsDefinition
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
@@ -346,11 +330,11 @@ data InputObjectTypeDefinition = InputObjectTypeDefinition
 instance Pretty InputObjectTypeDefinition where
   pretty InputObjectTypeDefinition {..} =
     sep
-      [ pretty inputDescription,
+      [ pretty _iotDescription,
         "input",
-        pretty inputName,
-        pretty inputDirectives,
-        pretty inputValues
+        pretty _iotName,
+        pretty _iotDirectives,
+        pretty _iotValueDefinitions
       ]
 
 newtype InputFieldsDefinition = InputFieldsDefinition {unInputFieldsDefinition :: [InputValueDefinition]}
@@ -374,11 +358,11 @@ instance Pretty ArgumentsDefinition where
       xs -> encloseSep "(" ")" " " (fmap pretty xs)
 
 data InputValueDefinition = InputValueDefinition
-  { inputValueDescription :: Maybe Description,
-    inputValueName :: Name,
-    inputValueType :: Type,
-    inputValueDefault :: Maybe Value,
-    inputValueDirectives :: Directives
+  { _ivdDescription :: Maybe Description,
+    _ivdName :: Name,
+    _ivdType :: Type,
+    _ivdDefaultValue :: Maybe Value,
+    _ivdDirectives :: Maybe Directives
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
@@ -386,21 +370,21 @@ data InputValueDefinition = InputValueDefinition
 instance Pretty InputValueDefinition where
   pretty InputValueDefinition {..} =
     sep
-      [ pretty inputValueDescription,
-        pretty inputValueName <> ":",
-        pretty inputValueType,
-        pretty inputValueDefault,
-        pretty inputValueDirectives
+      [ pretty _ivdDescription,
+        pretty _ivdName <> ":",
+        pretty _ivdType,
+        pretty _ivdDefaultValue,
+        pretty _ivdDirectives
       ]
 
 --------------------------------------------------------------------------------
 -- Directive Definitions
 
 data DirectiveDefinition = DirectiveDefinition
-  { dirDefDescription :: Maybe Description,
-    dirDefName :: Name,
-    dirDefArguments :: ArgumentsDefinition,
-    dirDefLocations :: [DirectiveLocation]
+  { _ddDescription :: Maybe Description,
+    _ddName :: Name,
+    _ddArguments :: ArgumentsDefinition,
+    _ddLocations :: [DirectiveLocation]
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
@@ -408,12 +392,12 @@ data DirectiveDefinition = DirectiveDefinition
 instance Pretty DirectiveDefinition where
   pretty DirectiveDefinition {..} =
     sep
-      [ pretty dirDefDescription,
+      [ pretty _ddDescription,
         "directive",
-        "@" <> pretty dirDefName,
-        pretty dirDefArguments,
+        "@" <> pretty _ddName,
+        pretty _ddArguments,
         "on",
-        foldMap (\n -> "|" <+> pretty n <> line) dirDefLocations
+        foldMap (\n -> "|" <+> pretty n <> line) _ddLocations
       ]
 
 data DirectiveLocation = ExecDirLoc ExecutableDirectiveLocation | TypeSysDirLoc TypeSystemDirectiveLocation
@@ -491,14 +475,16 @@ instance Pretty TypeSystemExtension where
 --------------------------------------------------------------------------------
 -- Executable Definitions
 
-data ExecutableDefinition = OpDef OperationDefinition | FragDef FragmentDefinition
+data ExecutableDefinition
+  = ExecutableDefinitionOperation OperationDefinition
+  | ExecutableDefinitionFragment FragmentDefinition
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
 
 instance Pretty ExecutableDefinition where
   pretty = \case
-    OpDef od -> pretty od
-    FragDef fd -> pretty fd
+    ExecutableDefinitionOperation od -> pretty od
+    ExecutableDefinitionFragment fd -> pretty fd
 
 -- | There are three types of operations that GraphQL models:
 --
@@ -508,11 +494,11 @@ instance Pretty ExecutableDefinition where
 --
 -- Each operation is represented by an optional operation name and a selection set.
 data OperationDefinition = OperationDefinition
-  { opType :: OperationType,
-    opName :: Maybe Name,
-    opVariables :: Maybe VariablesDefinition,
-    opDirectives :: Directives,
-    opSelectionSet :: SelectionSet
+  { _odType :: OperationType,
+    _odName :: Maybe Name,
+    _odVariables :: Maybe VariablesDefinition,
+    _odDirectives :: Maybe Directives,
+    _odSelectionSet :: SelectionSet
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
@@ -520,11 +506,11 @@ data OperationDefinition = OperationDefinition
 instance Pretty OperationDefinition where
   pretty OperationDefinition {..} =
     sep
-      [ pretty opType,
-        pretty opName,
-        pretty opVariables,
-        pretty opDirectives,
-        pretty opSelectionSet
+      [ pretty _odType,
+        pretty _odName,
+        pretty _odVariables,
+        pretty _odDirectives,
+        pretty _odSelectionSet
       ]
 
 --------------------------------------------------------------------------------
@@ -535,10 +521,10 @@ instance Pretty OperationDefinition where
 -- Fragments allow for the reuse of common repeated selections of
 -- 'Field's, reducing duplicated text in the 'Document'.
 data FragmentDefinition = FragmentDefinition
-  { fragName :: FragmentName,
-    fragTypeCondition :: TypeCondition,
-    fragDirectives :: Directives,
-    fragSelectionSet :: SelectionSet
+  { _fdName :: Name,
+    _fdTypeCondition :: TypeCondition,
+    _fdDirectives :: Maybe Directives,
+    _fdSelectionSet :: SelectionSet
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
@@ -547,10 +533,10 @@ instance Pretty FragmentDefinition where
   pretty FragmentDefinition {..} =
     sep
       [ "fragment",
-        pretty fragName,
-        pretty fragTypeCondition,
-        pretty fragDirectives,
-        pretty fragSelectionSet
+        pretty _fdName,
+        pretty _fdTypeCondition,
+        pretty _fdDirectives,
+        pretty _fdSelectionSet
       ]
 
 -- | Fragments are consumed by using the spread operator @(...)@. All
@@ -558,8 +544,8 @@ instance Pretty FragmentDefinition where
 -- selection at the same level as the fragment invocation. This
 -- happens through multiple levels of fragment spreads.
 data FragmentSpread = FragmentSpread
-  { fsName :: FragmentName,
-    fsDirectives :: Directives
+  { _fsName :: Name,
+    _fsDirectives :: Maybe Directives
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
@@ -567,17 +553,17 @@ data FragmentSpread = FragmentSpread
 instance Pretty FragmentSpread where
   pretty FragmentSpread {..} =
     sep
-      [ "..." <> pretty fsName,
-        pretty fsDirectives
+      [ "..." <> pretty _fsName,
+        pretty _fsDirectives
       ]
 
 -- | 'InlineFragment' can be used directly within a 'Selection' to
 -- condition upon a type condition when querying against an interface
 -- or union.
 data InlineFragment = InlineFragment
-  { ifTypeCondition :: Maybe TypeCondition,
-    ifDirectives :: Directives,
-    ifSelectionSet :: SelectionSet
+  { _ifTypeCondition :: Maybe TypeCondition,
+    _ifDirectives :: Maybe Directives,
+    _ifSelectionSet :: SelectionSet
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
@@ -585,17 +571,10 @@ data InlineFragment = InlineFragment
 instance Pretty InlineFragment where
   pretty InlineFragment {..} =
     sep
-      [ "..." <> maybe mempty pretty ifTypeCondition,
-        pretty ifDirectives,
-        pretty ifSelectionSet
+      [ "..." <> maybe mempty pretty _ifTypeCondition,
+        pretty _ifDirectives,
+        pretty _ifSelectionSet
       ]
-
-newtype FragmentName = FragmentName {unFragmentName :: Name}
-  deriving stock (Lift)
-  deriving newtype (Eq, Ord, Show, Read, Hashable, NFData)
-
-instance Pretty FragmentName where
-  pretty FragmentName {..} = pretty unFragmentName
 
 --------------------------------------------------------------------------------
 -- Fields
@@ -608,24 +587,24 @@ instance Pretty FragmentName where
 -- 'Arguments' often map directly to function arguments within a
 -- GraphQL service’s implementation.
 data Field = Field
-  { fieldAlias :: Maybe Name,
-    fieldName :: Name,
-    fieldArguments :: Arguments,
-    fieldDirectives :: Directives,
-    fieldSelectionSet :: Maybe SelectionSet
+  { _fAlias :: Maybe Name,
+    _fName :: Name,
+    _fArguments :: Arguments,
+    _fDirectives :: Maybe Directives,
+    _fSelectionSet :: Maybe SelectionSet
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
 
 instance Pretty Field where
   pretty Field {..} =
-    let fieldAlias' = maybe "" ((<> ":") . pretty) fieldAlias
+    let fieldAlias' = maybe "" ((<> ":") . pretty) _fAlias
      in sep
           [ fieldAlias',
-            pretty fieldName,
-            pretty fieldArguments,
-            pretty fieldDirectives,
-            pretty fieldSelectionSet
+            pretty _fName,
+            pretty _fArguments,
+            pretty _fDirectives,
+            pretty _fSelectionSet
           ]
 
 --------------------------------------------------------------------------------
@@ -642,12 +621,16 @@ instance Pretty SelectionSet where
     where
       f :: Selection -> Doc ann
       f = \case
-        Left (Left field) -> pretty field
-        Left (Right fragmentSpread) -> pretty fragmentSpread
-        Right inlineFragment -> pretty inlineFragment
+        SelectionField field -> pretty field
+        SelectionFragmentSpread fragmentSpread -> pretty fragmentSpread
+        SelectionInlineFragment inlineFragment -> pretty inlineFragment
 
--- TODO: Remove Eithers
-type Selection = Field \/ FragmentSpread \/ InlineFragment
+data Selection
+  = SelectionField Field
+  | SelectionFragmentSpread FragmentSpread
+  | SelectionInlineFragment InlineFragment
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
 
 --------------------------------------------------------------------------------
 -- Values
@@ -719,15 +702,18 @@ instance Pretty Description where
   -- TODO(SOLOMON): Distinguish block from literal string quotes
   pretty Description {..} = dquote <> dquote <> dquote <> pretty unDescription <> dquote <> dquote <> dquote
 
-data OperationType = Query | Mutation | Subscription
+data OperationType
+  = OperationTypeQuery
+  | OperationTypeMutation
+  | OperationTypeSubscription
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
 
 instance Pretty OperationType where
   pretty = \case
-    Query -> "query"
-    Mutation -> "mutation"
-    Subscription -> "subscription"
+    OperationTypeQuery -> "query"
+    OperationTypeMutation -> "mutation"
+    OperationTypeSubscription -> "subscription"
 
 newtype Name = Name {unName :: Text}
   deriving stock (Lift)
@@ -756,10 +742,10 @@ instance Pretty VariablesDefinition where
     tupled (NE.toList $ fmap pretty vars)
 
 data VariableDefinition = VariableDefinition
-  { varName :: Name,
-    varType :: Type,
-    varDefaultValue :: Maybe Value,
-    varDirectives :: Directives
+  { _vdName :: Name,
+    _vdType :: Type,
+    _vdDefaultValue :: Maybe Value,
+    _vdDirectives :: Maybe Directives
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
@@ -767,10 +753,10 @@ data VariableDefinition = VariableDefinition
 instance Pretty VariableDefinition where
   pretty VariableDefinition {..} =
     sep
-      [ "$" <> pretty varName <> ":",
-        pretty varType,
-        maybe mempty ((space <>) . pretty) varDefaultValue,
-        pretty varDirectives
+      [ "$" <> pretty _vdName <> ":",
+        pretty _vdType,
+        maybe mempty ((space <>) . pretty) _vdDefaultValue,
+        pretty _vdDirectives
       ]
 
 newtype Arguments = Arguments {unArguments :: HashMap Name Value}
@@ -804,14 +790,14 @@ instance Pretty Type where
     ListType xs -> "[" <> pretty xs <> "]"
     NonNullType ty -> pretty ty <> "!"
 
-newtype Directives = Directives {unDirectives :: [Directive]}
+newtype Directives = Directives {unDirectives :: NE.NonEmpty Directive}
   deriving stock (Lift, Generic)
-  deriving newtype (Eq, Ord, Show, Read, Semigroup, Monoid)
+  deriving newtype (Eq, Ord, Show, Read, Semigroup)
   deriving anyclass (NFData)
 
 instance Pretty Directives where
   pretty Directives {..} =
-    fold (punctuate " " $ fmap pretty unDirectives)
+    fold $ punctuate " " $ pretty <$> NE.toList unDirectives
 
 data Directive = Directive
   { dName :: Name,
@@ -840,6 +826,3 @@ renderVect = renderDoc . foldMap pretty
 
 renderBL :: BL.ByteString -> Text
 renderBL = TE.decodeUtf8 . BL.toStrict
-
-right :: Either e a -> a
-right (Right a) = a

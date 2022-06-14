@@ -4,7 +4,6 @@ module GraphQLParser.Generator
 
     -- * Document
     genDocument,
-    genExecutableDocument,
 
     -- * Identifiers
     genText,
@@ -85,19 +84,13 @@ generate :: MonadIO m => Gen a -> m a
 generate = Gen.sample
 
 -------------------------------------------------------------------------------
-
 -- Document
 
-genDocument :: Gen GraphQLDocument
+genDocument :: Gen Document
 genDocument =
-  Document <$> Gen.list (Range.linear 0 3) (Gen.choice [ExecDef <$> genExecutableDefinition, TypeSysDef <$> genTypeSystemDefinition])
-
-genExecutableDocument :: Gen ExecutableDocument
-genExecutableDocument =
-  Document <$> Gen.list (Range.linear 1 3) genExecutableDefinition
+  Document <$> Gen.list (Range.linear 0 3) (Gen.choice [DefinitionExecutable <$> genExecutableDefinition, DefinitionTypeSystem <$> genTypeSystemDefinition])
 
 -------------------------------------------------------------------------------
-
 -- Identifiers
 
 genText :: Gen Text
@@ -147,7 +140,6 @@ genValue =
     ]
 
 -------------------------------------------------------------------------------
-
 -- Values
 
 genValueWith :: Gen Value
@@ -209,14 +201,13 @@ genIndentation = do
   Gen.text (Range.linear 0 100) (return ' ')
 
 -------------------------------------------------------------------------------
-
 -- Definitions
 
 genExecutableDefinition :: Gen ExecutableDefinition
 genExecutableDefinition =
   Gen.choice
-    [ OpDef <$> genOperationDefinition,
-      FragDef <$> genFragmentDefinition
+    [ ExecutableDefinitionOperation <$> genOperationDefinition,
+      ExecutableDefinitionFragment <$> genFragmentDefinition
     ]
 
 genOperationDefinition :: Gen OperationDefinition
@@ -225,7 +216,7 @@ genOperationDefinition =
     <$> genOperationType
     <*> Gen.maybe genName
     <*> Gen.maybe genVariablesDefinition
-    <*> genDirectives
+    <*> Gen.maybe genDirectives
     <*> genSelectionSet
 
 genVariablesDefinition :: Gen VariablesDefinition
@@ -238,29 +229,29 @@ genVariableDefinition =
     <$> genName
     <*> genType
     <*> Gen.maybe genValue
-    <*> genDirectives
+    <*> Gen.maybe genDirectives
 
 genFragmentDefinition :: Gen FragmentDefinition
 genFragmentDefinition =
   FragmentDefinition
-    <$> fmap FragmentName genName
+    <$> genName
     <*> genTypeCondition
-    <*> genDirectives
+    <*> Gen.maybe genDirectives
     <*> genSelectionSet
 
 genTypeSystemDefinition :: Gen TypeSystemDefinition
 genTypeSystemDefinition =
   Gen.choice
-    [ SchemaDef <$> genSchemaDefinition,
-      TypeDef <$> genTypeDefinition,
-      DirDef <$> genDirectiveDefinition
+    [ TypeSystemDefinitionSchema <$> genSchemaDefinition,
+      TypeSystemDefinitionType <$> genTypeDefinition,
+      TypeSystemDefinitionDirective <$> genDirectiveDefinition
     ]
 
 genSchemaDefinition :: Gen SchemaDefinition
 genSchemaDefinition =
   SchemaDefinition
     <$> Gen.maybe genDescription
-    <*> genDirectives
+    <*> Gen.maybe genDirectives
     <*> fmap RootOperationTypesDefinition (mkListNonEmpty genRootOperationTypeDefinition)
 
 genRootOperationTypeDefinition :: Gen RootOperationTypeDefinition
@@ -272,9 +263,9 @@ genRootOperationTypeDefinition =
 genOperationType :: Gen OperationType
 genOperationType =
   Gen.element
-    [ Query,
-      Mutation,
-      Subscription
+    [ OperationTypeQuery,
+      OperationTypeMutation,
+      OperationTypeSubscription
     ]
 
 genTypeDefinition :: Gen TypeDefinition
@@ -293,7 +284,7 @@ genScalarTypeDefinition =
   ScalarTypeDefinition
     <$> Gen.maybe genDescription
     <*> genName
-    <*> genDirectives
+    <*> Gen.maybe genDirectives
 
 genObjectTypeDefinition :: Gen ObjectTypeDefinition
 genObjectTypeDefinition =
@@ -301,7 +292,7 @@ genObjectTypeDefinition =
     <$> Gen.maybe genDescription
     <*> genName
     <*> Gen.maybe genImplementsInterfaces
-    <*> genDirectives
+    <*> Gen.maybe genDirectives
     <*> Gen.maybe genFieldDefinitions
 
 genInterfaceTypeDefinition :: Gen InterfaceTypeDefinition
@@ -310,7 +301,7 @@ genInterfaceTypeDefinition =
     <$> Gen.maybe genDescription
     <*> genName
     <*> Gen.maybe genImplementsInterfaces
-    <*> genDirectives
+    <*> Gen.maybe genDirectives
     <*> Gen.maybe genFieldDefinitions
 
 genUnionTypeDefinition :: Gen UnionTypeDefinition
@@ -318,7 +309,7 @@ genUnionTypeDefinition =
   UnionTypeDefinition
     <$> Gen.maybe genDescription
     <*> genName
-    <*> genDirectives
+    <*> Gen.maybe genDirectives
     <*> mkList genName
 
 genEnumTypeDefinition :: Gen EnumTypeDefinition
@@ -326,7 +317,7 @@ genEnumTypeDefinition =
   EnumTypeDefinition
     <$> Gen.maybe genDescription
     <*> genName
-    <*> genDirectives
+    <*> Gen.maybe genDirectives
     <*> mkList genEnumValueDefinition
 
 genInputObjectTypeDefinition :: Gen InputObjectTypeDefinition
@@ -334,7 +325,7 @@ genInputObjectTypeDefinition =
   InputObjectTypeDefinition
     <$> Gen.maybe genDescription
     <*> genName
-    <*> genDirectives
+    <*> Gen.maybe genDirectives
     <*> genInputFieldsDefinition
 
 genInputValueDefinition :: Gen InputValueDefinition
@@ -344,14 +335,14 @@ genInputValueDefinition =
     <*> genName
     <*> genType
     <*> Gen.maybe genValue
-    <*> genDirectives
+    <*> Gen.maybe genDirectives
 
 genEnumValueDefinition :: Gen EnumValueDefinition
 genEnumValueDefinition =
   EnumValueDefinition
     <$> Gen.maybe genDescription
     <*> genName
-    <*> genDirectives
+    <*> Gen.maybe genDirectives
 
 genImplementsInterfaces :: Gen ImplementsInterfaces
 genImplementsInterfaces =
@@ -364,7 +355,7 @@ genFieldDefinition =
     <*> genName
     <*> genArgumentsDefinition
     <*> genType
-    <*> genDirectives
+    <*> Gen.maybe genDirectives
 
 genFieldDefinitions :: Gen FieldsDefinition
 genFieldDefinitions = FieldsDefinition <$> mkListNonEmpty genFieldDefinition
@@ -428,23 +419,23 @@ genSelection :: Gen Selection
 genSelection =
   Gen.recursive
     Gen.choice
-    [ Left . Right <$> genFragmentSpread
+    [ SelectionFragmentSpread <$> genFragmentSpread
     ]
-    [ Left . Left <$> genField,
-      Right <$> genInlineFragment
+    [ SelectionField <$> genField,
+      SelectionInlineFragment <$> genInlineFragment
     ]
 
 genFragmentSpread :: Gen FragmentSpread
 genFragmentSpread =
   FragmentSpread
-    <$> fmap FragmentName genName
-    <*> genDirectives
+    <$> genName
+    <*> Gen.maybe genDirectives
 
 genInlineFragment :: Gen InlineFragment
 genInlineFragment =
   InlineFragment
     <$> Gen.maybe genTypeCondition
-    <*> genDirectives
+    <*> Gen.maybe genDirectives
     <*> genSelectionSet
 
 genField :: Gen Field
@@ -453,7 +444,7 @@ genField =
     <$> Gen.maybe genName
     <*> genName
     <*> genArguments
-    <*> genDirectives
+    <*> Gen.maybe genDirectives
     <*> Gen.maybe genSelectionSet
 
 genDirective :: Gen Directive
@@ -463,7 +454,7 @@ genDirective =
     <*> Gen.maybe genArguments
 
 genDirectives :: Gen Directives
-genDirectives = Directives <$> mkList genDirective
+genDirectives = Directives <$> mkListNonEmpty genDirective
 
 genArguments :: Gen Arguments
 genArguments = fmap Arguments (M.fromList <$> mkList genArgument)
@@ -472,7 +463,6 @@ genArgument :: Gen (Name, Value)
 genArgument = (,) <$> genName <*> genValue
 
 -------------------------------------------------------------------------------
-
 -- Helpers
 
 mkList :: Gen a -> Gen [a]

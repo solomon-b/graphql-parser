@@ -23,8 +23,6 @@ import Language.Haskell.TH.Syntax (Lift)
 import Prettyprinter (Doc, Pretty (..), defaultLayoutOptions, dquote, encloseSep, flatAlt, group, layoutPretty, line, punctuate, sep, space, tupled, (<+>))
 import Prettyprinter.Render.Text (renderStrict)
 
-type a \/ b = Either a b
-
 --------------------------------------------------------------------------------
 
 -- | A GraphQL 'Document' describes a complete file or request string

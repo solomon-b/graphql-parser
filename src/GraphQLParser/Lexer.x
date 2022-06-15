@@ -4,6 +4,7 @@ module GraphQLParser.Lexer where
 import Control.Monad.State (gets)
 import Data.ByteString qualified as B
 import Data.Text qualified as T
+import GraphQLParser.Error
 import GraphQLParser.Monad
 import GraphQLParser.Span
 import GraphQLParser.Token

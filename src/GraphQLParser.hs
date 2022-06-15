@@ -5,6 +5,7 @@ module GraphQLParser
     module M,
     module P,
     module S,
+    module E,
     runLex,
     runParseGraphQL,
     runParseName,
@@ -12,6 +13,7 @@ module GraphQLParser
 where
 
 import Data.ByteString qualified as B
+import GraphQLParser.Error as E
 import GraphQLParser.Grammar as P
 import GraphQLParser.Lexer as L
 import GraphQLParser.Monad as M

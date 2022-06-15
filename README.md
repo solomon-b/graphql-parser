@@ -5,36 +5,43 @@
 This parser is written using Happy and Alex and aim to be a feature
 complete to the current [GraphQL Spec](https://spec.graphql.org/).
 
-Parsing functions are provided for Exectuable Documents, Type System Documents, and mixed GraphQL Documents:
 ```
-> :t runParseExecutable 
-runParseExecutable :: B.ByteString -> Either ParseError ExecutableDocument
-> :t runParseTypeSystem 
-runParseTypeSystem :: B.ByteString -> Either ParseError TypeSystemDocument
 > :t runParseGraphQL 
-runParseGraphQL :: B.ByteString -> Either ParseError GraphQLDocument
+runParseGraphQL :: B.ByteString -> Either ParseError Document
+
+> runParseGraphQL "type Foo { bar: Int }"
+
+Right [DefinitionTypeSystem (TypeSystemDefinitionType (OTDef (ObjectTypeDefinition {_otdDescription = Nothing, _otdName = "Foo", _otdImplementsInterfaces = Nothing, _otdDirectives = Nothing, _otdFieldsDefinition = Just (FieldDefinition {_fldDescription = Nothing, _fldName = "bar", _fldArgumentsDefinition = [], _fldType = NamedType "Int", _fldDirectives = Nothing} :| [])})))]
 ```
 
+Parse Errors are helpful and can be pretty printed or serialized:
 ```
-> runParseTypeSystem "type Foo { bar: Int }"
+> runParseGraphQL "type Foo  bar: Int }"
+Left (UnexpectedToken (TokIdentifier (Loc {_span = Span {_start = AlexSourcePos {_line = 0, _col = 11}, _end = AlexSourcePos {_line = 0, _col = 14}}, unLoc = "bar"})) "type Foo  bar: Int }")
 
-Right [TyDefinition (TypeDef (OTDef (ObjectTypeDefinition {objectDescription = Nothing, objectName = "Foo", objectInterfaces = Nothing, objectDirectives = [], objectFields = Just (FieldDefinition {fieldDefDescription = Nothing, fieldDefName = "bar", fieldDefArgumentsDef = [], fieldDefType = NamedType "Int", fieldDefDirectives = []} :| [])})))]
+> first (toJSON . serialize) $ runParseGraphQL "type Foo  bar: Int }"
+Left (Object (fromList [("error_code",String "Empty Token Stream"),("message",String "Unexpecteed token."),("source_position",Object (fromList [("end_column",Number 14.0),("end_line",Number 0.0),("start_column",Number 11.0),("start_line",Number 0.0)]))]))
 
-> runParseExecutable  "type Foo { bar: Int }"
+> :t err
 
-Left (UnexpectedToken (Loc {_span = Span {_start = AlexSourcePos {_line = 0, _col = 21}, _end = AlexSourcePos {_line = 0, _col = 22}}, unLoc = TokIdentifier (Loc {_span = Span {_start = AlexSourcePos {_line = 0, _col = 1}, _end = AlexSourcePos {_line = 0, _col = 5}}, unLoc = "type"})}) "type Foo { bar: Int }")
+err :: ParseError
+> putStrLn  $ unpack $ renderPretty err
+Parse Error:
+  Unexpected token
+  |
+0 | type Foo  bar: Int }
+  |           ^^^
 ```
 
 QuasiQuoters are provided to construct literal values at compile time:
 ```
-> [executableDocQQ|mutation {likeStory(storyID: 12345) {story {likeCount}}}|]
+> [documentQQ|mutation {likeStory(storyID: 12345) {story {likeCount}}}|]
 
-[OpDef (OperationDefinition {opType = Mutation, opName = Nothing, opVariables = Nothing, opDirectives = [], opSelectionSet = Left (Left (Field {fieldAlias = Nothing, fieldName = "likeStory", fieldArguments = fromList [("storyID",VInt 12345)], fieldDirectives = [], fieldSelectionSet = Just (Left (Left (Field {fieldAlias = Nothing, fieldName = "story", fieldArguments = fromList [], fieldDirectives = [], fieldSelectionSet = Just (Left (Left (Field {fieldAlias = Nothing, fieldName = "likeCount", fieldArguments = fromList [], fieldDirectives = [], fieldSelectionSet = Nothing})) :| [])})) :| [])})) :| []})]
+[DefinitionExecutable (ExecutableDefinitionOperation (OperationDefinition {_odType = OperationTypeMutation, _odName = Nothing, _odVariables = Nothing, _odDirectives = Nothing, _odSelectionSet = SelectionField (Field {_fAlias = Nothing, _fName = "likeStory", _fArguments = fromList [("storyID",VInt 12345)], _fDirectives = Nothing, _fSelectionSet = Just (SelectionField (Field {_fAlias = Nothing, _fName = "story", _fArguments = fromList [], _fDirectives = Nothing, _fSelectionSet = Just (SelectionField (Field {_fAlias = Nothing, _fName = "likeCount", _fArguments = fromList [], _fDirectives = Nothing, _fSelectionSet = Nothing}) :| [])}) :| [])}) :| []}))]
 ```
 
 # TODO
 
-- Pretty Printer for errors
 - Review and clean up prettty printer output
 - Review and clean up parser grammar
 - Type System Extensions

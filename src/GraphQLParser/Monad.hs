@@ -3,7 +3,6 @@
 module GraphQLParser.Monad where
 
 import Codec.Binary.UTF8.String qualified as UTF8
-import Control.DeepSeq (NFData)
 import Control.Monad.Except
 import Control.Monad.State
 import Data.ByteString qualified as B
@@ -13,12 +12,11 @@ import Data.Char (chr)
 import Data.List.NonEmpty qualified as NE
 import Data.Text qualified as T
 import Data.Text.Encoding qualified as TE
-import GHC.Generics (Generic)
 import GHC.Word (Word8)
+import GraphQLParser.Error
 import GraphQLParser.Span
 import GraphQLParser.Token
 import Numeric (readHex)
-import Prettyprinter (Pretty (..), indent, vsep, (<+>))
 
 --------------------------------------------------------------------------------
 
@@ -91,41 +89,6 @@ popStartCode = modify' \st ->
           _ NE.:| [] -> 0 NE.:| []
           _ NE.:| (x : xs) -> x NE.:| xs
     }
-
---------------------------------------------------------------------------------
--- Error Handling
-
-data ParseError
-  = EmptyTokenStream Span B.ByteString
-  | UnexpectedToken Token B.ByteString
-  | InvalidLexeme AlexSourcePos B.ByteString
-  deriving stock (Eq, Ord, Show, Generic)
-  deriving anyclass (NFData)
-
-instance Pretty ParseError where
-  pretty = \case
-    EmptyTokenStream sp source ->
-      let AlexSourcePos {_col = startCol, _line = startLine} = _start sp
-          AlexSourcePos {_col = endCol} = _end sp
-       in mkPretty "Unexpected end of input" startCol startLine source (endCol - startCol)
-    UnexpectedToken tok source ->
-      let AlexSourcePos {_col = startCol, _line = startLine} = _start $ locate tok
-          AlexSourcePos {_col = endCol} = _end $ locate tok
-       in mkPretty "Unexpected token" startCol startLine source (endCol - startCol)
-    InvalidLexeme AlexSourcePos {..} source -> mkPretty "Invalid Lexeme" _col _line source 1
-    where
-      mkPretty msg col' line' source len =
-        let sourceLine = T.lines (TE.decodeUtf8 source) !! line'
-         in vsep
-              [ "Parse Error:",
-                indent 2 msg,
-                indent (length (show line') + 1) "|",
-                pretty line' <+> "|" <+> pretty sourceLine,
-                indent (length (show line') + 1) $ "|" <> indent (col' - 1) (pretty (replicate len '^'))
-              ]
-
-parseError :: ParseError -> Parser a
-parseError = throwError
 
 --------------------------------------------------------------------------------
 -- Tokens

@@ -172,7 +172,7 @@ instance Q.Arbitrary Token where
     QAG.genericArbitrary >>= \case
       TokNumLit _ i -> pure $ TokNumLit (T.pack $ show $ unLoc i) i
       TokIntLit i -> pure $ TokIntLit i
-      EOF -> Q.arbitrary
+      EOF _ -> Q.arbitrary
       val -> pure val
 
 instance (Q.Arbitrary a) => Q.Arbitrary (Loc a) where

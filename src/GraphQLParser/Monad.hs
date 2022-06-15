@@ -97,7 +97,7 @@ popStartCode = modify' \st ->
 
 data ParseError
   = EmptyTokenStream Span B.ByteString
-  | UnexpectedToken (Loc Token) B.ByteString
+  | UnexpectedToken Token B.ByteString
   | InvalidLexeme AlexSourcePos B.ByteString
   deriving stock (Eq, Ord, Show, Generic)
   deriving anyclass (NFData)
@@ -108,9 +108,9 @@ instance Pretty ParseError where
       let AlexSourcePos {_col = startCol, _line = startLine} = _start sp
           AlexSourcePos {_col = endCol} = _end sp
        in mkPretty "Unexpected end of input" startCol startLine source (endCol - startCol)
-    UnexpectedToken loc source ->
-      let AlexSourcePos {_col = startCol, _line = startLine} = _start $ locate loc
-          AlexSourcePos {_col = endCol} = _end $ locate loc
+    UnexpectedToken tok source ->
+      let AlexSourcePos {_col = startCol, _line = startLine} = _start $ locate tok
+          AlexSourcePos {_col = endCol} = _end $ locate tok
        in mkPretty "Unexpected token" startCol startLine source (endCol - startCol)
     InvalidLexeme AlexSourcePos {..} source -> mkPretty "Invalid Lexeme" _col _line source 1
     where

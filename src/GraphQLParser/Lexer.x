@@ -94,8 +94,9 @@ scan = do
   input <- getInput
   code <- startCode
   src <- gets parseSource
+  sp <- location
   case alexScan input code of
-    AlexEOF -> pure EOF
+    AlexEOF -> pure (EOF sp)
     AlexError (AlexInput pos _ _ _) ->
       parseError $ InvalidLexeme pos src
     AlexSkip rest _ -> do
@@ -111,6 +112,6 @@ lexer :: Parser [Token]
 lexer = do
   tok <- scan
   case tok of
-    EOF -> pure []
+    EOF _ -> pure []
     x -> (x :) <$> lexer
 }

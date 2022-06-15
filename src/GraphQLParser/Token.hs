@@ -7,7 +7,7 @@ import Control.DeepSeq (NFData)
 import Data.Scientific (Scientific)
 import Data.Text (Text)
 import GHC.Generics (Generic)
-import GraphQLParser.Span (Loc (..))
+import GraphQLParser.Span (Loc (..), Located (..), Span)
 import Prettyprinter (Pretty (..))
 
 --------------------------------------------------------------------------------
@@ -60,9 +60,21 @@ data Token
   | TokIntLit (Loc Integer)
   | TokNumLit Text (Loc Scientific)
   | TokBoolLit (Loc Bool)
-  | EOF
+  | EOF Span
   deriving stock (Show, Eq, Ord, Generic)
   deriving anyclass (NFData)
+
+instance Located Token where
+  locate = \case 
+    TokSymbol sym -> locate sym
+    TokStringBlock str -> locate str
+    TokStringLit str -> locate str
+    TokIdentifier iden -> locate iden
+    TokDirective dir -> locate dir
+    TokIntLit int -> locate int
+    TokNumLit _ loc -> locate loc
+    TokBoolLit bool -> locate bool
+    EOF sp -> sp
 
 overLoc :: (forall a. Loc a -> Loc a) -> Token -> Token
 overLoc f (TokSymbol loc) = TokSymbol $ f loc
@@ -73,7 +85,7 @@ overLoc f (TokIdentifier loc) = TokIdentifier $ f loc
 overLoc f (TokIntLit loc) = TokIntLit $ f loc
 overLoc f (TokNumLit txt loc) = TokNumLit txt $ f loc
 overLoc f (TokBoolLit loc) = TokBoolLit $ f loc
-overLoc _ EOF = EOF
+overLoc _ (EOF sp) = EOF sp
 
 instance Pretty Token where
   pretty = \case
@@ -85,4 +97,4 @@ instance Pretty Token where
     TokIntLit i -> pretty i
     TokNumLit txt _ -> pretty txt
     TokBoolLit b -> pretty b
-    EOF -> mempty
+    EOF _ -> mempty

@@ -494,8 +494,7 @@ failure [] = do
   src <- gets parseSource
   parseError $ EmptyTokenStream sp src
 failure (tok:_) = do
-  sp <- location
   src <- gets parseSource
   -- TODO: fix source position capture here. I think we need the prior span.
-  parseError $ UnexpectedToken (Loc sp tok) src
+  parseError $ UnexpectedToken tok src
 }

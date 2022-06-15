@@ -5,13 +5,14 @@ module GraphQLParser.Span where
 import Control.DeepSeq (NFData)
 import Control.Lens (Lens', lens)
 import GHC.Generics
+import Language.Haskell.TH.Syntax (Lift)
 import Prettyprinter (Pretty (..))
 
 --------------------------------------------------------------------------------
 -- Source Positions
 
 data AlexSourcePos = AlexSourcePos {_line :: !Int, _col :: !Int}
-  deriving stock (Show, Read, Eq, Ord, Generic)
+  deriving stock (Show, Read, Eq, Ord, Lift, Generic)
   deriving anyclass (NFData)
 
 col :: Lens' AlexSourcePos Int
@@ -27,7 +28,7 @@ alexStartPos = AlexSourcePos 1 1
 -- Spans
 
 data Span = Span {_start :: AlexSourcePos, _end :: AlexSourcePos}
-  deriving stock (Show, Read, Eq, Ord, Generic)
+  deriving stock (Show, Read, Eq, Ord, Lift, Generic)
   deriving anyclass (NFData)
 
 instance Semigroup Span where

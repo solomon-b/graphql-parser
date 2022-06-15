@@ -202,10 +202,10 @@ popBufferedBytes AlexInput {..} =
 bufferBytes :: Char -> [Word8] -> B.ByteString -> AlexInput -> AlexInput
 bufferBytes c bytes rest AlexInput {..} =
   AlexInput
-    { lexPrevChar = c,
+    { lexPos = lexPos {_col = _col lexPos + length bytes + 1},
+      lexPrevChar = c,
       lexBytes = rest,
-      lexCharBytes = bytes,
-      ..
+      lexCharBytes = bytes
     }
 
 alexGetByte :: AlexInput -> Maybe (Word8, AlexInput)

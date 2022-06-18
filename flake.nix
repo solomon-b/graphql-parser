@@ -2,7 +2,7 @@
   description = "Graphql Parser";
 
   inputs = {
-    nixpkgs.url = github:NixOS/nixpkgs/nixos-21.11;
+    nixpkgs.url = github:NixOS/nixpkgs/nixos-22.05;
 
     flake-utils = {
       url = github:numtide/flake-utils;
@@ -20,7 +20,7 @@
       # https://github.com/cachix/pre-commit-hooks.nix/pull/122
       defaultSystems = [
         "aarch64-linux"
-        # "aarch64-darwin"
+        "aarch64-darwin"
         "i686-linux"
         "x86_64-darwin"
         "x86_64-linux"
@@ -49,15 +49,15 @@
         devShell = pkgs.mkShell {
           buildInputs = with pkgs; [
             # Editor Tooling 
-            (haskell-language-server.override { supportedGhcVersions = [ ghcVersion ]; })
+            haskell.packages."${compiler}".haskell-language-server
             cabal-install
             ghc
             ghcid
             cabal2nix
 
             # Build Deps
-            haskellPackages.alex
-            haskellPackages.happy
+            haskell.packages.${compiler}.alex
+            haskell.packages.${compiler}.happy
           ];
         };
 
@@ -65,6 +65,7 @@
           graphql-parser = hsPkgs.graphql-parser;
         };
 
-        defaultPackage = packages.graphql-parser;
+        # TODO: Get golden tests in scope so we don't have to skip tests here:
+        defaultPackage = pkgs.haskell.lib.compose.dontCheck packages.graphql-parser;
       });
 }

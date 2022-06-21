@@ -48,7 +48,6 @@
           graphql-parser = pkgs.haskell.packages.${compiler}.graphql-parser;
         };
 
-        # TODO: Get golden tests in scope so we don't have to skip tests here:
-        defaultPackage = pkgs.haskell.lib.compose.dontCheck packages.graphql-parser;
+        defaultPackage = packages.graphql-parser;
       });
 }

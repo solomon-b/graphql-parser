@@ -1,7 +1,6 @@
 # NOTE: This should be a good reference for github actions w.r.t haskell
 # https://markkarpov.com/post/github-actions-for-haskell-ci.html
-
-name: graphql-parser::CI
+name: cabal:build
 on:
   push:
     branches:

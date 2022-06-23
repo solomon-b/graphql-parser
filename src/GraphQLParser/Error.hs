@@ -1,6 +1,5 @@
 {-# LANGUAGE DeriveAnyClass #-}
 
--- |
 module GraphQLParser.Error
   ( -- * Parser Errors
     ParseError (..),
@@ -61,7 +60,7 @@ parseError = throwError
 
 --------------------------------------------------------------------------------
 
--- | The serialized representation of internal errors. 
+-- | The serialized representation of internal errors.
 data SerializedError = SerializedError {_seCode :: ErrorCode, _seMessage :: T.Text, _seSpan :: S.Span}
   deriving (Show)
 

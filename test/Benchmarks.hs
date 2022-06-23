@@ -1,14 +1,10 @@
-import Data.ByteString qualified as B
-import Data.ByteString.Builder qualified as BS
 import Data.Functor ((<&>))
 import Data.Maybe (mapMaybe)
 import Data.Text (Text)
-import Data.Text.Lazy.Builder qualified as LTB
 import Data.Traversable (for)
 import GraphQLParser
 import GraphQLParser.Generator
 import Test.Tasty.Bench (bench, bgroup, defaultMain, nf, whnf)
-import Text.Builder qualified as STB -- Strict Text Builder
 
 -------------------------------------------------------------------------------
 

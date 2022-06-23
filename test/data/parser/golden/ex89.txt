@@ -1,13 +1,56 @@
 [ DefinitionTypeSystem
     ( TypeSystemDefinitionDirective
         ( DirectiveDefinition
-            { _ddDescription = Nothing
+            { _ddSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 0
+                    , _col = 1
+                    }
+                , _end = AlexSourcePos
+                    { _line = 3
+                    , _col = 20
+                    }
+                }
+            , _ddDescription = Nothing
             , _ddName = "example"
-            , _ddArguments = []
+            , _ddArguments = Nothing
             , _ddLocations =
-                [ ExecDirLoc EDLFIELD
-                , ExecDirLoc EDLFRAGMENT_SPREAD
-                , ExecDirLoc EDLINLINE_FRAGMENT
+                [ ExecDirLoc
+                    ( Span
+                        { _start = AlexSourcePos
+                            { _line = 1
+                            , _col = 5
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 1
+                            , _col = 10
+                            }
+                        }
+                    ) EDLFIELD
+                , ExecDirLoc
+                    ( Span
+                        { _start = AlexSourcePos
+                            { _line = 2
+                            , _col = 5
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 2
+                            , _col = 20
+                            }
+                        }
+                    ) EDLFRAGMENT_SPREAD
+                , ExecDirLoc
+                    ( Span
+                        { _start = AlexSourcePos
+                            { _line = 3
+                            , _col = 5
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 3
+                            , _col = 20
+                            }
+                        }
+                    ) EDLINLINE_FRAGMENT
                 ]
             }
         )

@@ -1,22 +1,52 @@
 [ DefinitionExecutable
     ( ExecutableDefinitionOperation
         ( OperationDefinition
-            { _odType = OperationTypeQuery
+            { _odSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 0
+                    , _col = 1
+                    }
+                , _end = AlexSourcePos
+                    { _line = 0
+                    , _col = 28
+                    }
+                }
+            , _odType = OperationTypeQuery
             , _odName = Nothing
             , _odVariables = Nothing
             , _odDirectives = Nothing
             , _odSelectionSet = SelectionField
                 ( Field
-                    { _fAlias = Nothing
+                    { _fSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 0
+                            , _col = 12
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 0
+                            , _col = 27
+                            }
+                        }
+                    , _fAlias = Nothing
                     , _fName = "me"
-                    , _fArguments = fromList []
+                    , _fArguments = Nothing
                     , _fDirectives = Nothing
                     , _fSelectionSet = Just
                         ( SelectionField
                             ( Field
-                                { _fAlias = Nothing
+                                { _fSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 0
+                                        , _col = 19
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 0
+                                        , _col = 23
+                                        }
+                                    }
+                                , _fAlias = Nothing
                                 , _fName = "name"
-                                , _fArguments = fromList []
+                                , _fArguments = Nothing
                                 , _fDirectives = Nothing
                                 , _fSelectionSet = Nothing
                                 }
@@ -30,27 +60,82 @@
 , DefinitionExecutable
     ( ExecutableDefinitionOperation
         ( OperationDefinition
-            { _odType = OperationTypeQuery
+            { _odSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 1
+                    , _col = 1
+                    }
+                , _end = AlexSourcePos
+                    { _line = 1
+                    , _col = 37
+                    }
+                }
+            , _odType = OperationTypeQuery
             , _odName = Nothing
             , _odVariables = Nothing
             , _odDirectives = Nothing
             , _odSelectionSet = SelectionField
                 ( Field
-                    { _fAlias = Nothing
+                    { _fSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 1
+                            , _col = 12
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 1
+                            , _col = 36
+                            }
+                        }
+                    , _fAlias = Nothing
                     , _fName = "user"
-                    , _fArguments = fromList
-                        [
-                            ( "id"
-                            , VInt 4
-                            )
-                        ]
+                    , _fArguments = Just
+                        ( Arguments
+                            { argSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 1
+                                    , _col = 18
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 1
+                                    , _col = 23
+                                    }
+                                }
+                            , argArguments = fromList
+                                [
+                                    ( "id"
+                                    , VInt
+                                        ( Span
+                                            { _start = AlexSourcePos
+                                                { _line = 1
+                                                , _col = 22
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 1
+                                                , _col = 23
+                                                }
+                                            }
+                                        ) 4
+                                    )
+                                ]
+                            }
+                        )
                     , _fDirectives = Nothing
                     , _fSelectionSet = Just
                         ( SelectionField
                             ( Field
-                                { _fAlias = Nothing
+                                { _fSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 1
+                                        , _col = 28
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 1
+                                        , _col = 32
+                                        }
+                                    }
+                                , _fAlias = Nothing
                                 , _fName = "name"
-                                , _fArguments = fromList []
+                                , _fArguments = Nothing
                                 , _fDirectives = Nothing
                                 , _fSelectionSet = Nothing
                                 }

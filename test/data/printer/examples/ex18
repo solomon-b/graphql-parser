@@ -1,62 +1,197 @@
 [ DefinitionExecutable
     ( ExecutableDefinitionOperation
         ( OperationDefinition
-            { _odType = OperationTypeQuery
+            { _odSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 0
+                    , _col = 1
+                    }
+                , _end = AlexSourcePos
+                    { _line = 10
+                    , _col = 73
+                    }
+                }
+            , _odType = OperationTypeQuery
             , _odName = Just "noFragments"
             , _odVariables = Nothing
             , _odDirectives = Nothing
             , _odSelectionSet = SelectionField
                 ( Field
-                    { _fAlias = Nothing
+                    { _fSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 5
+                            , _col = 1
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 10
+                            , _col = 72
+                            }
+                        }
+                    , _fAlias = Nothing
                     , _fName = "user"
-                    , _fArguments = fromList
-                        [
-                            ( "id"
-                            , VInt 4
-                            )
-                        ]
+                    , _fArguments = Just
+                        ( Arguments
+                            { argSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 6
+                                    , _col = 2
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 6
+                                    , _col = 7
+                                    }
+                                }
+                            , argArguments = fromList
+                                [
+                                    ( "id"
+                                    , VInt
+                                        ( Span
+                                            { _start = AlexSourcePos
+                                                { _line = 6
+                                                , _col = 6
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 6
+                                                , _col = 7
+                                                }
+                                            }
+                                        ) 4
+                                    )
+                                ]
+                            }
+                        )
                     , _fDirectives = Nothing
                     , _fSelectionSet = Just
                         ( SelectionField
                             ( Field
-                                { _fAlias = Nothing
+                                { _fSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 8
+                                        , _col = 3
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 8
+                                        , _col = 66
+                                        }
+                                    }
+                                , _fAlias = Nothing
                                 , _fName = "friends"
-                                , _fArguments = fromList
-                                    [
-                                        ( "first"
-                                        , VInt 10
-                                        )
-                                    ]
+                                , _fArguments = Just
+                                    ( Arguments
+                                        { argSpan = Span
+                                            { _start = AlexSourcePos
+                                                { _line = 8
+                                                , _col = 12
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 8
+                                                , _col = 21
+                                                }
+                                            }
+                                        , argArguments = fromList
+                                            [
+                                                ( "first"
+                                                , VInt
+                                                    ( Span
+                                                        { _start = AlexSourcePos
+                                                            { _line = 8
+                                                            , _col = 19
+                                                            }
+                                                        , _end = AlexSourcePos
+                                                            { _line = 8
+                                                            , _col = 21
+                                                            }
+                                                        }
+                                                    ) 10
+                                                )
+                                            ]
+                                        }
+                                    )
                                 , _fDirectives = Nothing
                                 , _fSelectionSet = Just
                                     ( SelectionField
                                         ( Field
-                                            { _fAlias = Nothing
+                                            { _fSpan = Span
+                                                { _start = AlexSourcePos
+                                                    { _line = 8
+                                                    , _col = 26
+                                                    }
+                                                , _end = AlexSourcePos
+                                                    { _line = 8
+                                                    , _col = 28
+                                                    }
+                                                }
+                                            , _fAlias = Nothing
                                             , _fName = "id"
-                                            , _fArguments = fromList []
+                                            , _fArguments = Nothing
                                             , _fDirectives = Nothing
                                             , _fSelectionSet = Nothing
                                             }
                                         ) :|
                                         [ SelectionField
                                             ( Field
-                                                { _fAlias = Nothing
+                                                { _fSpan = Span
+                                                    { _start = AlexSourcePos
+                                                        { _line = 8
+                                                        , _col = 33
+                                                        }
+                                                    , _end = AlexSourcePos
+                                                        { _line = 8
+                                                        , _col = 37
+                                                        }
+                                                    }
+                                                , _fAlias = Nothing
                                                 , _fName = "name"
-                                                , _fArguments = fromList []
+                                                , _fArguments = Nothing
                                                 , _fDirectives = Nothing
                                                 , _fSelectionSet = Nothing
                                                 }
                                             )
                                         , SelectionField
                                             ( Field
-                                                { _fAlias = Nothing
+                                                { _fSpan = Span
+                                                    { _start = AlexSourcePos
+                                                        { _line = 8
+                                                        , _col = 42
+                                                        }
+                                                    , _end = AlexSourcePos
+                                                        { _line = 8
+                                                        , _col = 62
+                                                        }
+                                                    }
+                                                , _fAlias = Nothing
                                                 , _fName = "profilePic"
-                                                , _fArguments = fromList
-                                                    [
-                                                        ( "size"
-                                                        , VInt 50
-                                                        )
-                                                    ]
+                                                , _fArguments = Just
+                                                    ( Arguments
+                                                        { argSpan = Span
+                                                            { _start = AlexSourcePos
+                                                                { _line = 8
+                                                                , _col = 54
+                                                                }
+                                                            , _end = AlexSourcePos
+                                                                { _line = 8
+                                                                , _col = 62
+                                                                }
+                                                            }
+                                                        , argArguments = fromList
+                                                            [
+                                                                ( "size"
+                                                                , VInt
+                                                                    ( Span
+                                                                        { _start = AlexSourcePos
+                                                                            { _line = 8
+                                                                            , _col = 60
+                                                                            }
+                                                                        , _end = AlexSourcePos
+                                                                            { _line = 8
+                                                                            , _col = 62
+                                                                            }
+                                                                        }
+                                                                    ) 50
+                                                                )
+                                                            ]
+                                                        }
+                                                    )
                                                 , _fDirectives = Nothing
                                                 , _fSelectionSet = Nothing
                                                 }
@@ -67,44 +202,134 @@
                             ) :|
                             [ SelectionField
                                 ( Field
-                                    { _fAlias = Nothing
+                                    { _fSpan = Span
+                                        { _start = AlexSourcePos
+                                            { _line = 10
+                                            , _col = 2
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 10
+                                            , _col = 71
+                                            }
+                                        }
+                                    , _fAlias = Nothing
                                     , _fName = "mutualFriends"
-                                    , _fArguments = fromList
-                                        [
-                                            ( "first"
-                                            , VInt 10
-                                            )
-                                        ]
+                                    , _fArguments = Just
+                                        ( Arguments
+                                            { argSpan = Span
+                                                { _start = AlexSourcePos
+                                                    { _line = 10
+                                                    , _col = 17
+                                                    }
+                                                , _end = AlexSourcePos
+                                                    { _line = 10
+                                                    , _col = 26
+                                                    }
+                                                }
+                                            , argArguments = fromList
+                                                [
+                                                    ( "first"
+                                                    , VInt
+                                                        ( Span
+                                                            { _start = AlexSourcePos
+                                                                { _line = 10
+                                                                , _col = 24
+                                                                }
+                                                            , _end = AlexSourcePos
+                                                                { _line = 10
+                                                                , _col = 26
+                                                                }
+                                                            }
+                                                        ) 10
+                                                    )
+                                                ]
+                                            }
+                                        )
                                     , _fDirectives = Nothing
                                     , _fSelectionSet = Just
                                         ( SelectionField
                                             ( Field
-                                                { _fAlias = Nothing
+                                                { _fSpan = Span
+                                                    { _start = AlexSourcePos
+                                                        { _line = 10
+                                                        , _col = 31
+                                                        }
+                                                    , _end = AlexSourcePos
+                                                        { _line = 10
+                                                        , _col = 33
+                                                        }
+                                                    }
+                                                , _fAlias = Nothing
                                                 , _fName = "id"
-                                                , _fArguments = fromList []
+                                                , _fArguments = Nothing
                                                 , _fDirectives = Nothing
                                                 , _fSelectionSet = Nothing
                                                 }
                                             ) :|
                                             [ SelectionField
                                                 ( Field
-                                                    { _fAlias = Nothing
+                                                    { _fSpan = Span
+                                                        { _start = AlexSourcePos
+                                                            { _line = 10
+                                                            , _col = 38
+                                                            }
+                                                        , _end = AlexSourcePos
+                                                            { _line = 10
+                                                            , _col = 42
+                                                            }
+                                                        }
+                                                    , _fAlias = Nothing
                                                     , _fName = "name"
-                                                    , _fArguments = fromList []
+                                                    , _fArguments = Nothing
                                                     , _fDirectives = Nothing
                                                     , _fSelectionSet = Nothing
                                                     }
                                                 )
                                             , SelectionField
                                                 ( Field
-                                                    { _fAlias = Nothing
+                                                    { _fSpan = Span
+                                                        { _start = AlexSourcePos
+                                                            { _line = 10
+                                                            , _col = 47
+                                                            }
+                                                        , _end = AlexSourcePos
+                                                            { _line = 10
+                                                            , _col = 67
+                                                            }
+                                                        }
+                                                    , _fAlias = Nothing
                                                     , _fName = "profilePic"
-                                                    , _fArguments = fromList
-                                                        [
-                                                            ( "size"
-                                                            , VInt 50
-                                                            )
-                                                        ]
+                                                    , _fArguments = Just
+                                                        ( Arguments
+                                                            { argSpan = Span
+                                                                { _start = AlexSourcePos
+                                                                    { _line = 10
+                                                                    , _col = 59
+                                                                    }
+                                                                , _end = AlexSourcePos
+                                                                    { _line = 10
+                                                                    , _col = 67
+                                                                    }
+                                                                }
+                                                            , argArguments = fromList
+                                                                [
+                                                                    ( "size"
+                                                                    , VInt
+                                                                        ( Span
+                                                                            { _start = AlexSourcePos
+                                                                                { _line = 10
+                                                                                , _col = 65
+                                                                                }
+                                                                            , _end = AlexSourcePos
+                                                                                { _line = 10
+                                                                                , _col = 67
+                                                                                }
+                                                                            }
+                                                                        ) 50
+                                                                    )
+                                                                ]
+                                                            }
+                                                        )
                                                     , _fDirectives = Nothing
                                                     , _fSelectionSet = Nothing
                                                     }

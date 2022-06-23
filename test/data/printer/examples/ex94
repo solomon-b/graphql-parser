@@ -1,13 +1,56 @@
 [ DefinitionExecutable
     ( ExecutableDefinitionOperation
         ( OperationDefinition
-            { _odType = OperationTypeQuery
+            { _odSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 0
+                    , _col = 1
+                    }
+                , _end = AlexSourcePos
+                    { _line = 4
+                    , _col = 47
+                    }
+                }
+            , _odType = OperationTypeQuery
             , _odName = Just "myQuery"
             , _odVariables = Just
                 ( VariableDefinition
-                    { _vdName = "someTest"
+                    { _vdSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 2
+                            , _col = 2
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 2
+                            , _col = 21
+                            }
+                        }
+                    , _vdName = "someTest"
                     , _vdType = NonNullType
-                        ( NamedType "Boolean" )
+                        ( Span
+                            { _start = AlexSourcePos
+                                { _line = 2
+                                , _col = 13
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 2
+                                , _col = 21
+                                }
+                            }
+                        )
+                        ( NamedType
+                            ( Span
+                                { _start = AlexSourcePos
+                                    { _line = 2
+                                    , _col = 13
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 2
+                                    , _col = 20
+                                    }
+                                }
+                            ) "Boolean"
+                        )
                     , _vdDefaultValue = Nothing
                     , _vdDirectives = Nothing
                     } :| []
@@ -15,19 +58,62 @@
             , _odDirectives = Nothing
             , _odSelectionSet = SelectionField
                 ( Field
-                    { _fAlias = Nothing
+                    { _fSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 4
+                            , _col = 3
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 4
+                            , _col = 44
+                            }
+                        }
+                    , _fAlias = Nothing
                     , _fName = "experimentalField"
-                    , _fArguments = fromList []
+                    , _fArguments = Nothing
                     , _fDirectives = Just
                         ( Directive
-                            { dName = "include"
-                            , dArguments = Just
-                                ( fromList
-                                    [
-                                        ( "if"
-                                        , VVar "someTest"
-                                        )
-                                    ]
+                            { _dSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 4
+                                    , _col = 22
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 4
+                                    , _col = 44
+                                    }
+                                }
+                            , _dName = "include"
+                            , _dArguments = Just
+                                ( Arguments
+                                    { argSpan = Span
+                                        { _start = AlexSourcePos
+                                            { _line = 4
+                                            , _col = 31
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 4
+                                            , _col = 44
+                                            }
+                                        }
+                                    , argArguments = fromList
+                                        [
+                                            ( "if"
+                                            , VVar
+                                                ( Span
+                                                    { _start = AlexSourcePos
+                                                        { _line = 4
+                                                        , _col = 35
+                                                        }
+                                                    , _end = AlexSourcePos
+                                                        { _line = 4
+                                                        , _col = 44
+                                                        }
+                                                    }
+                                                ) "someTest"
+                                            )
+                                        ]
+                                    }
                                 )
                             } :| []
                         )

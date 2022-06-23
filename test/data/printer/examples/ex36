@@ -1,12 +1,32 @@
 [ DefinitionTypeSystem
     ( TypeSystemDefinitionSchema
         ( SchemaDefinition
-            { _sdDescription = Just Description
+            { _sdSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 0
+                    , _col = 1
+                    }
+                , _end = AlexSourcePos
+                    { _line = 0
+                    , _col = 78
+                    }
+                }
+            , _sdDescription = Just Description
 
                 {  unDescription ="A simple GraphQL schema which is well described." }
             , _sdDirectives = Nothing
             , _sdRootOperationTypeDefinitions = RootOperationTypeDefinition
-                { _rotdOperationType = OperationTypeQuery
+                { _rotdSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 0
+                        , _col = 65
+                        }
+                    , _end = AlexSourcePos
+                        { _line = 0
+                        , _col = 77
+                        }
+                    }
+                , _rotdOperationType = OperationTypeQuery
                 , _rotdNamedType = "Query"
                 } :| []
             }
@@ -16,48 +36,179 @@
     ( TypeSystemDefinitionType
         ( OTDef
             ( ObjectTypeDefinition
-                { _otdDescription = Just Description
+                { _otdSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 1
+                        , _col = 1
+                        }
+                    , _end = AlexSourcePos
+                        { _line = 18
+                        , _col = 2
+                        }
+                    }
+                , _otdDescription = Just Description
 
                     {  unDescription ="Root type for all your query operations" }
                 , _otdName = "Query"
                 , _otdImplementsInterfaces = Nothing
                 , _otdDirectives = Nothing
                 , _otdFieldsDefinition = Just
-                    ( FieldDefinition
-                        { _fldDescription = Just Description
+                    ( FieldsDefinition
+                        { _fdSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 6
+                                , _col = 1
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 18
+                                , _col = 2
+                                }
+                            }
+                        , _fdDefinitions = FieldDefinition
+                            { _fldSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 6
+                                    , _col = 2
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 17
+                                    , _col = 7
+                                    }
+                                }
+                            , _fldDescription = Just Description
 
-                            {  unDescription ="  Translates a string from a given language into a different language.\n  " }
-                        , _fldName = "translate"
-                        , _fldArgumentsDefinition =
-                            [ InputValueDefinition
-                                { _ivdDescription = Just Description
+                                {  unDescription ="  Translates a string from a given language into a different language.\n  " }
+                            , _fldName = "translate"
+                            , _fldArgumentsDefinition = Just
+                                ( InputValueDefinition
+                                    { _ivdSpan = Span
+                                        { _start = AlexSourcePos
+                                            { _line = 9
+                                            , _col = 2
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 12
+                                            , _col = 42
+                                            }
+                                        }
+                                    , _ivdDescription = Just Description
 
-                                    {  unDescription ="The original language that `text` is provided in." }
-                                , _ivdName = "fromLanguage"
-                                , _ivdType = NamedType "Language"
-                                , _ivdDefaultValue = Just
-                                    ( VString "The translated language to be returned." )
-                                , _ivdDirectives = Nothing
-                                }
-                            , InputValueDefinition
-                                { _ivdDescription = Nothing
-                                , _ivdName = "toLanguage"
-                                , _ivdType = NamedType "Language"
-                                , _ivdDefaultValue = Just
-                                    ( VString "The text to be translated." )
-                                , _ivdDirectives = Nothing
-                                }
-                            , InputValueDefinition
-                                { _ivdDescription = Nothing
-                                , _ivdName = "text"
-                                , _ivdType = NamedType "String"
-                                , _ivdDefaultValue = Nothing
-                                , _ivdDirectives = Nothing
-                                }
-                            ]
-                        , _fldType = NamedType "String"
-                        , _fldDirectives = Nothing
-                        } :| []
+                                        {  unDescription ="The original language that `text` is provided in." }
+                                    , _ivdName = "fromLanguage"
+                                    , _ivdType = NamedType
+                                        ( Span
+                                            { _start = AlexSourcePos
+                                                { _line = 11
+                                                , _col = 1
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 11
+                                                , _col = 9
+                                                }
+                                            }
+                                        ) "Language"
+                                    , _ivdDefaultValue = Just
+                                        ( VString
+                                            ( Span
+                                                { _start = AlexSourcePos
+                                                    { _line = 12
+                                                    , _col = 1
+                                                    }
+                                                , _end = AlexSourcePos
+                                                    { _line = 12
+                                                    , _col = 42
+                                                    }
+                                                }
+                                            ) "The translated language to be returned."
+                                        )
+                                    , _ivdDirectives = Nothing
+                                    } :|
+                                    [ InputValueDefinition
+                                        { _ivdSpan = Span
+                                            { _start = AlexSourcePos
+                                                { _line = 14
+                                                , _col = 3
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 14
+                                                , _col = 52
+                                                }
+                                            }
+                                        , _ivdDescription = Nothing
+                                        , _ivdName = "toLanguage"
+                                        , _ivdType = NamedType
+                                            ( Span
+                                                { _start = AlexSourcePos
+                                                    { _line = 14
+                                                    , _col = 15
+                                                    }
+                                                , _end = AlexSourcePos
+                                                    { _line = 14
+                                                    , _col = 23
+                                                    }
+                                                }
+                                            ) "Language"
+                                        , _ivdDefaultValue = Just
+                                            ( VString
+                                                ( Span
+                                                    { _start = AlexSourcePos
+                                                        { _line = 14
+                                                        , _col = 24
+                                                        }
+                                                    , _end = AlexSourcePos
+                                                        { _line = 14
+                                                        , _col = 52
+                                                        }
+                                                    }
+                                                ) "The text to be translated."
+                                            )
+                                        , _ivdDirectives = Nothing
+                                        }
+                                    , InputValueDefinition
+                                        { _ivdSpan = Span
+                                            { _start = AlexSourcePos
+                                                { _line = 15
+                                                , _col = 3
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 15
+                                                , _col = 15
+                                                }
+                                            }
+                                        , _ivdDescription = Nothing
+                                        , _ivdName = "text"
+                                        , _ivdType = NamedType
+                                            ( Span
+                                                { _start = AlexSourcePos
+                                                    { _line = 15
+                                                    , _col = 9
+                                                    }
+                                                , _end = AlexSourcePos
+                                                    { _line = 15
+                                                    , _col = 15
+                                                    }
+                                                }
+                                            ) "String"
+                                        , _ivdDefaultValue = Nothing
+                                        , _ivdDirectives = Nothing
+                                        }
+                                    ]
+                                )
+                            , _fldType = NamedType
+                                ( Span
+                                    { _start = AlexSourcePos
+                                        { _line = 17
+                                        , _col = 1
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 17
+                                        , _col = 7
+                                        }
+                                    }
+                                ) "String"
+                            , _fldDirectives = Nothing
+                            } :| []
+                        }
                     )
                 }
             )
@@ -67,28 +218,68 @@
     ( TypeSystemDefinitionType
         ( ETDef
             ( EnumTypeDefinition
-                { _etdDescription = Just Description
+                { _etdSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 19
+                        , _col = 1
+                        }
+                    , _end = AlexSourcePos
+                        { _line = 23
+                        , _col = 55
+                        }
+                    }
+                , _etdDescription = Just Description
 
                     {  unDescription ="The set of languages supported by `translate`." }
                 , _etdName = "Language"
                 , _etdDirectives = Nothing
                 , _etdValueDefinitions =
                     [ EnumValueDefinition
-                        { _evdDescription = Just Description
+                        { _evdSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 23
+                                , _col = 2
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 23
+                                , _col = 18
+                                }
+                            }
+                        , _evdDescription = Just Description
 
                             {  unDescription ="English" }
                         , _evdName = "EN"
                         , _evdDirectives = Nothing
                         }
                     , EnumValueDefinition
-                        { _evdDescription = Just Description
+                        { _evdSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 23
+                                , _col = 20
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 23
+                                , _col = 35
+                                }
+                            }
+                        , _evdDescription = Just Description
 
                             {  unDescription ="French" }
                         , _evdName = "FR"
                         , _evdDirectives = Nothing
                         }
                     , EnumValueDefinition
-                        { _evdDescription = Just Description
+                        { _evdSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 23
+                                , _col = 37
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 23
+                                , _col = 53
+                                }
+                            }
+                        , _evdDescription = Just Description
 
                             {  unDescription ="Chinese" }
                         , _evdName = "CH"

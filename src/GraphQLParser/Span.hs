@@ -4,6 +4,7 @@ module GraphQLParser.Span where
 
 import Control.DeepSeq (NFData)
 import Control.Lens (Lens', lens)
+import Data.Hashable (Hashable)
 import GHC.Generics
 import Language.Haskell.TH.Syntax (Lift)
 import Prettyprinter (Pretty (..))
@@ -13,7 +14,7 @@ import Prettyprinter (Pretty (..))
 
 data AlexSourcePos = AlexSourcePos {_line :: !Int, _col :: !Int}
   deriving stock (Show, Read, Eq, Ord, Lift, Generic)
-  deriving anyclass (NFData)
+  deriving anyclass (Hashable, NFData)
 
 col :: Lens' AlexSourcePos Int
 col = lens _col (\pos col' -> pos {_col = col'})
@@ -29,7 +30,7 @@ alexStartPos = AlexSourcePos 1 1
 
 data Span = Span {_start :: AlexSourcePos, _end :: AlexSourcePos}
   deriving stock (Show, Read, Eq, Ord, Lift, Generic)
-  deriving anyclass (NFData)
+  deriving anyclass (Hashable, NFData)
 
 instance Semigroup Span where
   (Span s1 e1) <> (Span s2 e2) = Span (min s1 s2) (max e1 e2)
@@ -72,3 +73,14 @@ instance Located (Loc a) where
 instance (Located a, Located b) => Located (Either a b) where
   {-# INLINE locate #-}
   locate = either locate locate
+
+maybeLoc :: (Located a, Located b) => a -> Maybe b -> Span
+maybeLoc a = maybe (locate a) locate
+
+infixl 6 <?
+
+(<?) :: (Located a, Located b) => a -> Maybe b -> Span
+(<?) a b = maybeLoc a b
+
+maybeLocEx :: (Located a, Located b, Located c) => a -> Maybe b -> Maybe c -> Span
+maybeLocEx a b c = a <? b <? c

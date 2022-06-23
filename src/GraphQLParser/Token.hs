@@ -65,7 +65,7 @@ data Token
   deriving anyclass (NFData)
 
 instance Located Token where
-  locate = \case 
+  locate = \case
     TokSymbol sym -> locate sym
     TokStringBlock str -> locate str
     TokStringLit str -> locate str

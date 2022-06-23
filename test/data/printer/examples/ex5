@@ -1,34 +1,99 @@
 [ DefinitionExecutable
     ( ExecutableDefinitionOperation
         ( OperationDefinition
-            { _odType = OperationTypeMutation
+            { _odSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 0
+                    , _col = 1
+                    }
+                , _end = AlexSourcePos
+                    { _line = 0
+                    , _col = 70
+                    }
+                }
+            , _odType = OperationTypeMutation
             , _odName = Nothing
             , _odVariables = Nothing
             , _odDirectives = Nothing
             , _odSelectionSet = SelectionField
                 ( Field
-                    { _fAlias = Nothing
+                    { _fSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 0
+                            , _col = 15
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 0
+                            , _col = 69
+                            }
+                        }
+                    , _fAlias = Nothing
                     , _fName = "likeStory"
-                    , _fArguments = fromList
-                        [
-                            ( "storyID"
-                            , VInt 12345
-                            )
-                        ]
+                    , _fArguments = Just
+                        ( Arguments
+                            { argSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 0
+                                    , _col = 26
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 0
+                                    , _col = 40
+                                    }
+                                }
+                            , argArguments = fromList
+                                [
+                                    ( "storyID"
+                                    , VInt
+                                        ( Span
+                                            { _start = AlexSourcePos
+                                                { _line = 0
+                                                , _col = 35
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 0
+                                                , _col = 40
+                                                }
+                                            }
+                                        ) 12345
+                                    )
+                                ]
+                            }
+                        )
                     , _fDirectives = Nothing
                     , _fSelectionSet = Just
                         ( SelectionField
                             ( Field
-                                { _fAlias = Nothing
+                                { _fSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 0
+                                        , _col = 45
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 0
+                                        , _col = 68
+                                        }
+                                    }
+                                , _fAlias = Nothing
                                 , _fName = "story"
-                                , _fArguments = fromList []
+                                , _fArguments = Nothing
                                 , _fDirectives = Nothing
                                 , _fSelectionSet = Just
                                     ( SelectionField
                                         ( Field
-                                            { _fAlias = Nothing
+                                            { _fSpan = Span
+                                                { _start = AlexSourcePos
+                                                    { _line = 0
+                                                    , _col = 55
+                                                    }
+                                                , _end = AlexSourcePos
+                                                    { _line = 0
+                                                    , _col = 64
+                                                    }
+                                                }
+                                            , _fAlias = Nothing
                                             , _fName = "likeCount"
-                                            , _fArguments = fromList []
+                                            , _fArguments = Nothing
                                             , _fDirectives = Nothing
                                             , _fSelectionSet = Nothing
                                             }

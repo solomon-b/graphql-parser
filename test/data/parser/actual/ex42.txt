@@ -2,18 +2,61 @@
     ( TypeSystemDefinitionType
         ( STDef
             ( ScalarTypeDefinition
-                { _stDescription = Nothing
+                { _stSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 0
+                        , _col = 1
+                        }
+                    , _end = AlexSourcePos
+                        { _line = 0
+                        , _col = 68
+                        }
+                    }
+                , _stDescription = Nothing
                 , _stName = "UUID"
                 , _stDirectives = Just
                     ( Directive
-                        { dName = "specifiedBy"
-                        , dArguments = Just
-                            ( fromList
-                                [
-                                    ( "url"
-                                    , VString "https://tools.ietf.org/html/rfc4122"
-                                    )
-                                ]
+                        { _dSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 0
+                                , _col = 13
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 0
+                                , _col = 68
+                                }
+                            }
+                        , _dName = "specifiedBy"
+                        , _dArguments = Just
+                            ( Arguments
+                                { argSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 0
+                                        , _col = 26
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 0
+                                        , _col = 68
+                                        }
+                                    }
+                                , argArguments = fromList
+                                    [
+                                        ( "url"
+                                        , VString
+                                            ( Span
+                                                { _start = AlexSourcePos
+                                                    { _line = 0
+                                                    , _col = 31
+                                                    }
+                                                , _end = AlexSourcePos
+                                                    { _line = 0
+                                                    , _col = 68
+                                                    }
+                                                }
+                                            ) "https://tools.ietf.org/html/rfc4122"
+                                        )
+                                    ]
+                                }
                             )
                         } :| []
                     )
@@ -25,18 +68,61 @@
     ( TypeSystemDefinitionType
         ( STDef
             ( ScalarTypeDefinition
-                { _stDescription = Nothing
+                { _stSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 1
+                        , _col = 1
+                        }
+                    , _end = AlexSourcePos
+                        { _line = 1
+                        , _col = 67
+                        }
+                    }
+                , _stDescription = Nothing
                 , _stName = "URL"
                 , _stDirectives = Just
                     ( Directive
-                        { dName = "specifiedBy"
-                        , dArguments = Just
-                            ( fromList
-                                [
-                                    ( "url"
-                                    , VString "https://tools.ietf.org/html/rfc3986"
-                                    )
-                                ]
+                        { _dSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 1
+                                , _col = 12
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 1
+                                , _col = 67
+                                }
+                            }
+                        , _dName = "specifiedBy"
+                        , _dArguments = Just
+                            ( Arguments
+                                { argSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 1
+                                        , _col = 25
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 1
+                                        , _col = 67
+                                        }
+                                    }
+                                , argArguments = fromList
+                                    [
+                                        ( "url"
+                                        , VString
+                                            ( Span
+                                                { _start = AlexSourcePos
+                                                    { _line = 1
+                                                    , _col = 30
+                                                    }
+                                                , _end = AlexSourcePos
+                                                    { _line = 1
+                                                    , _col = 67
+                                                    }
+                                                }
+                                            ) "https://tools.ietf.org/html/rfc3986"
+                                        )
+                                    ]
+                                }
                             )
                         } :| []
                     )

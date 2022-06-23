@@ -8,6 +8,7 @@ import Data.Coerce
 import Data.HashMap.Strict (HashMap)
 import Data.HashMap.Strict qualified as Map
 import Data.List.NonEmpty qualified as NE
+import Data.Maybe (fromMaybe)
 import Data.Text (Text)
 import GraphQLParser.Error
 import GraphQLParser.Monad
@@ -138,7 +139,8 @@ typeSystemDefinition
 
 schemaDefinition :: { SchemaDefinition }
 schemaDefinition
-  : description 'schema' directives '{' rootOperationTypesDefinition '}' { SchemaDefinition $1 $3 $5 }
+  : description 'schema' directives '{' rootOperationTypesDefinition '}'
+      { SchemaDefinition ((fromMaybe $2 (fmap locate $1)) <> locate $6) (fmap unLoc $1) (fmap unLoc $3) $5 }
 
 rootOperationTypesDefinition :: { RootOperationTypesDefinition }
 rootOperationTypesDefinition
@@ -151,7 +153,7 @@ rootOperationTypesDefinition_
 
 rootOperationTypeDefinition :: { RootOperationTypeDefinition }
 rootOperationTypeDefinition
-  : operationType ':' name { RootOperationTypeDefinition $1 $3 }
+  : operationType ':' name { RootOperationTypeDefinition (locate $1 <> locate $3) (unLoc $1) (unLoc $3) }
 
 --------------------------------------------------------------------------------
 
@@ -168,37 +170,38 @@ typedefinition
 
 scalarTypeDefinition :: { ScalarTypeDefinition }
 scalarTypeDefinition
-  : description 'scalar' name directives { ScalarTypeDefinition $1 $3 $4 } 
+  : description 'scalar' name directives { ScalarTypeDefinition (fromMaybe (locate $2) (fmap locate $1) <> maybeLoc $3 $4) (fmap unLoc $1) (unLoc $3) (fmap unLoc $4) } 
 
 --------------------------------------------------------------------------------
 
 objectTypeDefinition :: { ObjectTypeDefinition }
 objectTypeDefinition
-  : description 'type' name implementsInterfaces directives fieldsDefinition { ObjectTypeDefinition $1 $3 $4 $5 $6 }
+  : description 'type' name implementsInterfaces directives fieldsDefinition
+      { ObjectTypeDefinition (fromMaybe (locate $2) (fmap locate $1) <> maybeLoc (maybeLoc (maybeLoc $3 $4) $5) $6) (fmap unLoc $1) (unLoc $3) $4 (fmap unLoc $5) $6 }
 
 --------------------------------------------------------------------------------
 
 interfaceTypeDefinition :: { InterfaceTypeDefinition }
 interfaceTypeDefinition
-  : description 'interface' name implementsInterfaces directives fieldsDefinition { InterfaceTypeDefinition $1 $3 $4 $5 $6 }
+  : description 'interface' name implementsInterfaces directives fieldsDefinition
+      { InterfaceTypeDefinition (fromMaybe (locate $2) (fmap locate $1) <> maybeLoc (maybeLoc (maybeLoc $3 $4) $5) $6) (fmap unLoc $1) (unLoc $3) $4 (fmap unLoc $5) $6 }
 
 implementsInterfaces :: { Maybe ImplementsInterfaces }
 implementsInterfaces
-  : 'implements' implementsInterfaces_ { Just (ImplementsInterfaces $2) }
+  : implementsInterfaces_ { Just (ImplementsInterfaces (locate $1) (unLoc $1)) }
   | { Nothing }
 
--- TODO: Replace 'concat' with 'snoc'
-implementsInterfaces_ :: { NE.NonEmpty Name }
+implementsInterfaces_ :: { Loc (NE.NonEmpty Name) }
 implementsInterfaces_
-  : name { pure $1 }
-  | '&' name { pure $2 }
-  | implementsInterfaces_ '&' name { $1 <> pure $3 }
+  : implementsInterfaces_ '&' name { Loc (locate $1 <> locate $3) (unLoc $1 <> pure (unLoc $3)) }
+  | 'implements' '&' name { Loc (locate $1 <> locate $3) (pure (unLoc $3)) }
+  | 'implements' name { Loc (locate $1 <> locate $2) (pure (unLoc $2)) }
 
 --------------------------------------------------------------------------------
 
 fieldsDefinition :: { Maybe FieldsDefinition }
 fieldsDefinition
-  : '{' fieldDefinitions '}' { Just (FieldsDefinition $2) }
+  : '{' fieldDefinitions '}' { Just (FieldsDefinition (locate $1 <> locate $3) $2) }
   | %prec LOW { Nothing}
 
 fieldDefinitions :: { NE.NonEmpty FieldDefinition }
@@ -208,25 +211,29 @@ fieldDefinitions
 
 fieldDefinition :: { FieldDefinition }
 fieldDefinition
-  : description name argumentsDefinition ':' type directives { FieldDefinition $1 $2 $3 $5 $6 }
+  : description name argumentsDefinition ':' type directives
+      { FieldDefinition (fromMaybe (locate $2) (fmap locate $1) <> maybeLoc $5 $6) (fmap unLoc $1) (unLoc $2) $3 $5 (fmap unLoc $6) }
 
 --------------------------------------------------------------------------------
 
 unionTypeDefinition :: { UnionTypeDefinition }
 unionTypeDefinition
-  : description 'union' name directives '=' unionMembers { UnionTypeDefinition $1 $3 $4 $6 } 
-  | description 'union' name directives '=' '|' unionMembers { UnionTypeDefinition $1 $3 $4 $7 } 
+  : description 'union' name directives '=' unionMembers
+      { UnionTypeDefinition (fromMaybe (locate $2) (fmap locate $1) <> locate $6) (fmap unLoc $1) (unLoc $3) (fmap unLoc $4) (unLoc $6) } 
+  | description 'union' name directives '=' '|' unionMembers
+      { UnionTypeDefinition (fromMaybe (locate $2) (fmap locate $1) <> locate $7) (fmap unLoc $1) (unLoc $3) (fmap unLoc $4) (unLoc $7) } 
 
-unionMembers :: { [Name] }
+unionMembers :: { Loc [Name] }
 unionMembers
-  : name { [$1] }
-  | name '|' unionMembers { $1 : $3 }
+  : name { Loc (locate $1) [unLoc $1] }
+  | name '|' unionMembers { Loc (locate $1 <> locate $3) (unLoc $1 : (unLoc $3)) }
 
 --------------------------------------------------------------------------------
 
 enumTypeDefinition :: { EnumTypeDefinition }
 enumTypeDefinition
-  : description 'enum' name directives '{' enumValuesDefinition '}' { EnumTypeDefinition $1 $3 $4 $6 }
+  : description 'enum' name directives '{' enumValuesDefinition '}'
+      { EnumTypeDefinition (fromMaybe (locate $2) (fmap locate $1) <> locate $7) (fmap unLoc $1) (unLoc $3) (fmap unLoc $4) $6 }
 
 enumValuesDefinition :: { [EnumValueDefinition] }
 enumValuesDefinition
@@ -235,76 +242,80 @@ enumValuesDefinition
 
 enumValueDefinition :: { EnumValueDefinition }
 enumValueDefinition
-  : description name directives { EnumValueDefinition $1 $2 $3 } 
+  : description name directives { EnumValueDefinition (fromMaybe (locate $2) (fmap locate $1) <> maybeLoc $2 $3) (fmap unLoc $1) (unLoc $2) (fmap unLoc $3) } 
 
 --------------------------------------------------------------------------------
 
 inputObjectTypeDefinition :: { InputObjectTypeDefinition }
 inputObjectTypeDefinition
-  : description 'input' name directives inputFieldsDefinition { InputObjectTypeDefinition $1 $3 $4 $5 }
+  : description 'input' name directives inputFieldsDefinition
+      { InputObjectTypeDefinition (fromMaybe (locate $2) (fmap locate $1) <> maybeLoc (maybeLoc $3 $4) $5) (fmap unLoc $1) (unLoc $3) (fmap unLoc $4) $5 }
 
 --------------------------------------------------------------------------------
 
 directiveDefinition :: { DirectiveDefinition }
 directivedefinition
-  : description 'directive' '@' dir argumentsDefinition optRepeatable 'on' directiveLocations { DirectiveDefinition $1 (Name $ unLoc $4) $5 $8 }
-  | description 'directive' '@' dir argumentsDefinition optRepeatable 'on' '|' directiveLocations { DirectiveDefinition $1 (Name $ unLoc $4) $5 $9 }
+  : description 'directive' '@' dir argumentsDefinition optRepeatable 'on' directiveLocations
+      { DirectiveDefinition (fromMaybe (locate $2) (fmap locate $1) <> locate $8) (fmap unLoc $1) (Name $ unLoc $4) $5 (unLoc $8) }
+  | description 'directive' '@' dir argumentsDefinition optRepeatable 'on' '|' directiveLocations
+      { DirectiveDefinition (fromMaybe (locate $2) (fmap locate $1) <> locate $9) (fmap unLoc $1) (Name $ unLoc $4) $5 (unLoc $9) }
 
-directiveLocations :: { [DirectiveLocation] }
+directiveLocations :: { Loc [DirectiveLocation] }
 directivelocations
-  : directiveLocation { [$1] }
-  | directiveLocation '|' directiveLocations { $1 : $3 }
+  : directiveLocation { Loc (locate $1) [$1] }
+  | directiveLocation '|' directiveLocations { Loc (locate $1 <> locate $3) ($1 : unLoc $3) }
 
 directiveLocation :: { DirectiveLocation }
 directivelocation
-: executableDirectiveLocation { ExecDirLoc $1 }
-| typeSystemDirectiveLocation { TypeSysDirLoc $1 }
+: executableDirectiveLocation { ExecDirLoc (locate $1) (unLoc $1) }
+| typeSystemDirectiveLocation { TypeSysDirLoc (locate $1) (unLoc $1) }
 
-executableDirectiveLocation :: { ExecutableDirectiveLocation }
+executableDirectiveLocation :: { Loc ExecutableDirectiveLocation }
 executableDirectiveLocation
-  : 'QUERY' { EDLQUERY }
-  | 'MUTATION' { EDLMUTATION }
-  | 'SUBSCRIPTION' { EDLSUBSCRIPTION }
-  | 'FIELD' { EDLFIELD }
-  | 'FRAGMENT_DEFINITION' { EDLFRAGMENT_DEFINITION }
-  | 'FRAGMENT_SPREAD' { EDLFRAGMENT_SPREAD }
-  | 'INLINE_FRAGMENT' { EDLINLINE_FRAGMENT }
-  | 'VARIABLE_DEFINITION' { EDLVARIABLE_DEFINITION }
+  : 'QUERY' { Loc (locate $1) EDLQUERY }
+  | 'MUTATION' { Loc (locate $1) EDLMUTATION }
+  | 'SUBSCRIPTION' { Loc (locate $1) EDLSUBSCRIPTION }
+  | 'FIELD' { Loc (locate $1) EDLFIELD }
+  | 'FRAGMENT_DEFINITION' { Loc (locate $1) EDLFRAGMENT_DEFINITION }
+  | 'FRAGMENT_SPREAD' { Loc (locate $1) EDLFRAGMENT_SPREAD }
+  | 'INLINE_FRAGMENT' { Loc (locate $1) EDLINLINE_FRAGMENT }
+  | 'VARIABLE_DEFINITION' { Loc (locate $1) EDLVARIABLE_DEFINITION }
 
-typeSystemDirectiveLocation :: { TypeSystemDirectiveLocation }
+typeSystemDirectiveLocation :: { Loc TypeSystemDirectiveLocation }
 typeSystemDirectiveLocation
-: 'SCHEMA' { TSDLSCHEMA }
-| 'SCALAR' { TSDLSCALAR }
-| 'OBJECT' { TSDLOBJECT }
-| 'FIELD_DEFINITION' { TSDLFIELD_DEFINITION }
-| 'ARGUMENT_DEFINITION' { TSDLARGUMENT_DEFINITION }
-| 'INTERFACE' { TSDLINTERFACE }
-| 'UNION' { TSDLUNION }
-| 'ENUM' { TSDLENUM }
-| 'ENUM_VALUE' { TSDLENUM_VALUE }
-| 'INPUT_OBJECT' { TSDLINPUT_OBJECT }
-| 'INPUT_FIELD_DEFINITION' { TSDLINPUT_FIELD_DEFINITION }
+: 'SCHEMA' { Loc (locate $1) TSDLSCHEMA }
+| 'SCALAR' { Loc (locate $1) TSDLSCALAR }
+| 'OBJECT' { Loc (locate $1) TSDLOBJECT }
+| 'FIELD_DEFINITION' { Loc (locate $1) TSDLFIELD_DEFINITION }
+| 'ARGUMENT_DEFINITION' { Loc (locate $1) TSDLARGUMENT_DEFINITION }
+| 'INTERFACE' { Loc (locate $1) TSDLINTERFACE }
+| 'UNION' { Loc (locate $1) TSDLUNION }
+| 'ENUM' { Loc (locate $1) TSDLENUM }
+| 'ENUM_VALUE' { Loc (locate $1) TSDLENUM_VALUE }
+| 'INPUT_OBJECT' { Loc (locate $1) TSDLINPUT_OBJECT }
+| 'INPUT_FIELD_DEFINITION' { Loc (locate $1) TSDLINPUT_FIELD_DEFINITION }
 
 --------------------------------------------------------------------------------
 
-inputFieldsDefinition :: { InputFieldsDefinition}
+inputFieldsDefinition :: { Maybe InputFieldsDefinition }
 inputFieldsDefinition
-  : '{' inputValuesDefinition '}' { InputFieldsDefinition $2 }
-  | %prec LOW { mempty }
+  : '{' inputValuesDefinition '}' { Just (InputFieldsDefinition (locate $1 <> locate $3) $2) }
+  | %prec LOW { Nothing }
 
-argumentsDefinition :: { ArgumentsDefinition }
+argumentsDefinition :: { Maybe ArgumentsDefinition }
 argumentsDefinition
-  : '(' inputValuesDefinition ')' { ArgumentsDefinition $2 }
-  | { mempty }
+  : '(' inputValuesDefinition ')' { Just (ArgumentsDefinition $2) }
+  | { Nothing }
 
-inputValuesDefinition :: { [InputValueDefinition] }
+inputValuesDefinition :: { NE.NonEmpty InputValueDefinition }
 inputValuesDefinition
-  : inputValueDefinition { [$1] }
-  | inputValueDefinition inputValuesDefinition { $1 : $2 }
+  : inputValueDefinition { $1 NE.:| [] }
+  | inputValueDefinition inputValuesDefinition { $1 NE.<| $2 }
 
 inputValueDefinition :: { InputValueDefinition }
 inputValueDefinition
-  : description name ':' type optValue directives { InputValueDefinition $1 $2 $4 $5 $6 }
+  : description name ':' type optValue directives
+      { InputValueDefinition (maybeLoc $2 $1 <> maybeLoc (maybeLoc $4 $5) $6) (fmap unLoc $1) (unLoc $2) $4 $5 (fmap unLoc $6) }
 
 --------------------------------------------------------------------------------
 
@@ -315,41 +326,47 @@ executabledefinition
 
 operationDefinition :: { OperationDefinition }
 operationDefinition
- : operationType directives selectionSet { OperationDefinition $1 Nothing mempty $2 $3 }
- | operationType name directives selectionSet { OperationDefinition $1 (Just $2) mempty $3 $4 }
- | operationType variableDefinitions directives selectionSet { OperationDefinition $1 Nothing (Just $2) $3 $4 }
- | operationType name variableDefinitions directives selectionSet { OperationDefinition  $1 (Just $2) (Just $3) $4 $5 }
- | selectionSet { OperationDefinition OperationTypeQuery Nothing mempty Nothing $1 }
+ : operationType directives selectionSet
+     { OperationDefinition (locate $1 <> locate $3 )(unLoc $1) Nothing mempty (fmap unLoc $2) (unLoc $3) }
+ | operationType name directives selectionSet
+     { OperationDefinition (locate $1 <> locate $4) (unLoc $1) (Just (unLoc $2)) mempty (fmap unLoc $3) (unLoc $4) }
+ | operationType variableDefinitions directives selectionSet
+     { OperationDefinition (locate $1 <> locate $4) (unLoc $1) Nothing (Just $2) (fmap unLoc $3) (unLoc $4) }
+ | operationType name variableDefinitions directives selectionSet
+     { OperationDefinition (locate $1 <> locate $5) (unLoc $1) (Just (unLoc $2)) (Just $3) (fmap unLoc $4) (unLoc $5) }
+ | selectionSet
+     { OperationDefinition (locate $1) OperationTypeQuery Nothing mempty Nothing (unLoc $1) }
 
 --------------------------------------------------------------------------------
 
 fragmentDefinition :: { FragmentDefinition }
 fragmentDefinition
-  : 'fragment' name typeCondition directives selectionSet { FragmentDefinition $2 $3 $4 $5 }
+  : 'fragment' name typeCondition directives selectionSet
+      { FragmentDefinition (locate $1 <> locate $5) (unLoc $2) $3 (fmap unLoc $4) (unLoc $5) }
 
 fragmentSpread :: { FragmentSpread }
 fragmentSpread
-  : '...' name directives { FragmentSpread $2 $3 }
+  : '...' name directives { FragmentSpread (locate $1 <> maybeLoc $2 $3) (unLoc $2) (fmap unLoc $3) }
 
 inlineFragment :: { InlineFragment }
 inlineFragment
-  : '...' typeCondition directives selectionSet { InlineFragment (Just $2) $3 $4 }
-  | '...' directives selectionSet { InlineFragment Nothing $2 $3 }
+  : '...' typeCondition directives selectionSet { InlineFragment (locate $1 <> locate $4) (Just $2) (fmap unLoc $3) (unLoc $4) }
+  | '...' directives selectionSet { InlineFragment (locate $1 <> locate $3) Nothing (fmap unLoc $2) (unLoc $3) }
 
 --------------------------------------------------------------------------------
 
 field :: { Field }
 field
-  : aliasAndName directives { Field (fst $1) (snd $1) mempty $2 mempty }
-  | aliasAndName '(' arguments ')' directives { Field (fst $1) (snd $1) $3 $5 mempty }
-  | aliasAndName '(' arguments ')' directives selectionSet { Field (fst $1) (snd $1) $3 $5 (Just $6) }
-  | aliasAndName directives selectionSet { Field (fst $1) (snd $1) mempty $2 (Just $3) }
+  : aliasAndName directives { Field (locate $1 <> maybeLoc $1 $2) (fst (unLoc $1)) (snd (unLoc $1)) Nothing (fmap unLoc $2) mempty }
+  | aliasAndName arguments directives { Field (locate $1 <> maybeLoc $2 $3) (fst (unLoc $1)) (snd (unLoc $1)) (Just $2) (fmap unLoc $3) mempty }
+  | aliasAndName arguments directives selectionSet { Field (locate $1 <> locate $4) (fst (unLoc $1)) (snd (unLoc $1)) (Just $2) (fmap unLoc $3) (Just (unLoc $4)) }
+  | aliasAndName directives selectionSet { Field (locate $1 <> locate $3) (fst (unLoc $1)) (snd (unLoc $1)) Nothing (fmap unLoc $2) (Just (unLoc $3)) }
 
 --------------------------------------------------------------------------------
 
-selectionSet :: { SelectionSet }
+selectionSet :: { Loc SelectionSet }
 selectionSet
-  : '{' selections '}' { SelectionSet (NE.fromList $2) }
+  : '{' selections '}' { Loc (locate $1 <> locate $3) (SelectionSet (NE.fromList $2)) }
 
 selections :: { [Selection] }
 selections
@@ -377,30 +394,30 @@ values
 
 value :: { Value }
 value
-  : 'null' { VNull }
-  | stringValue { VString $1 }
-  | float { VFloat (unLoc $1) }
-  | int { VInt (unLoc $1) }
-  | bool { VBoolean (unLoc $1) }
+  : 'null' { VNull (locate $1) }
+  | stringValue { VString (locate $1) (unLoc $1) }
+  | float { VFloat (locate $1) (unLoc $1) }
+  | int { VInt (locate $1) (unLoc $1) }
+  | bool { VBoolean (locate $1) (unLoc $1) }
   | vlist { $1 }
   | vobject { $1 }
-  | '$' ident { VVar (unLoc $2) }
+  | '$' ident { VVar (locate $1 <> locate $2) (unLoc $2) }
 
-stringValue :: { Text }
+stringValue :: { Loc Text }
 stringValue
-  : '"' '"' { "" }
-  | '"' string '"' { unLoc $2 }
-  | '"""' blockString '"""' { unLoc $2 }
+  : '"' '"' { Loc (locate $1 <> locate $2) "" }
+  | '"' string '"' { Loc (locate $1 <> locate $3) (unLoc $2) }
+  | '"""' blockString '"""' { Loc (locate $1 <> locate $3) (unLoc $2) }
       
 vlist :: { Value }
 vlist
-  : '[' ']' { VList [] }
-  | '[' values ']' { VList $2 }
+  : '[' ']' { VList (locate $1 <> locate $2) [] }
+  | '[' values ']' { VList (locate $1 <> locate $3) $2 }
 
 vobject :: { Value } 
 vobject
-  : '{' '}' { VObject mempty }
-  | '{' object '}' { VObject $2 }
+  : '{' '}' { VObject (locate $1 <> locate $2) mempty }
+  | '{' object '}' { VObject (locate $1 <> locate $3) $2 }
 
 object :: { HashMap Name Value }
 object
@@ -409,34 +426,38 @@ object
 
 objectField :: { (Name, Value) }
 objectField
-  : name ':' value { ($1, $3) }
+  : name ':' value { (unLoc $1, $3) }
 
 --------------------------------------------------------------------------------
 
-operationType :: { OperationType }
+operationType :: { Loc OperationType }
 operationtype
-  : 'query' { OperationTypeQuery }
-  | 'mutation' { OperationTypeMutation }
-  | 'subscription' { OperationTypeSubscription }
+  : 'query' { Loc (locate $1) OperationTypeQuery }
+  | 'mutation' { Loc (locate $1) OperationTypeMutation }
+  | 'subscription' { Loc (locate $1) OperationTypeSubscription }
 
-aliasAndName :: { (Maybe Name, Name) }
+aliasAndName :: { Loc (Maybe Name, Name) }
 aliasAndName
-  : name ':' name { (Just $1, $3) }
-  | name { (Nothing, $1) }
+  : name ':' name { Loc (locate $1 <> locate $3) (Just (unLoc $1), (unLoc $3)) }
+  | name { Loc (locate $1) (Nothing, (unLoc $1)) }
 
-name :: { Name }
+name :: { Loc Name }
 name
-  : ident { Name (unLoc $1) }
+  : ident { Loc (locate $1) (Name (unLoc $1)) }
 
 arguments :: { Arguments }
 arguments
-  : argument { Arguments (uncurry Map.singleton $1) }
-  | arguments argument { coerce (uncurry Map.insert $2 (coerce $1)) }
+  : '(' arguments_ ')' { Arguments (locate $2) (unLoc $2) }
 
-argument :: { (Name, Value) }
+arguments_ :: { Loc (HashMap Name Value) }
+arguments_
+  : argument { Loc (locate $1) (uncurry Map.singleton (unLoc $1)) }
+  | arguments_ argument { Loc (locate $1 <> locate $2) (uncurry Map.insert (unLoc $2) (unLoc $1)) }
+
+argument :: { Loc (Name, Value) }
 argument
-  : name ':' value { ($1, $3) }
-  | '$' name ':' value { ($2, $4) }
+  : name ':' value { Loc (locate $1 <> locate $3) (unLoc $1, $3) }
+  | '$' name ':' value { Loc (locate $1 <> locate $4) (unLoc $2, $4) }
 
 variableDefinitions :: { VariablesDefinition }
 variabledefinitions
@@ -449,36 +470,36 @@ variabledefinitions_
 
 variableDefinition :: { VariableDefinition }
 variabledefinition
-  : '$' name ':' type optValue directives { VariableDefinition $2 $4 $5 $6 }
+  : '$' name ':' type optValue directives { VariableDefinition (locate $1 <> maybeLoc (maybeLoc $4 $5) $6) (unLoc $2) $4 $5 (fmap unLoc $6) }
 
 typeCondition :: { TypeCondition }
 typeCondition
-  : 'on' name { TypeCondition $2 }
+  : 'on' name { TypeCondition (unLoc $2) }
 
 type :: { Type }
 type
-  : name { NamedType $1 }
-  | type '!' { NonNullType $1 }
-  | '[' type ']' { ListType $2 }
+  : name { NamedType (locate $1) (unLoc $1) }
+  | type '!' { NonNullType (locate $1 <> locate $2) $1 }
+  | '[' type ']' { ListType (locate $1 <> locate $3) $2 }
 
-directives :: { Maybe Directives }
+directives :: { Maybe (Loc Directives) }
 directives
-  : directives_ { Just (Directives $1) }
+  : directives_ { Just (Loc (locate $1) (Directives (unLoc $1))) }
   | { Nothing }
 
-directives_ :: { NE.NonEmpty Directive }
+directives_ :: { Loc (NE.NonEmpty Directive) }
 directives_
-  : directive { $1 NE.:| [] }
-  | directive directives_ { $1 NE.<| $2 }
+  : directive { Loc (locate $1) ($1 NE.:| []) }
+  | directive directives_ { Loc (locate $1 <> locate $2) ($1 NE.<| unLoc $2) }
 
 directive :: { Directive }
 directive
-  : '@' dir { Directive (Name $ unLoc $2) Nothing }
-  | '@' dir '(' arguments ')' { Directive (Name $ unLoc $2) (Just $4) }
+  : '@' dir { Directive (locate $1 <> locate $2) (Name $ unLoc $2) Nothing }
+  | '@' dir arguments { Directive (locate $1 <> locate $3) (Name $ unLoc $2) (Just $3) }
 
-description :: { Maybe Description }
+description :: { Maybe (Loc Description) }
 description
-  : stringValue { Just (Description $1) }
+  : stringValue { Just $ Loc (locate $1) (Description (unLoc $1)) }
   | { Nothing }
 
 optRepeatable :: { Maybe Span }

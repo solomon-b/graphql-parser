@@ -1,29 +1,82 @@
 [ DefinitionTypeSystem
     ( TypeSystemDefinitionDirective
         ( DirectiveDefinition
-            { _ddDescription = Nothing
+            { _ddSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 0
+                    , _col = 2
+                    }
+                , _end = AlexSourcePos
+                    { _line = 0
+                    , _col = 32
+                    }
+                }
+            , _ddDescription = Nothing
             , _ddName = "example"
-            , _ddArguments = []
-            , _ddLocations = [ ExecDirLoc EDLFIELD ]
+            , _ddArguments = Nothing
+            , _ddLocations =
+                [ ExecDirLoc
+                    ( Span
+                        { _start = AlexSourcePos
+                            { _line = 0
+                            , _col = 27
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 0
+                            , _col = 32
+                            }
+                        }
+                    ) EDLFIELD
+                ]
             }
         )
     )
 , DefinitionExecutable
     ( ExecutableDefinitionFragment
         ( FragmentDefinition
-            { _fdName = "SomeFragment"
-            , _fdTypeCondition = TypeCondition
+            { _frdSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 1
+                    , _col = 1
+                    }
+                , _end = AlexSourcePos
+                    { _line = 1
+                    , _col = 55
+                    }
+                }
+            , _frdName = "SomeFragment"
+            , _frdTypeCondition = TypeCondition
                 { unTypeCondition = "SomeType" }
-            , _fdDirectives = Nothing
-            , _fdSelectionSet = SelectionField
+            , _frdDirectives = Nothing
+            , _frdSelectionSet = SelectionField
                 ( Field
-                    { _fAlias = Nothing
+                    { _fSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 1
+                            , _col = 38
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 1
+                            , _col = 53
+                            }
+                        }
+                    , _fAlias = Nothing
                     , _fName = "field"
-                    , _fArguments = fromList []
+                    , _fArguments = Nothing
                     , _fDirectives = Just
                         ( Directive
-                            { dName = "example"
-                            , dArguments = Nothing
+                            { _dSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 1
+                                    , _col = 45
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 1
+                                    , _col = 53
+                                    }
+                                }
+                            , _dName = "example"
+                            , _dArguments = Nothing
                             } :| []
                         )
                     , _fSelectionSet = Nothing

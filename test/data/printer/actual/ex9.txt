@@ -1,0 +1,2 @@
+query    { me   { name   }}
+query    { user (id: 4)  { name   }}

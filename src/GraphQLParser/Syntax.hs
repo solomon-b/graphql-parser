@@ -19,6 +19,7 @@ import Data.Text qualified as T
 import Data.Text.Encoding qualified as TE
 import Data.Vector qualified as V
 import GHC.Generics (Generic)
+import GraphQLParser.Span qualified as S
 import Language.Haskell.TH.Syntax (Lift)
 import Prettyprinter (Doc, Pretty (..), defaultLayoutOptions, dquote, encloseSep, flatAlt, group, layoutPretty, line, punctuate, sep, space, tupled, (<+>))
 import Prettyprinter.Render.Text (renderStrict)
@@ -80,12 +81,16 @@ instance Pretty TypeSystemDefinition where
 -- subscription; this determines the place in the type system where
 -- those operations begin.
 data SchemaDefinition = SchemaDefinition
-  { _sdDescription :: Maybe Description,
+  { _sdSpan :: S.Span,
+    _sdDescription :: Maybe Description,
     _sdDirectives :: Maybe Directives,
     _sdRootOperationTypeDefinitions :: RootOperationTypesDefinition
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
+
+instance S.Located SchemaDefinition where
+  locate = _sdSpan
 
 instance Pretty SchemaDefinition where
   pretty SchemaDefinition {..} =
@@ -111,11 +116,15 @@ instance Pretty RootOperationTypesDefinition where
 -- @Subscription@; this determines the place in the type system where
 -- those operations begin.
 data RootOperationTypeDefinition = RootOperationTypeDefinition
-  { _rotdOperationType :: OperationType,
+  { _rotdSpan :: S.Span,
+    _rotdOperationType :: OperationType,
     _rotdNamedType :: Name
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
+
+instance S.Located RootOperationTypeDefinition where
+  locate = _rotdSpan
 
 instance Pretty RootOperationTypeDefinition where
   pretty RootOperationTypeDefinition {..} =
@@ -145,12 +154,16 @@ instance Pretty TypeDefinition where
     IOTDef iotd -> pretty iotd
 
 data ScalarTypeDefinition = ScalarTypeDefinition
-  { _stDescription :: Maybe Description,
+  { _stSpan :: S.Span,
+    _stDescription :: Maybe Description,
     _stName :: Name,
     _stDirectives :: Maybe Directives
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
+
+instance S.Located ScalarTypeDefinition where
+  locate = _stSpan
 
 instance Pretty ScalarTypeDefinition where
   pretty ScalarTypeDefinition {..} =
@@ -166,7 +179,8 @@ instance Pretty ScalarTypeDefinition where
 -- these hierarchical operations, Objects describe the intermediate
 -- levels.
 data ObjectTypeDefinition = ObjectTypeDefinition
-  { _otdDescription :: Maybe Description,
+  { _otdSpan :: S.Span,
+    _otdDescription :: Maybe Description,
     _otdName :: Name,
     _otdImplementsInterfaces :: Maybe ImplementsInterfaces,
     _otdDirectives :: Maybe Directives,
@@ -174,6 +188,9 @@ data ObjectTypeDefinition = ObjectTypeDefinition
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
+
+instance S.Located ObjectTypeDefinition where
+  locate = _otdSpan
 
 instance Pretty ObjectTypeDefinition where
   pretty ObjectTypeDefinition {..} =
@@ -186,24 +203,33 @@ instance Pretty ObjectTypeDefinition where
         pretty _otdFieldsDefinition
       ]
 
-newtype FieldsDefinition = FieldsDefinition {unFieldsDefinition :: NE.NonEmpty FieldDefinition}
-  deriving stock (Lift, Generic)
-  deriving newtype (Eq, Ord, Show, Read)
+data FieldsDefinition = FieldsDefinition
+  { _fdSpan :: S.Span,
+    _fdDefinitions :: NE.NonEmpty FieldDefinition
+  }
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
+
+instance S.Located FieldsDefinition where
+  locate = _fdSpan
 
 instance Pretty FieldsDefinition where
   pretty FieldsDefinition {..} =
-    encloseSep "{" "}" line (foldr (\x xs -> pretty x : xs) [] unFieldsDefinition)
+    encloseSep "{" "}" line (foldr (\x xs -> pretty x : xs) [] _fdDefinitions)
 
 data FieldDefinition = FieldDefinition
-  { _fldDescription :: Maybe Description,
+  { _fldSpan :: S.Span,
+    _fldDescription :: Maybe Description,
     _fldName :: Name,
-    _fldArgumentsDefinition :: ArgumentsDefinition,
+    _fldArgumentsDefinition :: Maybe ArgumentsDefinition,
     _fldType :: Type,
     _fldDirectives :: Maybe Directives
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
+
+instance S.Located FieldDefinition where
+  locate = _fldSpan
 
 instance Pretty FieldDefinition where
   pretty FieldDefinition {..} =
@@ -221,7 +247,8 @@ instance Pretty FieldDefinition where
 -- interfaces which requires that the implementing type will define
 -- all fields defined by those interfaces.
 data InterfaceTypeDefinition = InterfaceTypeDefinition
-  { _itDescription :: Maybe Description,
+  { _itSpan :: S.Span,
+    _itDescription :: Maybe Description,
     _itName :: Name,
     _itInterfaces :: Maybe ImplementsInterfaces,
     _itDirectives :: Maybe Directives,
@@ -229,6 +256,9 @@ data InterfaceTypeDefinition = InterfaceTypeDefinition
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
+
+instance S.Located InterfaceTypeDefinition where
+  locate = _itSpan
 
 instance Pretty InterfaceTypeDefinition where
   pretty InterfaceTypeDefinition {..} =
@@ -241,14 +271,22 @@ instance Pretty InterfaceTypeDefinition where
         pretty _itFields
       ]
 
-newtype ImplementsInterfaces = ImplementsInterfaces {unInterfaces :: NE.NonEmpty Name}
-  deriving stock (Lift, Generic)
-  deriving newtype (Eq, Ord, Show, Read)
+-- TODO: Use a Vector
+data ImplementsInterfaces = ImplementsInterfaces
+  { _iiSpan :: S.Span,
+    _iiInterfaces :: NE.NonEmpty Name
+  }
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
+
+instance S.Located ImplementsInterfaces where
+  locate = _iiSpan
 
 instance Pretty ImplementsInterfaces where
   pretty ImplementsInterfaces {..} =
-    "implements" <+> foldMap (\n -> "&" <+> pretty n) unInterfaces
+    "implements" <+> foldMap (\n -> "&" <+> pretty n) _iiInterfaces
+
+--"implements" <+> foldl (\acc n -> "&" <+> pretty n <+> acc) "" _iiInterfaces
 
 -- | GraphQL Unions represent an object that could be one of a list of
 -- GraphQL Object types, but provides for no guaranteed fields between
@@ -256,13 +294,17 @@ instance Pretty ImplementsInterfaces where
 -- declare what interfaces they implement, but are not aware of what
 -- unions contain them.
 data UnionTypeDefinition = UnionTypeDefinition
-  { _utdDescription :: Maybe Description,
+  { _utSpan :: S.Span,
+    _utdDescription :: Maybe Description,
     _utdName :: Name,
     _utdDirectives :: Maybe Directives,
     _utdMemberTypes :: [Name]
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
+
+instance S.Located UnionTypeDefinition where
+  locate = _utSpan
 
 instance Pretty UnionTypeDefinition where
   pretty UnionTypeDefinition {..} =
@@ -279,13 +321,17 @@ instance Pretty UnionTypeDefinition where
 -- in a GraphQL type system. However Enum types describe the set of
 -- possible values.
 data EnumTypeDefinition = EnumTypeDefinition
-  { _etdDescription :: Maybe Description,
+  { _etdSpan :: S.Span,
+    _etdDescription :: Maybe Description,
     _etdName :: Name,
     _etdDirectives :: Maybe Directives,
     _etdValueDefinitions :: [EnumValueDefinition]
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
+
+instance S.Located EnumTypeDefinition where
+  locate = _etdSpan
 
 instance Pretty EnumTypeDefinition where
   pretty EnumTypeDefinition {..} =
@@ -298,12 +344,16 @@ instance Pretty EnumTypeDefinition where
       ]
 
 data EnumValueDefinition = EnumValueDefinition
-  { _evdDescription :: Maybe Description,
+  { _evdSpan :: S.Span,
+    _evdDescription :: Maybe Description,
     _evdName :: Name,
     _evdDirectives :: Maybe Directives
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
+
+instance S.Located EnumValueDefinition where
+  locate = _evdSpan
 
 instance Pretty EnumValueDefinition where
   pretty EnumValueDefinition {..} =
@@ -317,46 +367,57 @@ instance Pretty EnumValueDefinition where
 -- fields are either scalars, enums, or other input objects. This
 -- allows arguments to accept arbitrarily complex structs.
 data InputObjectTypeDefinition = InputObjectTypeDefinition
-  { _iotDescription :: Maybe Description,
+  { _iotSpan :: S.Span,
+    _iotDescription :: Maybe Description,
     _iotName :: Name,
     _iotDirectives :: Maybe Directives,
-    _iotValueDefinitions :: InputFieldsDefinition
+    _iotValueDefinitions :: Maybe InputFieldsDefinition
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
 
+instance S.Located InputObjectTypeDefinition where
+  locate = _iotSpan
+
 instance Pretty InputObjectTypeDefinition where
   pretty InputObjectTypeDefinition {..} =
-    sep
+    sep $
       [ pretty _iotDescription,
         "input",
         pretty _iotName,
         pretty _iotDirectives,
+        -- TODO: Check printer spacing
         pretty _iotValueDefinitions
       ]
 
-newtype InputFieldsDefinition = InputFieldsDefinition {unInputFieldsDefinition :: [InputValueDefinition]}
-  deriving stock (Lift, Generic)
-  deriving newtype (Eq, Ord, Show, Read, Semigroup, Monoid)
+data InputFieldsDefinition = InputFieldsDefinition
+  { _ifdSpan :: S.Span,
+    _ifdDefinition :: NE.NonEmpty InputValueDefinition
+  }
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
+
+instance S.Located InputFieldsDefinition where
+  locate = _ifdSpan
 
 instance Pretty InputFieldsDefinition where
   pretty InputFieldsDefinition {..} =
-    encloseSep "{" "}" " " (fmap pretty unInputFieldsDefinition)
+    encloseSep "{" "}" " " (foldr (\x xs -> pretty x : xs) [] _ifdDefinition)
 
-newtype ArgumentsDefinition = ArgumentsDefinition {unArgumentsDefinition :: [InputValueDefinition]}
+newtype ArgumentsDefinition = ArgumentsDefinition {unArgumentsDefinition :: NE.NonEmpty InputValueDefinition}
   deriving stock (Lift, Generic)
-  deriving newtype (Eq, Ord, Show, Read, Semigroup, Monoid)
+  deriving newtype (Eq, Ord, Show, Read, Semigroup)
   deriving anyclass (NFData)
 
 instance Pretty ArgumentsDefinition where
   pretty ArgumentsDefinition {..} =
     case unArgumentsDefinition of
-      [] -> ""
-      xs -> encloseSep "(" ")" " " (fmap pretty xs)
+      x NE.:| [] -> "(" <> pretty x <> ")"
+      xs -> encloseSep "(" ")" " " (foldr (\x acc -> pretty x : acc) [] xs)
 
 data InputValueDefinition = InputValueDefinition
-  { _ivdDescription :: Maybe Description,
+  { _ivdSpan :: S.Span,
+    _ivdDescription :: Maybe Description,
     _ivdName :: Name,
     _ivdType :: Type,
     _ivdDefaultValue :: Maybe Value,
@@ -364,6 +425,9 @@ data InputValueDefinition = InputValueDefinition
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
+
+instance S.Located InputValueDefinition where
+  locate = _ivdSpan
 
 instance Pretty InputValueDefinition where
   pretty InputValueDefinition {..} =
@@ -379,13 +443,17 @@ instance Pretty InputValueDefinition where
 -- Directive Definitions
 
 data DirectiveDefinition = DirectiveDefinition
-  { _ddDescription :: Maybe Description,
+  { _ddSpan :: S.Span,
+    _ddDescription :: Maybe Description,
     _ddName :: Name,
-    _ddArguments :: ArgumentsDefinition,
+    _ddArguments :: Maybe ArgumentsDefinition,
     _ddLocations :: [DirectiveLocation]
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
+
+instance S.Located DirectiveDefinition where
+  locate = _ddSpan
 
 instance Pretty DirectiveDefinition where
   pretty DirectiveDefinition {..} =
@@ -398,14 +466,19 @@ instance Pretty DirectiveDefinition where
         foldMap (\n -> "|" <+> pretty n <> line) _ddLocations
       ]
 
-data DirectiveLocation = ExecDirLoc ExecutableDirectiveLocation | TypeSysDirLoc TypeSystemDirectiveLocation
+data DirectiveLocation = ExecDirLoc S.Span ExecutableDirectiveLocation | TypeSysDirLoc S.Span TypeSystemDirectiveLocation
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
 
+instance S.Located DirectiveLocation where
+  locate = \case
+    ExecDirLoc sp _edl -> sp
+    TypeSysDirLoc sp _tsdl -> sp
+
 instance Pretty DirectiveLocation where
   pretty = \case
-    ExecDirLoc edl -> pretty edl
-    TypeSysDirLoc tsdl -> pretty tsdl
+    ExecDirLoc _sp edl -> pretty edl
+    TypeSysDirLoc _sp tsdl -> pretty tsdl
 
 data ExecutableDirectiveLocation
   = EDLQUERY
@@ -492,7 +565,8 @@ instance Pretty ExecutableDefinition where
 --
 -- Each operation is represented by an optional operation name and a selection set.
 data OperationDefinition = OperationDefinition
-  { _odType :: OperationType,
+  { _odSpan :: S.Span,
+    _odType :: OperationType,
     _odName :: Maybe Name,
     _odVariables :: Maybe VariablesDefinition,
     _odDirectives :: Maybe Directives,
@@ -500,6 +574,9 @@ data OperationDefinition = OperationDefinition
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
+
+instance S.Located OperationDefinition where
+  locate = _odSpan
 
 instance Pretty OperationDefinition where
   pretty OperationDefinition {..} =
@@ -519,22 +596,26 @@ instance Pretty OperationDefinition where
 -- Fragments allow for the reuse of common repeated selections of
 -- 'Field's, reducing duplicated text in the 'Document'.
 data FragmentDefinition = FragmentDefinition
-  { _fdName :: Name,
-    _fdTypeCondition :: TypeCondition,
-    _fdDirectives :: Maybe Directives,
-    _fdSelectionSet :: SelectionSet
+  { _frdSpan :: S.Span,
+    _frdName :: Name,
+    _frdTypeCondition :: TypeCondition,
+    _frdDirectives :: Maybe Directives,
+    _frdSelectionSet :: SelectionSet
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
+
+instance S.Located FragmentDefinition where
+  locate = _frdSpan
 
 instance Pretty FragmentDefinition where
   pretty FragmentDefinition {..} =
     sep
       [ "fragment",
-        pretty _fdName,
-        pretty _fdTypeCondition,
-        pretty _fdDirectives,
-        pretty _fdSelectionSet
+        pretty _frdName,
+        pretty _frdTypeCondition,
+        pretty _frdDirectives,
+        pretty _frdSelectionSet
       ]
 
 -- | Fragments are consumed by using the spread operator @(...)@. All
@@ -542,11 +623,15 @@ instance Pretty FragmentDefinition where
 -- selection at the same level as the fragment invocation. This
 -- happens through multiple levels of fragment spreads.
 data FragmentSpread = FragmentSpread
-  { _fsName :: Name,
+  { _fsSpan :: S.Span,
+    _fsName :: Name,
     _fsDirectives :: Maybe Directives
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
+
+instance S.Located FragmentSpread where
+  locate = _fsSpan
 
 instance Pretty FragmentSpread where
   pretty FragmentSpread {..} =
@@ -559,12 +644,16 @@ instance Pretty FragmentSpread where
 -- condition upon a type condition when querying against an interface
 -- or union.
 data InlineFragment = InlineFragment
-  { _ifTypeCondition :: Maybe TypeCondition,
+  { _ifSpan :: S.Span,
+    _ifTypeCondition :: Maybe TypeCondition,
     _ifDirectives :: Maybe Directives,
     _ifSelectionSet :: SelectionSet
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
+
+instance S.Located InlineFragment where
+  locate = _ifSpan
 
 instance Pretty InlineFragment where
   pretty InlineFragment {..} =
@@ -585,14 +674,18 @@ instance Pretty InlineFragment where
 -- 'Arguments' often map directly to function arguments within a
 -- GraphQL service’s implementation.
 data Field = Field
-  { _fAlias :: Maybe Name,
+  { _fSpan :: S.Span,
+    _fAlias :: Maybe Name,
     _fName :: Name,
-    _fArguments :: Arguments,
+    _fArguments :: Maybe Arguments,
     _fDirectives :: Maybe Directives,
     _fSelectionSet :: Maybe SelectionSet
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
+
+instance S.Located Field where
+  locate = _fSpan
 
 instance Pretty Field where
   pretty Field {..} =
@@ -642,30 +735,42 @@ instance Pretty EnumValue where
   pretty = pretty . unEnum
 
 data Value
-  = VVar Text
-  | VNull
-  | VInt Integer
-  | VFloat Scientific
-  | VString Text
-  | VBoolean Bool
-  | VEnum EnumValue
-  | VList [Value]
-  | VObject (HashMap Name Value)
+  = VVar S.Span Text
+  | VNull S.Span
+  | VInt S.Span Integer
+  | VFloat S.Span Scientific
+  | VString S.Span Text
+  | VBoolean S.Span Bool
+  | VEnum S.Span EnumValue
+  | VList S.Span [Value]
+  | VObject S.Span (HashMap Name Value)
   deriving stock (Eq, Ord, Show, Read, Generic, Lift)
   deriving anyclass (Hashable, NFData)
 
+instance S.Located Value where
+  locate = \case
+    VVar sp _txt -> sp
+    VNull sp -> sp
+    VInt sp _n -> sp
+    VFloat sp _sci -> sp
+    VString sp _txt -> sp
+    VBoolean sp _b -> sp
+    VEnum sp _ev -> sp
+    VList sp _vas -> sp
+    VObject sp _hm -> sp
+
 instance Pretty Value where
   pretty = \case
-    VVar var -> "$" <> pretty var
-    VNull -> "null"
-    VInt n -> pretty n
-    VFloat sci -> pretty $ show sci
-    VString txt -> "\"" <> pretty txt <> "\""
-    VBoolean True -> "true"
-    VBoolean False -> "false"
-    VEnum ev -> pretty ev
-    VList xs -> pretty xs
-    VObject obj -> ob $ Map.toList obj
+    VVar _sp var -> "$" <> pretty var
+    VNull _sp -> "null"
+    VInt _sp n -> pretty n
+    VFloat _sp sci -> pretty $ show sci
+    VString _sp txt -> "\"" <> pretty txt <> "\""
+    VBoolean _sp True -> "true"
+    VBoolean _sp False -> "false"
+    VEnum _sp ev -> pretty ev
+    VList _sp xs -> pretty xs
+    VObject _sp obj -> ob $ Map.toList obj
     where
       ob :: (Pretty a, Pretty b) => [(a, b)] -> Doc ann
       ob xs =
@@ -730,7 +835,8 @@ mkName text =
     matchFirst c = c == '_' || C.isAsciiUpper c || C.isAsciiLower c
     matchBody c = c == '_' || C.isAsciiUpper c || C.isAsciiLower c || C.isDigit c
 
-newtype VariablesDefinition = VariablesDefinition {variablesDefinition :: NE.NonEmpty VariableDefinition}
+newtype VariablesDefinition = VariablesDefinition
+  {variablesDefinition :: NE.NonEmpty VariableDefinition}
   deriving stock (Lift, Generic)
   deriving newtype (Eq, Ord, Show, Read, Semigroup)
   deriving anyclass (NFData)
@@ -740,13 +846,17 @@ instance Pretty VariablesDefinition where
     tupled (NE.toList $ fmap pretty vars)
 
 data VariableDefinition = VariableDefinition
-  { _vdName :: Name,
+  { _vdSpan :: S.Span,
+    _vdName :: Name,
     _vdType :: Type,
     _vdDefaultValue :: Maybe Value,
     _vdDirectives :: Maybe Directives
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
+
+instance S.Located VariableDefinition where
+  locate = _vdSpan
 
 instance Pretty VariableDefinition where
   pretty VariableDefinition {..} =
@@ -757,16 +867,21 @@ instance Pretty VariableDefinition where
         pretty _vdDirectives
       ]
 
-newtype Arguments = Arguments {unArguments :: HashMap Name Value}
-  deriving stock (Generic, Lift)
-  deriving newtype (Eq, Ord, Show, Read, Semigroup, Monoid)
+data Arguments = Arguments
+  { argSpan :: S.Span,
+    argArguments :: HashMap Name Value
+  }
+  deriving stock (Eq, Ord, Show, Read, Generic, Lift)
   deriving anyclass (Hashable, NFData)
+
+instance S.Located Arguments where
+  locate = argSpan
 
 instance Pretty Arguments where
   pretty Arguments {..} =
-    if unArguments == mempty
+    if argArguments == mempty
       then mempty
-      else tupled $ fmap (\(n, v) -> pretty n <> ":" <+> pretty v) (Map.toList unArguments)
+      else tupled $ fmap (\(n, v) -> pretty n <> ":" <+> pretty v) (Map.toList argArguments)
 
 newtype TypeCondition = TypeCondition {unTypeCondition :: Name}
   deriving stock (Generic, Lift)
@@ -777,16 +892,22 @@ instance Pretty TypeCondition where
   pretty TypeCondition {..} =
     "on" <+> pretty unTypeCondition
 
-data Type = NamedType Name | ListType Type | NonNullType Type
+data Type = NamedType S.Span Name | ListType S.Span Type | NonNullType S.Span Type
   deriving stock (Generic, Lift)
   deriving stock (Eq, Ord, Show, Read)
   deriving anyclass (Hashable, NFData)
 
+instance S.Located Type where
+  locate = \case
+    NamedType sp _na -> sp
+    ListType sp _ty -> sp
+    NonNullType sp _ty -> sp
+
 instance Pretty Type where
   pretty = \case
-    NamedType ty -> pretty ty
-    ListType xs -> "[" <> pretty xs <> "]"
-    NonNullType ty -> pretty ty <> "!"
+    NamedType _span ty -> pretty ty
+    ListType _span xs -> "[" <> pretty xs <> "]"
+    NonNullType _span ty -> pretty ty <> "!"
 
 newtype Directives = Directives {unDirectives :: NE.NonEmpty Directive}
   deriving stock (Lift, Generic)
@@ -795,17 +916,21 @@ newtype Directives = Directives {unDirectives :: NE.NonEmpty Directive}
 
 instance Pretty Directives where
   pretty Directives {..} =
-    fold $ punctuate " " $ pretty <$> NE.toList unDirectives
+    fold $ punctuate " " $ fmap pretty $ NE.toList unDirectives
 
 data Directive = Directive
-  { dName :: Name,
-    dArguments :: Maybe Arguments
+  { _dSpan :: S.Span,
+    _dName :: Name,
+    _dArguments :: Maybe Arguments
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
 
+instance S.Located Directive where
+  locate = _dSpan
+
 instance Pretty Directive where
-  pretty Directive {..} = "@" <> pretty dName <> pretty dArguments
+  pretty Directive {..} = "@" <> pretty _dName <> pretty _dArguments
 
 --------------------------------------------------------------------------------
 -- Pretty helpers

@@ -2,18 +2,61 @@
     ( TypeSystemDefinitionType
         ( ITDef
             ( InterfaceTypeDefinition
-                { _itDescription = Nothing
+                { _itSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 0
+                        , _col = 1
+                        }
+                    , _end = AlexSourcePos
+                        { _line = 2
+                        , _col = 2
+                        }
+                    }
+                , _itDescription = Nothing
                 , _itName = "NamedEntity"
                 , _itInterfaces = Nothing
                 , _itDirectives = Nothing
                 , _itFields = Just
-                    ( FieldDefinition
-                        { _fldDescription = Nothing
-                        , _fldName = "name"
-                        , _fldArgumentsDefinition = []
-                        , _fldType = NamedType "String"
-                        , _fldDirectives = Nothing
-                        } :| []
+                    ( FieldsDefinition
+                        { _fdSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 0
+                                , _col = 23
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 2
+                                , _col = 2
+                                }
+                            }
+                        , _fdDefinitions = FieldDefinition
+                            { _fldSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 1
+                                    , _col = 3
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 1
+                                    , _col = 15
+                                    }
+                                }
+                            , _fldDescription = Nothing
+                            , _fldName = "name"
+                            , _fldArgumentsDefinition = Nothing
+                            , _fldType = NamedType
+                                ( Span
+                                    { _start = AlexSourcePos
+                                        { _line = 1
+                                        , _col = 9
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 1
+                                        , _col = 15
+                                        }
+                                    }
+                                ) "String"
+                            , _fldDirectives = Nothing
+                            } :| []
+                        }
                     )
                 }
             )
@@ -23,18 +66,61 @@
     ( TypeSystemDefinitionType
         ( ITDef
             ( InterfaceTypeDefinition
-                { _itDescription = Nothing
+                { _itSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 4
+                        , _col = 1
+                        }
+                    , _end = AlexSourcePos
+                        { _line = 6
+                        , _col = 2
+                        }
+                    }
+                , _itDescription = Nothing
                 , _itName = "ValuedEntity"
                 , _itInterfaces = Nothing
                 , _itDirectives = Nothing
                 , _itFields = Just
-                    ( FieldDefinition
-                        { _fldDescription = Nothing
-                        , _fldName = "value"
-                        , _fldArgumentsDefinition = []
-                        , _fldType = NamedType "Int"
-                        , _fldDirectives = Nothing
-                        } :| []
+                    ( FieldsDefinition
+                        { _fdSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 4
+                                , _col = 24
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 6
+                                , _col = 2
+                                }
+                            }
+                        , _fdDefinitions = FieldDefinition
+                            { _fldSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 5
+                                    , _col = 3
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 5
+                                    , _col = 13
+                                    }
+                                }
+                            , _fldDescription = Nothing
+                            , _fldName = "value"
+                            , _fldArgumentsDefinition = Nothing
+                            , _fldType = NamedType
+                                ( Span
+                                    { _start = AlexSourcePos
+                                        { _line = 5
+                                        , _col = 10
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 5
+                                        , _col = 13
+                                        }
+                                    }
+                                ) "Int"
+                            , _fldDirectives = Nothing
+                            } :| []
+                        }
                     )
                 }
             )
@@ -44,27 +130,104 @@
     ( TypeSystemDefinitionType
         ( OTDef
             ( ObjectTypeDefinition
-                { _otdDescription = Nothing
+                { _otdSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 8
+                        , _col = 1
+                        }
+                    , _end = AlexSourcePos
+                        { _line = 11
+                        , _col = 2
+                        }
+                    }
+                , _otdDescription = Nothing
                 , _otdName = "Person"
                 , _otdImplementsInterfaces = Just
-                    ( "NamedEntity" :| [] )
+                    ( ImplementsInterfaces
+                        { _iiSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 8
+                                , _col = 13
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 8
+                                , _col = 35
+                                }
+                            }
+                        , _iiInterfaces = "NamedEntity" :| []
+                        }
+                    )
                 , _otdDirectives = Nothing
                 , _otdFieldsDefinition = Just
-                    ( FieldDefinition
-                        { _fldDescription = Nothing
-                        , _fldName = "name"
-                        , _fldArgumentsDefinition = []
-                        , _fldType = NamedType "String"
-                        , _fldDirectives = Nothing
-                        } :|
-                        [ FieldDefinition
-                            { _fldDescription = Nothing
-                            , _fldName = "age"
-                            , _fldArgumentsDefinition = []
-                            , _fldType = NamedType "Int"
-                            , _fldDirectives = Nothing
+                    ( FieldsDefinition
+                        { _fdSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 8
+                                , _col = 36
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 11
+                                , _col = 2
+                                }
                             }
-                        ]
+                        , _fdDefinitions = FieldDefinition
+                            { _fldSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 9
+                                    , _col = 3
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 9
+                                    , _col = 15
+                                    }
+                                }
+                            , _fldDescription = Nothing
+                            , _fldName = "name"
+                            , _fldArgumentsDefinition = Nothing
+                            , _fldType = NamedType
+                                ( Span
+                                    { _start = AlexSourcePos
+                                        { _line = 9
+                                        , _col = 9
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 9
+                                        , _col = 15
+                                        }
+                                    }
+                                ) "String"
+                            , _fldDirectives = Nothing
+                            } :|
+                            [ FieldDefinition
+                                { _fldSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 10
+                                        , _col = 3
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 10
+                                        , _col = 11
+                                        }
+                                    }
+                                , _fldDescription = Nothing
+                                , _fldName = "age"
+                                , _fldArgumentsDefinition = Nothing
+                                , _fldType = NamedType
+                                    ( Span
+                                        { _start = AlexSourcePos
+                                            { _line = 10
+                                            , _col = 8
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 10
+                                            , _col = 11
+                                            }
+                                        }
+                                    ) "Int"
+                                , _fldDirectives = Nothing
+                                }
+                            ]
+                        }
                     )
                 }
             )
@@ -74,34 +237,132 @@
     ( TypeSystemDefinitionType
         ( OTDef
             ( ObjectTypeDefinition
-                { _otdDescription = Nothing
+                { _otdSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 13
+                        , _col = 1
+                        }
+                    , _end = AlexSourcePos
+                        { _line = 17
+                        , _col = 2
+                        }
+                    }
+                , _otdDescription = Nothing
                 , _otdName = "Business"
                 , _otdImplementsInterfaces = Just
-                    ( "NamedEntity" :| [ "ValuedEntity" ] )
+                    ( ImplementsInterfaces
+                        { _iiSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 13
+                                , _col = 15
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 13
+                                , _col = 52
+                                }
+                            }
+                        , _iiInterfaces = "NamedEntity" :| [ "ValuedEntity" ]
+                        }
+                    )
                 , _otdDirectives = Nothing
                 , _otdFieldsDefinition = Just
-                    ( FieldDefinition
-                        { _fldDescription = Nothing
-                        , _fldName = "name"
-                        , _fldArgumentsDefinition = []
-                        , _fldType = NamedType "String"
-                        , _fldDirectives = Nothing
-                        } :|
-                        [ FieldDefinition
-                            { _fldDescription = Nothing
-                            , _fldName = "value"
-                            , _fldArgumentsDefinition = []
-                            , _fldType = NamedType "Int"
-                            , _fldDirectives = Nothing
+                    ( FieldsDefinition
+                        { _fdSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 13
+                                , _col = 53
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 17
+                                , _col = 2
+                                }
                             }
-                        , FieldDefinition
-                            { _fldDescription = Nothing
-                            , _fldName = "employeeCount"
-                            , _fldArgumentsDefinition = []
-                            , _fldType = NamedType "Int"
+                        , _fdDefinitions = FieldDefinition
+                            { _fldSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 14
+                                    , _col = 3
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 14
+                                    , _col = 15
+                                    }
+                                }
+                            , _fldDescription = Nothing
+                            , _fldName = "name"
+                            , _fldArgumentsDefinition = Nothing
+                            , _fldType = NamedType
+                                ( Span
+                                    { _start = AlexSourcePos
+                                        { _line = 14
+                                        , _col = 9
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 14
+                                        , _col = 15
+                                        }
+                                    }
+                                ) "String"
                             , _fldDirectives = Nothing
-                            }
-                        ]
+                            } :|
+                            [ FieldDefinition
+                                { _fldSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 15
+                                        , _col = 3
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 15
+                                        , _col = 13
+                                        }
+                                    }
+                                , _fldDescription = Nothing
+                                , _fldName = "value"
+                                , _fldArgumentsDefinition = Nothing
+                                , _fldType = NamedType
+                                    ( Span
+                                        { _start = AlexSourcePos
+                                            { _line = 15
+                                            , _col = 10
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 15
+                                            , _col = 13
+                                            }
+                                        }
+                                    ) "Int"
+                                , _fldDirectives = Nothing
+                                }
+                            , FieldDefinition
+                                { _fldSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 16
+                                        , _col = 3
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 16
+                                        , _col = 21
+                                        }
+                                    }
+                                , _fldDescription = Nothing
+                                , _fldName = "employeeCount"
+                                , _fldArgumentsDefinition = Nothing
+                                , _fldType = NamedType
+                                    ( Span
+                                        { _start = AlexSourcePos
+                                            { _line = 16
+                                            , _col = 18
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 16
+                                            , _col = 21
+                                            }
+                                        }
+                                    ) "Int"
+                                , _fldDirectives = Nothing
+                                }
+                            ]
+                        }
                     )
                 }
             )

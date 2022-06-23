@@ -2,19 +2,74 @@
     ( TypeSystemDefinitionType
         ( ITDef
             ( InterfaceTypeDefinition
-                { _itDescription = Nothing
+                { _itSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 0
+                        , _col = 2
+                        }
+                    , _end = AlexSourcePos
+                        { _line = 0
+                        , _col = 32
+                        }
+                    }
+                , _itDescription = Nothing
                 , _itName = "Node"
                 , _itInterfaces = Nothing
                 , _itDirectives = Nothing
                 , _itFields = Just
-                    ( FieldDefinition
-                        { _fldDescription = Nothing
-                        , _fldName = "id"
-                        , _fldArgumentsDefinition = []
-                        , _fldType = NonNullType
-                            ( NamedType "ID" )
-                        , _fldDirectives = Nothing
-                        } :| []
+                    ( FieldsDefinition
+                        { _fdSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 0
+                                , _col = 19
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 0
+                                , _col = 32
+                                }
+                            }
+                        , _fdDefinitions = FieldDefinition
+                            { _fldSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 0
+                                    , _col = 21
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 0
+                                    , _col = 30
+                                    }
+                                }
+                            , _fldDescription = Nothing
+                            , _fldName = "id"
+                            , _fldArgumentsDefinition = Nothing
+                            , _fldType = NonNullType
+                                ( Span
+                                    { _start = AlexSourcePos
+                                        { _line = 0
+                                        , _col = 27
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 0
+                                        , _col = 30
+                                        }
+                                    }
+                                )
+                                ( NamedType
+                                    ( Span
+                                        { _start = AlexSourcePos
+                                            { _line = 0
+                                            , _col = 27
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 0
+                                            , _col = 29
+                                            }
+                                        }
+                                    ) "ID"
+                                )
+                            , _fldDirectives = Nothing
+                            } :| []
+                        }
                     )
                 }
             )
@@ -24,28 +79,117 @@
     ( TypeSystemDefinitionType
         ( ITDef
             ( InterfaceTypeDefinition
-                { _itDescription = Nothing
+                { _itSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 1
+                        , _col = 2
+                        }
+                    , _end = AlexSourcePos
+                        { _line = 1
+                        , _col = 69
+                        }
+                    }
+                , _itDescription = Nothing
                 , _itName = "Resource"
                 , _itInterfaces = Just
-                    ( "Node" :| [] )
+                    ( ImplementsInterfaces
+                        { _iiSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 1
+                                , _col = 21
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 1
+                                , _col = 38
+                                }
+                            }
+                        , _iiInterfaces = "Node" :| []
+                        }
+                    )
                 , _itDirectives = Nothing
                 , _itFields = Just
-                    ( FieldDefinition
-                        { _fldDescription = Nothing
-                        , _fldName = "id"
-                        , _fldArgumentsDefinition = []
-                        , _fldType = NonNullType
-                            ( NamedType "ID" )
-                        , _fldDirectives = Nothing
-                        } :|
-                        [ FieldDefinition
-                            { _fldDescription = Nothing
-                            , _fldName = "url"
-                            , _fldArgumentsDefinition = []
-                            , _fldType = NamedType "String"
-                            , _fldDirectives = Nothing
+                    ( FieldsDefinition
+                        { _fdSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 1
+                                , _col = 40
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 1
+                                , _col = 69
+                                }
                             }
-                        ]
+                        , _fdDefinitions = FieldDefinition
+                            { _fldSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 1
+                                    , _col = 42
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 1
+                                    , _col = 51
+                                    }
+                                }
+                            , _fldDescription = Nothing
+                            , _fldName = "id"
+                            , _fldArgumentsDefinition = Nothing
+                            , _fldType = NonNullType
+                                ( Span
+                                    { _start = AlexSourcePos
+                                        { _line = 1
+                                        , _col = 48
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 1
+                                        , _col = 51
+                                        }
+                                    }
+                                )
+                                ( NamedType
+                                    ( Span
+                                        { _start = AlexSourcePos
+                                            { _line = 1
+                                            , _col = 48
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 1
+                                            , _col = 50
+                                            }
+                                        }
+                                    ) "ID"
+                                )
+                            , _fldDirectives = Nothing
+                            } :|
+                            [ FieldDefinition
+                                { _fldSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 1
+                                        , _col = 54
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 1
+                                        , _col = 67
+                                        }
+                                    }
+                                , _fldDescription = Nothing
+                                , _fldName = "url"
+                                , _fldArgumentsDefinition = Nothing
+                                , _fldType = NamedType
+                                    ( Span
+                                        { _start = AlexSourcePos
+                                            { _line = 1
+                                            , _col = 61
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 1
+                                            , _col = 67
+                                            }
+                                        }
+                                    ) "String"
+                                , _fldDirectives = Nothing
+                                }
+                            ]
+                        }
                     )
                 }
             )

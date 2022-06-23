@@ -33,6 +33,6 @@ runParseName :: MonadFail m => B.ByteString -> m Name
 runParseName bs =
   let result = M.runParser [] bs $ do
         toks <- L.lexer
-        P.parseName toks
+        fmap unLoc $ P.parseName toks
       errorMessage = show $ bs <> " is not valid GraphQL name"
    in either (\_ -> fail errorMessage) pure result

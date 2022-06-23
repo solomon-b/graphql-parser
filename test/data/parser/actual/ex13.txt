@@ -1,24 +1,80 @@
 [ DefinitionExecutable
     ( ExecutableDefinitionOperation
         ( OperationDefinition
-            { _odType = OperationTypeQuery
+            { _odSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 0
+                    , _col = 1
+                    }
+                , _end = AlexSourcePos
+                    { _line = 2
+                    , _col = 2
+                    }
+                }
+            , _odType = OperationTypeQuery
             , _odName = Nothing
             , _odVariables = Nothing
             , _odDirectives = Nothing
             , _odSelectionSet = SelectionField
                 ( Field
-                    { _fAlias = Nothing
+                    { _fSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 1
+                            , _col = 3
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 1
+                            , _col = 34
+                            }
+                        }
+                    , _fAlias = Nothing
                     , _fName = "picture"
-                    , _fArguments = fromList
-                        [
-                            ( "width"
-                            , VInt 200
-                            )
-                        ,
-                            ( "height"
-                            , VInt 100
-                            )
-                        ]
+                    , _fArguments = Just
+                        ( Arguments
+                            { argSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 1
+                                    , _col = 11
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 1
+                                    , _col = 34
+                                    }
+                                }
+                            , argArguments = fromList
+                                [
+                                    ( "width"
+                                    , VInt
+                                        ( Span
+                                            { _start = AlexSourcePos
+                                                { _line = 1
+                                                , _col = 31
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 1
+                                                , _col = 34
+                                                }
+                                            }
+                                        ) 200
+                                    )
+                                ,
+                                    ( "height"
+                                    , VInt
+                                        ( Span
+                                            { _start = AlexSourcePos
+                                                { _line = 1
+                                                , _col = 19
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 1
+                                                , _col = 22
+                                                }
+                                            }
+                                        ) 100
+                                    )
+                                ]
+                            }
+                        )
                     , _fDirectives = Nothing
                     , _fSelectionSet = Nothing
                     }

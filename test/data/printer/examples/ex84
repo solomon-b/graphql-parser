@@ -2,26 +2,103 @@
     ( TypeSystemDefinitionType
         ( IOTDef
             ( InputObjectTypeDefinition
-                { _iotDescription = Nothing
+                { _iotSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 0
+                        , _col = 2
+                        }
+                    , _end = AlexSourcePos
+                        { _line = 0
+                        , _col = 53
+                        }
+                    }
+                , _iotDescription = Nothing
                 , _iotName = "ExampleInputObject"
                 , _iotDirectives = Nothing
-                , _iotValueDefinitions =
-                    [ InputValueDefinition
-                        { _ivdDescription = Nothing
-                        , _ivdName = "a"
-                        , _ivdType = NamedType "String"
-                        , _ivdDefaultValue = Nothing
-                        , _ivdDirectives = Nothing
+                , _iotValueDefinitions = Just
+                    ( InputFieldsDefinition
+                        { _ifdSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 0
+                                , _col = 28
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 0
+                                , _col = 53
+                                }
+                            }
+                        , _ifdDefinition = InputValueDefinition
+                            { _ivdSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 0
+                                    , _col = 30
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 0
+                                    , _col = 39
+                                    }
+                                }
+                            , _ivdDescription = Nothing
+                            , _ivdName = "a"
+                            , _ivdType = NamedType
+                                ( Span
+                                    { _start = AlexSourcePos
+                                        { _line = 0
+                                        , _col = 33
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 0
+                                        , _col = 39
+                                        }
+                                    }
+                                ) "String"
+                            , _ivdDefaultValue = Nothing
+                            , _ivdDirectives = Nothing
+                            } :|
+                            [ InputValueDefinition
+                                { _ivdSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 0
+                                        , _col = 43
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 0
+                                        , _col = 50
+                                        }
+                                    }
+                                , _ivdDescription = Nothing
+                                , _ivdName = "b"
+                                , _ivdType = NonNullType
+                                    ( Span
+                                        { _start = AlexSourcePos
+                                            { _line = 0
+                                            , _col = 46
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 0
+                                            , _col = 50
+                                            }
+                                        }
+                                    )
+                                    ( NamedType
+                                        ( Span
+                                            { _start = AlexSourcePos
+                                                { _line = 0
+                                                , _col = 46
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 0
+                                                , _col = 49
+                                                }
+                                            }
+                                        ) "Int"
+                                    )
+                                , _ivdDefaultValue = Nothing
+                                , _ivdDirectives = Nothing
+                                }
+                            ]
                         }
-                    , InputValueDefinition
-                        { _ivdDescription = Nothing
-                        , _ivdName = "b"
-                        , _ivdType = NonNullType
-                            ( NamedType "Int" )
-                        , _ivdDefaultValue = Nothing
-                        , _ivdDirectives = Nothing
-                        }
-                    ]
+                    )
                 }
             )
         )

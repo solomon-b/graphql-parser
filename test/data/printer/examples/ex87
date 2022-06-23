@@ -1,12 +1,43 @@
 [ DefinitionExecutable
     ( ExecutableDefinitionOperation
         ( OperationDefinition
-            { _odType = OperationTypeQuery
+            { _odSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 0
+                    , _col = 1
+                    }
+                , _end = AlexSourcePos
+                    { _line = 4
+                    , _col = 44
+                    }
+                }
+            , _odType = OperationTypeQuery
             , _odName = Just "withNullableVariable"
             , _odVariables = Just
                 ( VariableDefinition
-                    { _vdName = "var"
-                    , _vdType = NamedType "String"
+                    { _vdSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 2
+                            , _col = 2
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 2
+                            , _col = 14
+                            }
+                        }
+                    , _vdName = "var"
+                    , _vdType = NamedType
+                        ( Span
+                            { _start = AlexSourcePos
+                                { _line = 2
+                                , _col = 8
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 2
+                                , _col = 14
+                                }
+                            }
+                        ) "String"
                     , _vdDefaultValue = Nothing
                     , _vdDirectives = Nothing
                     } :| []
@@ -14,14 +45,49 @@
             , _odDirectives = Nothing
             , _odSelectionSet = SelectionField
                 ( Field
-                    { _fAlias = Nothing
+                    { _fSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 4
+                            , _col = 3
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 4
+                            , _col = 40
+                            }
+                        }
+                    , _fAlias = Nothing
                     , _fName = "fieldWithNonNullArg"
-                    , _fArguments = fromList
-                        [
-                            ( "nonNullArg"
-                            , VVar "var"
-                            )
-                        ]
+                    , _fArguments = Just
+                        ( Arguments
+                            { argSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 4
+                                    , _col = 24
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 4
+                                    , _col = 40
+                                    }
+                                }
+                            , argArguments = fromList
+                                [
+                                    ( "nonNullArg"
+                                    , VVar
+                                        ( Span
+                                            { _start = AlexSourcePos
+                                                { _line = 4
+                                                , _col = 36
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 4
+                                                , _col = 40
+                                                }
+                                            }
+                                        ) "var"
+                                    )
+                                ]
+                            }
+                        )
                     , _fDirectives = Nothing
                     , _fSelectionSet = Nothing
                     }

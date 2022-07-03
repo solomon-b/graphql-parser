@@ -1,27 +1,82 @@
 [ DefinitionExecutable
     ( ExecutableDefinitionOperation
         ( OperationDefinition
-            { _odType = OperationTypeMutation
+            { _odSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 0
+                    , _col = 1
+                    }
+                , _end = AlexSourcePos
+                    { _line = 0
+                    , _col = 53
+                    }
+                }
+            , _odType = OperationTypeMutation
             , _odName = Nothing
             , _odVariables = Nothing
             , _odDirectives = Nothing
             , _odSelectionSet = SelectionField
                 ( Field
-                    { _fAlias = Nothing
+                    { _fSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 0
+                            , _col = 15
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 0
+                            , _col = 52
+                            }
+                        }
+                    , _fAlias = Nothing
                     , _fName = "setName"
-                    , _fArguments = fromList
-                        [
-                            ( "name"
-                            , VString "Zuck"
-                            )
-                        ]
+                    , _fArguments = Just
+                        ( Arguments
+                            { argSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 0
+                                    , _col = 24
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 0
+                                    , _col = 36
+                                    }
+                                }
+                            , argArguments = fromList
+                                [
+                                    ( "name"
+                                    , VString
+                                        ( Span
+                                            { _start = AlexSourcePos
+                                                { _line = 0
+                                                , _col = 30
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 0
+                                                , _col = 36
+                                                }
+                                            }
+                                        ) "Zuck"
+                                    )
+                                ]
+                            }
+                        )
                     , _fDirectives = Nothing
                     , _fSelectionSet = Just
                         ( SelectionField
                             ( Field
-                                { _fAlias = Nothing
+                                { _fSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 0
+                                        , _col = 41
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 0
+                                        , _col = 48
+                                        }
+                                    }
+                                , _fAlias = Nothing
                                 , _fName = "newName"
-                                , _fArguments = fromList []
+                                , _fArguments = Nothing
                                 , _fDirectives = Nothing
                                 , _fSelectionSet = Nothing
                                 }

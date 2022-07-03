@@ -1,16 +1,8 @@
-{-# LANGUAGE CPP #-}
-{-# LANGUAGE RecordWildCards #-}
-{-# LANGUAGE ScopedTypeVariables #-}
-{-# OPTIONS_GHC -fno-warn-orphans #-}
-
 import Control.Exception.Safe (throwString)
 import Data.ByteString qualified as B
 import Data.ByteString qualified as BS
 import Data.ByteString.Lazy qualified as BL
 import Data.Foldable (for_)
-import Data.Scientific (Scientific)
-import Data.Text qualified as T
-import Data.Text.Encoding qualified as TE
 import Data.Text.Lazy qualified as TL
 import Data.Text.Lazy.Encoding qualified as TEL
 import Data.Text.Lazy.IO qualified as TLIO
@@ -19,8 +11,6 @@ import System.Directory (listDirectory)
 import System.FilePath
 import Test.Hspec
 import Test.Hspec.Golden
-import Test.QuickCheck qualified as Q
-import Test.QuickCheck.Arbitrary.Generic qualified as QAG
 import Text.Pretty.Simple (pShowNoColor)
 import Text.Read (readEither)
 
@@ -51,9 +41,8 @@ parserGoldenSpec runParse testPath = describe "Golden" $ do
     for_ examplePaths $ \path -> do
       let name = takeBaseName path
       before (parseGraphQLSuccess runParse path) $
-        after (writePrettyExample path . snd) $
-          it ("parses " <> name) $
-            \(_, valueExt) -> goldenQuery dirSuc name valueExt
+        it ("parses " <> name) $
+          \(_, valueExt) -> goldenDocument dirSuc name valueExt
 
 -- | Parse a template file that is expected to succeed; parse failures are
 -- rendered as 'String's and thrown in 'IO'.
@@ -76,7 +65,7 @@ prettySpec = describe "Pretty Printer" $ do
 -- found in the project directory hard-coded into this function.
 prettyGoldenSpec :: FilePath -> Spec
 prettyGoldenSpec testPath = describe "Golden" $ do
-  (_dirSuc, examplePaths) <- runIO $ fetchGoldenFiles testPath
+  (dirSuc, examplePaths) <- runIO $ fetchGoldenFiles testPath
 
   describe "Success" $
     for_ examplePaths $ \path -> do
@@ -84,15 +73,8 @@ prettyGoldenSpec testPath = describe "Golden" $ do
       before (readPrettyExample path) $
         it ("pretty prints " <> name) $
           \valueExt -> do
-            let prettyTerm = TE.encodeUtf8 $ renderPretty valueExt
-            runParseGraphQL prettyTerm `shouldBe` Right valueExt
-
--- | Write serialized haskell terms to printer example folder for
--- pretty printer round trip.
-writePrettyExample :: FilePath -> Document -> IO ()
-writePrettyExample path =
-  let newPath = "test/data/printer/examples" </> takeBaseName path
-   in BS.writeFile newPath . BL.toStrict . TEL.encodeUtf8 . pShowNoColor
+            let prettyTerm = renderPrettyBS valueExt
+            goldenByteString dirSuc name prettyTerm
 
 readPrettyExample :: FilePath -> IO Document
 readPrettyExample path = do
@@ -107,9 +89,8 @@ readPrettyExample path = do
 --
 -- In this case, "valid" means that the value satisfies the roundtrip law where
 -- @read . show === id@.
-goldenReadShow ::
-  (Read val, Show val) => FilePath -> String -> val -> Golden val
-goldenReadShow dir name val = Golden {..}
+goldenDocument :: FilePath -> String -> Document -> Golden Document
+goldenDocument dir name val = Golden {..}
   where
     output = val
     encodePretty = TL.unpack . pShowNoColor
@@ -122,9 +103,17 @@ goldenReadShow dir name val = Golden {..}
     actualFile = Just $ dir </> "actual" </> name <.> "txt"
     failFirstTime = False
 
--- | Alias for 'goldenReadShow' specialized to 'ExecutableDocument'.
-goldenQuery :: FilePath -> String -> Document -> Golden Document
-goldenQuery = goldenReadShow
+goldenByteString :: FilePath -> String -> BS.ByteString -> Golden BS.ByteString
+goldenByteString dir name val = Golden {..}
+  where
+    output = val
+    encodePretty = TL.unpack . pShowNoColor
+    writeToFile path actual =
+      BS.writeFile path actual
+    readFromFile path = BS.readFile path
+    goldenFile = dir </> "golden" </> name <.> "txt"
+    actualFile = Just $ dir </> "actual" </> name <.> "txt"
+    failFirstTime = False
 
 -- | Construct a 'Golden' test for 'ParseError's rendered as 'String's.
 --
@@ -143,47 +132,6 @@ goldenQuery = goldenReadShow
 --    failFirstTime = False
 
 --------------------------------------------------------------------------------
--- QuickCheck helpers and orphan instances.
-
-alphabet :: String
-alphabet = ['a' .. 'z'] ++ ['A' .. 'Z']
-
-alphaNumerics :: String
-alphaNumerics = alphabet ++ "0123456789"
-
-instance Q.Arbitrary T.Text where
-  arbitrary = do
-    x <- Q.listOf1 (Q.elements alphabet)
-    y <- Q.listOf1 (Q.elements alphaNumerics)
-    pure $ T.pack $ x <> y
-
-instance Q.Arbitrary Scientific where
-  arbitrary = ((fromRational . toRational) :: Int -> Scientific) <$> Q.arbitrary
-
-instance Q.Arbitrary AlexSourcePos where
-  arbitrary = QAG.genericArbitrary
-  shrink = QAG.genericShrink
-
-instance Q.Arbitrary Symbol where
-  arbitrary = QAG.genericArbitrary
-
-instance Q.Arbitrary Token where
-  arbitrary =
-    QAG.genericArbitrary >>= \case
-      TokNumLit _ i -> pure $ TokNumLit (T.pack $ show $ unLoc i) i
-      TokIntLit i -> pure $ TokIntLit i
-      EOF -> Q.arbitrary
-      val -> pure val
-
-instance (Q.Arbitrary a) => Q.Arbitrary (Loc a) where
-  arbitrary = QAG.genericArbitrary
-  shrink = QAG.genericShrink
-
-instance Q.Arbitrary Span where
-  arbitrary = QAG.genericArbitrary
-  shrink = QAG.genericShrink
-
---------------------------------------------------------------------------------
 -- General test helpers.
 
 -- | Fetches example files for golden tests from the @examples@ subdirectory
@@ -199,3 +147,26 @@ fetchGoldenFiles dir = do
   let exampleDir = dir </> "examples"
   examples <- listDirectory exampleDir
   pure (dir, map (exampleDir </>) examples)
+
+--batchProcess :: IO ()
+--batchProcess = do
+--  (_dirSuc, examplePaths) <- fetchGoldenFiles "test/data/parser"
+--  for_ examplePaths $ \path -> do
+--    let name = takeBaseName path
+--    bs <- BS.readFile path
+--    case runParseGraphQL bs of
+--      Left err -> error $ show err
+--      Right val ->
+--        let p = renderPrettyBS val
+--        in case runParseGraphQL p of
+--          Left pe -> error $ show pe
+--          Right doc -> writeToFile' ("test/data/printer/examples" </> name) doc
+--
+--
+--writeToFile' :: Show a => FilePath -> a -> IO ()
+--writeToFile' path actual = BS.writeFile path . BL.toStrict . TEL.encodeUtf8 . pShowNoColor $ actual
+--
+--readFromFile' :: Read b => FilePath -> IO b
+--readFromFile' path = do
+--  eVal <- readEither . TL.unpack <$> TLIO.readFile path
+--  either throwString pure eVal

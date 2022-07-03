@@ -9,14 +9,6 @@ executableOrTypeSystemDefiniton
   : executableDefinition
   | typeSystemDefinition
 
-executableDocument
-  : executableDefinition
-  | executableDefinition executableDocument
-
-typeSystemDocument
-  : typeSystemDefinition
-  | typeSystemDefinition typeSystemDocument
-
 graphqlDefinition
   : typeSystemDefinition
   | executableDefinition
@@ -57,13 +49,13 @@ interfaceTypeDefinition
   : description 'interface' name implementsInterfaces directives fieldsDefinition
 
 implementsInterfaces
-  : 'implements' implementsInterfaces_
+  : implementsInterfaces_
   | {- empty -}
 
 implementsInterfaces_
-  : name
-  | '&' name
-  | implementsInterfaces_ '&' name
+  : implementsInterfaces_ '&' name
+  | 'implements' '&' name
+  | 'implements' name
 
 fieldsDefinition
   : '{' fieldDefinitions '}'
@@ -159,22 +151,19 @@ operationDefinition
   | selectionSet
 
 fragmentDefinition
-  : 'fragment' fragmentName typeCondition directives selectionSet
+  : 'fragment' name typeCondition directives selectionSet
 
 fragmentSpread
-  : '...' fragmentName directives
+  : '...' name directives
 
 inlineFragment
   : '...' typeCondition directives selectionSet
   | '...' directives selectionSet
 
-fragmentName
-  : name
-
 field
   : aliasAndName directives
-  | aliasAndName '(' arguments ')' directives
-  | aliasAndName '(' arguments ')' directives selectionSet
+  | aliasAndName arguments directives
+  | aliasAndName arguments directives selectionSet
   | aliasAndName directives selectionSet
 
 selectionSet
@@ -240,8 +229,11 @@ name
   : ident
 
 arguments
+  : '(' arguments_ ')'
+
+arguments_
   : argument
-  | arguments argument
+  | arguments_ argument
 
 argument
   : name ':' value
@@ -275,7 +267,7 @@ directives_
 
 directive
   : '@' dir
-  | '@' dir '(' arguments ')'
+  | '@' dir arguments
 
 description
   : stringValue

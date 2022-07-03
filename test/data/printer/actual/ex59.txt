@@ -1,0 +1,1 @@
+query    { name     picture (size: 600)  }

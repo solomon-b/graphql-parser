@@ -1,33 +1,73 @@
 [ DefinitionExecutable
     ( ExecutableDefinitionOperation
         ( OperationDefinition
-            { _odType = OperationTypeQuery
+            { _odSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 0
+                    , _col = 1
+                    }
+                , _end = AlexSourcePos
+                    { _line = 0
+                    , _col = 45
+                    }
+                }
+            , _odType = OperationTypeQuery
             , _odName = Nothing
             , _odVariables = Nothing
             , _odDirectives = Nothing
             , _odSelectionSet = SelectionField
                 ( Field
-                    { _fAlias = Nothing
+                    { _fSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 0
+                            , _col = 12
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 0
+                            , _col = 14
+                            }
+                        }
+                    , _fAlias = Nothing
                     , _fName = "id"
-                    , _fArguments = fromList []
+                    , _fArguments = Nothing
                     , _fDirectives = Nothing
                     , _fSelectionSet = Nothing
                     }
                 ) :|
                 [ SelectionField
                     ( Field
-                        { _fAlias = Nothing
+                        { _fSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 0
+                                , _col = 19
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 0
+                                , _col = 28
+                                }
+                            }
+                        , _fAlias = Nothing
                         , _fName = "firstName"
-                        , _fArguments = fromList []
+                        , _fArguments = Nothing
                         , _fDirectives = Nothing
                         , _fSelectionSet = Nothing
                         }
                     )
                 , SelectionField
                     ( Field
-                        { _fAlias = Nothing
+                        { _fSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 0
+                                , _col = 33
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 0
+                                , _col = 41
+                                }
+                            }
+                        , _fAlias = Nothing
                         , _fName = "lastName"
-                        , _fArguments = fromList []
+                        , _fArguments = Nothing
                         , _fDirectives = Nothing
                         , _fSelectionSet = Nothing
                         }

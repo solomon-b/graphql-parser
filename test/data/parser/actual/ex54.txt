@@ -1,36 +1,86 @@
 [ DefinitionExecutable
     ( ExecutableDefinitionOperation
         ( OperationDefinition
-            { _odType = OperationTypeQuery
+            { _odSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 0
+                    , _col = 1
+                    }
+                , _end = AlexSourcePos
+                    { _line = 5
+                    , _col = 2
+                    }
+                }
+            , _odType = OperationTypeQuery
             , _odName = Nothing
             , _odVariables = Nothing
             , _odDirectives = Nothing
             , _odSelectionSet = SelectionField
                 ( Field
-                    { _fAlias = Nothing
+                    { _fSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 1
+                            , _col = 3
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 1
+                            , _col = 6
+                            }
+                        }
+                    , _fAlias = Nothing
                     , _fName = "foo"
-                    , _fArguments = fromList []
+                    , _fArguments = Nothing
                     , _fDirectives = Nothing
                     , _fSelectionSet = Nothing
                     }
                 ) :|
                 [ SelectionFragmentSpread
                     ( FragmentSpread
-                        { _fsName = "Ignored"
+                        { _fsSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 2
+                                , _col = 3
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 2
+                                , _col = 13
+                                }
+                            }
+                        , _fsName = "Ignored"
                         , _fsDirectives = Nothing
                         }
                     )
                 , SelectionFragmentSpread
                     ( FragmentSpread
-                        { _fsName = "Matching"
+                        { _fsSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 3
+                                , _col = 3
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 3
+                                , _col = 14
+                                }
+                            }
+                        , _fsName = "Matching"
                         , _fsDirectives = Nothing
                         }
                     )
                 , SelectionField
                     ( Field
-                        { _fAlias = Nothing
+                        { _fSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 4
+                                , _col = 3
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 4
+                                , _col = 6
+                                }
+                            }
+                        , _fAlias = Nothing
                         , _fName = "bar"
-                        , _fArguments = fromList []
+                        , _fArguments = Nothing
                         , _fDirectives = Nothing
                         , _fSelectionSet = Nothing
                         }
@@ -42,24 +92,54 @@
 , DefinitionExecutable
     ( ExecutableDefinitionFragment
         ( FragmentDefinition
-            { _fdName = "Ignored"
-            , _fdTypeCondition = TypeCondition
+            { _frdSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 7
+                    , _col = 1
+                    }
+                , _end = AlexSourcePos
+                    { _line = 10
+                    , _col = 2
+                    }
+                }
+            , _frdName = "Ignored"
+            , _frdTypeCondition = TypeCondition
                 { unTypeCondition = "UnknownType" }
-            , _fdDirectives = Nothing
-            , _fdSelectionSet = SelectionField
+            , _frdDirectives = Nothing
+            , _frdSelectionSet = SelectionField
                 ( Field
-                    { _fAlias = Nothing
+                    { _fSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 8
+                            , _col = 3
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 8
+                            , _col = 6
+                            }
+                        }
+                    , _fAlias = Nothing
                     , _fName = "qux"
-                    , _fArguments = fromList []
+                    , _fArguments = Nothing
                     , _fDirectives = Nothing
                     , _fSelectionSet = Nothing
                     }
                 ) :|
                 [ SelectionField
                     ( Field
-                        { _fAlias = Nothing
+                        { _fSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 9
+                                , _col = 3
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 9
+                                , _col = 6
+                                }
+                            }
+                        , _fAlias = Nothing
                         , _fName = "baz"
-                        , _fArguments = fromList []
+                        , _fArguments = Nothing
                         , _fDirectives = Nothing
                         , _fSelectionSet = Nothing
                         }
@@ -71,33 +151,73 @@
 , DefinitionExecutable
     ( ExecutableDefinitionFragment
         ( FragmentDefinition
-            { _fdName = "Matching"
-            , _fdTypeCondition = TypeCondition
+            { _frdSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 12
+                    , _col = 1
+                    }
+                , _end = AlexSourcePos
+                    { _line = 16
+                    , _col = 2
+                    }
+                }
+            , _frdName = "Matching"
+            , _frdTypeCondition = TypeCondition
                 { unTypeCondition = "Query" }
-            , _fdDirectives = Nothing
-            , _fdSelectionSet = SelectionField
+            , _frdDirectives = Nothing
+            , _frdSelectionSet = SelectionField
                 ( Field
-                    { _fAlias = Nothing
+                    { _fSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 13
+                            , _col = 3
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 13
+                            , _col = 6
+                            }
+                        }
+                    , _fAlias = Nothing
                     , _fName = "bar"
-                    , _fArguments = fromList []
+                    , _fArguments = Nothing
                     , _fDirectives = Nothing
                     , _fSelectionSet = Nothing
                     }
                 ) :|
                 [ SelectionField
                     ( Field
-                        { _fAlias = Nothing
+                        { _fSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 14
+                                , _col = 3
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 14
+                                , _col = 6
+                                }
+                            }
+                        , _fAlias = Nothing
                         , _fName = "qux"
-                        , _fArguments = fromList []
+                        , _fArguments = Nothing
                         , _fDirectives = Nothing
                         , _fSelectionSet = Nothing
                         }
                     )
                 , SelectionField
                     ( Field
-                        { _fAlias = Nothing
+                        { _fSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 15
+                                , _col = 3
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 15
+                                , _col = 6
+                                }
+                            }
+                        , _fAlias = Nothing
                         , _fName = "foo"
-                        , _fArguments = fromList []
+                        , _fArguments = Nothing
                         , _fDirectives = Nothing
                         , _fSelectionSet = Nothing
                         }

@@ -66,7 +66,7 @@ where
 -------------------------------------------------------------------------------
 
 import Control.Monad.IO.Class (MonadIO)
-import Data.HashMap.Strict as M
+import Data.HashMap.Strict qualified as M
 import Data.HashMap.Strict qualified as Map
 import Data.List.NonEmpty qualified as NE
 import Data.Scientific (fromFloatDigits)
@@ -117,8 +117,10 @@ genType :: Gen GraphQLParser.Type
 genType =
   Gen.recursive
     Gen.choice
-    [NamedType <$> genName]
-    [ListType <$> genType, NonNullType <$> genType]
+    [genName >>= \name -> pure $ NamedType dummySpan name]
+    [ genType >>= \ty -> pure $ ListType dummySpan ty,
+      genType >>= \ty -> pure $ NonNullType dummySpan ty
+    ]
 
 genDescription :: Gen Description
 genDescription = Description <$> Gen.choice [genText, genBlockText]
@@ -127,16 +129,16 @@ genValue :: Gen Value
 genValue =
   Gen.recursive
     Gen.choice
-    [ VVar . unName <$> genName,
-      pure VNull,
-      VInt <$> Gen.integral (Range.linear 1 11),
-      VFloat . fromFloatDigits <$> Gen.realFloat (Range.constant (-10 :: Double) 10),
-      VString <$> Gen.text (Range.linear 0 11) alphaNum_,
-      VBoolean <$> Gen.bool,
-      VEnum . EnumValue <$> Gen.text (Range.linear 0 11) alphaNum_
+    [ genName >>= \name -> pure $ VVar dummySpan (unName name),
+      pure $ VNull dummySpan,
+      VInt dummySpan <$> Gen.integral (Range.linear 1 11),
+      VFloat dummySpan . fromFloatDigits <$> Gen.realFloat (Range.constant (-10 :: Double) 10),
+      VString dummySpan <$> Gen.text (Range.linear 0 11) alphaNum_,
+      VBoolean dummySpan <$> Gen.bool,
+      VEnum dummySpan . EnumValue <$> Gen.text (Range.linear 0 11) alphaNum_
     ]
-    [ VList <$> mkList genValue,
-      VObject . Map.fromList <$> mkList genArgument
+    [ VList dummySpan <$> mkList genValue,
+      VObject dummySpan . Map.fromList <$> mkList genArgument
     ]
 
 -------------------------------------------------------------------------------
@@ -146,19 +148,19 @@ genValueWith :: Gen Value
 genValueWith = Gen.recursive Gen.choice nonRecursive recursive
   where
     recursive =
-      [ VList <$> genListValue genValueWith,
-        VObject <$> genObjectValue genValueWith
+      [ genListValue genValueWith >>= \vals -> pure $ VList dummySpan vals,
+        genObjectValue genValueWith >>= \vals -> pure $ VObject dummySpan vals
       ]
     -- TODO: use maxbound of int32/double or something?
     nonRecursive =
-      [ pure VNull,
-        VInt . fromIntegral <$> Gen.int32 (Range.linear 1 99999),
-        VEnum <$> genEnumValue,
-        VFloat . fromFloatDigits <$> Gen.double (Range.linearFrac 1.1 999999.99999),
-        VString <$> Gen.choice [genText, genBlockText],
-        VBoolean <$> Gen.bool
+      [ pure $ VNull dummySpan,
+        VInt dummySpan . fromIntegral <$> Gen.int32 (Range.linear 1 99999),
+        VEnum dummySpan <$> genEnumValue,
+        VFloat dummySpan . fromFloatDigits <$> Gen.double (Range.linearFrac 1.1 999999.99999),
+        VString dummySpan <$> Gen.choice [genText, genBlockText],
+        VBoolean dummySpan <$> Gen.bool
       ]
-        <> [VVar <$> genText]
+        <> [VVar dummySpan <$> genText]
 
 genEnumValue :: Gen EnumValue
 genEnumValue = EnumValue . unName <$> genName
@@ -211,33 +213,36 @@ genExecutableDefinition =
     ]
 
 genOperationDefinition :: Gen OperationDefinition
-genOperationDefinition =
-  OperationDefinition
-    <$> genOperationType
-    <*> Gen.maybe genName
-    <*> Gen.maybe genVariablesDefinition
-    <*> Gen.maybe genDirectives
-    <*> genSelectionSet
+genOperationDefinition = do
+  _odType <- genOperationType
+  _odName <- Gen.maybe genName
+  _odVariables <- Gen.maybe genVariablesDefinition
+  _odDirectives <- Gen.maybe genDirectives
+  _odSelectionSet <- genSelectionSet
+  let _odSpan = dummySpan
+  pure $ OperationDefinition {..}
 
 genVariablesDefinition :: Gen VariablesDefinition
 genVariablesDefinition =
   fmap VariablesDefinition (mkListNonEmpty genVariableDefinition)
 
 genVariableDefinition :: Gen VariableDefinition
-genVariableDefinition =
-  VariableDefinition
-    <$> genName
-    <*> genType
-    <*> Gen.maybe genValue
-    <*> Gen.maybe genDirectives
+genVariableDefinition = do
+  _vdName <- genName
+  _vdType <- genType
+  _vdDefaultValue <- Gen.maybe genValue
+  _vdDirectives <- Gen.maybe genDirectives
+  let _vdSpan = dummySpan
+  pure $ VariableDefinition {..}
 
 genFragmentDefinition :: Gen FragmentDefinition
-genFragmentDefinition =
-  FragmentDefinition
-    <$> genName
-    <*> genTypeCondition
-    <*> Gen.maybe genDirectives
-    <*> genSelectionSet
+genFragmentDefinition = do
+  _frdName <- genName
+  _frdTypeCondition <- genTypeCondition
+  _frdDirectives <- Gen.maybe genDirectives
+  _frdSelectionSet <- genSelectionSet
+  let _frdSpan = dummySpan
+  pure $ FragmentDefinition {..}
 
 genTypeSystemDefinition :: Gen TypeSystemDefinition
 genTypeSystemDefinition =
@@ -248,17 +253,19 @@ genTypeSystemDefinition =
     ]
 
 genSchemaDefinition :: Gen SchemaDefinition
-genSchemaDefinition =
-  SchemaDefinition
-    <$> Gen.maybe genDescription
-    <*> Gen.maybe genDirectives
-    <*> fmap RootOperationTypesDefinition (mkListNonEmpty genRootOperationTypeDefinition)
+genSchemaDefinition = do
+  _sdDescription <- Gen.maybe genDescription
+  _sdDirectives <- Gen.maybe genDirectives
+  _sdRootOperationTypeDefinitions <- fmap RootOperationTypesDefinition (mkListNonEmpty genRootOperationTypeDefinition)
+  let _sdSpan = dummySpan
+  pure $ SchemaDefinition {..}
 
 genRootOperationTypeDefinition :: Gen RootOperationTypeDefinition
-genRootOperationTypeDefinition =
-  RootOperationTypeDefinition
-    <$> genOperationType
-    <*> genName
+genRootOperationTypeDefinition = do
+  _rotdOperationType <- genOperationType
+  _rotdNamedType <- genName
+  let _rotdSpan = dummySpan
+  pure $ RootOperationTypeDefinition {..}
 
 genOperationType :: Gen OperationType
 genOperationType =
@@ -280,105 +287,119 @@ genTypeDefinition =
     ]
 
 genScalarTypeDefinition :: Gen ScalarTypeDefinition
-genScalarTypeDefinition =
-  ScalarTypeDefinition
-    <$> Gen.maybe genDescription
-    <*> genName
-    <*> Gen.maybe genDirectives
+genScalarTypeDefinition = do
+  _stDescription <- Gen.maybe genDescription
+  _stName <- genName
+  _stDirectives <- Gen.maybe genDirectives
+  let _stSpan = dummySpan
+  pure $ ScalarTypeDefinition {..}
 
 genObjectTypeDefinition :: Gen ObjectTypeDefinition
-genObjectTypeDefinition =
-  ObjectTypeDefinition
-    <$> Gen.maybe genDescription
-    <*> genName
-    <*> Gen.maybe genImplementsInterfaces
-    <*> Gen.maybe genDirectives
-    <*> Gen.maybe genFieldDefinitions
+genObjectTypeDefinition = do
+  _otdDescription <- Gen.maybe genDescription
+  _otdName <- genName
+  _otdImplementsInterfaces <- Gen.maybe genImplementsInterfaces
+  _otdDirectives <- Gen.maybe genDirectives
+  _otdFieldsDefinition <- Gen.maybe genFieldDefinitions
+  let _otdSpan = dummySpan
+  pure $ ObjectTypeDefinition {..}
 
 genInterfaceTypeDefinition :: Gen InterfaceTypeDefinition
-genInterfaceTypeDefinition =
-  InterfaceTypeDefinition
-    <$> Gen.maybe genDescription
-    <*> genName
-    <*> Gen.maybe genImplementsInterfaces
-    <*> Gen.maybe genDirectives
-    <*> Gen.maybe genFieldDefinitions
+genInterfaceTypeDefinition = do
+  _itDescription <- Gen.maybe genDescription
+  _itName <- genName
+  _itInterfaces <- Gen.maybe genImplementsInterfaces
+  _itDirectives <- Gen.maybe genDirectives
+  _itFields <- Gen.maybe genFieldDefinitions
+  let _itSpan = dummySpan
+  pure $ InterfaceTypeDefinition {..}
 
 genUnionTypeDefinition :: Gen UnionTypeDefinition
 genUnionTypeDefinition =
   UnionTypeDefinition
-    <$> Gen.maybe genDescription
+    <$> pure dummySpan
+    <*> Gen.maybe genDescription
     <*> genName
     <*> Gen.maybe genDirectives
     <*> mkList genName
 
 genEnumTypeDefinition :: Gen EnumTypeDefinition
-genEnumTypeDefinition =
-  EnumTypeDefinition
-    <$> Gen.maybe genDescription
-    <*> genName
-    <*> Gen.maybe genDirectives
-    <*> mkList genEnumValueDefinition
+genEnumTypeDefinition = do
+  _etdDescription <- Gen.maybe genDescription
+  _etdName <- genName
+  _etdDirectives <- Gen.maybe genDirectives
+  _etdValueDefinitions <- mkList genEnumValueDefinition
+  let _etdSpan = dummySpan
+  pure $ EnumTypeDefinition {..}
 
 genInputObjectTypeDefinition :: Gen InputObjectTypeDefinition
-genInputObjectTypeDefinition =
-  InputObjectTypeDefinition
-    <$> Gen.maybe genDescription
-    <*> genName
-    <*> Gen.maybe genDirectives
-    <*> genInputFieldsDefinition
+genInputObjectTypeDefinition = do
+  _iotDescription <- Gen.maybe genDescription
+  _iotName <- genName
+  _iotDirectives <- Gen.maybe genDirectives
+  _iotValueDefinitions <- Gen.maybe genInputFieldsDefinition
+  let _iotSpan = dummySpan
+  pure $ InputObjectTypeDefinition {..}
 
 genInputValueDefinition :: Gen InputValueDefinition
-genInputValueDefinition =
-  InputValueDefinition
-    <$> Gen.maybe genDescription
-    <*> genName
-    <*> genType
-    <*> Gen.maybe genValue
-    <*> Gen.maybe genDirectives
+genInputValueDefinition = do
+  _ivdDescription <- Gen.maybe genDescription
+  _ivdName <- genName
+  _ivdType <- genType
+  _ivdDefaultValue <- Gen.maybe genValue
+  _ivdDirectives <- Gen.maybe genDirectives
+  let _ivdSpan = dummySpan
+  pure $ InputValueDefinition {..}
 
 genEnumValueDefinition :: Gen EnumValueDefinition
-genEnumValueDefinition =
-  EnumValueDefinition
-    <$> Gen.maybe genDescription
-    <*> genName
-    <*> Gen.maybe genDirectives
+genEnumValueDefinition = do
+  _evdDescription <- Gen.maybe genDescription
+  _evdName <- genName
+  _evdDirectives <- Gen.maybe genDirectives
+  let _evdSpan = dummySpan
+  pure $ EnumValueDefinition {..}
 
 genImplementsInterfaces :: Gen ImplementsInterfaces
 genImplementsInterfaces =
-  ImplementsInterfaces <$> mkListNonEmpty genName
+  mkListNonEmpty genName >>= \names -> pure $ ImplementsInterfaces dummySpan names
 
 genFieldDefinition :: Gen FieldDefinition
-genFieldDefinition =
-  FieldDefinition
-    <$> Gen.maybe genDescription
-    <*> genName
-    <*> genArgumentsDefinition
-    <*> genType
-    <*> Gen.maybe genDirectives
+genFieldDefinition = do
+  _fldDescription <- Gen.maybe genDescription
+  _fldName <- genName
+  _fldArgumentsDefinition <- Gen.maybe genArgumentsDefinition
+  _fldType <- genType
+  _fldDirectives <- Gen.maybe genDirectives
+  let _fldSpan = dummySpan
+  pure $ FieldDefinition {..}
 
 genFieldDefinitions :: Gen FieldsDefinition
-genFieldDefinitions = FieldsDefinition <$> mkListNonEmpty genFieldDefinition
+genFieldDefinitions =
+  mkListNonEmpty genFieldDefinition >>= \defs ->
+    pure $ FieldsDefinition dummySpan defs
 
 genDirectiveDefinition :: Gen DirectiveDefinition
-genDirectiveDefinition =
-  DirectiveDefinition
-    <$> Gen.maybe genDescription
-    <*> genName
-    <*> genArgumentsDefinition
-    <*> Gen.list (Range.linear 1 10) genDirectiveLocation
+genDirectiveDefinition = do
+  _ddDescription <- Gen.maybe genDescription
+  _ddName <- genName
+  _ddArguments <- Gen.maybe genArgumentsDefinition
+  _ddLocations <- Gen.list (Range.linear 1 10) genDirectiveLocation
+  let _ddSpan = dummySpan
+  pure $ DirectiveDefinition {..}
 
 genInputFieldsDefinition :: Gen InputFieldsDefinition
-genInputFieldsDefinition = InputFieldsDefinition <$> mkList genInputValueDefinition
+genInputFieldsDefinition =
+  mkListNonEmpty genInputValueDefinition >>= \defs ->
+    pure $ InputFieldsDefinition dummySpan defs
 
 genArgumentsDefinition :: Gen ArgumentsDefinition
-genArgumentsDefinition = ArgumentsDefinition <$> Gen.list (Range.linear 1 10) genInputValueDefinition
+genArgumentsDefinition = ArgumentsDefinition <$> mkListNonEmpty genInputValueDefinition
 
 genDirectiveLocation :: Gen DirectiveLocation
 genDirectiveLocation =
   Gen.choice
-    [ ExecDirLoc <$> genExecutableDirectiveLocation,
-      TypeSysDirLoc <$> genTypeSystemDirectiveLocation
+    [ genExecutableDirectiveLocation >>= \loc -> pure $ ExecDirLoc dummySpan loc,
+      genTypeSystemDirectiveLocation >>= \loc -> pure $ TypeSysDirLoc dummySpan loc
     ]
 
 genExecutableDirectiveLocation :: Gen ExecutableDirectiveLocation
@@ -426,38 +447,42 @@ genSelection =
     ]
 
 genFragmentSpread :: Gen FragmentSpread
-genFragmentSpread =
-  FragmentSpread
-    <$> genName
-    <*> Gen.maybe genDirectives
+genFragmentSpread = do
+  _fsName <- genName
+  _fsDirectives <- Gen.maybe genDirectives
+  let _fsSpan = dummySpan
+  pure $ FragmentSpread {..}
 
 genInlineFragment :: Gen InlineFragment
-genInlineFragment =
-  InlineFragment
-    <$> Gen.maybe genTypeCondition
-    <*> Gen.maybe genDirectives
-    <*> genSelectionSet
+genInlineFragment = do
+  _ifTypeCondition <- Gen.maybe genTypeCondition
+  _ifDirectives <- Gen.maybe genDirectives
+  _ifSelectionSet <- genSelectionSet
+  let _ifSpan = dummySpan
+  pure $ InlineFragment {..}
 
 genField :: Gen Field
-genField =
-  Field
-    <$> Gen.maybe genName
-    <*> genName
-    <*> genArguments
-    <*> Gen.maybe genDirectives
-    <*> Gen.maybe genSelectionSet
+genField = do
+  _fAlias <- Gen.maybe genName
+  _fName <- genName
+  _fArguments <- Gen.maybe genArguments
+  _fDirectives <- Gen.maybe genDirectives
+  _fSelectionSet <- Gen.maybe genSelectionSet
+  let _fSpan = dummySpan
+  pure $ Field {..}
 
 genDirective :: Gen Directive
-genDirective =
-  Directive
-    <$> genName
-    <*> Gen.maybe genArguments
+genDirective = do
+  _dName <- genName
+  _dArguments <- Gen.maybe genArguments
+  let _dSpan = dummySpan
+  pure $ Directive {..}
 
 genDirectives :: Gen Directives
 genDirectives = Directives <$> mkListNonEmpty genDirective
 
 genArguments :: Gen Arguments
-genArguments = fmap Arguments (M.fromList <$> mkList genArgument)
+genArguments = fmap (Arguments dummySpan) (M.fromList <$> mkList genArgument)
 
 genArgument :: Gen (Name, Value)
 genArgument = (,) <$> genName <*> genValue
@@ -470,3 +495,7 @@ mkList = Gen.list $ Range.linear 0 11
 
 mkListNonEmpty :: Gen a -> Gen (NE.NonEmpty a)
 mkListNonEmpty = Gen.nonEmpty $ Range.linear 1 11
+
+-- | Placeholder span for generators
+dummySpan :: Span
+dummySpan = Span (AlexSourcePos 1 1) (AlexSourcePos 1 2)

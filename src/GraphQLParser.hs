@@ -5,6 +5,7 @@ module GraphQLParser
     module M,
     module P,
     module S,
+    module E,
     runLex,
     runParseGraphQL,
     runParseName,
@@ -12,6 +13,7 @@ module GraphQLParser
 where
 
 import Data.ByteString qualified as B
+import GraphQLParser.Error as E
 import GraphQLParser.Grammar as P
 import GraphQLParser.Lexer as L
 import GraphQLParser.Monad as M
@@ -31,6 +33,6 @@ runParseName :: MonadFail m => B.ByteString -> m Name
 runParseName bs =
   let result = M.runParser [] bs $ do
         toks <- L.lexer
-        P.parseName toks
+        fmap unLoc $ P.parseName toks
       errorMessage = show $ bs <> " is not valid GraphQL name"
    in either (\_ -> fail errorMessage) pure result

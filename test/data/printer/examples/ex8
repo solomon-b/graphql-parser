@@ -1,65 +1,145 @@
 [ DefinitionExecutable
     ( ExecutableDefinitionOperation
         ( OperationDefinition
-            { _odType = OperationTypeQuery
+            { _odSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 0
+                    , _col = 1
+                    }
+                , _end = AlexSourcePos
+                    { _line = 16
+                    , _col = 24
+                    }
+                }
+            , _odType = OperationTypeQuery
             , _odName = Nothing
             , _odVariables = Nothing
             , _odDirectives = Nothing
             , _odSelectionSet = SelectionField
                 ( Field
-                    { _fAlias = Nothing
+                    { _fSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 5
+                            , _col = 1
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 16
+                            , _col = 23
+                            }
+                        }
+                    , _fAlias = Nothing
                     , _fName = "me"
-                    , _fArguments = fromList []
+                    , _fArguments = Nothing
                     , _fDirectives = Nothing
                     , _fSelectionSet = Just
                         ( SelectionField
                             ( Field
-                                { _fAlias = Nothing
+                                { _fSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 8
+                                        , _col = 3
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 8
+                                        , _col = 5
+                                        }
+                                    }
+                                , _fAlias = Nothing
                                 , _fName = "id"
-                                , _fArguments = fromList []
+                                , _fArguments = Nothing
                                 , _fDirectives = Nothing
                                 , _fSelectionSet = Nothing
                                 }
                             ) :|
                             [ SelectionField
                                 ( Field
-                                    { _fAlias = Nothing
+                                    { _fSpan = Span
+                                        { _start = AlexSourcePos
+                                            { _line = 10
+                                            , _col = 2
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 10
+                                            , _col = 11
+                                            }
+                                        }
+                                    , _fAlias = Nothing
                                     , _fName = "firstName"
-                                    , _fArguments = fromList []
+                                    , _fArguments = Nothing
                                     , _fDirectives = Nothing
                                     , _fSelectionSet = Nothing
                                     }
                                 )
                             , SelectionField
                                 ( Field
-                                    { _fAlias = Nothing
+                                    { _fSpan = Span
+                                        { _start = AlexSourcePos
+                                            { _line = 12
+                                            , _col = 2
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 12
+                                            , _col = 10
+                                            }
+                                        }
+                                    , _fAlias = Nothing
                                     , _fName = "lastName"
-                                    , _fArguments = fromList []
+                                    , _fArguments = Nothing
                                     , _fDirectives = Nothing
                                     , _fSelectionSet = Nothing
                                     }
                                 )
                             , SelectionField
                                 ( Field
-                                    { _fAlias = Nothing
+                                    { _fSpan = Span
+                                        { _start = AlexSourcePos
+                                            { _line = 14
+                                            , _col = 2
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 14
+                                            , _col = 32
+                                            }
+                                        }
+                                    , _fAlias = Nothing
                                     , _fName = "birthday"
-                                    , _fArguments = fromList []
+                                    , _fArguments = Nothing
                                     , _fDirectives = Nothing
                                     , _fSelectionSet = Just
                                         ( SelectionField
                                             ( Field
-                                                { _fAlias = Nothing
+                                                { _fSpan = Span
+                                                    { _start = AlexSourcePos
+                                                        { _line = 14
+                                                        , _col = 15
+                                                        }
+                                                    , _end = AlexSourcePos
+                                                        { _line = 14
+                                                        , _col = 20
+                                                        }
+                                                    }
+                                                , _fAlias = Nothing
                                                 , _fName = "month"
-                                                , _fArguments = fromList []
+                                                , _fArguments = Nothing
                                                 , _fDirectives = Nothing
                                                 , _fSelectionSet = Nothing
                                                 }
                                             ) :|
                                             [ SelectionField
                                                 ( Field
-                                                    { _fAlias = Nothing
+                                                    { _fSpan = Span
+                                                        { _start = AlexSourcePos
+                                                            { _line = 14
+                                                            , _col = 25
+                                                            }
+                                                        , _end = AlexSourcePos
+                                                            { _line = 14
+                                                            , _col = 28
+                                                            }
+                                                        }
+                                                    , _fAlias = Nothing
                                                     , _fName = "day"
-                                                    , _fArguments = fromList []
+                                                    , _fArguments = Nothing
                                                     , _fDirectives = Nothing
                                                     , _fSelectionSet = Nothing
                                                     }
@@ -70,16 +150,36 @@
                                 )
                             , SelectionField
                                 ( Field
-                                    { _fAlias = Nothing
+                                    { _fSpan = Span
+                                        { _start = AlexSourcePos
+                                            { _line = 16
+                                            , _col = 2
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 16
+                                            , _col = 22
+                                            }
+                                        }
+                                    , _fAlias = Nothing
                                     , _fName = "friends"
-                                    , _fArguments = fromList []
+                                    , _fArguments = Nothing
                                     , _fDirectives = Nothing
                                     , _fSelectionSet = Just
                                         ( SelectionField
                                             ( Field
-                                                { _fAlias = Nothing
+                                                { _fSpan = Span
+                                                    { _start = AlexSourcePos
+                                                        { _line = 16
+                                                        , _col = 14
+                                                        }
+                                                    , _end = AlexSourcePos
+                                                        { _line = 16
+                                                        , _col = 18
+                                                        }
+                                                    }
+                                                , _fAlias = Nothing
                                                 , _fName = "name"
-                                                , _fArguments = fromList []
+                                                , _fArguments = Nothing
                                                 , _fDirectives = Nothing
                                                 , _fSelectionSet = Nothing
                                                 }

@@ -2,18 +2,61 @@
     ( TypeSystemDefinitionType
         ( OTDef
             ( ObjectTypeDefinition
-                { _otdDescription = Nothing
+                { _otdSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 0
+                        , _col = 2
+                        }
+                    , _end = AlexSourcePos
+                        { _line = 0
+                        , _col = 35
+                        }
+                    }
+                , _otdDescription = Nothing
                 , _otdName = "Query"
                 , _otdImplementsInterfaces = Nothing
                 , _otdDirectives = Nothing
                 , _otdFieldsDefinition = Just
-                    ( FieldDefinition
-                        { _fldDescription = Nothing
-                        , _fldName = "myName"
-                        , _fldArgumentsDefinition = []
-                        , _fldType = NamedType "String"
-                        , _fldDirectives = Nothing
-                        } :| []
+                    ( FieldsDefinition
+                        { _fdSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 0
+                                , _col = 15
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 0
+                                , _col = 35
+                                }
+                            }
+                        , _fdDefinitions = FieldDefinition
+                            { _fldSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 0
+                                    , _col = 17
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 0
+                                    , _col = 33
+                                    }
+                                }
+                            , _fldDescription = Nothing
+                            , _fldName = "myName"
+                            , _fldArgumentsDefinition = Nothing
+                            , _fldType = NamedType
+                                ( Span
+                                    { _start = AlexSourcePos
+                                        { _line = 0
+                                        , _col = 27
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 0
+                                        , _col = 33
+                                        }
+                                    }
+                                ) "String"
+                            , _fldDirectives = Nothing
+                            } :| []
+                        }
                     )
                 }
             )

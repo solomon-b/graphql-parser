@@ -2,7 +2,17 @@
     ( TypeSystemDefinitionType
         ( UTDef
             ( UnionTypeDefinition
-                { _utdDescription = Nothing
+                { _utSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 0
+                        , _col = 2
+                        }
+                    , _end = AlexSourcePos
+                        { _line = 0
+                        , _col = 40
+                        }
+                    }
+                , _utdDescription = Nothing
                 , _utdName = "SearchResult"
                 , _utdDirectives = Nothing
                 , _utdMemberTypes =

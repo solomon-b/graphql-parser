@@ -1,22 +1,52 @@
 [ DefinitionExecutable
     ( ExecutableDefinitionOperation
         ( OperationDefinition
-            { _odType = OperationTypeQuery
+            { _odSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 0
+                    , _col = 1
+                    }
+                , _end = AlexSourcePos
+                    { _line = 0
+                    , _col = 48
+                    }
+                }
+            , _odType = OperationTypeQuery
             , _odName = Nothing
             , _odVariables = Nothing
             , _odDirectives = Nothing
             , _odSelectionSet = SelectionField
                 ( Field
-                    { _fAlias = Nothing
+                    { _fSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 0
+                            , _col = 12
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 0
+                            , _col = 31
+                            }
+                        }
+                    , _fAlias = Nothing
                     , _fName = "entity"
-                    , _fArguments = fromList []
+                    , _fArguments = Nothing
                     , _fDirectives = Nothing
                     , _fSelectionSet = Just
                         ( SelectionField
                             ( Field
-                                { _fAlias = Nothing
+                                { _fSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 0
+                                        , _col = 23
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 0
+                                        , _col = 27
+                                        }
+                                    }
+                                , _fAlias = Nothing
                                 , _fName = "name"
-                                , _fArguments = fromList []
+                                , _fArguments = Nothing
                                 , _fDirectives = Nothing
                                 , _fSelectionSet = Nothing
                                 }
@@ -26,9 +56,19 @@
                 ) :|
                 [ SelectionField
                     ( Field
-                        { _fAlias = Nothing
+                        { _fSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 0
+                                , _col = 33
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 0
+                                , _col = 44
+                                }
+                            }
+                        , _fAlias = Nothing
                         , _fName = "phoneNumber"
-                        , _fArguments = fromList []
+                        , _fArguments = Nothing
                         , _fDirectives = Nothing
                         , _fSelectionSet = Nothing
                         }

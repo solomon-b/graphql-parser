@@ -1,25 +1,78 @@
 [ DefinitionExecutable
     ( ExecutableDefinitionOperation
         ( OperationDefinition
-            { _odType = OperationTypeQuery
+            { _odSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 0
+                    , _col = 1
+                    }
+                , _end = AlexSourcePos
+                    { _line = 4
+                    , _col = 2
+                    }
+                }
+            , _odType = OperationTypeQuery
             , _odName = Nothing
             , _odVariables = Nothing
             , _odDirectives = Nothing
             , _odSelectionSet = SelectionField
                 ( Field
-                    { _fAlias = Nothing
+                    { _fSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 1
+                            , _col = 3
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 1
+                            , _col = 21
+                            }
+                        }
+                    , _fAlias = Nothing
                     , _fName = "foo"
-                    , _fArguments = fromList []
+                    , _fArguments = Nothing
                     , _fDirectives = Just
                         ( Directive
-                            { dName = "skip"
-                            , dArguments = Just
-                                ( fromList
-                                    [
-                                        ( "if"
-                                        , VBoolean True
-                                        )
-                                    ]
+                            { _dSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 1
+                                    , _col = 7
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 1
+                                    , _col = 21
+                                    }
+                                }
+                            , _dName = "skip"
+                            , _dArguments = Just
+                                ( Arguments
+                                    { argSpan = Span
+                                        { _start = AlexSourcePos
+                                            { _line = 1
+                                            , _col = 13
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 1
+                                            , _col = 21
+                                            }
+                                        }
+                                    , argArguments = fromList
+                                        [
+                                            ( "if"
+                                            , VBoolean
+                                                ( Span
+                                                    { _start = AlexSourcePos
+                                                        { _line = 1
+                                                        , _col = 17
+                                                        }
+                                                    , _end = AlexSourcePos
+                                                        { _line = 1
+                                                        , _col = 21
+                                                        }
+                                                    }
+                                                ) True
+                                            )
+                                        ]
+                                    }
                                 )
                             } :| []
                         )
@@ -28,18 +81,38 @@
                 ) :|
                 [ SelectionField
                     ( Field
-                        { _fAlias = Nothing
+                        { _fSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 2
+                                , _col = 3
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 2
+                                , _col = 6
+                                }
+                            }
+                        , _fAlias = Nothing
                         , _fName = "bar"
-                        , _fArguments = fromList []
+                        , _fArguments = Nothing
                         , _fDirectives = Nothing
                         , _fSelectionSet = Nothing
                         }
                     )
                 , SelectionField
                     ( Field
-                        { _fAlias = Nothing
+                        { _fSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 3
+                                , _col = 3
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 3
+                                , _col = 6
+                                }
+                            }
+                        , _fAlias = Nothing
                         , _fName = "foo"
-                        , _fArguments = fromList []
+                        , _fArguments = Nothing
                         , _fDirectives = Nothing
                         , _fSelectionSet = Nothing
                         }

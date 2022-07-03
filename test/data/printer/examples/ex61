@@ -2,23 +2,76 @@
     ( TypeSystemDefinitionType
         ( OTDef
             ( ObjectTypeDefinition
-                { _otdDescription = Nothing
+                { _otdSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 0
+                        , _col = 2
+                        }
+                    , _end = AlexSourcePos
+                        { _line = 0
+                        , _col = 54
+                        }
+                    }
+                , _otdDescription = Nothing
                 , _otdName = "ExampleType"
                 , _otdImplementsInterfaces = Nothing
                 , _otdDirectives = Nothing
                 , _otdFieldsDefinition = Just
-                    ( FieldDefinition
-                        { _fldDescription = Nothing
-                        , _fldName = "oldField"
-                        , _fldArgumentsDefinition = []
-                        , _fldType = NamedType "String"
-                        , _fldDirectives = Just
-                            ( Directive
-                                { dName = "deprecated"
-                                , dArguments = Nothing
-                                } :| []
-                            )
-                        } :| []
+                    ( FieldsDefinition
+                        { _fdSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 0
+                                , _col = 21
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 0
+                                , _col = 54
+                                }
+                            }
+                        , _fdDefinitions = FieldDefinition
+                            { _fldSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 0
+                                    , _col = 23
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 0
+                                    , _col = 53
+                                    }
+                                }
+                            , _fldDescription = Nothing
+                            , _fldName = "oldField"
+                            , _fldArgumentsDefinition = Nothing
+                            , _fldType = NamedType
+                                ( Span
+                                    { _start = AlexSourcePos
+                                        { _line = 0
+                                        , _col = 35
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 0
+                                        , _col = 41
+                                        }
+                                    }
+                                ) "String"
+                            , _fldDirectives = Just
+                                ( Directive
+                                    { _dSpan = Span
+                                        { _start = AlexSourcePos
+                                            { _line = 0
+                                            , _col = 42
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 0
+                                            , _col = 53
+                                            }
+                                        }
+                                    , _dName = "deprecated"
+                                    , _dArguments = Nothing
+                                    } :| []
+                                )
+                            } :| []
+                        }
                     )
                 }
             )

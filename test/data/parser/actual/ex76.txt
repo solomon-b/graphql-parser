@@ -1,29 +1,69 @@
 [ DefinitionExecutable
     ( ExecutableDefinitionOperation
         ( OperationDefinition
-            { _odType = OperationTypeQuery
+            { _odSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 0
+                    , _col = 1
+                    }
+                , _end = AlexSourcePos
+                    { _line = 9
+                    , _col = 2
+                    }
+                }
+            , _odType = OperationTypeQuery
             , _odName = Nothing
             , _odVariables = Nothing
             , _odDirectives = Nothing
             , _odSelectionSet = SelectionField
                 ( Field
-                    { _fAlias = Nothing
+                    { _fSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 1
+                            , _col = 3
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 8
+                            , _col = 4
+                            }
+                        }
+                    , _fAlias = Nothing
                     , _fName = "firstSearchResult"
-                    , _fArguments = fromList []
+                    , _fArguments = Nothing
                     , _fDirectives = Nothing
                     , _fSelectionSet = Just
                         ( SelectionInlineFragment
                             ( InlineFragment
-                                { _ifTypeCondition = Just
+                                { _ifSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 2
+                                        , _col = 5
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 4
+                                        , _col = 6
+                                        }
+                                    }
+                                , _ifTypeCondition = Just
                                     ( TypeCondition
                                         { unTypeCondition = "Person" }
                                     )
                                 , _ifDirectives = Nothing
                                 , _ifSelectionSet = SelectionField
                                     ( Field
-                                        { _fAlias = Nothing
+                                        { _fSpan = Span
+                                            { _start = AlexSourcePos
+                                                { _line = 3
+                                                , _col = 7
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 3
+                                                , _col = 11
+                                                }
+                                            }
+                                        , _fAlias = Nothing
                                         , _fName = "name"
-                                        , _fArguments = fromList []
+                                        , _fArguments = Nothing
                                         , _fDirectives = Nothing
                                         , _fSelectionSet = Nothing
                                         }
@@ -32,16 +72,36 @@
                             ) :|
                             [ SelectionInlineFragment
                                 ( InlineFragment
-                                    { _ifTypeCondition = Just
+                                    { _ifSpan = Span
+                                        { _start = AlexSourcePos
+                                            { _line = 5
+                                            , _col = 5
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 7
+                                            , _col = 6
+                                            }
+                                        }
+                                    , _ifTypeCondition = Just
                                         ( TypeCondition
                                             { unTypeCondition = "Photo" }
                                         )
                                     , _ifDirectives = Nothing
                                     , _ifSelectionSet = SelectionField
                                         ( Field
-                                            { _fAlias = Nothing
+                                            { _fSpan = Span
+                                                { _start = AlexSourcePos
+                                                    { _line = 6
+                                                    , _col = 7
+                                                    }
+                                                , _end = AlexSourcePos
+                                                    { _line = 6
+                                                    , _col = 13
+                                                    }
+                                                }
+                                            , _fAlias = Nothing
                                             , _fName = "height"
-                                            , _fArguments = fromList []
+                                            , _fArguments = Nothing
                                             , _fDirectives = Nothing
                                             , _fSelectionSet = Nothing
                                             }

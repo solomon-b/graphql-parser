@@ -4,6 +4,7 @@ module GraphQLParser.Lexer where
 import Control.Monad.State (gets)
 import Data.ByteString qualified as B
 import Data.Text qualified as T
+import GraphQLParser.Error
 import GraphQLParser.Monad
 import GraphQLParser.Span
 import GraphQLParser.Token
@@ -94,8 +95,9 @@ scan = do
   input <- getInput
   code <- startCode
   src <- gets parseSource
+  sp <- location
   case alexScan input code of
-    AlexEOF -> pure EOF
+    AlexEOF -> pure (EOF sp)
     AlexError (AlexInput pos _ _ _) ->
       parseError $ InvalidLexeme pos src
     AlexSkip rest _ -> do
@@ -111,6 +113,6 @@ lexer :: Parser [Token]
 lexer = do
   tok <- scan
   case tok of
-    EOF -> pure []
+    EOF _ -> pure []
     x -> (x :) <$> lexer
 }

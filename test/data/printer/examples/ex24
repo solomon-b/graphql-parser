@@ -1,12 +1,43 @@
 [ DefinitionExecutable
     ( ExecutableDefinitionOperation
         ( OperationDefinition
-            { _odType = OperationTypeQuery
+            { _odSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 0
+                    , _col = 1
+                    }
+                , _end = AlexSourcePos
+                    { _line = 12
+                    , _col = 76
+                    }
+                }
+            , _odType = OperationTypeQuery
             , _odName = Just "inlineFragmentNoType"
             , _odVariables = Just
                 ( VariableDefinition
-                    { _vdName = "expandedInfo"
-                    , _vdType = NamedType "Boolean"
+                    { _vdSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 2
+                            , _col = 2
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 2
+                            , _col = 24
+                            }
+                        }
+                    , _vdName = "expandedInfo"
+                    , _vdType = NamedType
+                        ( Span
+                            { _start = AlexSourcePos
+                                { _line = 2
+                                , _col = 17
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 2
+                                , _col = 24
+                                }
+                            }
+                        ) "Boolean"
                     , _vdDefaultValue = Nothing
                     , _vdDirectives = Nothing
                     } :| []
@@ -14,73 +45,201 @@
             , _odDirectives = Nothing
             , _odSelectionSet = SelectionField
                 ( Field
-                    { _fAlias = Nothing
+                    { _fSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 5
+                            , _col = 1
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 12
+                            , _col = 75
+                            }
+                        }
+                    , _fAlias = Nothing
                     , _fName = "user"
-                    , _fArguments = fromList
-                        [
-                            ( "handle"
-                            , VString "zuck"
-                            )
-                        ]
+                    , _fArguments = Just
+                        ( Arguments
+                            { argSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 6
+                                    , _col = 2
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 6
+                                    , _col = 16
+                                    }
+                                }
+                            , argArguments = fromList
+                                [
+                                    ( "handle"
+                                    , VString
+                                        ( Span
+                                            { _start = AlexSourcePos
+                                                { _line = 6
+                                                , _col = 10
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 6
+                                                , _col = 16
+                                                }
+                                            }
+                                        ) "zuck"
+                                    )
+                                ]
+                            }
+                        )
                     , _fDirectives = Nothing
                     , _fSelectionSet = Just
                         ( SelectionField
                             ( Field
-                                { _fAlias = Nothing
+                                { _fSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 8
+                                        , _col = 3
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 8
+                                        , _col = 5
+                                        }
+                                    }
+                                , _fAlias = Nothing
                                 , _fName = "id"
-                                , _fArguments = fromList []
+                                , _fArguments = Nothing
                                 , _fDirectives = Nothing
                                 , _fSelectionSet = Nothing
                                 }
                             ) :|
                             [ SelectionField
                                 ( Field
-                                    { _fAlias = Nothing
+                                    { _fSpan = Span
+                                        { _start = AlexSourcePos
+                                            { _line = 10
+                                            , _col = 2
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 10
+                                            , _col = 6
+                                            }
+                                        }
+                                    , _fAlias = Nothing
                                     , _fName = "name"
-                                    , _fArguments = fromList []
+                                    , _fArguments = Nothing
                                     , _fDirectives = Nothing
                                     , _fSelectionSet = Nothing
                                     }
                                 )
                             , SelectionInlineFragment
                                 ( InlineFragment
-                                    { _ifTypeCondition = Nothing
+                                    { _ifSpan = Span
+                                        { _start = AlexSourcePos
+                                            { _line = 12
+                                            , _col = 1
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 12
+                                            , _col = 74
+                                            }
+                                        }
+                                    , _ifTypeCondition = Nothing
                                     , _ifDirectives = Just
                                         ( Directive
-                                            { dName = "include"
-                                            , dArguments = Just
-                                                ( fromList
-                                                    [
-                                                        ( "if"
-                                                        , VVar "expandedInfo"
-                                                        )
-                                                    ]
+                                            { _dSpan = Span
+                                                { _start = AlexSourcePos
+                                                    { _line = 12
+                                                    , _col = 5
+                                                    }
+                                                , _end = AlexSourcePos
+                                                    { _line = 12
+                                                    , _col = 31
+                                                    }
+                                                }
+                                            , _dName = "include"
+                                            , _dArguments = Just
+                                                ( Arguments
+                                                    { argSpan = Span
+                                                        { _start = AlexSourcePos
+                                                            { _line = 12
+                                                            , _col = 14
+                                                            }
+                                                        , _end = AlexSourcePos
+                                                            { _line = 12
+                                                            , _col = 31
+                                                            }
+                                                        }
+                                                    , argArguments = fromList
+                                                        [
+                                                            ( "if"
+                                                            , VVar
+                                                                ( Span
+                                                                    { _start = AlexSourcePos
+                                                                        { _line = 12
+                                                                        , _col = 18
+                                                                        }
+                                                                    , _end = AlexSourcePos
+                                                                        { _line = 12
+                                                                        , _col = 31
+                                                                        }
+                                                                    }
+                                                                ) "expandedInfo"
+                                                            )
+                                                        ]
+                                                    }
                                                 )
                                             } :| []
                                         )
                                     , _ifSelectionSet = SelectionField
                                         ( Field
-                                            { _fAlias = Nothing
+                                            { _fSpan = Span
+                                                { _start = AlexSourcePos
+                                                    { _line = 12
+                                                    , _col = 35
+                                                    }
+                                                , _end = AlexSourcePos
+                                                    { _line = 12
+                                                    , _col = 44
+                                                    }
+                                                }
+                                            , _fAlias = Nothing
                                             , _fName = "firstName"
-                                            , _fArguments = fromList []
+                                            , _fArguments = Nothing
                                             , _fDirectives = Nothing
                                             , _fSelectionSet = Nothing
                                             }
                                         ) :|
                                         [ SelectionField
                                             ( Field
-                                                { _fAlias = Nothing
+                                                { _fSpan = Span
+                                                    { _start = AlexSourcePos
+                                                        { _line = 12
+                                                        , _col = 49
+                                                        }
+                                                    , _end = AlexSourcePos
+                                                        { _line = 12
+                                                        , _col = 57
+                                                        }
+                                                    }
+                                                , _fAlias = Nothing
                                                 , _fName = "lastName"
-                                                , _fArguments = fromList []
+                                                , _fArguments = Nothing
                                                 , _fDirectives = Nothing
                                                 , _fSelectionSet = Nothing
                                                 }
                                             )
                                         , SelectionField
                                             ( Field
-                                                { _fAlias = Nothing
+                                                { _fSpan = Span
+                                                    { _start = AlexSourcePos
+                                                        { _line = 12
+                                                        , _col = 62
+                                                        }
+                                                    , _end = AlexSourcePos
+                                                        { _line = 12
+                                                        , _col = 70
+                                                        }
+                                                    }
+                                                , _fAlias = Nothing
                                                 , _fName = "birthday"
-                                                , _fArguments = fromList []
+                                                , _fArguments = Nothing
                                                 , _fDirectives = Nothing
                                                 , _fSelectionSet = Nothing
                                                 }

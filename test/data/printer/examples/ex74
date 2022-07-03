@@ -2,7 +2,17 @@
     ( TypeSystemDefinitionType
         ( UTDef
             ( UnionTypeDefinition
-                { _utdDescription = Nothing
+                { _utSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 0
+                        , _col = 2
+                        }
+                    , _end = AlexSourcePos
+                        { _line = 0
+                        , _col = 40
+                        }
+                    }
+                , _utdDescription = Nothing
                 , _utdName = "SearchResult"
                 , _utdDirectives = Nothing
                 , _utdMemberTypes =
@@ -17,26 +27,90 @@
     ( TypeSystemDefinitionType
         ( OTDef
             ( ObjectTypeDefinition
-                { _otdDescription = Nothing
+                { _otdSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 1
+                        , _col = 2
+                        }
+                    , _end = AlexSourcePos
+                        { _line = 1
+                        , _col = 47
+                        }
+                    }
+                , _otdDescription = Nothing
                 , _otdName = "Person"
                 , _otdImplementsInterfaces = Nothing
                 , _otdDirectives = Nothing
                 , _otdFieldsDefinition = Just
-                    ( FieldDefinition
-                        { _fldDescription = Nothing
-                        , _fldName = "name"
-                        , _fldArgumentsDefinition = []
-                        , _fldType = NamedType "String"
-                        , _fldDirectives = Nothing
-                        } :|
-                        [ FieldDefinition
-                            { _fldDescription = Nothing
-                            , _fldName = "age"
-                            , _fldArgumentsDefinition = []
-                            , _fldType = NamedType "Int"
-                            , _fldDirectives = Nothing
+                    ( FieldsDefinition
+                        { _fdSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 1
+                                , _col = 16
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 1
+                                , _col = 47
+                                }
                             }
-                        ]
+                        , _fdDefinitions = FieldDefinition
+                            { _fldSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 1
+                                    , _col = 18
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 1
+                                    , _col = 32
+                                    }
+                                }
+                            , _fldDescription = Nothing
+                            , _fldName = "name"
+                            , _fldArgumentsDefinition = Nothing
+                            , _fldType = NamedType
+                                ( Span
+                                    { _start = AlexSourcePos
+                                        { _line = 1
+                                        , _col = 26
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 1
+                                        , _col = 32
+                                        }
+                                    }
+                                ) "String"
+                            , _fldDirectives = Nothing
+                            } :|
+                            [ FieldDefinition
+                                { _fldSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 1
+                                        , _col = 35
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 1
+                                        , _col = 45
+                                        }
+                                    }
+                                , _fldDescription = Nothing
+                                , _fldName = "age"
+                                , _fldArgumentsDefinition = Nothing
+                                , _fldType = NamedType
+                                    ( Span
+                                        { _start = AlexSourcePos
+                                            { _line = 1
+                                            , _col = 42
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 1
+                                            , _col = 45
+                                            }
+                                        }
+                                    ) "Int"
+                                , _fldDirectives = Nothing
+                                }
+                            ]
+                        }
                     )
                 }
             )
@@ -46,26 +120,90 @@
     ( TypeSystemDefinitionType
         ( OTDef
             ( ObjectTypeDefinition
-                { _otdDescription = Nothing
+                { _otdSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 2
+                        , _col = 2
+                        }
+                    , _end = AlexSourcePos
+                        { _line = 2
+                        , _col = 47
+                        }
+                    }
+                , _otdDescription = Nothing
                 , _otdName = "Photo"
                 , _otdImplementsInterfaces = Nothing
                 , _otdDirectives = Nothing
                 , _otdFieldsDefinition = Just
-                    ( FieldDefinition
-                        { _fldDescription = Nothing
-                        , _fldName = "height"
-                        , _fldArgumentsDefinition = []
-                        , _fldType = NamedType "Int"
-                        , _fldDirectives = Nothing
-                        } :|
-                        [ FieldDefinition
-                            { _fldDescription = Nothing
-                            , _fldName = "width"
-                            , _fldArgumentsDefinition = []
-                            , _fldType = NamedType "Int"
-                            , _fldDirectives = Nothing
+                    ( FieldsDefinition
+                        { _fdSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 2
+                                , _col = 15
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 2
+                                , _col = 47
+                                }
                             }
-                        ]
+                        , _fdDefinitions = FieldDefinition
+                            { _fldSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 2
+                                    , _col = 17
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 2
+                                    , _col = 30
+                                    }
+                                }
+                            , _fldDescription = Nothing
+                            , _fldName = "height"
+                            , _fldArgumentsDefinition = Nothing
+                            , _fldType = NamedType
+                                ( Span
+                                    { _start = AlexSourcePos
+                                        { _line = 2
+                                        , _col = 27
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 2
+                                        , _col = 30
+                                        }
+                                    }
+                                ) "Int"
+                            , _fldDirectives = Nothing
+                            } :|
+                            [ FieldDefinition
+                                { _fldSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 2
+                                        , _col = 33
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 2
+                                        , _col = 45
+                                        }
+                                    }
+                                , _fldDescription = Nothing
+                                , _fldName = "width"
+                                , _fldArgumentsDefinition = Nothing
+                                , _fldType = NamedType
+                                    ( Span
+                                        { _start = AlexSourcePos
+                                            { _line = 2
+                                            , _col = 42
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 2
+                                            , _col = 45
+                                            }
+                                        }
+                                    ) "Int"
+                                , _fldDirectives = Nothing
+                                }
+                            ]
+                        }
                     )
                 }
             )
@@ -75,18 +213,61 @@
     ( TypeSystemDefinitionType
         ( OTDef
             ( ObjectTypeDefinition
-                { _otdDescription = Nothing
+                { _otdSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 3
+                        , _col = 2
+                        }
+                    , _end = AlexSourcePos
+                        { _line = 3
+                        , _col = 58
+                        }
+                    }
+                , _otdDescription = Nothing
                 , _otdName = "SearchQuery"
                 , _otdImplementsInterfaces = Nothing
                 , _otdDirectives = Nothing
                 , _otdFieldsDefinition = Just
-                    ( FieldDefinition
-                        { _fldDescription = Nothing
-                        , _fldName = "firstSearchResult"
-                        , _fldArgumentsDefinition = []
-                        , _fldType = NamedType "SearchResult"
-                        , _fldDirectives = Nothing
-                        } :| []
+                    ( FieldsDefinition
+                        { _fdSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 3
+                                , _col = 21
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 3
+                                , _col = 58
+                                }
+                            }
+                        , _fdDefinitions = FieldDefinition
+                            { _fldSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 3
+                                    , _col = 23
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 3
+                                    , _col = 56
+                                    }
+                                }
+                            , _fldDescription = Nothing
+                            , _fldName = "firstSearchResult"
+                            , _fldArgumentsDefinition = Nothing
+                            , _fldType = NamedType
+                                ( Span
+                                    { _start = AlexSourcePos
+                                        { _line = 3
+                                        , _col = 44
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 3
+                                        , _col = 56
+                                        }
+                                    }
+                                ) "SearchResult"
+                            , _fldDirectives = Nothing
+                            } :| []
+                        }
                     )
                 }
             )

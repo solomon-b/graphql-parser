@@ -2,33 +2,118 @@
     ( TypeSystemDefinitionType
         ( OTDef
             ( ObjectTypeDefinition
-                { _otdDescription = Nothing
+                { _otdSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 1
+                        , _col = 1
+                        }
+                    , _end = AlexSourcePos
+                        { _line = 5
+                        , _col = 70
+                        }
+                    }
+                , _otdDescription = Nothing
                 , _otdName = "Contact"
                 , _otdImplementsInterfaces = Nothing
                 , _otdDirectives = Nothing
                 , _otdFieldsDefinition = Just
-                    ( FieldDefinition
-                        { _fldDescription = Nothing
-                        , _fldName = "entity"
-                        , _fldArgumentsDefinition = []
-                        , _fldType = NamedType "NamedEntity"
-                        , _fldDirectives = Nothing
-                        } :|
-                        [ FieldDefinition
-                            { _fldDescription = Nothing
-                            , _fldName = "phoneNumber"
-                            , _fldArgumentsDefinition = []
-                            , _fldType = NamedType "String"
-                            , _fldDirectives = Nothing
+                    ( FieldsDefinition
+                        { _fdSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 5
+                                , _col = 1
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 5
+                                , _col = 70
+                                }
                             }
-                        , FieldDefinition
-                            { _fldDescription = Nothing
-                            , _fldName = "address"
-                            , _fldArgumentsDefinition = []
-                            , _fldType = NamedType "String"
+                        , _fdDefinitions = FieldDefinition
+                            { _fldSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 5
+                                    , _col = 3
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 5
+                                    , _col = 24
+                                    }
+                                }
+                            , _fldDescription = Nothing
+                            , _fldName = "entity"
+                            , _fldArgumentsDefinition = Nothing
+                            , _fldType = NamedType
+                                ( Span
+                                    { _start = AlexSourcePos
+                                        { _line = 5
+                                        , _col = 13
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 5
+                                        , _col = 24
+                                        }
+                                    }
+                                ) "NamedEntity"
                             , _fldDirectives = Nothing
-                            }
-                        ]
+                            } :|
+                            [ FieldDefinition
+                                { _fldSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 5
+                                        , _col = 27
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 5
+                                        , _col = 48
+                                        }
+                                    }
+                                , _fldDescription = Nothing
+                                , _fldName = "phoneNumber"
+                                , _fldArgumentsDefinition = Nothing
+                                , _fldType = NamedType
+                                    ( Span
+                                        { _start = AlexSourcePos
+                                            { _line = 5
+                                            , _col = 42
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 5
+                                            , _col = 48
+                                            }
+                                        }
+                                    ) "String"
+                                , _fldDirectives = Nothing
+                                }
+                            , FieldDefinition
+                                { _fldSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 5
+                                        , _col = 51
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 5
+                                        , _col = 68
+                                        }
+                                    }
+                                , _fldDescription = Nothing
+                                , _fldName = "address"
+                                , _fldArgumentsDefinition = Nothing
+                                , _fldType = NamedType
+                                    ( Span
+                                        { _start = AlexSourcePos
+                                            { _line = 5
+                                            , _col = 62
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 5
+                                            , _col = 68
+                                            }
+                                        }
+                                    ) "String"
+                                , _fldDirectives = Nothing
+                                }
+                            ]
+                        }
                     )
                 }
             )

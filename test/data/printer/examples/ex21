@@ -1,43 +1,140 @@
 [ DefinitionExecutable
     ( ExecutableDefinitionOperation
         ( OperationDefinition
-            { _odType = OperationTypeQuery
+            { _odSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 0
+                    , _col = 1
+                    }
+                , _end = AlexSourcePos
+                    { _line = 8
+                    , _col = 48
+                    }
+                }
+            , _odType = OperationTypeQuery
             , _odName = Just "FragmentTyping"
             , _odVariables = Nothing
             , _odDirectives = Nothing
             , _odSelectionSet = SelectionField
                 ( Field
-                    { _fAlias = Nothing
+                    { _fSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 5
+                            , _col = 1
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 8
+                            , _col = 47
+                            }
+                        }
+                    , _fAlias = Nothing
                     , _fName = "profiles"
-                    , _fArguments = fromList
-                        [
-                            ( "handles"
-                            , VList
-                                [ VString "zuck"
-                                , VString "coca-cola"
+                    , _fArguments = Just
+                        ( Arguments
+                            { argSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 6
+                                    , _col = 2
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 6
+                                    , _col = 32
+                                    }
+                                }
+                            , argArguments = fromList
+                                [
+                                    ( "handles"
+                                    , VList
+                                        ( Span
+                                            { _start = AlexSourcePos
+                                                { _line = 6
+                                                , _col = 11
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 6
+                                                , _col = 32
+                                                }
+                                            }
+                                        )
+                                        [ VString
+                                            ( Span
+                                                { _start = AlexSourcePos
+                                                    { _line = 6
+                                                    , _col = 12
+                                                    }
+                                                , _end = AlexSourcePos
+                                                    { _line = 6
+                                                    , _col = 18
+                                                    }
+                                                }
+                                            ) "zuck"
+                                        , VString
+                                            ( Span
+                                                { _start = AlexSourcePos
+                                                    { _line = 6
+                                                    , _col = 20
+                                                    }
+                                                , _end = AlexSourcePos
+                                                    { _line = 6
+                                                    , _col = 31
+                                                    }
+                                                }
+                                            ) "coca-cola"
+                                        ]
+                                    )
                                 ]
-                            )
-                        ]
+                            }
+                        )
                     , _fDirectives = Nothing
                     , _fSelectionSet = Just
                         ( SelectionField
                             ( Field
-                                { _fAlias = Nothing
+                                { _fSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 8
+                                        , _col = 3
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 8
+                                        , _col = 9
+                                        }
+                                    }
+                                , _fAlias = Nothing
                                 , _fName = "handle"
-                                , _fArguments = fromList []
+                                , _fArguments = Nothing
                                 , _fDirectives = Nothing
                                 , _fSelectionSet = Nothing
                                 }
                             ) :|
                             [ SelectionFragmentSpread
                                 ( FragmentSpread
-                                    { _fsName = "userFragment"
+                                    { _fsSpan = Span
+                                        { _start = AlexSourcePos
+                                            { _line = 8
+                                            , _col = 13
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 8
+                                            , _col = 28
+                                            }
+                                        }
+                                    , _fsName = "userFragment"
                                     , _fsDirectives = Nothing
                                     }
                                 )
                             , SelectionFragmentSpread
                                 ( FragmentSpread
-                                    { _fsName = "pageFragment"
+                                    { _fsSpan = Span
+                                        { _start = AlexSourcePos
+                                            { _line = 8
+                                            , _col = 30
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 8
+                                            , _col = 45
+                                            }
+                                        }
+                                    , _fsName = "pageFragment"
                                     , _fsDirectives = Nothing
                                     }
                                 )
@@ -51,22 +148,52 @@
 , DefinitionExecutable
     ( ExecutableDefinitionFragment
         ( FragmentDefinition
-            { _fdName = "userFragment"
-            , _fdTypeCondition = TypeCondition
+            { _frdSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 9
+                    , _col = 1
+                    }
+                , _end = AlexSourcePos
+                    { _line = 9
+                    , _col = 56
+                    }
+                }
+            , _frdName = "userFragment"
+            , _frdTypeCondition = TypeCondition
                 { unTypeCondition = "User" }
-            , _fdDirectives = Nothing
-            , _fdSelectionSet = SelectionField
+            , _frdDirectives = Nothing
+            , _frdSelectionSet = SelectionField
                 ( Field
-                    { _fAlias = Nothing
+                    { _fSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 9
+                            , _col = 34
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 9
+                            , _col = 55
+                            }
+                        }
+                    , _fAlias = Nothing
                     , _fName = "friends"
-                    , _fArguments = fromList []
+                    , _fArguments = Nothing
                     , _fDirectives = Nothing
                     , _fSelectionSet = Just
                         ( SelectionField
                             ( Field
-                                { _fAlias = Nothing
+                                { _fSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 9
+                                        , _col = 46
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 9
+                                        , _col = 51
+                                        }
+                                    }
+                                , _fAlias = Nothing
                                 , _fName = "count"
-                                , _fArguments = fromList []
+                                , _fArguments = Nothing
                                 , _fDirectives = Nothing
                                 , _fSelectionSet = Nothing
                                 }
@@ -80,22 +207,52 @@
 , DefinitionExecutable
     ( ExecutableDefinitionFragment
         ( FragmentDefinition
-            { _fdName = "pageFragment"
-            , _fdTypeCondition = TypeCondition
+            { _frdSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 10
+                    , _col = 1
+                    }
+                , _end = AlexSourcePos
+                    { _line = 10
+                    , _col = 55
+                    }
+                }
+            , _frdName = "pageFragment"
+            , _frdTypeCondition = TypeCondition
                 { unTypeCondition = "Page" }
-            , _fdDirectives = Nothing
-            , _fdSelectionSet = SelectionField
+            , _frdDirectives = Nothing
+            , _frdSelectionSet = SelectionField
                 ( Field
-                    { _fAlias = Nothing
+                    { _fSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 10
+                            , _col = 34
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 10
+                            , _col = 54
+                            }
+                        }
+                    , _fAlias = Nothing
                     , _fName = "likers"
-                    , _fArguments = fromList []
+                    , _fArguments = Nothing
                     , _fDirectives = Nothing
                     , _fSelectionSet = Just
                         ( SelectionField
                             ( Field
-                                { _fAlias = Nothing
+                                { _fSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 10
+                                        , _col = 45
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 10
+                                        , _col = 50
+                                        }
+                                    }
+                                , _fAlias = Nothing
                                 , _fName = "count"
-                                , _fArguments = fromList []
+                                , _fArguments = Nothing
                                 , _fDirectives = Nothing
                                 , _fSelectionSet = Nothing
                                 }

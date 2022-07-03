@@ -1,12 +1,44 @@
 [ DefinitionTypeSystem
     ( TypeSystemDefinitionDirective
         ( DirectiveDefinition
-            { _ddDescription = Nothing
+            { _ddSpan = Span
+                { _start = AlexSourcePos
+                    { _line = 0
+                    , _col = 1
+                    }
+                , _end = AlexSourcePos
+                    { _line = 0
+                    , _col = 61
+                    }
+                }
+            , _ddDescription = Nothing
             , _ddName = "example"
-            , _ddArguments = []
+            , _ddArguments = Nothing
             , _ddLocations =
-                [ TypeSysDirLoc TSDLFIELD_DEFINITION
-                , TypeSysDirLoc TSDLARGUMENT_DEFINITION
+                [ TypeSysDirLoc
+                    ( Span
+                        { _start = AlexSourcePos
+                            { _line = 0
+                            , _col = 23
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 0
+                            , _col = 39
+                            }
+                        }
+                    ) TSDLFIELD_DEFINITION
+                , TypeSysDirLoc
+                    ( Span
+                        { _start = AlexSourcePos
+                            { _line = 0
+                            , _col = 42
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 0
+                            , _col = 61
+                            }
+                        }
+                    ) TSDLARGUMENT_DEFINITION
                 ]
             }
         )
@@ -15,36 +47,120 @@
     ( TypeSystemDefinitionType
         ( OTDef
             ( ObjectTypeDefinition
-                { _otdDescription = Nothing
+                { _otdSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 2
+                        , _col = 1
+                        }
+                    , _end = AlexSourcePos
+                        { _line = 4
+                        , _col = 2
+                        }
+                    }
+                , _otdDescription = Nothing
                 , _otdName = "SomeType"
                 , _otdImplementsInterfaces = Nothing
                 , _otdDirectives = Nothing
                 , _otdFieldsDefinition = Just
-                    ( FieldDefinition
-                        { _fldDescription = Nothing
-                        , _fldName = "field"
-                        , _fldArgumentsDefinition =
-                            [ InputValueDefinition
-                                { _ivdDescription = Nothing
-                                , _ivdName = "arg"
-                                , _ivdType = NamedType "Int"
-                                , _ivdDefaultValue = Nothing
-                                , _ivdDirectives = Just
-                                    ( Directive
-                                        { dName = "example"
-                                        , dArguments = Nothing
-                                        } :| []
-                                    )
+                    ( FieldsDefinition
+                        { _fdSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 2
+                                , _col = 15
                                 }
-                            ]
-                        , _fldType = NamedType "String"
-                        , _fldDirectives = Just
-                            ( Directive
-                                { dName = "example"
-                                , dArguments = Nothing
-                                } :| []
-                            )
-                        } :| []
+                            , _end = AlexSourcePos
+                                { _line = 4
+                                , _col = 2
+                                }
+                            }
+                        , _fdDefinitions = FieldDefinition
+                            { _fldSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 3
+                                    , _col = 3
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 3
+                                    , _col = 44
+                                    }
+                                }
+                            , _fldDescription = Nothing
+                            , _fldName = "field"
+                            , _fldArgumentsDefinition = Just
+                                ( InputValueDefinition
+                                    { _ivdSpan = Span
+                                        { _start = AlexSourcePos
+                                            { _line = 3
+                                            , _col = 9
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 3
+                                            , _col = 26
+                                            }
+                                        }
+                                    , _ivdDescription = Nothing
+                                    , _ivdName = "arg"
+                                    , _ivdType = NamedType
+                                        ( Span
+                                            { _start = AlexSourcePos
+                                                { _line = 3
+                                                , _col = 14
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 3
+                                                , _col = 17
+                                                }
+                                            }
+                                        ) "Int"
+                                    , _ivdDefaultValue = Nothing
+                                    , _ivdDirectives = Just
+                                        ( Directive
+                                            { _dSpan = Span
+                                                { _start = AlexSourcePos
+                                                    { _line = 3
+                                                    , _col = 18
+                                                    }
+                                                , _end = AlexSourcePos
+                                                    { _line = 3
+                                                    , _col = 26
+                                                    }
+                                                }
+                                            , _dName = "example"
+                                            , _dArguments = Nothing
+                                            } :| []
+                                        )
+                                    } :| []
+                                )
+                            , _fldType = NamedType
+                                ( Span
+                                    { _start = AlexSourcePos
+                                        { _line = 3
+                                        , _col = 29
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 3
+                                        , _col = 35
+                                        }
+                                    }
+                                ) "String"
+                            , _fldDirectives = Just
+                                ( Directive
+                                    { _dSpan = Span
+                                        { _start = AlexSourcePos
+                                            { _line = 3
+                                            , _col = 36
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 3
+                                            , _col = 44
+                                            }
+                                        }
+                                    , _dName = "example"
+                                    , _dArguments = Nothing
+                                    } :| []
+                                )
+                            } :| []
+                        }
                     )
                 }
             )

@@ -1,1 +1,5 @@
-query    { foo  @skip(if: true)   bar     foo   }
+query {
+  foo @skip(if: true)
+  bar
+  foo
+}

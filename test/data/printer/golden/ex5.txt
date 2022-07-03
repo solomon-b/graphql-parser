@@ -1,1 +1,7 @@
-mutation    { likeStory (storyID: 12345)  { story   { likeCount   }}}
+mutation {
+  likeStory (storyID: 12345) {
+    story {
+      likeCount
+    }
+  }
+}

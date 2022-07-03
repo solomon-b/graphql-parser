@@ -1,3 +1,8 @@
-query    { foo    ...Ignored  ...Matching   bar   }
-fragment Ignored on UnknownType  { qux     baz   }
-fragment Matching on Query  { bar     qux     foo   }
+query {
+  foo
+  ...Ignored 
+  ...Matching 
+  bar
+}
+fragment Ignored on UnknownType  {   qux baz }
+fragment Matching on Query  {   bar qux foo }

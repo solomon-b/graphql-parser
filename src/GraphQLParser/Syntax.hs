@@ -21,7 +21,7 @@ import Data.Vector qualified as V
 import GHC.Generics (Generic)
 import GraphQLParser.Span qualified as S
 import Language.Haskell.TH.Syntax (Lift)
-import Prettyprinter (Doc, Pretty (..), defaultLayoutOptions, dquote, encloseSep, flatAlt, group, layoutPretty, line, punctuate, sep, space, tupled, (<+>))
+import Prettyprinter (Doc, Pretty (..), defaultLayoutOptions, dquote, encloseSep, flatAlt, group, indent, layoutPretty, line, punctuate, sep, tupled, vsep, (<+>))
 import Prettyprinter.Render.Text (renderStrict)
 
 --------------------------------------------------------------------------------
@@ -580,13 +580,7 @@ instance S.Located OperationDefinition where
 
 instance Pretty OperationDefinition where
   pretty OperationDefinition {..} =
-    sep
-      [ pretty _odType,
-        pretty _odName,
-        pretty _odVariables,
-        pretty _odDirectives,
-        pretty _odSelectionSet
-      ]
+    (pretty _odType <-> fmap pretty _odName <-> fmap pretty _odVariables <-> fmap pretty _odDirectives) <+> pretty _odSelectionSet
 
 --------------------------------------------------------------------------------
 -- Fragments
@@ -690,13 +684,15 @@ instance S.Located Field where
 instance Pretty Field where
   pretty Field {..} =
     let fieldAlias' = maybe "" ((<> ":") . pretty) _fAlias
-     in sep
-          [ fieldAlias',
-            pretty _fName,
-            pretty _fArguments,
-            pretty _fDirectives,
-            pretty _fSelectionSet
-          ]
+     in fieldAlias' <> pretty _fName <-> fmap pretty _fArguments <-> fmap pretty _fDirectives <-> fmap pretty _fSelectionSet
+
+--in sep
+--     [ fieldAlias',
+--       pretty _fName,
+--       pretty _fArguments,
+--       pretty _fDirectives,
+--       pretty _fSelectionSet
+--     ]
 
 --------------------------------------------------------------------------------
 -- Selections
@@ -708,7 +704,7 @@ newtype SelectionSet = SelectionSet (NE.NonEmpty Selection)
   deriving anyclass (NFData)
 
 instance Pretty SelectionSet where
-  pretty (SelectionSet set) = encloseSep "{" "}" line (f <$> NE.toList set)
+  pretty (SelectionSet set) = vsep ["{", indent 2 (vsep (f <$> NE.toList set)), "}"]
     where
       f :: Selection -> Doc ann
       f = \case
@@ -860,12 +856,7 @@ instance S.Located VariableDefinition where
 
 instance Pretty VariableDefinition where
   pretty VariableDefinition {..} =
-    sep
-      [ "$" <> pretty _vdName <> ":",
-        pretty _vdType,
-        maybe mempty ((space <>) . pretty) _vdDefaultValue,
-        pretty _vdDirectives
-      ]
+    pretty _vdName <> ":" <+> pretty _vdType <-> fmap pretty _vdDefaultValue <-> fmap pretty _vdDirectives
 
 data Arguments = Arguments
   { argSpan :: S.Span,
@@ -934,6 +925,10 @@ instance Pretty Directive where
 
 --------------------------------------------------------------------------------
 -- Pretty helpers
+
+(<->) :: Doc a -> Maybe (Doc a) -> Doc a
+(<->) x Nothing = x
+(<->) x (Just y) = x <+> y
 
 renderDoc :: Doc ann -> Text
 renderDoc = renderStrict . layoutPretty defaultLayoutOptions

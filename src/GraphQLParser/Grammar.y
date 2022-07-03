@@ -202,7 +202,7 @@ implementsInterfaces_
 fieldsDefinition :: { Maybe FieldsDefinition }
 fieldsDefinition
   : '{' fieldDefinitions '}' { Just (FieldsDefinition (locate $1 <> locate $3) $2) }
-  | %prec LOW { Nothing}
+  | %prec LOW { Nothing }
 
 fieldDefinitions :: { NE.NonEmpty FieldDefinition }
 fieldDefinitions
@@ -387,6 +387,11 @@ optValue
   : value { Just $1 }
   | %prec LOW { Nothing }
 
+optValueConst :: { Maybe Value }
+optValueConst
+  : valueConst { Just $1 }
+  | %prec LOW { Nothing }
+
 values :: { [Value] }
 values
   : value { [$1] }
@@ -394,6 +399,11 @@ values
 
 value :: { Value }
 value
+  : valueConst { $1 }
+  | variable { VVar (locate $1) (unLoc $1) }
+
+valueConst :: { Value }
+valueConst
   : 'null' { VNull (locate $1) }
   | stringValue { VString (locate $1) (unLoc $1) }
   | float { VFloat (locate $1) (unLoc $1) }
@@ -401,7 +411,10 @@ value
   | bool { VBoolean (locate $1) (unLoc $1) }
   | vlist { $1 }
   | vobject { $1 }
-  | '$' ident { VVar (locate $1 <> locate $2) (unLoc $2) }
+
+variable :: { Loc Text }
+variable
+  : '$' ident { Loc (locate $1 <> locate $2) (unLoc $2) }
 
 stringValue :: { Loc Text }
 stringValue
@@ -470,7 +483,7 @@ variabledefinitions_
 
 variableDefinition :: { VariableDefinition }
 variabledefinition
-  : '$' name ':' type optValue directives { VariableDefinition (locate $1 <> maybeLoc (maybeLoc $4 $5) $6) (unLoc $2) $4 $5 (fmap unLoc $6) }
+  : variable ':' type optValueConst directives { VariableDefinition (locate $1 <> maybeLoc (maybeLoc $3 $4) $5) (Name $ unLoc $1) $3 $4 (fmap unLoc $5) }
 
 typeCondition :: { TypeCondition }
 typeCondition

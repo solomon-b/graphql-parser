@@ -1,1 +1,6 @@
-query    { entity   { name   }  phoneNumber   }
+query {
+  entity {
+    name
+  }
+  phoneNumber
+}

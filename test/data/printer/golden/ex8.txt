@@ -1,17 +1,14 @@
-query
-
-
-
-{
-me
-
-
-{ id   
-
- firstName   
-
- lastName   
-
- birthday   { month     day   }
-
- friends   { name   }}}
+query {
+  me {
+    id
+    firstName
+    lastName
+    birthday {
+      month
+      day
+    }
+    friends {
+      name
+    }
+  }
+}

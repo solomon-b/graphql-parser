@@ -1,1 +1,4 @@
-query    { name     picture (size: 600)  }
+query {
+  name
+  picture (size: 600)
+}

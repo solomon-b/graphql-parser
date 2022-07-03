@@ -1,2 +1,6 @@
-query    { foo    ...Frag   qux   }
-fragment Frag on Query  { bar     baz   }
+query {
+  foo
+  ...Frag 
+  qux
+}
+fragment Frag on Query  {   bar baz }

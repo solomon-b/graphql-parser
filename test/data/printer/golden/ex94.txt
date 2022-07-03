@@ -1,5 +1,3 @@
-query
-myQuery
-($someTest: Boolean!  )
-
-{ experimentalField  @include(if: $someTest) }
+query myQuery (someTest: Boolean!) {
+  experimentalField @include(if: $someTest)
+}

@@ -1,5 +1,6 @@
-query
-
-
-
-{ firstSearchResult   {...on Person  { name   } ...on Photo  { height   }}}
+query {
+  firstSearchResult {
+    ...on Person  {   name }
+    ...on Photo  {   height }
+  }
+}

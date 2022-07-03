@@ -1,13 +1,7 @@
-query
-inlineFragmentTyping
-
-
-{
-profiles
-(handles: ["zuck", "coca-cola"])
-
-{ handle   
-
-...on User  { friends   { count   }}
-
-...on Page  { likers   { count   }}}}
+query inlineFragmentTyping {
+  profiles (handles: ["zuck", "coca-cola"]) {
+    handle
+    ...on User  {   friends {   count } }
+    ...on Page  {   likers {   count } }
+  }
+}

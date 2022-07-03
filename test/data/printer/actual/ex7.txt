@@ -1,1 +1,5 @@
-query    { id     firstName     lastName   }
+query {
+  id
+  firstName
+  lastName
+}

@@ -1,1 +1,5 @@
-query    { name     age     picture   }
+query {
+  name
+  age
+  picture
+}

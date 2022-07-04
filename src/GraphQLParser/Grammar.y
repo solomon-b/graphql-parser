@@ -384,11 +384,6 @@ selection
 
 optValue :: { Maybe Value }
 optValue
-  : value { Just $1 }
-  | %prec LOW { Nothing }
-
-optValueConst :: { Maybe Value }
-optValueConst
   : valueConst { Just $1 }
   | %prec LOW { Nothing }
 
@@ -483,7 +478,7 @@ variabledefinitions_
 
 variableDefinition :: { VariableDefinition }
 variabledefinition
-  : variable ':' type optValueConst directives { VariableDefinition (locate $1 <> maybeLoc (maybeLoc $3 $4) $5) (Name $ unLoc $1) $3 $4 (fmap unLoc $5) }
+  : variable ':' type optValue directives { VariableDefinition (locate $1 <> maybeLoc (maybeLoc $3 $4) $5) (Name $ unLoc $1) $3 $4 (fmap unLoc $5) }
 
 typeCondition :: { TypeCondition }
 typeCondition

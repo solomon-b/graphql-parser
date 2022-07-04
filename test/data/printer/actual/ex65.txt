@@ -1,6 +1,5 @@
-
-type
-Contact
-
-
-{ entity  : NamedEntity   phoneNumber  : String   address  : String }
+type Contact {
+  entity: NamedEntity
+  phoneNumber: String
+  address: String
+}

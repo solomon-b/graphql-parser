@@ -1,2 +1,4 @@
- directive @example  on | FIELD 
-fragment SomeFragment on SomeType  {   field @example }
+directive @example on FIELD
+fragment SomeFragment on SomeType {
+  field @example
+}

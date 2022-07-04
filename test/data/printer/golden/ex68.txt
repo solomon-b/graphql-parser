@@ -1,7 +1,9 @@
 query {
   entity {
     name
-    ...on Person  {   age }
+    ... on Person {
+      age
+    }
   }
   phoneNumber
 }

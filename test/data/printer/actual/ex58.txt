@@ -1,1 +1,4 @@
- type Person   { name  : String   picture ( size: Int  ) : Url }
+type Person {
+  name: String
+  picture(!size: Int): Url
+}

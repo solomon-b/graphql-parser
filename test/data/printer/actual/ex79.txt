@@ -1,1 +1,4 @@
- input Point2D  { x: Float    y: Float  }
+input Point2D {
+  x: Float
+  y: Float
+}

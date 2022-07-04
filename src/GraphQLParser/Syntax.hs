@@ -21,7 +21,7 @@ import Data.Vector qualified as V
 import GHC.Generics (Generic)
 import GraphQLParser.Span qualified as S
 import Language.Haskell.TH.Syntax (Lift)
-import Prettyprinter (Doc, Pretty (..), defaultLayoutOptions, dquote, encloseSep, flatAlt, group, indent, layoutPretty, line, punctuate, sep, tupled, vsep, (<+>))
+import Prettyprinter (Doc, Pretty (..), defaultLayoutOptions, dquote, encloseSep, flatAlt, group, hsep, indent, layoutPretty, line, punctuate, sep, tupled, vsep, (<+>))
 import Prettyprinter.Render.Text (renderStrict)
 
 --------------------------------------------------------------------------------
@@ -94,12 +94,7 @@ instance S.Located SchemaDefinition where
 
 instance Pretty SchemaDefinition where
   pretty SchemaDefinition {..} =
-    sep
-      [ pretty _sdDescription,
-        "schema",
-        pretty _sdDirectives,
-        pretty _sdRootOperationTypeDefinitions
-      ]
+    withDescription _sdDescription $ "schema" <+?> _sdDirectives <+> pretty _sdRootOperationTypeDefinitions
 
 newtype RootOperationTypesDefinition = RootOperationTypesDefinition
   {unRootOperationTypesDefinition :: NE.NonEmpty RootOperationTypeDefinition}
@@ -167,12 +162,7 @@ instance S.Located ScalarTypeDefinition where
 
 instance Pretty ScalarTypeDefinition where
   pretty ScalarTypeDefinition {..} =
-    sep
-      [ pretty _stDescription,
-        "scalar",
-        pretty _stName,
-        pretty _stDirectives
-      ]
+    withDescription _stDescription $ "scalar" <+> pretty _stName <+?> _stDirectives
 
 -- | GraphQL operations are hierarchical and composed, describing a
 -- tree of information. While Scalar types describe the leaf values of
@@ -194,14 +184,7 @@ instance S.Located ObjectTypeDefinition where
 
 instance Pretty ObjectTypeDefinition where
   pretty ObjectTypeDefinition {..} =
-    sep
-      [ pretty _otdDescription,
-        "type",
-        pretty _otdName,
-        pretty _otdImplementsInterfaces,
-        pretty _otdDirectives,
-        pretty _otdFieldsDefinition
-      ]
+    withDescription _otdDescription $ "type" <+> pretty _otdName <+?> _otdImplementsInterfaces <+?> _otdDirectives <+?> _otdFieldsDefinition
 
 data FieldsDefinition = FieldsDefinition
   { _fdSpan :: S.Span,
@@ -215,7 +198,7 @@ instance S.Located FieldsDefinition where
 
 instance Pretty FieldsDefinition where
   pretty FieldsDefinition {..} =
-    encloseSep "{" "}" line (foldr (\x xs -> pretty x : xs) [] _fdDefinitions)
+    vsep ["{", indent 2 (vsep (pretty <$> NE.toList _fdDefinitions)), "}"]
 
 data FieldDefinition = FieldDefinition
   { _fldSpan :: S.Span,
@@ -233,14 +216,7 @@ instance S.Located FieldDefinition where
 
 instance Pretty FieldDefinition where
   pretty FieldDefinition {..} =
-    sep
-      [ pretty _fldDescription,
-        pretty _fldName,
-        pretty _fldArgumentsDefinition,
-        ":",
-        pretty _fldType,
-        pretty _fldDirectives
-      ]
+    withDescription _fldDescription $ pretty _fldName <-?> _fldArgumentsDefinition <> ":" <+> pretty _fldType <+?> _fldDirectives
 
 -- | GraphQL interfaces represent a list of named fields and their
 -- arguments. GraphQL objects and interfaces can then implement these
@@ -262,14 +238,7 @@ instance S.Located InterfaceTypeDefinition where
 
 instance Pretty InterfaceTypeDefinition where
   pretty InterfaceTypeDefinition {..} =
-    sep
-      [ pretty _itDescription,
-        "interface",
-        pretty _itName,
-        pretty _itInterfaces,
-        pretty _itDirectives,
-        pretty _itFields
-      ]
+    withDescription _itDescription $ "interface" <+> pretty _itName <+?> _itInterfaces <+?> _itDirectives <+?> _itFields
 
 -- TODO: Use a Vector
 data ImplementsInterfaces = ImplementsInterfaces
@@ -282,9 +251,10 @@ data ImplementsInterfaces = ImplementsInterfaces
 instance S.Located ImplementsInterfaces where
   locate = _iiSpan
 
+-- TODO:
 instance Pretty ImplementsInterfaces where
   pretty ImplementsInterfaces {..} =
-    "implements" <+> foldMap (\n -> "&" <+> pretty n) _iiInterfaces
+    "implements" <+> (sep $ punctuate " &" $ fmap pretty $ NE.toList _iiInterfaces)
 
 --"implements" <+> foldl (\acc n -> "&" <+> pretty n <+> acc) "" _iiInterfaces
 
@@ -308,14 +278,9 @@ instance S.Located UnionTypeDefinition where
 
 instance Pretty UnionTypeDefinition where
   pretty UnionTypeDefinition {..} =
-    sep
-      [ pretty _utdDescription,
-        "union",
-        pretty _utdName,
-        pretty _utdDirectives,
-        "=",
-        foldMap (\n -> "|" <+> pretty n <> line) _utdMemberTypes
-      ]
+    withDescription _utdDescription $
+      "union" <+> pretty _utdName <+?> _utdDirectives <+> "="
+        <+> (hsep $ punctuate " |" $ fmap pretty _utdMemberTypes)
 
 -- | GraphQL Enum types, like Scalar types, also represent leaf values
 -- in a GraphQL type system. However Enum types describe the set of
@@ -325,6 +290,7 @@ data EnumTypeDefinition = EnumTypeDefinition
     _etdDescription :: Maybe Description,
     _etdName :: Name,
     _etdDirectives :: Maybe Directives,
+    -- TODO: Should this be NonEmpty?
     _etdValueDefinitions :: [EnumValueDefinition]
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
@@ -335,13 +301,9 @@ instance S.Located EnumTypeDefinition where
 
 instance Pretty EnumTypeDefinition where
   pretty EnumTypeDefinition {..} =
-    sep
-      [ pretty _etdDescription,
-        "enum",
-        pretty _etdName,
-        pretty _etdDirectives,
-        encloseSep "{" "}" line (fmap pretty _etdValueDefinitions)
-      ]
+    withDescription _etdDescription $
+      "enum" <+> pretty _etdName <+?> _etdDirectives
+        <+> vsep ["{", indent 2 (vsep (fmap pretty _etdValueDefinitions)), "}"]
 
 data EnumValueDefinition = EnumValueDefinition
   { _evdSpan :: S.Span,
@@ -357,11 +319,7 @@ instance S.Located EnumValueDefinition where
 
 instance Pretty EnumValueDefinition where
   pretty EnumValueDefinition {..} =
-    sep
-      [ pretty _evdDescription,
-        pretty _evdName,
-        pretty _evdDirectives
-      ]
+    withDescription _evdDescription $ pretty _evdName <+?> _evdDirectives
 
 -- | A GraphQL Input Object defines a set of input fields; the input
 -- fields are either scalars, enums, or other input objects. This
@@ -381,14 +339,7 @@ instance S.Located InputObjectTypeDefinition where
 
 instance Pretty InputObjectTypeDefinition where
   pretty InputObjectTypeDefinition {..} =
-    sep $
-      [ pretty _iotDescription,
-        "input",
-        pretty _iotName,
-        pretty _iotDirectives,
-        -- TODO: Check printer spacing
-        pretty _iotValueDefinitions
-      ]
+    withDescription _iotDescription $ "input" <+> pretty _iotName <+?> _iotDirectives <+?> _iotValueDefinitions
 
 data InputFieldsDefinition = InputFieldsDefinition
   { _ifdSpan :: S.Span,
@@ -402,7 +353,7 @@ instance S.Located InputFieldsDefinition where
 
 instance Pretty InputFieldsDefinition where
   pretty InputFieldsDefinition {..} =
-    encloseSep "{" "}" " " (foldr (\x xs -> pretty x : xs) [] _ifdDefinition)
+    vsep ["{", indent 2 (vsep (pretty <$> NE.toList _ifdDefinition)), "}"]
 
 newtype ArgumentsDefinition = ArgumentsDefinition {unArgumentsDefinition :: NE.NonEmpty InputValueDefinition}
   deriving stock (Lift, Generic)
@@ -411,9 +362,7 @@ newtype ArgumentsDefinition = ArgumentsDefinition {unArgumentsDefinition :: NE.N
 
 instance Pretty ArgumentsDefinition where
   pretty ArgumentsDefinition {..} =
-    case unArgumentsDefinition of
-      x NE.:| [] -> "(" <> pretty x <> ")"
-      xs -> encloseSep "(" ")" " " (foldr (\x acc -> pretty x : acc) [] xs)
+    "(!" <> foldl (\acc x -> acc <> pretty x) "" unArgumentsDefinition <> ")"
 
 data InputValueDefinition = InputValueDefinition
   { _ivdSpan :: S.Span,
@@ -431,17 +380,12 @@ instance S.Located InputValueDefinition where
 
 instance Pretty InputValueDefinition where
   pretty InputValueDefinition {..} =
-    sep
-      [ pretty _ivdDescription,
-        pretty _ivdName <> ":",
-        pretty _ivdType,
-        pretty _ivdDefaultValue,
-        pretty _ivdDirectives
-      ]
+    withDescription _ivdDescription $ pretty _ivdName <> ":" <+> pretty _ivdType <+?> _ivdDefaultValue <+?> _ivdDirectives
 
 --------------------------------------------------------------------------------
 -- Directive Definitions
 
+-- TODO: Repeatable Option
 data DirectiveDefinition = DirectiveDefinition
   { _ddSpan :: S.Span,
     _ddDescription :: Maybe Description,
@@ -457,14 +401,9 @@ instance S.Located DirectiveDefinition where
 
 instance Pretty DirectiveDefinition where
   pretty DirectiveDefinition {..} =
-    sep
-      [ pretty _ddDescription,
-        "directive",
-        "@" <> pretty _ddName,
-        pretty _ddArguments,
-        "on",
-        foldMap (\n -> "|" <+> pretty n <> line) _ddLocations
-      ]
+    withDescription _ddDescription $
+      "directive" <+> "@" <> pretty _ddName <+?> _ddArguments <+> "on"
+        <+> (sep $ punctuate " |" $ fmap pretty _ddLocations)
 
 data DirectiveLocation = ExecDirLoc S.Span ExecutableDirectiveLocation | TypeSysDirLoc S.Span TypeSystemDirectiveLocation
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
@@ -580,7 +519,7 @@ instance S.Located OperationDefinition where
 
 instance Pretty OperationDefinition where
   pretty OperationDefinition {..} =
-    (pretty _odType <-> fmap pretty _odName <-> fmap pretty _odVariables <-> fmap pretty _odDirectives) <+> pretty _odSelectionSet
+    (pretty _odType <+?> _odName <+?> _odVariables <+?> _odDirectives) <+> pretty _odSelectionSet
 
 --------------------------------------------------------------------------------
 -- Fragments
@@ -604,13 +543,7 @@ instance S.Located FragmentDefinition where
 
 instance Pretty FragmentDefinition where
   pretty FragmentDefinition {..} =
-    sep
-      [ "fragment",
-        pretty _frdName,
-        pretty _frdTypeCondition,
-        pretty _frdDirectives,
-        pretty _frdSelectionSet
-      ]
+    "fragment" <+> pretty _frdName <+> pretty _frdTypeCondition <+?> _frdDirectives <+> pretty _frdSelectionSet
 
 -- | Fragments are consumed by using the spread operator @(...)@. All
 -- 'Field's selected by the fragment will be added to the 'Field'
@@ -629,10 +562,7 @@ instance S.Located FragmentSpread where
 
 instance Pretty FragmentSpread where
   pretty FragmentSpread {..} =
-    sep
-      [ "..." <> pretty _fsName,
-        pretty _fsDirectives
-      ]
+    "..." <> pretty _fsName <+?> _fsDirectives
 
 -- | 'InlineFragment' can be used directly within a 'Selection' to
 -- condition upon a type condition when querying against an interface
@@ -651,11 +581,13 @@ instance S.Located InlineFragment where
 
 instance Pretty InlineFragment where
   pretty InlineFragment {..} =
-    sep
-      [ "..." <> maybe mempty pretty _ifTypeCondition,
-        pretty _ifDirectives,
-        pretty _ifSelectionSet
-      ]
+    "..." <+?> _ifTypeCondition <+?> _ifDirectives <+> pretty _ifSelectionSet
+
+--sep
+--  [ "..." <> maybe mempty pretty _ifTypeCondition,
+--    pretty _ifDirectives,
+--    pretty _ifSelectionSet
+--  ]
 
 --------------------------------------------------------------------------------
 -- Fields
@@ -684,15 +616,7 @@ instance S.Located Field where
 instance Pretty Field where
   pretty Field {..} =
     let fieldAlias' = maybe "" ((<> ":") . pretty) _fAlias
-     in fieldAlias' <> pretty _fName <-> fmap pretty _fArguments <-> fmap pretty _fDirectives <-> fmap pretty _fSelectionSet
-
---in sep
---     [ fieldAlias',
---       pretty _fName,
---       pretty _fArguments,
---       pretty _fDirectives,
---       pretty _fSelectionSet
---     ]
+     in fieldAlias' <> pretty _fName <+?> _fArguments <+?> _fDirectives <+?> _fSelectionSet
 
 --------------------------------------------------------------------------------
 -- Selections
@@ -856,7 +780,7 @@ instance S.Located VariableDefinition where
 
 instance Pretty VariableDefinition where
   pretty VariableDefinition {..} =
-    pretty _vdName <> ":" <+> pretty _vdType <-> fmap pretty _vdDefaultValue <-> fmap pretty _vdDirectives
+    pretty _vdName <> ":" <+> pretty _vdType <+?> _vdDefaultValue <+?> _vdDirectives
 
 data Arguments = Arguments
   { argSpan :: S.Span,
@@ -921,14 +845,26 @@ instance S.Located Directive where
   locate = _dSpan
 
 instance Pretty Directive where
-  pretty Directive {..} = "@" <> pretty _dName <> pretty _dArguments
+  pretty Directive {..} = "@" <> pretty _dName <-?> _dArguments
 
 --------------------------------------------------------------------------------
 -- Pretty helpers
 
-(<->) :: Doc a -> Maybe (Doc a) -> Doc a
-(<->) x Nothing = x
-(<->) x (Just y) = x <+> y
+(<+?>) :: Pretty b => Doc ann -> Maybe b -> Doc ann
+(<+?>) x Nothing = x
+(<+?>) x (Just y) = x <+> pretty y
+
+(<-?>) :: Pretty b => Doc ann -> Maybe b -> Doc ann
+(<-?>) x Nothing = x
+(<-?>) x (Just y) = x <> pretty y
+
+(<?+>) :: Pretty b => Maybe b -> Doc ann -> Doc ann
+(<?+>) Nothing x = x
+(<?+>) (Just y) x = pretty y <+> x
+
+withDescription :: Maybe Description -> Doc ann -> Doc ann
+withDescription Nothing x = x
+withDescription (Just x) y = vsep [pretty x, y]
 
 renderDoc :: Doc ann -> Text
 renderDoc = renderStrict . layoutPretty defaultLayoutOptions

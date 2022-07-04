@@ -1,1 +1,4 @@
- input Example  { self: Example    value: String  }
+input Example {
+  self: Example
+  value: String
+}

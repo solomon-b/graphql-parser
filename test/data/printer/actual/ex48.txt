@@ -1,6 +1,6 @@
-
-type
-Person
-
-
-{ name  : String   age  : Int   picture  : Url   relationship  : Person }
+type Person {
+  name: String
+  age: Int
+  picture: Url
+  relationship: Person
+}

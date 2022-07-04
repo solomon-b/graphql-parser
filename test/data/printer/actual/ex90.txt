@@ -1,2 +1,4 @@
- directive @example  on | FIELD_DEFINITION | ARGUMENT_DEFINITION 
- type SomeType   { field ( arg: Int  @example) : String @example}
+directive @example on FIELD_DEFINITION | ARGUMENT_DEFINITION
+type SomeType {
+  field(!arg: Int @example): String @example
+}

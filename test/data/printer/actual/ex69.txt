@@ -1,2 +1,7 @@
- interface Node   { id  : ID! }
- interface Resource implements & Node  { id  : ID!   url  : String }
+interface Node {
+  id: ID!
+}
+interface Resource implements Node {
+  id: ID!
+  url: String
+}

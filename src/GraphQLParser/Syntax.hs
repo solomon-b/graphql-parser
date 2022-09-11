@@ -410,13 +410,13 @@ instance S.Located DirectiveDefinition where
 instance Pretty DirectiveDefinition where
   pretty DirectiveDefinition {..} =
     withDescription _ddDescription $
-      case length _ddLocations == 1 of
-        False ->
+      case length _ddLocations > 2 of
+        True ->
           vsep
-            [ ("directive" <+> "@" <> pretty _ddName <+?> _ddArguments <+> "on"),
+            [ "directive" <+> "@" <> pretty _ddName <+?> _ddArguments <+> "on",
               indent 2 (vsep (fmap (("|" <+>) . pretty) _ddLocations))
             ]
-        True -> "directive" <+> "@" <> pretty _ddName <+?> _ddArguments <+> "on" <+> (sep $ fmap pretty _ddLocations)
+        False -> "directive" <+> "@" <> pretty _ddName <+?> _ddArguments <+> "on" <+> hsep (List.intersperse "|" $ fmap (pretty) _ddLocations)
 
 data DirectiveLocation = ExecDirLoc S.Span ExecutableDirectiveLocation | TypeSysDirLoc S.Span TypeSystemDirectiveLocation
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)

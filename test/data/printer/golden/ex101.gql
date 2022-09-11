@@ -47,5 +47,7 @@ type Cat implements Pet {
 }
 
 union CatOrDog = Cat | Dog
+
 union DogOrHuman = Dog | Human
+
 union HumanOrAlien = Human | Alien

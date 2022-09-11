@@ -7,8 +7,8 @@
                     , _col = 1
                     }
                 , _end = AlexSourcePos
-                    { _line = 12
-                    , _col = 76
+                    { _line = 10
+                    , _col = 2
                     }
                 }
             , _odType = OperationTypeQuery
@@ -17,24 +17,24 @@
                 ( VariableDefinition
                     { _vdSpan = Span
                         { _start = AlexSourcePos
-                            { _line = 2
-                            , _col = 2
+                            { _line = 0
+                            , _col = 28
                             }
                         , _end = AlexSourcePos
-                            { _line = 2
-                            , _col = 24
+                            { _line = 0
+                            , _col = 50
                             }
                         }
-                    , _vdName = "expandedInfo"
+                    , _vdName = "$expandedInfo"
                     , _vdType = NamedType
                         ( Span
                             { _start = AlexSourcePos
-                                { _line = 2
-                                , _col = 17
+                                { _line = 0
+                                , _col = 43
                                 }
                             , _end = AlexSourcePos
-                                { _line = 2
-                                , _col = 24
+                                { _line = 0
+                                , _col = 50
                                 }
                             }
                         ) "Boolean"
@@ -47,12 +47,12 @@
                 ( Field
                     { _fSpan = Span
                         { _start = AlexSourcePos
-                            { _line = 5
-                            , _col = 1
+                            { _line = 1
+                            , _col = 3
                             }
                         , _end = AlexSourcePos
-                            { _line = 12
-                            , _col = 75
+                            { _line = 9
+                            , _col = 4
                             }
                         }
                     , _fAlias = Nothing
@@ -61,12 +61,12 @@
                         ( Arguments
                             { argSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 6
-                                    , _col = 2
+                                    { _line = 1
+                                    , _col = 8
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 6
-                                    , _col = 16
+                                    { _line = 1
+                                    , _col = 22
                                     }
                                 }
                             , argArguments = fromList
@@ -75,12 +75,12 @@
                                     , VString
                                         ( Span
                                             { _start = AlexSourcePos
-                                                { _line = 6
-                                                , _col = 10
+                                                { _line = 1
+                                                , _col = 16
                                                 }
                                             , _end = AlexSourcePos
-                                                { _line = 6
-                                                , _col = 16
+                                                { _line = 1
+                                                , _col = 22
                                                 }
                                             }
                                         ) "zuck"
@@ -94,12 +94,12 @@
                             ( Field
                                 { _fSpan = Span
                                     { _start = AlexSourcePos
-                                        { _line = 8
-                                        , _col = 3
+                                        { _line = 2
+                                        , _col = 5
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 8
-                                        , _col = 5
+                                        { _line = 2
+                                        , _col = 7
                                         }
                                     }
                                 , _fAlias = Nothing
@@ -113,12 +113,12 @@
                                 ( Field
                                     { _fSpan = Span
                                         { _start = AlexSourcePos
-                                            { _line = 10
-                                            , _col = 2
+                                            { _line = 3
+                                            , _col = 5
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 10
-                                            , _col = 6
+                                            { _line = 3
+                                            , _col = 9
                                             }
                                         }
                                     , _fAlias = Nothing
@@ -132,12 +132,12 @@
                                 ( InlineFragment
                                     { _ifSpan = Span
                                         { _start = AlexSourcePos
-                                            { _line = 12
-                                            , _col = 1
+                                            { _line = 4
+                                            , _col = 5
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 12
-                                            , _col = 74
+                                            { _line = 8
+                                            , _col = 6
                                             }
                                         }
                                     , _ifTypeCondition = Nothing
@@ -145,12 +145,12 @@
                                         ( Directive
                                             { _dSpan = Span
                                                 { _start = AlexSourcePos
-                                                    { _line = 12
-                                                    , _col = 5
+                                                    { _line = 4
+                                                    , _col = 9
                                                     }
                                                 , _end = AlexSourcePos
-                                                    { _line = 12
-                                                    , _col = 31
+                                                    { _line = 4
+                                                    , _col = 35
                                                     }
                                                 }
                                             , _dName = "include"
@@ -158,12 +158,12 @@
                                                 ( Arguments
                                                     { argSpan = Span
                                                         { _start = AlexSourcePos
-                                                            { _line = 12
-                                                            , _col = 14
+                                                            { _line = 4
+                                                            , _col = 18
                                                             }
                                                         , _end = AlexSourcePos
-                                                            { _line = 12
-                                                            , _col = 31
+                                                            { _line = 4
+                                                            , _col = 35
                                                             }
                                                         }
                                                     , argArguments = fromList
@@ -172,15 +172,15 @@
                                                             , VVar
                                                                 ( Span
                                                                     { _start = AlexSourcePos
-                                                                        { _line = 12
-                                                                        , _col = 18
+                                                                        { _line = 4
+                                                                        , _col = 22
                                                                         }
                                                                     , _end = AlexSourcePos
-                                                                        { _line = 12
-                                                                        , _col = 31
+                                                                        { _line = 4
+                                                                        , _col = 35
                                                                         }
                                                                     }
-                                                                ) "expandedInfo"
+                                                                ) "$expandedInfo"
                                                             )
                                                         ]
                                                     }
@@ -191,12 +191,12 @@
                                         ( Field
                                             { _fSpan = Span
                                                 { _start = AlexSourcePos
-                                                    { _line = 12
-                                                    , _col = 35
+                                                    { _line = 5
+                                                    , _col = 7
                                                     }
                                                 , _end = AlexSourcePos
-                                                    { _line = 12
-                                                    , _col = 44
+                                                    { _line = 5
+                                                    , _col = 16
                                                     }
                                                 }
                                             , _fAlias = Nothing
@@ -210,12 +210,12 @@
                                             ( Field
                                                 { _fSpan = Span
                                                     { _start = AlexSourcePos
-                                                        { _line = 12
-                                                        , _col = 49
+                                                        { _line = 6
+                                                        , _col = 7
                                                         }
                                                     , _end = AlexSourcePos
-                                                        { _line = 12
-                                                        , _col = 57
+                                                        { _line = 6
+                                                        , _col = 15
                                                         }
                                                     }
                                                 , _fAlias = Nothing
@@ -229,12 +229,12 @@
                                             ( Field
                                                 { _fSpan = Span
                                                     { _start = AlexSourcePos
-                                                        { _line = 12
-                                                        , _col = 62
+                                                        { _line = 7
+                                                        , _col = 7
                                                         }
                                                     , _end = AlexSourcePos
-                                                        { _line = 12
-                                                        , _col = 70
+                                                        { _line = 7
+                                                        , _col = 15
                                                         }
                                                     }
                                                 , _fAlias = Nothing

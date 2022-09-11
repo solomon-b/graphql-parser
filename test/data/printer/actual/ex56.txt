@@ -1,5 +1,0 @@
-query {
-  foo @skip(if: true)
-  bar
-  foo
-}

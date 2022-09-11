@@ -1,6 +1,0 @@
-query {
-  name
-  relationship {
-    name
-  }
-}

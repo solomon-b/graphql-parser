@@ -1,3 +1,0 @@
-query myQuery (someTest: Boolean!) {
-  experimentalField @include(if: $someTest)
-}

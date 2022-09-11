@@ -7,8 +7,8 @@
                     , _col = 1
                     }
                 , _end = AlexSourcePos
-                    { _line = 0
-                    , _col = 48
+                    { _line = 2
+                    , _col = 2
                     }
                 }
             , _odType = OperationTypeQuery
@@ -19,12 +19,12 @@
                 ( Field
                     { _fSpan = Span
                         { _start = AlexSourcePos
-                            { _line = 0
-                            , _col = 12
+                            { _line = 1
+                            , _col = 3
                             }
                         , _end = AlexSourcePos
-                            { _line = 0
-                            , _col = 44
+                            { _line = 1
+                            , _col = 34
                             }
                         }
                     , _fAlias = Nothing
@@ -33,12 +33,12 @@
                         ( Arguments
                             { argSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 0
-                                    , _col = 21
+                                    { _line = 1
+                                    , _col = 11
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 0
-                                    , _col = 44
+                                    { _line = 1
+                                    , _col = 34
                                     }
                                 }
                             , argArguments = fromList
@@ -47,12 +47,12 @@
                                     , VInt
                                         ( Span
                                             { _start = AlexSourcePos
-                                                { _line = 0
-                                                , _col = 28
+                                                { _line = 1
+                                                , _col = 31
                                                 }
                                             , _end = AlexSourcePos
-                                                { _line = 0
-                                                , _col = 31
+                                                { _line = 1
+                                                , _col = 34
                                                 }
                                             }
                                         ) 200
@@ -62,12 +62,12 @@
                                     , VInt
                                         ( Span
                                             { _start = AlexSourcePos
-                                                { _line = 0
-                                                , _col = 41
+                                                { _line = 1
+                                                , _col = 19
                                                 }
                                             , _end = AlexSourcePos
-                                                { _line = 0
-                                                , _col = 44
+                                                { _line = 1
+                                                , _col = 22
                                                 }
                                             }
                                         ) 100

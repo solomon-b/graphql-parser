@@ -70,11 +70,11 @@
             ( ScalarTypeDefinition
                 { _stSpan = Span
                     { _start = AlexSourcePos
-                        { _line = 1
+                        { _line = 2
                         , _col = 1
                         }
                     , _end = AlexSourcePos
-                        { _line = 1
+                        { _line = 2
                         , _col = 67
                         }
                     }
@@ -84,11 +84,11 @@
                     ( Directive
                         { _dSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 1
+                                { _line = 2
                                 , _col = 12
                                 }
                             , _end = AlexSourcePos
-                                { _line = 1
+                                { _line = 2
                                 , _col = 67
                                 }
                             }
@@ -97,11 +97,11 @@
                             ( Arguments
                                 { argSpan = Span
                                     { _start = AlexSourcePos
-                                        { _line = 1
+                                        { _line = 2
                                         , _col = 25
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 1
+                                        { _line = 2
                                         , _col = 67
                                         }
                                     }
@@ -111,11 +111,11 @@
                                         , VString
                                             ( Span
                                                 { _start = AlexSourcePos
-                                                    { _line = 1
+                                                    { _line = 2
                                                     , _col = 30
                                                     }
                                                 , _end = AlexSourcePos
-                                                    { _line = 1
+                                                    { _line = 2
                                                     , _col = 67
                                                     }
                                                 }

@@ -4,12 +4,12 @@
             ( ObjectTypeDefinition
                 { _otdSpan = Span
                     { _start = AlexSourcePos
-                        { _line = 1
+                        { _line = 0
                         , _col = 1
                         }
                     , _end = AlexSourcePos
-                        { _line = 7
-                        , _col = 60
+                        { _line = 3
+                        , _col = 2
                         }
                     }
                 , _otdDescription = Nothing
@@ -20,23 +20,23 @@
                     ( FieldsDefinition
                         { _fdSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 5
-                                , _col = 1
+                                { _line = 0
+                                , _col = 18
                                 }
                             , _end = AlexSourcePos
-                                { _line = 7
-                                , _col = 60
+                                { _line = 3
+                                , _col = 2
                                 }
                             }
                         , _fdDefinitions = FieldDefinition
                             { _fldSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 5
+                                    { _line = 1
                                     , _col = 3
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 5
-                                    , _col = 21
+                                    { _line = 1
+                                    , _col = 19
                                     }
                                 }
                             , _fldDescription = Nothing
@@ -45,12 +45,12 @@
                             , _fldType = NamedType
                                 ( Span
                                     { _start = AlexSourcePos
-                                        { _line = 5
-                                        , _col = 15
+                                        { _line = 1
+                                        , _col = 13
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 5
-                                        , _col = 21
+                                        { _line = 1
+                                        , _col = 19
                                         }
                                     }
                                 ) "String"
@@ -59,12 +59,12 @@
                             [ FieldDefinition
                                 { _fldSpan = Span
                                     { _start = AlexSourcePos
-                                        { _line = 7
-                                        , _col = 2
+                                        { _line = 2
+                                        , _col = 3
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 7
-                                        , _col = 58
+                                        { _line = 2
+                                        , _col = 57
                                         }
                                     }
                                 , _fldDescription = Nothing
@@ -73,12 +73,12 @@
                                 , _fldType = NamedType
                                     ( Span
                                         { _start = AlexSourcePos
-                                            { _line = 7
-                                            , _col = 14
+                                            { _line = 2
+                                            , _col = 13
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 7
-                                            , _col = 20
+                                            { _line = 2
+                                            , _col = 19
                                             }
                                         }
                                     ) "String"
@@ -86,12 +86,12 @@
                                     ( Directive
                                         { _dSpan = Span
                                             { _start = AlexSourcePos
-                                                { _line = 7
-                                                , _col = 21
+                                                { _line = 2
+                                                , _col = 20
                                                 }
                                             , _end = AlexSourcePos
-                                                { _line = 7
-                                                , _col = 58
+                                                { _line = 2
+                                                , _col = 57
                                                 }
                                             }
                                         , _dName = "deprecated"
@@ -99,12 +99,12 @@
                                             ( Arguments
                                                 { argSpan = Span
                                                     { _start = AlexSourcePos
-                                                        { _line = 7
-                                                        , _col = 33
+                                                        { _line = 2
+                                                        , _col = 32
                                                         }
                                                     , _end = AlexSourcePos
-                                                        { _line = 7
-                                                        , _col = 58
+                                                        { _line = 2
+                                                        , _col = 57
                                                         }
                                                     }
                                                 , argArguments = fromList
@@ -113,12 +113,12 @@
                                                         , VString
                                                             ( Span
                                                                 { _start = AlexSourcePos
-                                                                    { _line = 7
-                                                                    , _col = 41
+                                                                    { _line = 2
+                                                                    , _col = 40
                                                                     }
                                                                 , _end = AlexSourcePos
-                                                                    { _line = 7
-                                                                    , _col = 58
+                                                                    { _line = 2
+                                                                    , _col = 57
                                                                     }
                                                                 }
                                                             ) "Use `newField`."

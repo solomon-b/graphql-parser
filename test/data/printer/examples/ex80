@@ -5,11 +5,11 @@
                 { _iotSpan = Span
                     { _start = AlexSourcePos
                         { _line = 0
-                        , _col = 2
+                        , _col = 1
                         }
                     , _end = AlexSourcePos
-                        { _line = 0
-                        , _col = 52
+                        { _line = 3
+                        , _col = 2
                         }
                     }
                 , _iotDescription = Nothing
@@ -20,22 +20,22 @@
                         { _ifdSpan = Span
                             { _start = AlexSourcePos
                                 { _line = 0
-                                , _col = 17
+                                , _col = 15
                                 }
                             , _end = AlexSourcePos
-                                { _line = 0
-                                , _col = 52
+                                { _line = 3
+                                , _col = 2
                                 }
                             }
                         , _ifdDefinition = InputValueDefinition
                             { _ivdSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 0
-                                    , _col = 19
+                                    { _line = 1
+                                    , _col = 3
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 0
-                                    , _col = 32
+                                    { _line = 1
+                                    , _col = 16
                                     }
                                 }
                             , _ivdDescription = Nothing
@@ -43,12 +43,12 @@
                             , _ivdType = NamedType
                                 ( Span
                                     { _start = AlexSourcePos
-                                        { _line = 0
-                                        , _col = 25
+                                        { _line = 1
+                                        , _col = 9
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 0
-                                        , _col = 32
+                                        { _line = 1
+                                        , _col = 16
                                         }
                                     }
                                 ) "Example"
@@ -58,12 +58,12 @@
                             [ InputValueDefinition
                                 { _ivdSpan = Span
                                     { _start = AlexSourcePos
-                                        { _line = 0
-                                        , _col = 36
+                                        { _line = 2
+                                        , _col = 3
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 0
-                                        , _col = 49
+                                        { _line = 2
+                                        , _col = 16
                                         }
                                     }
                                 , _ivdDescription = Nothing
@@ -71,12 +71,12 @@
                                 , _ivdType = NamedType
                                     ( Span
                                         { _start = AlexSourcePos
-                                            { _line = 0
-                                            , _col = 43
+                                            { _line = 2
+                                            , _col = 10
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 0
-                                            , _col = 49
+                                            { _line = 2
+                                            , _col = 16
                                             }
                                         }
                                     ) "String"

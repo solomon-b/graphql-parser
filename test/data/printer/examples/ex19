@@ -7,8 +7,8 @@
                     , _col = 1
                     }
                 , _end = AlexSourcePos
-                    { _line = 10
-                    , _col = 49
+                    { _line = 9
+                    , _col = 2
                     }
                 }
             , _odType = OperationTypeQuery
@@ -19,12 +19,12 @@
                 ( Field
                     { _fSpan = Span
                         { _start = AlexSourcePos
-                            { _line = 5
-                            , _col = 1
+                            { _line = 1
+                            , _col = 3
                             }
                         , _end = AlexSourcePos
-                            { _line = 10
-                            , _col = 48
+                            { _line = 8
+                            , _col = 4
                             }
                         }
                     , _fAlias = Nothing
@@ -33,12 +33,12 @@
                         ( Arguments
                             { argSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 6
-                                    , _col = 2
+                                    { _line = 1
+                                    , _col = 8
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 6
-                                    , _col = 7
+                                    { _line = 1
+                                    , _col = 13
                                     }
                                 }
                             , argArguments = fromList
@@ -47,12 +47,12 @@
                                     , VInt
                                         ( Span
                                             { _start = AlexSourcePos
-                                                { _line = 6
-                                                , _col = 6
+                                                { _line = 1
+                                                , _col = 12
                                                 }
                                             , _end = AlexSourcePos
-                                                { _line = 6
-                                                , _col = 7
+                                                { _line = 1
+                                                , _col = 13
                                                 }
                                             }
                                         ) 4
@@ -66,12 +66,12 @@
                             ( Field
                                 { _fSpan = Span
                                     { _start = AlexSourcePos
-                                        { _line = 8
-                                        , _col = 3
+                                        { _line = 2
+                                        , _col = 5
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 8
-                                        , _col = 42
+                                        { _line = 4
+                                        , _col = 6
                                         }
                                     }
                                 , _fAlias = Nothing
@@ -80,12 +80,12 @@
                                     ( Arguments
                                         { argSpan = Span
                                             { _start = AlexSourcePos
-                                                { _line = 8
-                                                , _col = 12
+                                                { _line = 2
+                                                , _col = 13
                                                 }
                                             , _end = AlexSourcePos
-                                                { _line = 8
-                                                , _col = 21
+                                                { _line = 2
+                                                , _col = 22
                                                 }
                                             }
                                         , argArguments = fromList
@@ -94,12 +94,12 @@
                                                 , VInt
                                                     ( Span
                                                         { _start = AlexSourcePos
-                                                            { _line = 8
-                                                            , _col = 19
+                                                            { _line = 2
+                                                            , _col = 20
                                                             }
                                                         , _end = AlexSourcePos
-                                                            { _line = 8
-                                                            , _col = 21
+                                                            { _line = 2
+                                                            , _col = 22
                                                             }
                                                         }
                                                     ) 10
@@ -113,12 +113,12 @@
                                         ( FragmentSpread
                                             { _fsSpan = Span
                                                 { _start = AlexSourcePos
-                                                    { _line = 8
-                                                    , _col = 25
+                                                    { _line = 3
+                                                    , _col = 7
                                                     }
                                                 , _end = AlexSourcePos
-                                                    { _line = 8
-                                                    , _col = 40
+                                                    { _line = 3
+                                                    , _col = 22
                                                     }
                                                 }
                                             , _fsName = "friendFields"
@@ -132,12 +132,12 @@
                                 ( Field
                                     { _fSpan = Span
                                         { _start = AlexSourcePos
-                                            { _line = 10
-                                            , _col = 2
+                                            { _line = 5
+                                            , _col = 5
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 10
-                                            , _col = 47
+                                            { _line = 7
+                                            , _col = 6
                                             }
                                         }
                                     , _fAlias = Nothing
@@ -146,12 +146,12 @@
                                         ( Arguments
                                             { argSpan = Span
                                                 { _start = AlexSourcePos
-                                                    { _line = 10
-                                                    , _col = 17
+                                                    { _line = 5
+                                                    , _col = 19
                                                     }
                                                 , _end = AlexSourcePos
-                                                    { _line = 10
-                                                    , _col = 26
+                                                    { _line = 5
+                                                    , _col = 28
                                                     }
                                                 }
                                             , argArguments = fromList
@@ -160,12 +160,12 @@
                                                     , VInt
                                                         ( Span
                                                             { _start = AlexSourcePos
-                                                                { _line = 10
-                                                                , _col = 24
+                                                                { _line = 5
+                                                                , _col = 26
                                                                 }
                                                             , _end = AlexSourcePos
-                                                                { _line = 10
-                                                                , _col = 26
+                                                                { _line = 5
+                                                                , _col = 28
                                                                 }
                                                             }
                                                         ) 10
@@ -179,12 +179,12 @@
                                             ( FragmentSpread
                                                 { _fsSpan = Span
                                                     { _start = AlexSourcePos
-                                                        { _line = 10
-                                                        , _col = 30
+                                                        { _line = 6
+                                                        , _col = 7
                                                         }
                                                     , _end = AlexSourcePos
-                                                        { _line = 10
-                                                        , _col = 45
+                                                        { _line = 6
+                                                        , _col = 22
                                                         }
                                                     }
                                                 , _fsName = "friendFields"
@@ -210,8 +210,8 @@
                     , _col = 1
                     }
                 , _end = AlexSourcePos
-                    { _line = 11
-                    , _col = 74
+                    { _line = 15
+                    , _col = 2
                     }
                 }
             , _frdName = "friendFields"
@@ -222,12 +222,12 @@
                 ( Field
                     { _fSpan = Span
                         { _start = AlexSourcePos
-                            { _line = 11
-                            , _col = 34
+                            { _line = 12
+                            , _col = 3
                             }
                         , _end = AlexSourcePos
-                            { _line = 11
-                            , _col = 36
+                            { _line = 12
+                            , _col = 5
                             }
                         }
                     , _fAlias = Nothing
@@ -241,12 +241,12 @@
                     ( Field
                         { _fSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 11
-                                , _col = 41
+                                { _line = 13
+                                , _col = 3
                                 }
                             , _end = AlexSourcePos
-                                { _line = 11
-                                , _col = 45
+                                { _line = 13
+                                , _col = 7
                                 }
                             }
                         , _fAlias = Nothing
@@ -260,12 +260,12 @@
                     ( Field
                         { _fSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 11
-                                , _col = 50
+                                { _line = 14
+                                , _col = 3
                                 }
                             , _end = AlexSourcePos
-                                { _line = 11
-                                , _col = 70
+                                { _line = 14
+                                , _col = 22
                                 }
                             }
                         , _fAlias = Nothing
@@ -274,12 +274,12 @@
                             ( Arguments
                                 { argSpan = Span
                                     { _start = AlexSourcePos
-                                        { _line = 11
-                                        , _col = 62
+                                        { _line = 14
+                                        , _col = 14
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 11
-                                        , _col = 70
+                                        { _line = 14
+                                        , _col = 22
                                         }
                                     }
                                 , argArguments = fromList
@@ -288,12 +288,12 @@
                                         , VInt
                                             ( Span
                                                 { _start = AlexSourcePos
-                                                    { _line = 11
-                                                    , _col = 68
+                                                    { _line = 14
+                                                    , _col = 20
                                                     }
                                                 , _end = AlexSourcePos
-                                                    { _line = 11
-                                                    , _col = 70
+                                                    { _line = 14
+                                                    , _col = 22
                                                     }
                                                 }
                                             ) 50

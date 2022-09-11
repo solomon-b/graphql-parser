@@ -1,3 +1,0 @@
-type ExampleType {
-  oldField: String @deprecated
-}

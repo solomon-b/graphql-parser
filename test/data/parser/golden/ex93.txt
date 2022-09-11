@@ -25,7 +25,7 @@
                             , _col = 34
                             }
                         }
-                    , _vdName = "someTest"
+                    , _vdName = "$someTest"
                     , _vdType = NonNullType
                         ( Span
                             { _start = AlexSourcePos
@@ -110,7 +110,7 @@
                                                         , _col = 40
                                                         }
                                                     }
-                                                ) "someTest"
+                                                ) "$someTest"
                                             )
                                         ]
                                     }

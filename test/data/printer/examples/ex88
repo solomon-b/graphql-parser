@@ -4,11 +4,11 @@
             { _ddSpan = Span
                 { _start = AlexSourcePos
                     { _line = 0
-                    , _col = 2
+                    , _col = 1
                     }
                 , _end = AlexSourcePos
                     { _line = 0
-                    , _col = 32
+                    , _col = 28
                     }
                 }
             , _ddDescription = Nothing
@@ -19,11 +19,11 @@
                     ( Span
                         { _start = AlexSourcePos
                             { _line = 0
-                            , _col = 27
+                            , _col = 23
                             }
                         , _end = AlexSourcePos
                             { _line = 0
-                            , _col = 32
+                            , _col = 28
                             }
                         }
                     ) EDLFIELD
@@ -36,12 +36,12 @@
         ( FragmentDefinition
             { _frdSpan = Span
                 { _start = AlexSourcePos
-                    { _line = 1
+                    { _line = 2
                     , _col = 1
                     }
                 , _end = AlexSourcePos
-                    { _line = 1
-                    , _col = 55
+                    { _line = 4
+                    , _col = 2
                     }
                 }
             , _frdName = "SomeFragment"
@@ -52,12 +52,12 @@
                 ( Field
                     { _fSpan = Span
                         { _start = AlexSourcePos
-                            { _line = 1
-                            , _col = 38
+                            { _line = 3
+                            , _col = 3
                             }
                         , _end = AlexSourcePos
-                            { _line = 1
-                            , _col = 53
+                            { _line = 3
+                            , _col = 17
                             }
                         }
                     , _fAlias = Nothing
@@ -67,12 +67,12 @@
                         ( Directive
                             { _dSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 1
-                                    , _col = 45
+                                    { _line = 3
+                                    , _col = 9
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 1
-                                    , _col = 53
+                                    { _line = 3
+                                    , _col = 17
                                     }
                                 }
                             , _dName = "example"

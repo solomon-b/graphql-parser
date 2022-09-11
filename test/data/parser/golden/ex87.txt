@@ -25,7 +25,7 @@
                             , _col = 40
                             }
                         }
-                    , _vdName = "var"
+                    , _vdName = "$var"
                     , _vdType = NamedType
                         ( Span
                             { _start = AlexSourcePos
@@ -83,7 +83,7 @@
                                                 , _col = 39
                                                 }
                                             }
-                                        ) "var"
+                                        ) "$var"
                                     )
                                 ]
                             }

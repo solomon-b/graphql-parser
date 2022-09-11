@@ -7,8 +7,8 @@
                     , _col = 1
                     }
                 , _end = AlexSourcePos
-                    { _line = 0
-                    , _col = 53
+                    { _line = 4
+                    , _col = 2
                     }
                 }
             , _odType = OperationTypeMutation
@@ -19,12 +19,12 @@
                 ( Field
                     { _fSpan = Span
                         { _start = AlexSourcePos
-                            { _line = 0
-                            , _col = 15
+                            { _line = 1
+                            , _col = 3
                             }
                         , _end = AlexSourcePos
-                            { _line = 0
-                            , _col = 52
+                            { _line = 3
+                            , _col = 4
                             }
                         }
                     , _fAlias = Nothing
@@ -33,12 +33,12 @@
                         ( Arguments
                             { argSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 0
-                                    , _col = 24
+                                    { _line = 1
+                                    , _col = 11
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 0
-                                    , _col = 36
+                                    { _line = 1
+                                    , _col = 23
                                     }
                                 }
                             , argArguments = fromList
@@ -47,12 +47,12 @@
                                     , VString
                                         ( Span
                                             { _start = AlexSourcePos
-                                                { _line = 0
-                                                , _col = 30
+                                                { _line = 1
+                                                , _col = 17
                                                 }
                                             , _end = AlexSourcePos
-                                                { _line = 0
-                                                , _col = 36
+                                                { _line = 1
+                                                , _col = 23
                                                 }
                                             }
                                         ) "Zuck"
@@ -66,12 +66,12 @@
                             ( Field
                                 { _fSpan = Span
                                     { _start = AlexSourcePos
-                                        { _line = 0
-                                        , _col = 41
+                                        { _line = 2
+                                        , _col = 5
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 0
-                                        , _col = 48
+                                        { _line = 2
+                                        , _col = 12
                                         }
                                     }
                                 , _fAlias = Nothing

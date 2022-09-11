@@ -1,5 +1,0 @@
-query {
-  id
-  firstName
-  lastName
-}

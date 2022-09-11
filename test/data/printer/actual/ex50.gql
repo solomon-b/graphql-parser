@@ -1,0 +1,6 @@
+query {
+  name
+  relationship {
+    name
+  }
+}

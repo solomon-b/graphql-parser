@@ -7,8 +7,8 @@
                     , _col = 1
                     }
                 , _end = AlexSourcePos
-                    { _line = 4
-                    , _col = 44
+                    { _line = 2
+                    , _col = 2
                     }
                 }
             , _odType = OperationTypeQuery
@@ -17,24 +17,24 @@
                 ( VariableDefinition
                     { _vdSpan = Span
                         { _start = AlexSourcePos
-                            { _line = 2
-                            , _col = 2
+                            { _line = 0
+                            , _col = 28
                             }
                         , _end = AlexSourcePos
-                            { _line = 2
-                            , _col = 14
+                            { _line = 0
+                            , _col = 40
                             }
                         }
-                    , _vdName = "var"
+                    , _vdName = "$var"
                     , _vdType = NamedType
                         ( Span
                             { _start = AlexSourcePos
-                                { _line = 2
-                                , _col = 8
+                                { _line = 0
+                                , _col = 34
                                 }
                             , _end = AlexSourcePos
-                                { _line = 2
-                                , _col = 14
+                                { _line = 0
+                                , _col = 40
                                 }
                             }
                         ) "String"
@@ -47,12 +47,12 @@
                 ( Field
                     { _fSpan = Span
                         { _start = AlexSourcePos
-                            { _line = 4
+                            { _line = 1
                             , _col = 3
                             }
                         , _end = AlexSourcePos
-                            { _line = 4
-                            , _col = 40
+                            { _line = 1
+                            , _col = 39
                             }
                         }
                     , _fAlias = Nothing
@@ -61,12 +61,12 @@
                         ( Arguments
                             { argSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 4
-                                    , _col = 24
+                                    { _line = 1
+                                    , _col = 23
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 4
-                                    , _col = 40
+                                    { _line = 1
+                                    , _col = 39
                                     }
                                 }
                             , argArguments = fromList
@@ -75,15 +75,15 @@
                                     , VVar
                                         ( Span
                                             { _start = AlexSourcePos
-                                                { _line = 4
-                                                , _col = 36
+                                                { _line = 1
+                                                , _col = 35
                                                 }
                                             , _end = AlexSourcePos
-                                                { _line = 4
-                                                , _col = 40
+                                                { _line = 1
+                                                , _col = 39
                                                 }
                                             }
-                                        ) "var"
+                                        ) "$var"
                                     )
                                 ]
                             }

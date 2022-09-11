@@ -1,2 +1,0 @@
-scalar UUID @specifiedBy(url: "https://tools.ietf.org/html/rfc4122")
-scalar URL @specifiedBy(url: "https://tools.ietf.org/html/rfc3986")

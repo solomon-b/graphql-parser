@@ -7,8 +7,8 @@
                     , _col = 1
                     }
                 , _end = AlexSourcePos
-                    { _line = 4
-                    , _col = 47
+                    { _line = 2
+                    , _col = 2
                     }
                 }
             , _odType = OperationTypeQuery
@@ -17,36 +17,36 @@
                 ( VariableDefinition
                     { _vdSpan = Span
                         { _start = AlexSourcePos
-                            { _line = 2
-                            , _col = 2
+                            { _line = 0
+                            , _col = 15
                             }
                         , _end = AlexSourcePos
-                            { _line = 2
-                            , _col = 21
+                            { _line = 0
+                            , _col = 34
                             }
                         }
-                    , _vdName = "someTest"
+                    , _vdName = "$someTest"
                     , _vdType = NonNullType
                         ( Span
                             { _start = AlexSourcePos
-                                { _line = 2
-                                , _col = 13
+                                { _line = 0
+                                , _col = 26
                                 }
                             , _end = AlexSourcePos
-                                { _line = 2
-                                , _col = 21
+                                { _line = 0
+                                , _col = 34
                                 }
                             }
                         )
                         ( NamedType
                             ( Span
                                 { _start = AlexSourcePos
-                                    { _line = 2
-                                    , _col = 13
+                                    { _line = 0
+                                    , _col = 26
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 2
-                                    , _col = 20
+                                    { _line = 0
+                                    , _col = 33
                                     }
                                 }
                             ) "Boolean"
@@ -60,12 +60,12 @@
                 ( Field
                     { _fSpan = Span
                         { _start = AlexSourcePos
-                            { _line = 4
+                            { _line = 1
                             , _col = 3
                             }
                         , _end = AlexSourcePos
-                            { _line = 4
-                            , _col = 44
+                            { _line = 1
+                            , _col = 43
                             }
                         }
                     , _fAlias = Nothing
@@ -75,12 +75,12 @@
                         ( Directive
                             { _dSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 4
-                                    , _col = 22
+                                    { _line = 1
+                                    , _col = 21
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 4
-                                    , _col = 44
+                                    { _line = 1
+                                    , _col = 43
                                     }
                                 }
                             , _dName = "include"
@@ -88,12 +88,12 @@
                                 ( Arguments
                                     { argSpan = Span
                                         { _start = AlexSourcePos
-                                            { _line = 4
-                                            , _col = 31
+                                            { _line = 1
+                                            , _col = 30
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 4
-                                            , _col = 44
+                                            { _line = 1
+                                            , _col = 43
                                             }
                                         }
                                     , argArguments = fromList
@@ -102,15 +102,15 @@
                                             , VVar
                                                 ( Span
                                                     { _start = AlexSourcePos
-                                                        { _line = 4
-                                                        , _col = 35
+                                                        { _line = 1
+                                                        , _col = 34
                                                         }
                                                     , _end = AlexSourcePos
-                                                        { _line = 4
-                                                        , _col = 44
+                                                        { _line = 1
+                                                        , _col = 43
                                                         }
                                                     }
-                                                ) "someTest"
+                                                ) "$someTest"
                                             )
                                         ]
                                     }

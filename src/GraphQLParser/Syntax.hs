@@ -12,6 +12,7 @@ import Data.Foldable
 import Data.HashMap.Strict (HashMap)
 import Data.HashMap.Strict qualified as Map
 import Data.Hashable (Hashable)
+import Data.List qualified as List
 import Data.List.NonEmpty qualified as NE
 import Data.Scientific (Scientific)
 import Data.Text (Text)
@@ -21,7 +22,7 @@ import Data.Vector qualified as V
 import GHC.Generics (Generic)
 import GraphQLParser.Span qualified as S
 import Language.Haskell.TH.Syntax (Lift)
-import Prettyprinter (Doc, Pretty (..), defaultLayoutOptions, dquote, encloseSep, flatAlt, group, hsep, indent, layoutPretty, line, punctuate, sep, tupled, vsep, (<+>))
+import Prettyprinter (Doc, Pretty (..), defaultLayoutOptions, dquote, encloseSep, flatAlt, group, hsep, indent, layoutPretty, line, punctuate, sep, tupled, vsep, (<+>), concatWith, surround)
 import Prettyprinter.Render.Text (renderStrict)
 
 --------------------------------------------------------------------------------
@@ -35,7 +36,7 @@ newtype Document = Document {getDefinitions :: [Definition]}
   deriving newtype (Eq, Ord, Show, Read, NFData)
 
 instance Pretty Document where
-  pretty (Document defs) = foldMap ((<> line) . pretty) defs
+  pretty (Document defs) = concatWith (surround (line <> line)) $ fmap pretty defs
 
 data Definition = DefinitionExecutable ExecutableDefinition | DefinitionTypeSystem TypeSystemDefinition
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
@@ -94,7 +95,9 @@ instance S.Located SchemaDefinition where
 
 instance Pretty SchemaDefinition where
   pretty SchemaDefinition {..} =
-    withDescription _sdDescription $ "schema" <+?> _sdDirectives <+> pretty _sdRootOperationTypeDefinitions
+    withDescription _sdDescription $
+      "schema" <+?> _sdDirectives
+        <+> pretty _sdRootOperationTypeDefinitions
 
 newtype RootOperationTypesDefinition = RootOperationTypesDefinition
   {unRootOperationTypesDefinition :: NE.NonEmpty RootOperationTypeDefinition}
@@ -104,7 +107,7 @@ newtype RootOperationTypesDefinition = RootOperationTypesDefinition
 
 instance Pretty RootOperationTypesDefinition where
   pretty RootOperationTypesDefinition {..} =
-    encloseSep "{" "}" line (foldr (\x xs -> pretty x : xs) mempty unRootOperationTypesDefinition)
+    vsep ["{", indent 2 (vsep (NE.toList $ fmap pretty unRootOperationTypesDefinition)), "}"]
 
 -- | A 'SchemaDefiniton' defines the initial root operation type for
 -- each kind of operation it supports: @Query@, @Mutation@, and
@@ -279,8 +282,13 @@ instance S.Located UnionTypeDefinition where
 instance Pretty UnionTypeDefinition where
   pretty UnionTypeDefinition {..} =
     withDescription _utdDescription $
-      "union" <+> pretty _utdName <+?> _utdDirectives <+> "="
-        <+> (hsep $ punctuate " |" $ fmap pretty _utdMemberTypes)
+      case length _utdMemberTypes > 2 of
+        True ->
+          vsep
+            [ "union" <+> pretty _utdName <+?> _utdDirectives <+> "=",
+              indent 2 $ vsep $ fmap (("|" <+>) . pretty) _utdMemberTypes
+            ]
+        False -> "union" <+> pretty _utdName <+?> _utdDirectives <+> "=" <+> hsep (List.intersperse "|" $ fmap (pretty) _utdMemberTypes)
 
 -- | GraphQL Enum types, like Scalar types, also represent leaf values
 -- in a GraphQL type system. However Enum types describe the set of
@@ -362,7 +370,7 @@ newtype ArgumentsDefinition = ArgumentsDefinition {unArgumentsDefinition :: NE.N
 
 instance Pretty ArgumentsDefinition where
   pretty ArgumentsDefinition {..} =
-    "(!" <> foldl (\acc x -> acc <> pretty x) "" unArgumentsDefinition <> ")"
+    "(" <> foldl (\acc x -> acc <> pretty x) "" unArgumentsDefinition <> ")"
 
 data InputValueDefinition = InputValueDefinition
   { _ivdSpan :: S.Span,
@@ -402,8 +410,13 @@ instance S.Located DirectiveDefinition where
 instance Pretty DirectiveDefinition where
   pretty DirectiveDefinition {..} =
     withDescription _ddDescription $
-      "directive" <+> "@" <> pretty _ddName <+?> _ddArguments <+> "on"
-        <+> (sep $ punctuate " |" $ fmap pretty _ddLocations)
+      case length _ddLocations == 1 of
+        False ->
+          vsep
+            [ ("directive" <+> "@" <> pretty _ddName <+?> _ddArguments <+> "on"),
+              indent 2 (vsep (fmap (("|" <+>) . pretty) _ddLocations))
+            ]
+        True -> "directive" <+> "@" <> pretty _ddName <+?> _ddArguments <+> "on" <+> (sep $ fmap pretty _ddLocations)
 
 data DirectiveLocation = ExecDirLoc S.Span ExecutableDirectiveLocation | TypeSysDirLoc S.Span TypeSystemDirectiveLocation
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
@@ -519,7 +532,7 @@ instance S.Located OperationDefinition where
 
 instance Pretty OperationDefinition where
   pretty OperationDefinition {..} =
-    (pretty _odType <+?> _odName <+?> _odVariables <+?> _odDirectives) <+> pretty _odSelectionSet
+    (pretty _odType <+?> _odName <-?> _odVariables <+?> _odDirectives) <+> pretty _odSelectionSet
 
 --------------------------------------------------------------------------------
 -- Fragments
@@ -615,8 +628,8 @@ instance S.Located Field where
 
 instance Pretty Field where
   pretty Field {..} =
-    let fieldAlias' = maybe "" ((<> ":") . pretty) _fAlias
-     in fieldAlias' <> pretty _fName <+?> _fArguments <+?> _fDirectives <+?> _fSelectionSet
+    let fieldAlias' = maybe "" ((<> ": ") . pretty) _fAlias
+     in fieldAlias' <> pretty _fName <-?> _fArguments <+?> _fDirectives <+?> _fSelectionSet
 
 --------------------------------------------------------------------------------
 -- Selections
@@ -681,7 +694,7 @@ instance S.Located Value where
 
 instance Pretty Value where
   pretty = \case
-    VVar _sp var -> "$" <> pretty var
+    VVar _sp var -> pretty var
     VNull _sp -> "null"
     VInt _sp n -> pretty n
     VFloat _sp sci -> pretty $ show sci
@@ -723,7 +736,8 @@ instance Show Description where
 
 instance Pretty Description where
   -- TODO(SOLOMON): Distinguish block from literal string quotes
-  pretty Description {..} = dquote <> dquote <> dquote <> pretty unDescription <> dquote <> dquote <> dquote
+  pretty Description {..} =
+    vsep [dquote <> dquote <> dquote, pretty unDescription, dquote <> dquote <> dquote]
 
 data OperationType
   = OperationTypeQuery

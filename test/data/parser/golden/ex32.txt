@@ -25,7 +25,7 @@
                             , _col = 41
                             }
                         }
-                    , _vdName = "devicePicSize"
+                    , _vdName = "$devicePicSize"
                     , _vdType = NamedType
                         ( Span
                             { _start = AlexSourcePos
@@ -168,7 +168,7 @@
                                                                 , _col = 36
                                                                 }
                                                             }
-                                                        ) "devicePicSize"
+                                                        ) "$devicePicSize"
                                                     )
                                                 ]
                                             }

@@ -5,11 +5,11 @@
                 { _otdSpan = Span
                     { _start = AlexSourcePos
                         { _line = 0
-                        , _col = 2
+                        , _col = 1
                         }
                     , _end = AlexSourcePos
-                        { _line = 0
-                        , _col = 35
+                        { _line = 2
+                        , _col = 2
                         }
                     }
                 , _otdDescription = Nothing
@@ -21,22 +21,22 @@
                         { _fdSpan = Span
                             { _start = AlexSourcePos
                                 { _line = 0
-                                , _col = 15
+                                , _col = 12
                                 }
                             , _end = AlexSourcePos
-                                { _line = 0
-                                , _col = 35
+                                { _line = 2
+                                , _col = 2
                                 }
                             }
                         , _fdDefinitions = FieldDefinition
                             { _fldSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 0
-                                    , _col = 17
+                                    { _line = 1
+                                    , _col = 3
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 0
-                                    , _col = 33
+                                    { _line = 1
+                                    , _col = 17
                                     }
                                 }
                             , _fldDescription = Nothing
@@ -45,12 +45,12 @@
                             , _fldType = NamedType
                                 ( Span
                                     { _start = AlexSourcePos
-                                        { _line = 0
-                                        , _col = 27
+                                        { _line = 1
+                                        , _col = 11
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 0
-                                        , _col = 33
+                                        { _line = 1
+                                        , _col = 17
                                         }
                                     }
                                 ) "String"

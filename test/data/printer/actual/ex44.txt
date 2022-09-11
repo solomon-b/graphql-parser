@@ -1,5 +1,0 @@
-query {
-  name
-  age
-  picture
-}

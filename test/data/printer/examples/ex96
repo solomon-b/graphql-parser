@@ -5,11 +5,11 @@
                 { _stSpan = Span
                     { _start = AlexSourcePos
                         { _line = 0
-                        , _col = 2
+                        , _col = 1
                         }
                     , _end = AlexSourcePos
                         { _line = 0
-                        , _col = 69
+                        , _col = 68
                         }
                     }
                 , _stDescription = Nothing
@@ -19,11 +19,11 @@
                         { _dSpan = Span
                             { _start = AlexSourcePos
                                 { _line = 0
-                                , _col = 14
+                                , _col = 13
                                 }
                             , _end = AlexSourcePos
                                 { _line = 0
-                                , _col = 69
+                                , _col = 68
                                 }
                             }
                         , _dName = "specifiedBy"
@@ -32,11 +32,11 @@
                                 { argSpan = Span
                                     { _start = AlexSourcePos
                                         { _line = 0
-                                        , _col = 27
+                                        , _col = 26
                                         }
                                     , _end = AlexSourcePos
                                         { _line = 0
-                                        , _col = 69
+                                        , _col = 68
                                         }
                                     }
                                 , argArguments = fromList
@@ -46,11 +46,11 @@
                                             ( Span
                                                 { _start = AlexSourcePos
                                                     { _line = 0
-                                                    , _col = 32
+                                                    , _col = 31
                                                     }
                                                 , _end = AlexSourcePos
                                                     { _line = 0
-                                                    , _col = 69
+                                                    , _col = 68
                                                     }
                                                 }
                                             ) "https://tools.ietf.org/html/rfc4122"

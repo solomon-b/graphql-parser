@@ -1,4 +1,0 @@
-input Example {
-  self: Example
-  value: String
-}

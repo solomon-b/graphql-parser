@@ -7,8 +7,8 @@
                     , _col = 1
                     }
                 , _end = AlexSourcePos
-                    { _line = 0
-                    , _col = 72
+                    { _line = 8
+                    , _col = 2
                     }
                 }
             , _odType = OperationTypeQuery
@@ -19,12 +19,12 @@
                 ( Field
                     { _fSpan = Span
                         { _start = AlexSourcePos
-                            { _line = 0
-                            , _col = 12
+                            { _line = 1
+                            , _col = 3
                             }
                         , _end = AlexSourcePos
-                            { _line = 0
-                            , _col = 55
+                            { _line = 6
+                            , _col = 4
                             }
                         }
                     , _fAlias = Nothing
@@ -36,12 +36,12 @@
                             ( Field
                                 { _fSpan = Span
                                     { _start = AlexSourcePos
-                                        { _line = 0
-                                        , _col = 23
+                                        { _line = 2
+                                        , _col = 5
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 0
-                                        , _col = 27
+                                        { _line = 2
+                                        , _col = 9
                                         }
                                     }
                                 , _fAlias = Nothing
@@ -55,12 +55,12 @@
                                 ( InlineFragment
                                     { _ifSpan = Span
                                         { _start = AlexSourcePos
-                                            { _line = 0
-                                            , _col = 31
+                                            { _line = 3
+                                            , _col = 5
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 0
-                                            , _col = 54
+                                            { _line = 5
+                                            , _col = 6
                                             }
                                         }
                                     , _ifTypeCondition = Just
@@ -72,12 +72,12 @@
                                         ( Field
                                             { _fSpan = Span
                                                 { _start = AlexSourcePos
-                                                    { _line = 0
-                                                    , _col = 47
+                                                    { _line = 4
+                                                    , _col = 7
                                                     }
                                                 , _end = AlexSourcePos
-                                                    { _line = 0
-                                                    , _col = 50
+                                                    { _line = 4
+                                                    , _col = 10
                                                     }
                                                 }
                                             , _fAlias = Nothing
@@ -97,12 +97,12 @@
                     ( Field
                         { _fSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 0
-                                , _col = 57
+                                { _line = 7
+                                , _col = 3
                                 }
                             , _end = AlexSourcePos
-                                { _line = 0
-                                , _col = 68
+                                { _line = 7
+                                , _col = 14
                                 }
                             }
                         , _fAlias = Nothing

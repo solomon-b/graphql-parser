@@ -1,4 +1,0 @@
-input Point2D {
-  x: Float
-  y: Float
-}

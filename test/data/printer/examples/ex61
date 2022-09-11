@@ -5,11 +5,11 @@
                 { _otdSpan = Span
                     { _start = AlexSourcePos
                         { _line = 0
-                        , _col = 2
+                        , _col = 1
                         }
                     , _end = AlexSourcePos
-                        { _line = 0
-                        , _col = 54
+                        { _line = 2
+                        , _col = 2
                         }
                     }
                 , _otdDescription = Nothing
@@ -21,22 +21,22 @@
                         { _fdSpan = Span
                             { _start = AlexSourcePos
                                 { _line = 0
-                                , _col = 21
+                                , _col = 18
                                 }
                             , _end = AlexSourcePos
-                                { _line = 0
-                                , _col = 54
+                                { _line = 2
+                                , _col = 2
                                 }
                             }
                         , _fdDefinitions = FieldDefinition
                             { _fldSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 0
-                                    , _col = 23
+                                    { _line = 1
+                                    , _col = 3
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 0
-                                    , _col = 53
+                                    { _line = 1
+                                    , _col = 31
                                     }
                                 }
                             , _fldDescription = Nothing
@@ -45,12 +45,12 @@
                             , _fldType = NamedType
                                 ( Span
                                     { _start = AlexSourcePos
-                                        { _line = 0
-                                        , _col = 35
+                                        { _line = 1
+                                        , _col = 13
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 0
-                                        , _col = 41
+                                        { _line = 1
+                                        , _col = 19
                                         }
                                     }
                                 ) "String"
@@ -58,12 +58,12 @@
                                 ( Directive
                                     { _dSpan = Span
                                         { _start = AlexSourcePos
-                                            { _line = 0
-                                            , _col = 42
+                                            { _line = 1
+                                            , _col = 20
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 0
-                                            , _col = 53
+                                            { _line = 1
+                                            , _col = 31
                                             }
                                         }
                                     , _dName = "deprecated"

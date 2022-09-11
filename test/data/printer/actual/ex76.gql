@@ -1,0 +1,10 @@
+query {
+  firstSearchResult {
+    ... on Person {
+      name
+    }
+    ... on Photo {
+      height
+    }
+  }
+}

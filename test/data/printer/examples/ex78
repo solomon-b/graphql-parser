@@ -5,11 +5,11 @@
                 { _etdSpan = Span
                     { _start = AlexSourcePos
                         { _line = 0
-                        , _col = 2
+                        , _col = 1
                         }
                     , _end = AlexSourcePos
-                        { _line = 0
-                        , _col = 49
+                        { _line = 5
+                        , _col = 2
                         }
                     }
                 , _etdDescription = Nothing
@@ -19,12 +19,12 @@
                     [ EnumValueDefinition
                         { _evdSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 0
-                                , _col = 20
+                                { _line = 1
+                                , _col = 3
                                 }
                             , _end = AlexSourcePos
-                                { _line = 0
-                                , _col = 25
+                                { _line = 1
+                                , _col = 8
                                 }
                             }
                         , _evdDescription = Nothing
@@ -34,12 +34,12 @@
                     , EnumValueDefinition
                         { _evdSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 0
-                                , _col = 28
+                                { _line = 2
+                                , _col = 3
                                 }
                             , _end = AlexSourcePos
-                                { _line = 0
-                                , _col = 32
+                                { _line = 2
+                                , _col = 7
                                 }
                             }
                         , _evdDescription = Nothing
@@ -49,12 +49,12 @@
                     , EnumValueDefinition
                         { _evdSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 0
-                                , _col = 35
+                                { _line = 3
+                                , _col = 3
                                 }
                             , _end = AlexSourcePos
-                                { _line = 0
-                                , _col = 40
+                                { _line = 3
+                                , _col = 8
                                 }
                             }
                         , _evdDescription = Nothing
@@ -64,12 +64,12 @@
                     , EnumValueDefinition
                         { _evdSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 0
-                                , _col = 43
+                                { _line = 4
+                                , _col = 3
                                 }
                             , _end = AlexSourcePos
-                                { _line = 0
-                                , _col = 47
+                                { _line = 4
+                                , _col = 7
                                 }
                             }
                         , _evdDescription = Nothing

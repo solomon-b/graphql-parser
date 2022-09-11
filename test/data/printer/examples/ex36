@@ -7,8 +7,8 @@
                     , _col = 1
                     }
                 , _end = AlexSourcePos
-                    { _line = 0
-                    , _col = 78
+                    { _line = 5
+                    , _col = 2
                     }
                 }
             , _sdDescription = Just Description
@@ -18,12 +18,12 @@
             , _sdRootOperationTypeDefinitions = RootOperationTypeDefinition
                 { _rotdSpan = Span
                     { _start = AlexSourcePos
-                        { _line = 0
-                        , _col = 65
+                        { _line = 4
+                        , _col = 3
                         }
                     , _end = AlexSourcePos
-                        { _line = 0
-                        , _col = 77
+                        { _line = 4
+                        , _col = 15
                         }
                     }
                 , _rotdOperationType = OperationTypeQuery
@@ -38,11 +38,11 @@
             ( ObjectTypeDefinition
                 { _otdSpan = Span
                     { _start = AlexSourcePos
-                        { _line = 1
+                        { _line = 7
                         , _col = 1
                         }
                     , _end = AlexSourcePos
-                        { _line = 18
+                        { _line = 24
                         , _col = 2
                         }
                     }
@@ -56,23 +56,23 @@
                     ( FieldsDefinition
                         { _fdSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 6
-                                , _col = 1
+                                { _line = 10
+                                , _col = 12
                                 }
                             , _end = AlexSourcePos
-                                { _line = 18
+                                { _line = 24
                                 , _col = 2
                                 }
                             }
                         , _fdDefinitions = FieldDefinition
                             { _fldSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 6
-                                    , _col = 2
+                                    { _line = 11
+                                    , _col = 3
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 17
-                                    , _col = 7
+                                    { _line = 23
+                                    , _col = 12
                                     }
                                 }
                             , _fldDescription = Just Description
@@ -83,12 +83,12 @@
                                 ( InputValueDefinition
                                     { _ivdSpan = Span
                                         { _start = AlexSourcePos
-                                            { _line = 9
-                                            , _col = 2
+                                            { _line = 15
+                                            , _col = 5
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 12
-                                            , _col = 42
+                                            { _line = 18
+                                            , _col = 46
                                             }
                                         }
                                     , _ivdDescription = Just Description
@@ -98,12 +98,12 @@
                                     , _ivdType = NamedType
                                         ( Span
                                             { _start = AlexSourcePos
-                                                { _line = 11
-                                                , _col = 1
+                                                { _line = 16
+                                                , _col = 19
                                                 }
                                             , _end = AlexSourcePos
-                                                { _line = 11
-                                                , _col = 9
+                                                { _line = 16
+                                                , _col = 27
                                                 }
                                             }
                                         ) "Language"
@@ -111,12 +111,12 @@
                                         ( VString
                                             ( Span
                                                 { _start = AlexSourcePos
-                                                    { _line = 12
-                                                    , _col = 1
+                                                    { _line = 18
+                                                    , _col = 5
                                                     }
                                                 , _end = AlexSourcePos
-                                                    { _line = 12
-                                                    , _col = 42
+                                                    { _line = 18
+                                                    , _col = 46
                                                     }
                                                 }
                                             ) "The translated language to be returned."
@@ -126,12 +126,12 @@
                                     [ InputValueDefinition
                                         { _ivdSpan = Span
                                             { _start = AlexSourcePos
-                                                { _line = 14
-                                                , _col = 3
+                                                { _line = 19
+                                                , _col = 5
                                                 }
                                             , _end = AlexSourcePos
-                                                { _line = 14
-                                                , _col = 52
+                                                { _line = 21
+                                                , _col = 33
                                                 }
                                             }
                                         , _ivdDescription = Nothing
@@ -139,12 +139,12 @@
                                         , _ivdType = NamedType
                                             ( Span
                                                 { _start = AlexSourcePos
-                                                    { _line = 14
-                                                    , _col = 15
+                                                    { _line = 19
+                                                    , _col = 17
                                                     }
                                                 , _end = AlexSourcePos
-                                                    { _line = 14
-                                                    , _col = 23
+                                                    { _line = 19
+                                                    , _col = 25
                                                     }
                                                 }
                                             ) "Language"
@@ -152,12 +152,12 @@
                                             ( VString
                                                 ( Span
                                                     { _start = AlexSourcePos
-                                                        { _line = 14
-                                                        , _col = 24
+                                                        { _line = 21
+                                                        , _col = 5
                                                         }
                                                     , _end = AlexSourcePos
-                                                        { _line = 14
-                                                        , _col = 52
+                                                        { _line = 21
+                                                        , _col = 33
                                                         }
                                                     }
                                                 ) "The text to be translated."
@@ -167,12 +167,12 @@
                                     , InputValueDefinition
                                         { _ivdSpan = Span
                                             { _start = AlexSourcePos
-                                                { _line = 15
-                                                , _col = 3
+                                                { _line = 22
+                                                , _col = 5
                                                 }
                                             , _end = AlexSourcePos
-                                                { _line = 15
-                                                , _col = 15
+                                                { _line = 22
+                                                , _col = 17
                                                 }
                                             }
                                         , _ivdDescription = Nothing
@@ -180,12 +180,12 @@
                                         , _ivdType = NamedType
                                             ( Span
                                                 { _start = AlexSourcePos
-                                                    { _line = 15
-                                                    , _col = 9
+                                                    { _line = 22
+                                                    , _col = 11
                                                     }
                                                 , _end = AlexSourcePos
-                                                    { _line = 15
-                                                    , _col = 15
+                                                    { _line = 22
+                                                    , _col = 17
                                                     }
                                                 }
                                             ) "String"
@@ -197,12 +197,12 @@
                             , _fldType = NamedType
                                 ( Span
                                     { _start = AlexSourcePos
-                                        { _line = 17
-                                        , _col = 1
+                                        { _line = 23
+                                        , _col = 6
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 17
-                                        , _col = 7
+                                        { _line = 23
+                                        , _col = 12
                                         }
                                     }
                                 ) "String"
@@ -220,12 +220,12 @@
             ( EnumTypeDefinition
                 { _etdSpan = Span
                     { _start = AlexSourcePos
-                        { _line = 19
+                        { _line = 26
                         , _col = 1
                         }
                     , _end = AlexSourcePos
-                        { _line = 23
-                        , _col = 55
+                        { _line = 38
+                        , _col = 2
                         }
                     }
                 , _etdDescription = Just Description
@@ -237,12 +237,12 @@
                     [ EnumValueDefinition
                         { _evdSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 23
-                                , _col = 2
+                                { _line = 30
+                                , _col = 3
                                 }
                             , _end = AlexSourcePos
-                                { _line = 23
-                                , _col = 18
+                                { _line = 31
+                                , _col = 5
                                 }
                             }
                         , _evdDescription = Just Description
@@ -254,12 +254,12 @@
                     , EnumValueDefinition
                         { _evdSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 23
-                                , _col = 20
+                                { _line = 33
+                                , _col = 3
                                 }
                             , _end = AlexSourcePos
-                                { _line = 23
-                                , _col = 35
+                                { _line = 34
+                                , _col = 5
                                 }
                             }
                         , _evdDescription = Just Description
@@ -271,12 +271,12 @@
                     , EnumValueDefinition
                         { _evdSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 23
-                                , _col = 37
+                                { _line = 36
+                                , _col = 3
                                 }
                             , _end = AlexSourcePos
-                                { _line = 23
-                                , _col = 53
+                                { _line = 37
+                                , _col = 5
                                 }
                             }
                         , _evdDescription = Just Description

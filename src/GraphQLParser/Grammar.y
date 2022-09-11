@@ -409,7 +409,7 @@ valueConst
 
 variable :: { Loc Text }
 variable
-  : '$' ident { Loc (locate $1 <> locate $2) (unLoc $2) }
+  : '$' ident { Loc (locate $1 <> locate $2) ("$" <> unLoc $2) }
 
 stringValue :: { Loc Text }
 stringValue

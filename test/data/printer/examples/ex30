@@ -7,8 +7,8 @@
                     , _col = 1
                     }
                 , _end = AlexSourcePos
-                    { _line = 0
-                    , _col = 65
+                    { _line = 2
+                    , _col = 2
                     }
                 }
             , _odType = OperationTypeQuery
@@ -19,12 +19,12 @@
                 ( Field
                     { _fSpan = Span
                         { _start = AlexSourcePos
-                            { _line = 0
-                            , _col = 12
+                            { _line = 1
+                            , _col = 3
                             }
                         , _end = AlexSourcePos
-                            { _line = 0
-                            , _col = 61
+                            { _line = 1
+                            , _col = 54
                             }
                         }
                     , _fAlias = Nothing
@@ -33,12 +33,12 @@
                         ( Arguments
                             { argSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 0
-                                    , _col = 26
+                                    { _line = 1
+                                    , _col = 16
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 0
-                                    , _col = 61
+                                    { _line = 1
+                                    , _col = 54
                                     }
                                 }
                             , argArguments = fromList
@@ -47,12 +47,12 @@
                                     , VObject
                                         ( Span
                                             { _start = AlexSourcePos
-                                                { _line = 0
-                                                , _col = 36
+                                                { _line = 1
+                                                , _col = 26
                                                 }
                                             , _end = AlexSourcePos
-                                                { _line = 0
-                                                , _col = 61
+                                                { _line = 1
+                                                , _col = 54
                                                 }
                                             }
                                         )
@@ -62,12 +62,12 @@
                                                 , VFloat
                                                     ( Span
                                                         { _start = AlexSourcePos
-                                                            { _line = 0
-                                                            , _col = 42
+                                                            { _line = 1
+                                                            , _col = 45
                                                             }
                                                         , _end = AlexSourcePos
-                                                            { _line = 0
-                                                            , _col = 49
+                                                            { _line = 1
+                                                            , _col = 52
                                                             }
                                                         }
                                                     )
@@ -78,12 +78,12 @@
                                                 , VFloat
                                                     ( Span
                                                         { _start = AlexSourcePos
-                                                            { _line = 0
-                                                            , _col = 55
+                                                            { _line = 1
+                                                            , _col = 33
                                                             }
                                                         , _end = AlexSourcePos
-                                                            { _line = 0
-                                                            , _col = 60
+                                                            { _line = 1
+                                                            , _col = 38
                                                             }
                                                         }
                                                     ) 12.43

@@ -509,14 +509,21 @@ instance Pretty ExecutableDefinition where
     ExecutableDefinitionOperation od -> pretty od
     ExecutableDefinitionFragment fd -> pretty fd
 
--- | There are three types of operations that GraphQL models:
---
--- * query – a read-only fetch.
--- * mutation – a write followed by a fetch.
--- * subscription – a long-lived request that fetches data in response to source events.
---
--- Each operation is represented by an optional operation name and a selection set.
-data OperationDefinition = OperationDefinition
+
+data OperationDefinition 
+  = OperationDefinitionTyped TypedOperationDefinition
+  | OperationDefinitionUnTyped S.Span SelectionSet
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
+
+instance Pretty OperationDefinition where
+  pretty = \case
+    OperationDefinitionTyped od -> pretty od
+    OperationDefinitionUnTyped _ selSet -> pretty selSet
+
+-- | A typed GraphQL operation is represented by an optional operation
+-- name and a selection set.
+data TypedOperationDefinition = TypedOperationDefinition
   { _odSpan :: S.Span,
     _odType :: OperationType,
     _odName :: Maybe Name,
@@ -527,11 +534,11 @@ data OperationDefinition = OperationDefinition
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
 
-instance S.Located OperationDefinition where
+instance S.Located TypedOperationDefinition where
   locate = _odSpan
 
-instance Pretty OperationDefinition where
-  pretty OperationDefinition {..} =
+instance Pretty TypedOperationDefinition where
+  pretty TypedOperationDefinition {..} =
     (pretty _odType <+?> _odName <-?> _odVariables <+?> _odDirectives) <+> pretty _odSelectionSet
 
 --------------------------------------------------------------------------------
@@ -739,6 +746,11 @@ instance Pretty Description where
   pretty Description {..} =
     vsep [dquote <> dquote <> dquote, pretty unDescription, dquote <> dquote <> dquote]
 
+-- | There are three types of operations that GraphQL models:
+--
+-- * query – a read-only fetch.
+-- * mutation – a write followed by a fetch.
+-- * subscription – a long-lived request that fetches data in response to source events.
 data OperationType
   = OperationTypeQuery
   | OperationTypeMutation

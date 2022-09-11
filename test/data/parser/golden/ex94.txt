@@ -1,44 +1,33 @@
 [ DefinitionExecutable
     ( ExecutableDefinitionOperation
-        ( OperationDefinition
-            { _odSpan = Span
-                { _start = AlexSourcePos
-                    { _line = 0
-                    , _col = 1
-                    }
-                , _end = AlexSourcePos
-                    { _line = 2
-                    , _col = 2
-                    }
-                }
-            , _odType = OperationTypeQuery
-            , _odName = Just "myQuery"
-            , _odVariables = Just
-                ( VariableDefinition
-                    { _vdSpan = Span
-                        { _start = AlexSourcePos
-                            { _line = 0
-                            , _col = 15
-                            }
-                        , _end = AlexSourcePos
-                            { _line = 0
-                            , _col = 34
-                            }
+        ( OperationDefinitionTyped
+            ( TypedOperationDefinition
+                { _odSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 0
+                        , _col = 1
                         }
-                    , _vdName = "$someTest"
-                    , _vdType = NonNullType
-                        ( Span
+                    , _end = AlexSourcePos
+                        { _line = 2
+                        , _col = 2
+                        }
+                    }
+                , _odType = OperationTypeQuery
+                , _odName = Just "myQuery"
+                , _odVariables = Just
+                    ( VariableDefinition
+                        { _vdSpan = Span
                             { _start = AlexSourcePos
                                 { _line = 0
-                                , _col = 26
+                                , _col = 15
                                 }
                             , _end = AlexSourcePos
                                 { _line = 0
                                 , _col = 34
                                 }
                             }
-                        )
-                        ( NamedType
+                        , _vdName = "$someTest"
+                        , _vdType = NonNullType
                             ( Span
                                 { _start = AlexSourcePos
                                     { _line = 0
@@ -46,81 +35,94 @@
                                     }
                                 , _end = AlexSourcePos
                                     { _line = 0
-                                    , _col = 33
+                                    , _col = 34
                                     }
                                 }
-                            ) "Boolean"
-                        )
-                    , _vdDefaultValue = Nothing
-                    , _vdDirectives = Nothing
-                    } :| []
-                )
-            , _odDirectives = Nothing
-            , _odSelectionSet = SelectionField
-                ( Field
-                    { _fSpan = Span
-                        { _start = AlexSourcePos
-                            { _line = 1
-                            , _col = 3
-                            }
-                        , _end = AlexSourcePos
-                            { _line = 1
-                            , _col = 43
-                            }
-                        }
-                    , _fAlias = Nothing
-                    , _fName = "experimentalField"
-                    , _fArguments = Nothing
-                    , _fDirectives = Just
-                        ( Directive
-                            { _dSpan = Span
-                                { _start = AlexSourcePos
-                                    { _line = 1
-                                    , _col = 21
-                                    }
-                                , _end = AlexSourcePos
-                                    { _line = 1
-                                    , _col = 43
-                                    }
-                                }
-                            , _dName = "include"
-                            , _dArguments = Just
-                                ( Arguments
-                                    { argSpan = Span
-                                        { _start = AlexSourcePos
-                                            { _line = 1
-                                            , _col = 30
-                                            }
-                                        , _end = AlexSourcePos
-                                            { _line = 1
-                                            , _col = 43
-                                            }
+                            )
+                            ( NamedType
+                                ( Span
+                                    { _start = AlexSourcePos
+                                        { _line = 0
+                                        , _col = 26
                                         }
-                                    , argArguments = fromList
-                                        [
-                                            ( "if"
-                                            , VVar
-                                                ( Span
-                                                    { _start = AlexSourcePos
-                                                        { _line = 1
-                                                        , _col = 34
-                                                        }
-                                                    , _end = AlexSourcePos
-                                                        { _line = 1
-                                                        , _col = 43
-                                                        }
-                                                    }
-                                                ) "$someTest"
-                                            )
-                                        ]
+                                    , _end = AlexSourcePos
+                                        { _line = 0
+                                        , _col = 33
+                                        }
                                     }
-                                )
-                            } :| []
-                        )
-                    , _fSelectionSet = Nothing
-                    }
-                ) :| []
-            }
+                                ) "Boolean"
+                            )
+                        , _vdDefaultValue = Nothing
+                        , _vdDirectives = Nothing
+                        } :| []
+                    )
+                , _odDirectives = Nothing
+                , _odSelectionSet = SelectionField
+                    ( Field
+                        { _fSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 1
+                                , _col = 3
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 1
+                                , _col = 43
+                                }
+                            }
+                        , _fAlias = Nothing
+                        , _fName = "experimentalField"
+                        , _fArguments = Nothing
+                        , _fDirectives = Just
+                            ( Directive
+                                { _dSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 1
+                                        , _col = 21
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 1
+                                        , _col = 43
+                                        }
+                                    }
+                                , _dName = "include"
+                                , _dArguments = Just
+                                    ( Arguments
+                                        { argSpan = Span
+                                            { _start = AlexSourcePos
+                                                { _line = 1
+                                                , _col = 30
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 1
+                                                , _col = 43
+                                                }
+                                            }
+                                        , argArguments = fromList
+                                            [
+                                                ( "if"
+                                                , VVar
+                                                    ( Span
+                                                        { _start = AlexSourcePos
+                                                            { _line = 1
+                                                            , _col = 34
+                                                            }
+                                                        , _end = AlexSourcePos
+                                                            { _line = 1
+                                                            , _col = 43
+                                                            }
+                                                        }
+                                                    ) "$someTest"
+                                                )
+                                            ]
+                                        }
+                                    )
+                                } :| []
+                            )
+                        , _fSelectionSet = Nothing
+                        }
+                    ) :| []
+                }
+            )
         )
     )
 ]

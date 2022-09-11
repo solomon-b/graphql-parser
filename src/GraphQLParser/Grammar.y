@@ -321,21 +321,20 @@ inputValueDefinition
 
 executableDefinition :: { ExecutableDefinition }
 executabledefinition
-  : operationDefinition { ExecutableDefinitionOperation $1}
+  : typedOperationDefinition { ExecutableDefinitionOperation (OperationDefinitionTyped $1) }
+  | selectionSet { ExecutableDefinitionOperation (OperationDefinitionUnTyped (locate $1) (unLoc $1) )}
   | fragmentDefinition { ExecutableDefinitionFragment $1}
 
-operationDefinition :: { OperationDefinition }
-operationDefinition
+typedOperationDefinition :: { TypedOperationDefinition }
+typedOperationDefinition
  : operationType directives selectionSet
-     { OperationDefinition (locate $1 <> locate $3 )(unLoc $1) Nothing mempty (fmap unLoc $2) (unLoc $3) }
+     { TypedOperationDefinition (locate $1 <> locate $3 )(unLoc $1) Nothing mempty (fmap unLoc $2) (unLoc $3) }
  | operationType name directives selectionSet
-     { OperationDefinition (locate $1 <> locate $4) (unLoc $1) (Just (unLoc $2)) mempty (fmap unLoc $3) (unLoc $4) }
+     { TypedOperationDefinition (locate $1 <> locate $4) (unLoc $1) (Just (unLoc $2)) mempty (fmap unLoc $3) (unLoc $4) }
  | operationType variableDefinitions directives selectionSet
-     { OperationDefinition (locate $1 <> locate $4) (unLoc $1) Nothing (Just $2) (fmap unLoc $3) (unLoc $4) }
+     { TypedOperationDefinition (locate $1 <> locate $4) (unLoc $1) Nothing (Just $2) (fmap unLoc $3) (unLoc $4) }
  | operationType name variableDefinitions directives selectionSet
-     { OperationDefinition (locate $1 <> locate $5) (unLoc $1) (Just (unLoc $2)) (Just $3) (fmap unLoc $4) (unLoc $5) }
- | selectionSet
-     { OperationDefinition (locate $1) OperationTypeQuery Nothing mempty Nothing (unLoc $1) }
+     { TypedOperationDefinition (locate $1 <> locate $5) (unLoc $1) (Just (unLoc $2)) (Just $3) (fmap unLoc $4) (unLoc $5) }
 
 --------------------------------------------------------------------------------
 

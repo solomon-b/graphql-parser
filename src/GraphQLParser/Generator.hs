@@ -208,11 +208,12 @@ genIndentation = do
 genExecutableDefinition :: Gen ExecutableDefinition
 genExecutableDefinition =
   Gen.choice
-    [ ExecutableDefinitionOperation <$> genOperationDefinition,
+    [ ExecutableDefinitionOperation . OperationDefinitionTyped <$> genOperationDefinition,
+      ExecutableDefinitionOperation . OperationDefinitionUnTyped dummySpan <$> genSelectionSet,
       ExecutableDefinitionFragment <$> genFragmentDefinition
     ]
 
-genOperationDefinition :: Gen OperationDefinition
+genOperationDefinition :: Gen TypedOperationDefinition
 genOperationDefinition = do
   _odType <- genOperationType
   _odName <- Gen.maybe genName
@@ -220,7 +221,7 @@ genOperationDefinition = do
   _odDirectives <- Gen.maybe genDirectives
   _odSelectionSet <- genSelectionSet
   let _odSpan = dummySpan
-  pure $ OperationDefinition {..}
+  pure $ TypedOperationDefinition {..}
 
 genVariablesDefinition :: Gen VariablesDefinition
 genVariablesDefinition =

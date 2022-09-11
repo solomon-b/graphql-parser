@@ -1,4 +1,4 @@
-query {
+{
   entity {
     name
   }

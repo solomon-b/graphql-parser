@@ -42,7 +42,6 @@ QuasiQuoters are provided to construct literal values at compile time:
 
 # TODO
 
-- Review and clean up prettty printer output
 - Review and clean up parser grammar
 - Type System Extensions
 - Improve Haddocks

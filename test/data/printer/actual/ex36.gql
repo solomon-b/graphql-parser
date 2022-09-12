@@ -16,8 +16,14 @@ type Query {
     """
     The original language that `text` is provided in.
     """
-    fromLanguage: Language "The translated language to be returned."
-    toLanguage: Language "The text to be translated."
+    fromLanguage: Language
+    """
+    The translated language to be returned.
+    """
+    toLanguage: Language
+    """
+    The text to be translated.
+    """
     text: String
   ): String
 }

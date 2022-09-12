@@ -20,7 +20,7 @@ import Data.Vector qualified as V
 import GHC.Generics (Generic)
 import GraphQLParser.Span qualified as S
 import Language.Haskell.TH.Syntax (Lift)
-import Prettyprinter (Doc, Pretty (..), concatWith, defaultLayoutOptions, dquote, encloseSep, flatAlt, group, hsep, indent, layoutPretty, line, punctuate, sep, surround, tupled, vsep, (<+>), parens)
+import Prettyprinter (Doc, Pretty (..), concatWith, defaultLayoutOptions, dquote, encloseSep, flatAlt, group, hsep, indent, layoutPretty, line, parens, punctuate, sep, surround, tupled, vsep, (<+>))
 import Prettyprinter.Render.Text (renderStrict)
 
 --------------------------------------------------------------------------------
@@ -368,7 +368,7 @@ newtype ArgumentsDefinition = ArgumentsDefinition {unArgumentsDefinition :: NE.N
 
 instance Pretty ArgumentsDefinition where
   pretty ArgumentsDefinition {..}
-    | length unArgumentsDefinition > 1 = vsep [ "(", indent 2 $ vsep $ fmap pretty $ NE.toList unArgumentsDefinition, ")" ]
+    | length unArgumentsDefinition > 1 = vsep ["(", indent 2 $ vsep $ fmap pretty $ NE.toList unArgumentsDefinition, ")"]
     | otherwise = parens $ hsep $ fmap pretty $ NE.toList unArgumentsDefinition
 
 data InputValueDefinition = InputValueDefinition

@@ -13,13 +13,17 @@ type Query {
   Translates a string from a given language into a different language.
   """
   translate(
-    "The original language that `text` is provided in."
+    """
+    The original language that `text` is provided in.
+    """
     fromLanguage: Language
-
-    "The translated language to be returned."
+    """
+    The translated language to be returned.
+    """
     toLanguage: Language
-
-    "The text to be translated."
+    """
+    The text to be translated.
+    """
     text: String
   ): String
 }
@@ -28,12 +32,16 @@ type Query {
 The set of languages supported by `translate`.
 """
 enum Language {
-  "English"
+  """
+  English
+  """
   EN
-
-  "French"
+  """
+  French
+  """
   FR
-
-  "Chinese"
+  """
+  Chinese
+  """
   CH
 }

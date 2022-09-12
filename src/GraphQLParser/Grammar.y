@@ -382,7 +382,7 @@ selection
 
 optValue :: { Maybe Value }
 optValue
-  : valueConst { Just $1 }
+  : '=' valueConst { Just $2 }
   | %prec LOW { Nothing }
 
 values :: { [Value] }

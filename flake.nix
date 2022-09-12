@@ -37,10 +37,12 @@
       rec {
         devShell = pkgs.haskell.packages.${compiler}.shellFor {
           packages = p: [ p.graphql-parser ];
-          buildInputs = with pkgs; [
-            haskell.packages."${compiler}".haskell-language-server
-            cabal-install
-            ghcid
+          buildInputs = [
+            pkgs.haskellPackages.cabal-fmt
+            pkgs.cabal-install
+            pkgs.ormolu
+            pkgs.haskell.packages."${compiler}".ghcid
+            pkgs.haskell.packages."${compiler}".haskell-language-server
           ];
         };
 

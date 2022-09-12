@@ -52,7 +52,7 @@
                                             , _col = 21
                                             }
                                         }
-                                    , argArguments = fromList
+                                    , argArguments =
                                         [
                                             ( "if"
                                             , VBoolean

@@ -70,7 +70,7 @@
                                         , _col = 13
                                         }
                                     }
-                                , argArguments = fromList
+                                , argArguments =
                                     [
                                         ( "id"
                                         , VInt
@@ -155,7 +155,7 @@
                                                         , _col = 36
                                                         }
                                                     }
-                                                , argArguments = fromList
+                                                , argArguments =
                                                     [
                                                         ( "size"
                                                         , VVar

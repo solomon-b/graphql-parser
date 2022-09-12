@@ -42,7 +42,7 @@
                                         , _col = 23
                                         }
                                     }
-                                , argArguments = fromList
+                                , argArguments =
                                     [
                                         ( "name"
                                         , VString

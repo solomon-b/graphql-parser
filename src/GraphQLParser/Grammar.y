@@ -5,11 +5,10 @@ module GraphQLParser.Grammar where
 
 import Control.Monad.State (gets)
 import Data.Coerce
-import Data.HashMap.Strict (HashMap)
-import Data.HashMap.Strict qualified as Map
 import Data.List.NonEmpty qualified as NE
 import Data.Maybe (fromMaybe)
 import Data.Text (Text)
+import Data.Text qualified as Text
 import GraphQLParser.Error
 import GraphQLParser.Monad
 import GraphQLParser.Span
@@ -426,10 +425,10 @@ vobject
   : '{' '}' { VObject (locate $1 <> locate $2) mempty }
   | '{' object '}' { VObject (locate $1 <> locate $3) $2 }
 
-object :: { HashMap Name Value }
+object :: { [(Name, Value)] }
 object
-  : objectField { uncurry Map.singleton $1 }
-  | objectField object { uncurry Map.insert $1 $2 }
+  : objectField { [$1] }
+| objectField object { $1 : $2 }
 
 objectField :: { (Name, Value) }
 objectField
@@ -454,12 +453,12 @@ name
 
 arguments :: { Arguments }
 arguments
-  : '(' arguments_ ')' { Arguments (locate $2) (unLoc $2) }
+  : '(' arguments_ ')' { Arguments (locate $2) (reverse (unLoc $2)) }
 
-arguments_ :: { Loc (HashMap Name Value) }
+arguments_ :: { Loc [(Name, Value)] }
 arguments_
-  : argument { Loc (locate $1) (uncurry Map.singleton (unLoc $1)) }
-  | arguments_ argument { Loc (locate $1 <> locate $2) (uncurry Map.insert (unLoc $2) (unLoc $1)) }
+  : argument { Loc (locate $1) [unLoc $1] }
+  | arguments_ argument { Loc (locate $1 <> locate $2) ((unLoc $2) : (unLoc $1)) }
 
 argument :: { Loc (Name, Value) }
 argument
@@ -506,7 +505,7 @@ directive
 
 description :: { Maybe (Loc Description) }
 description
-  : stringValue { Just $ Loc (locate $1) (Description (unLoc $1)) }
+  : stringValue { Just $ Loc (locate $1) (Description (Text.strip (unLoc $1))) }
   | { Nothing }
 
 optRepeatable :: { Maybe Span }

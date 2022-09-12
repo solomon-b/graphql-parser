@@ -38,7 +38,7 @@
                                     , _col = 13
                                     }
                                 }
-                            , argArguments = fromList
+                            , argArguments =
                                 [
                                     ( "id"
                                     , VInt
@@ -123,7 +123,7 @@
                                                     , _col = 38
                                                     }
                                                 }
-                                            , argArguments = fromList
+                                            , argArguments =
                                                 [
                                                     ( "width"
                                                     , VInt

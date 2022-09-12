@@ -107,7 +107,7 @@
                                                         , _col = 57
                                                         }
                                                     }
-                                                , argArguments = fromList
+                                                , argArguments =
                                                     [
                                                         ( "reason"
                                                         , VString

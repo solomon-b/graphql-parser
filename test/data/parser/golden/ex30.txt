@@ -38,7 +38,7 @@
                                     , _col = 54
                                     }
                                 }
-                            , argArguments = fromList
+                            , argArguments =
                                 [
                                     ( "location"
                                     , VObject
@@ -53,40 +53,38 @@
                                                 }
                                             }
                                         )
-                                        ( fromList
-                                            [
-                                                ( "lat"
-                                                , VFloat
-                                                    ( Span
-                                                        { _start = AlexSourcePos
-                                                            { _line = 1
-                                                            , _col = 45
-                                                            }
-                                                        , _end = AlexSourcePos
-                                                            { _line = 1
-                                                            , _col = 52
-                                                            }
+                                        [
+                                            ( "lon"
+                                            , VFloat
+                                                ( Span
+                                                    { _start = AlexSourcePos
+                                                        { _line = 1
+                                                        , _col = 33
                                                         }
-                                                    )
-                                                    ( -53.211 )
-                                                )
-                                            ,
-                                                ( "lon"
-                                                , VFloat
-                                                    ( Span
-                                                        { _start = AlexSourcePos
-                                                            { _line = 1
-                                                            , _col = 33
-                                                            }
-                                                        , _end = AlexSourcePos
-                                                            { _line = 1
-                                                            , _col = 38
-                                                            }
+                                                    , _end = AlexSourcePos
+                                                        { _line = 1
+                                                        , _col = 38
                                                         }
-                                                    ) 12.43
+                                                    }
+                                                ) 12.43
+                                            )
+                                        ,
+                                            ( "lat"
+                                            , VFloat
+                                                ( Span
+                                                    { _start = AlexSourcePos
+                                                        { _line = 1
+                                                        , _col = 45
+                                                        }
+                                                    , _end = AlexSourcePos
+                                                        { _line = 1
+                                                        , _col = 52
+                                                        }
+                                                    }
                                                 )
-                                            ]
-                                        )
+                                                ( -53.211 )
+                                            )
+                                        ]
                                     )
                                 ]
                             }

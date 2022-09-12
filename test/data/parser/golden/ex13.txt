@@ -38,23 +38,8 @@
                                     , _col = 34
                                     }
                                 }
-                            , argArguments = fromList
+                            , argArguments =
                                 [
-                                    ( "width"
-                                    , VInt
-                                        ( Span
-                                            { _start = AlexSourcePos
-                                                { _line = 1
-                                                , _col = 31
-                                                }
-                                            , _end = AlexSourcePos
-                                                { _line = 1
-                                                , _col = 34
-                                                }
-                                            }
-                                        ) 200
-                                    )
-                                ,
                                     ( "height"
                                     , VInt
                                         ( Span
@@ -68,6 +53,21 @@
                                                 }
                                             }
                                         ) 100
+                                    )
+                                ,
+                                    ( "width"
+                                    , VInt
+                                        ( Span
+                                            { _start = AlexSourcePos
+                                                { _line = 1
+                                                , _col = 31
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 1
+                                                , _col = 34
+                                                }
+                                            }
+                                        ) 200
                                     )
                                 ]
                             }

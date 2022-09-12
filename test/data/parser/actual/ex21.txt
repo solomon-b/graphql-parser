@@ -42,7 +42,7 @@
                                         , _col = 42
                                         }
                                     }
-                                , argArguments = fromList
+                                , argArguments =
                                     [
                                         ( "handles"
                                         , VList

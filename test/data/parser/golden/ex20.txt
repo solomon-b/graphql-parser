@@ -42,7 +42,7 @@
                                         , _col = 13
                                         }
                                     }
-                                , argArguments = fromList
+                                , argArguments =
                                     [
                                         ( "id"
                                         , VInt
@@ -89,7 +89,7 @@
                                                     , _col = 22
                                                     }
                                                 }
-                                            , argArguments = fromList
+                                            , argArguments =
                                                 [
                                                     ( "first"
                                                     , VInt
@@ -155,7 +155,7 @@
                                                         , _col = 28
                                                         }
                                                     }
-                                                , argArguments = fromList
+                                                , argArguments =
                                                     [
                                                         ( "first"
                                                         , VInt
@@ -321,7 +321,7 @@
                                     , _col = 22
                                     }
                                 }
-                            , argArguments = fromList
+                            , argArguments =
                                 [
                                     ( "size"
                                     , VInt

@@ -97,7 +97,7 @@
                                                 , _col = 40
                                                 }
                                             }
-                                        , argArguments = fromList
+                                        , argArguments =
                                             [
                                                 ( "if"
                                                 , VVar

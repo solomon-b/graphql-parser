@@ -57,7 +57,7 @@
                                         , _col = 20
                                         }
                                     }
-                                , argArguments = fromList
+                                , argArguments =
                                     [
                                         ( "size"
                                         , VInt

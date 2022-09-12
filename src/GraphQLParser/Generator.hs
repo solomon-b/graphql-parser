@@ -66,8 +66,6 @@ where
 -------------------------------------------------------------------------------
 
 import Control.Monad.IO.Class (MonadIO)
-import Data.HashMap.Strict qualified as M
-import Data.HashMap.Strict qualified as Map
 import Data.List.NonEmpty qualified as NE
 import Data.Scientific (fromFloatDigits)
 import Data.Text (Text)
@@ -138,7 +136,7 @@ genValue =
       VEnum dummySpan . EnumValue <$> Gen.text (Range.linear 0 11) alphaNum_
     ]
     [ VList dummySpan <$> mkList genValue,
-      VObject dummySpan . Map.fromList <$> mkList genArgument
+      VObject dummySpan <$> mkList genArgument
     ]
 
 -------------------------------------------------------------------------------
@@ -168,8 +166,8 @@ genEnumValue = EnumValue . unName <$> genName
 genListValue :: Gen Value -> Gen [Value]
 genListValue = mkList
 
-genObjectValue :: Gen Value -> Gen (M.HashMap Name Value)
-genObjectValue genVal = M.fromList <$> mkList genObjectField
+genObjectValue :: Gen Value -> Gen [(Name, Value)]
+genObjectValue genVal = mkList genObjectField
   where
     genObjectField = (,) <$> genName <*> genVal
 
@@ -483,7 +481,7 @@ genDirectives :: Gen Directives
 genDirectives = Directives <$> mkListNonEmpty genDirective
 
 genArguments :: Gen Arguments
-genArguments = fmap (Arguments dummySpan) (M.fromList <$> mkList genArgument)
+genArguments = fmap (Arguments dummySpan) (mkList genArgument)
 
 genArgument :: Gen (Name, Value)
 genArgument = (,) <$> genName <*> genValue

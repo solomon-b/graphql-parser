@@ -9,8 +9,6 @@ import Data.ByteString.Char8 qualified as B
 import Data.ByteString.Lazy qualified as BL
 import Data.Char qualified as C
 import Data.Foldable
-import Data.HashMap.Strict (HashMap)
-import Data.HashMap.Strict qualified as Map
 import Data.Hashable (Hashable)
 import Data.List qualified as List
 import Data.List.NonEmpty qualified as NE
@@ -22,7 +20,7 @@ import Data.Vector qualified as V
 import GHC.Generics (Generic)
 import GraphQLParser.Span qualified as S
 import Language.Haskell.TH.Syntax (Lift)
-import Prettyprinter (Doc, Pretty (..), defaultLayoutOptions, dquote, encloseSep, flatAlt, group, hsep, indent, layoutPretty, line, punctuate, sep, tupled, vsep, (<+>), concatWith, surround)
+import Prettyprinter (Doc, Pretty (..), concatWith, defaultLayoutOptions, dquote, encloseSep, flatAlt, group, hsep, indent, layoutPretty, line, punctuate, sep, surround, tupled, vsep, (<+>), parens)
 import Prettyprinter.Render.Text (renderStrict)
 
 --------------------------------------------------------------------------------
@@ -369,8 +367,9 @@ newtype ArgumentsDefinition = ArgumentsDefinition {unArgumentsDefinition :: NE.N
   deriving anyclass (NFData)
 
 instance Pretty ArgumentsDefinition where
-  pretty ArgumentsDefinition {..} =
-    "(" <> foldl (\acc x -> acc <> pretty x) "" unArgumentsDefinition <> ")"
+  pretty ArgumentsDefinition {..}
+    | length unArgumentsDefinition > 1 = vsep [ "(", indent 2 $ vsep $ fmap pretty $ NE.toList unArgumentsDefinition, ")" ]
+    | otherwise = parens $ hsep $ fmap pretty $ NE.toList unArgumentsDefinition
 
 data InputValueDefinition = InputValueDefinition
   { _ivdSpan :: S.Span,
@@ -509,8 +508,7 @@ instance Pretty ExecutableDefinition where
     ExecutableDefinitionOperation od -> pretty od
     ExecutableDefinitionFragment fd -> pretty fd
 
-
-data OperationDefinition 
+data OperationDefinition
   = OperationDefinitionTyped TypedOperationDefinition
   | OperationDefinitionUnTyped S.Span SelectionSet
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
@@ -683,7 +681,7 @@ data Value
   | VBoolean S.Span Bool
   | VEnum S.Span EnumValue
   | VList S.Span [Value]
-  | VObject S.Span (HashMap Name Value)
+  | VObject S.Span [(Name, Value)]
   deriving stock (Eq, Ord, Show, Read, Generic, Lift)
   deriving anyclass (Hashable, NFData)
 
@@ -710,7 +708,7 @@ instance Pretty Value where
     VBoolean _sp False -> "false"
     VEnum _sp ev -> pretty ev
     VList _sp xs -> pretty xs
-    VObject _sp obj -> ob $ Map.toList obj
+    VObject _sp obj -> ob obj
     where
       ob :: (Pretty a, Pretty b) => [(a, b)] -> Doc ann
       ob xs =
@@ -719,7 +717,7 @@ instance Pretty Value where
               encloseSep
                 (flatAlt "{ " "{")
                 (flatAlt " }" "}")
-                " "
+                ", "
                 xs'
 
 --------------------------------------------------------------------------------
@@ -810,7 +808,7 @@ instance Pretty VariableDefinition where
 
 data Arguments = Arguments
   { argSpan :: S.Span,
-    argArguments :: HashMap Name Value
+    argArguments :: [(Name, Value)]
   }
   deriving stock (Eq, Ord, Show, Read, Generic, Lift)
   deriving anyclass (Hashable, NFData)
@@ -822,7 +820,7 @@ instance Pretty Arguments where
   pretty Arguments {..} =
     if argArguments == mempty
       then mempty
-      else tupled $ fmap (\(n, v) -> pretty n <> ":" <+> pretty v) (Map.toList argArguments)
+      else tupled $ fmap (\(n, v) -> pretty n <> ":" <+> pretty v) argArguments
 
 newtype TypeCondition = TypeCondition {unTypeCondition :: Name}
   deriving stock (Generic, Lift)

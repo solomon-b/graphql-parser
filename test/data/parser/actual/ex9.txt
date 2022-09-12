@@ -94,7 +94,7 @@
                                     , _col = 13
                                     }
                                 }
-                            , argArguments = fromList
+                            , argArguments =
                                 [
                                     ( "id"
                                     , VInt

@@ -77,7 +77,7 @@
                                 }
                             , _fldDescription = Just Description
 
-                                {  unDescription ="  Translates a string from a given language into a different language.\n  " }
+                                {  unDescription ="Translates a string from a given language into a different language." }
                             , _fldName = "translate"
                             , _fldArgumentsDefinition = Just
                                 ( InputValueDefinition

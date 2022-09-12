@@ -70,7 +70,7 @@
                                         , _col = 39
                                         }
                                     }
-                                , argArguments = fromList
+                                , argArguments =
                                     [
                                         ( "nonNullArg"
                                         , VVar

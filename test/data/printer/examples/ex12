@@ -38,7 +38,7 @@
                                     , _col = 34
                                     }
                                 }
-                            , argArguments = fromList
+                            , argArguments =
                                 [
                                     ( "width"
                                     , VInt

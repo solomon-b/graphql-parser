@@ -1,1 +1,0 @@
-query    { entity   { name    ...on Person  { age   }}  phoneNumber   }

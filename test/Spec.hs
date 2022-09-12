@@ -74,7 +74,7 @@ prettyGoldenSpec testPath = describe "Golden" $ do
         it ("pretty prints " <> name) $
           \valueExt -> do
             let prettyTerm = renderPrettyBS valueExt
-            goldenByteString dirSuc name prettyTerm
+            goldenByteString dirSuc name prettyTerm "gql"
 
 readPrettyExample :: FilePath -> IO Document
 readPrettyExample path = do
@@ -103,16 +103,16 @@ goldenDocument dir name val = Golden {..}
     actualFile = Just $ dir </> "actual" </> name <.> "txt"
     failFirstTime = False
 
-goldenByteString :: FilePath -> String -> BS.ByteString -> Golden BS.ByteString
-goldenByteString dir name val = Golden {..}
+goldenByteString :: FilePath -> String -> BS.ByteString -> String -> Golden BS.ByteString
+goldenByteString dir name val ext = Golden {..}
   where
     output = val
     encodePretty = TL.unpack . pShowNoColor
     writeToFile path actual =
       BS.writeFile path actual
     readFromFile path = BS.readFile path
-    goldenFile = dir </> "golden" </> name <.> "txt"
-    actualFile = Just $ dir </> "actual" </> name <.> "txt"
+    goldenFile = dir </> "golden" </> name <.> ext
+    actualFile = Just $ dir </> "actual" </> name <.> ext
     failFirstTime = False
 
 -- | Construct a 'Golden' test for 'ParseError's rendered as 'String's.

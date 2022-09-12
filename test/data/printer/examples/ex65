@@ -4,12 +4,12 @@
             ( ObjectTypeDefinition
                 { _otdSpan = Span
                     { _start = AlexSourcePos
-                        { _line = 1
+                        { _line = 0
                         , _col = 1
                         }
                     , _end = AlexSourcePos
-                        { _line = 5
-                        , _col = 70
+                        { _line = 4
+                        , _col = 2
                         }
                     }
                 , _otdDescription = Nothing
@@ -20,23 +20,23 @@
                     ( FieldsDefinition
                         { _fdSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 5
-                                , _col = 1
+                                { _line = 0
+                                , _col = 14
                                 }
                             , _end = AlexSourcePos
-                                { _line = 5
-                                , _col = 70
+                                { _line = 4
+                                , _col = 2
                                 }
                             }
                         , _fdDefinitions = FieldDefinition
                             { _fldSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 5
+                                    { _line = 1
                                     , _col = 3
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 5
-                                    , _col = 24
+                                    { _line = 1
+                                    , _col = 22
                                     }
                                 }
                             , _fldDescription = Nothing
@@ -45,12 +45,12 @@
                             , _fldType = NamedType
                                 ( Span
                                     { _start = AlexSourcePos
-                                        { _line = 5
-                                        , _col = 13
+                                        { _line = 1
+                                        , _col = 11
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 5
-                                        , _col = 24
+                                        { _line = 1
+                                        , _col = 22
                                         }
                                     }
                                 ) "NamedEntity"
@@ -59,12 +59,12 @@
                             [ FieldDefinition
                                 { _fldSpan = Span
                                     { _start = AlexSourcePos
-                                        { _line = 5
-                                        , _col = 27
+                                        { _line = 2
+                                        , _col = 3
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 5
-                                        , _col = 48
+                                        { _line = 2
+                                        , _col = 22
                                         }
                                     }
                                 , _fldDescription = Nothing
@@ -73,12 +73,12 @@
                                 , _fldType = NamedType
                                     ( Span
                                         { _start = AlexSourcePos
-                                            { _line = 5
-                                            , _col = 42
+                                            { _line = 2
+                                            , _col = 16
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 5
-                                            , _col = 48
+                                            { _line = 2
+                                            , _col = 22
                                             }
                                         }
                                     ) "String"
@@ -87,12 +87,12 @@
                             , FieldDefinition
                                 { _fldSpan = Span
                                     { _start = AlexSourcePos
-                                        { _line = 5
-                                        , _col = 51
+                                        { _line = 3
+                                        , _col = 3
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 5
-                                        , _col = 68
+                                        { _line = 3
+                                        , _col = 18
                                         }
                                     }
                                 , _fldDescription = Nothing
@@ -101,12 +101,12 @@
                                 , _fldType = NamedType
                                     ( Span
                                         { _start = AlexSourcePos
-                                            { _line = 5
-                                            , _col = 62
+                                            { _line = 3
+                                            , _col = 12
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 5
-                                            , _col = 68
+                                            { _line = 3
+                                            , _col = 18
                                             }
                                         }
                                     ) "String"

@@ -5,11 +5,11 @@
                 { _otdSpan = Span
                     { _start = AlexSourcePos
                         { _line = 0
-                        , _col = 2
+                        , _col = 1
                         }
                     , _end = AlexSourcePos
-                        { _line = 0
-                        , _col = 29
+                        { _line = 2
+                        , _col = 2
                         }
                     }
                 , _otdDescription = Nothing
@@ -21,22 +21,22 @@
                         { _fdSpan = Span
                             { _start = AlexSourcePos
                                 { _line = 0
-                                , _col = 15
+                                , _col = 12
                                 }
                             , _end = AlexSourcePos
-                                { _line = 0
-                                , _col = 29
+                                { _line = 2
+                                , _col = 2
                                 }
                             }
                         , _fdDefinitions = FieldDefinition
                             { _fldSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 0
-                                    , _col = 17
+                                    { _line = 1
+                                    , _col = 3
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 0
-                                    , _col = 27
+                                    { _line = 1
+                                    , _col = 11
                                     }
                                 }
                             , _fldDescription = Nothing
@@ -45,12 +45,12 @@
                             , _fldType = NamedType
                                 ( Span
                                     { _start = AlexSourcePos
-                                        { _line = 0
-                                        , _col = 24
+                                        { _line = 1
+                                        , _col = 8
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 0
-                                        , _col = 27
+                                        { _line = 1
+                                        , _col = 11
                                         }
                                     }
                                 ) "Dog"
@@ -68,12 +68,12 @@
             ( EnumTypeDefinition
                 { _etdSpan = Span
                     { _start = AlexSourcePos
-                        { _line = 1
-                        , _col = 2
+                        { _line = 4
+                        , _col = 1
                         }
                     , _end = AlexSourcePos
-                        { _line = 1
-                        , _col = 40
+                        { _line = 8
+                        , _col = 2
                         }
                     }
                 , _etdDescription = Nothing
@@ -83,12 +83,12 @@
                     [ EnumValueDefinition
                         { _evdSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 1
-                                , _col = 21
+                                { _line = 5
+                                , _col = 3
                                 }
                             , _end = AlexSourcePos
-                                { _line = 1
-                                , _col = 24
+                                { _line = 5
+                                , _col = 6
                                 }
                             }
                         , _evdDescription = Nothing
@@ -98,12 +98,12 @@
                     , EnumValueDefinition
                         { _evdSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 1
-                                , _col = 27
+                                { _line = 6
+                                , _col = 3
                                 }
                             , _end = AlexSourcePos
-                                { _line = 1
-                                , _col = 31
+                                { _line = 6
+                                , _col = 7
                                 }
                             }
                         , _evdDescription = Nothing
@@ -113,12 +113,12 @@
                     , EnumValueDefinition
                         { _evdSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 1
-                                , _col = 34
+                                { _line = 7
+                                , _col = 3
                                 }
                             , _end = AlexSourcePos
-                                { _line = 1
-                                , _col = 38
+                                { _line = 7
+                                , _col = 7
                                 }
                             }
                         , _evdDescription = Nothing
@@ -136,12 +136,12 @@
             ( ObjectTypeDefinition
                 { _otdSpan = Span
                     { _start = AlexSourcePos
-                        { _line = 3
+                        { _line = 10
                         , _col = 1
                         }
                     , _end = AlexSourcePos
                         { _line = 17
-                        , _col = 18
+                        , _col = 2
                         }
                     }
                 , _otdDescription = Nothing
@@ -150,12 +150,12 @@
                     ( ImplementsInterfaces
                         { _iiSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 5
-                                , _col = 1
+                                { _line = 10
+                                , _col = 10
                                 }
                             , _end = AlexSourcePos
-                                { _line = 5
-                                , _col = 17
+                                { _line = 10
+                                , _col = 24
                                 }
                             }
                         , _iiInterfaces = "Pet" :| []
@@ -166,23 +166,23 @@
                     ( FieldsDefinition
                         { _fdSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 7
-                                , _col = 1
+                                { _line = 10
+                                , _col = 25
                                 }
                             , _end = AlexSourcePos
                                 { _line = 17
-                                , _col = 18
+                                , _col = 2
                                 }
                             }
                         , _fdDefinitions = FieldDefinition
                             { _fldSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 7
+                                    { _line = 11
                                     , _col = 3
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 7
-                                    , _col = 18
+                                    { _line = 11
+                                    , _col = 16
                                     }
                                 }
                             , _fldDescription = Nothing
@@ -191,24 +191,24 @@
                             , _fldType = NonNullType
                                 ( Span
                                     { _start = AlexSourcePos
-                                        { _line = 7
-                                        , _col = 11
+                                        { _line = 11
+                                        , _col = 9
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 7
-                                        , _col = 18
+                                        { _line = 11
+                                        , _col = 16
                                         }
                                     }
                                 )
                                 ( NamedType
                                     ( Span
                                         { _start = AlexSourcePos
-                                            { _line = 7
-                                            , _col = 11
+                                            { _line = 11
+                                            , _col = 9
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 7
-                                            , _col = 17
+                                            { _line = 11
+                                            , _col = 15
                                             }
                                         }
                                     ) "String"
@@ -218,12 +218,12 @@
                             [ FieldDefinition
                                 { _fldSpan = Span
                                     { _start = AlexSourcePos
-                                        { _line = 9
-                                        , _col = 2
+                                        { _line = 12
+                                        , _col = 3
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 9
-                                        , _col = 20
+                                        { _line = 12
+                                        , _col = 19
                                         }
                                     }
                                 , _fldDescription = Nothing
@@ -232,12 +232,12 @@
                                 , _fldType = NamedType
                                     ( Span
                                         { _start = AlexSourcePos
-                                            { _line = 9
-                                            , _col = 14
+                                            { _line = 12
+                                            , _col = 13
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 9
-                                            , _col = 20
+                                            { _line = 12
+                                            , _col = 19
                                             }
                                         }
                                     ) "String"
@@ -246,12 +246,12 @@
                             , FieldDefinition
                                 { _fldSpan = Span
                                     { _start = AlexSourcePos
-                                        { _line = 11
-                                        , _col = 2
+                                        { _line = 13
+                                        , _col = 3
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 11
-                                        , _col = 19
+                                        { _line = 13
+                                        , _col = 18
                                         }
                                     }
                                 , _fldDescription = Nothing
@@ -260,12 +260,12 @@
                                 , _fldType = NamedType
                                     ( Span
                                         { _start = AlexSourcePos
-                                            { _line = 11
-                                            , _col = 16
+                                            { _line = 13
+                                            , _col = 15
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 11
-                                            , _col = 19
+                                            { _line = 13
+                                            , _col = 18
                                             }
                                         }
                                     ) "Int"
@@ -274,12 +274,12 @@
                             , FieldDefinition
                                 { _fldSpan = Span
                                     { _start = AlexSourcePos
-                                        { _line = 13
-                                        , _col = 2
+                                        { _line = 14
+                                        , _col = 3
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 13
-                                        , _col = 57
+                                        { _line = 14
+                                        , _col = 53
                                         }
                                     }
                                 , _fldDescription = Nothing
@@ -288,12 +288,12 @@
                                     ( InputValueDefinition
                                         { _ivdSpan = Span
                                             { _start = AlexSourcePos
-                                                { _line = 13
-                                                , _col = 20
+                                                { _line = 14
+                                                , _col = 19
                                                 }
                                             , _end = AlexSourcePos
-                                                { _line = 13
-                                                , _col = 43
+                                                { _line = 14
+                                                , _col = 42
                                                 }
                                             }
                                         , _ivdDescription = Nothing
@@ -301,24 +301,24 @@
                                         , _ivdType = NonNullType
                                             ( Span
                                                 { _start = AlexSourcePos
-                                                    { _line = 13
-                                                    , _col = 32
+                                                    { _line = 14
+                                                    , _col = 31
                                                     }
                                                 , _end = AlexSourcePos
-                                                    { _line = 13
-                                                    , _col = 43
+                                                    { _line = 14
+                                                    , _col = 42
                                                     }
                                                 }
                                             )
                                             ( NamedType
                                                 ( Span
                                                     { _start = AlexSourcePos
-                                                        { _line = 13
-                                                        , _col = 32
+                                                        { _line = 14
+                                                        , _col = 31
                                                         }
                                                     , _end = AlexSourcePos
-                                                        { _line = 13
-                                                        , _col = 42
+                                                        { _line = 14
+                                                        , _col = 41
                                                         }
                                                     }
                                                 ) "DogCommand"
@@ -330,24 +330,24 @@
                                 , _fldType = NonNullType
                                     ( Span
                                         { _start = AlexSourcePos
-                                            { _line = 13
-                                            , _col = 49
+                                            { _line = 14
+                                            , _col = 45
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 13
-                                            , _col = 57
+                                            { _line = 14
+                                            , _col = 53
                                             }
                                         }
                                     )
                                     ( NamedType
                                         ( Span
                                             { _start = AlexSourcePos
-                                                { _line = 13
-                                                , _col = 49
+                                                { _line = 14
+                                                , _col = 45
                                                 }
                                             , _end = AlexSourcePos
-                                                { _line = 13
-                                                , _col = 56
+                                                { _line = 14
+                                                , _col = 52
                                                 }
                                             }
                                         ) "Boolean"
@@ -358,11 +358,11 @@
                                 { _fldSpan = Span
                                     { _start = AlexSourcePos
                                         { _line = 15
-                                        , _col = 2
+                                        , _col = 3
                                         }
                                     , _end = AlexSourcePos
                                         { _line = 15
-                                        , _col = 54
+                                        , _col = 50
                                         }
                                     }
                                 , _fldDescription = Nothing
@@ -372,11 +372,11 @@
                                         { _ivdSpan = Span
                                             { _start = AlexSourcePos
                                                 { _line = 15
-                                                , _col = 19
+                                                , _col = 18
                                                 }
                                             , _end = AlexSourcePos
                                                 { _line = 15
-                                                , _col = 40
+                                                , _col = 39
                                                 }
                                             }
                                         , _ivdDescription = Nothing
@@ -385,11 +385,11 @@
                                             ( Span
                                                 { _start = AlexSourcePos
                                                     { _line = 15
-                                                    , _col = 33
+                                                    , _col = 32
                                                     }
                                                 , _end = AlexSourcePos
                                                     { _line = 15
-                                                    , _col = 40
+                                                    , _col = 39
                                                     }
                                                 }
                                             ) "Boolean"
@@ -401,11 +401,11 @@
                                     ( Span
                                         { _start = AlexSourcePos
                                             { _line = 15
-                                            , _col = 46
+                                            , _col = 42
                                             }
                                         , _end = AlexSourcePos
                                             { _line = 15
-                                            , _col = 54
+                                            , _col = 50
                                             }
                                         }
                                     )
@@ -413,11 +413,11 @@
                                         ( Span
                                             { _start = AlexSourcePos
                                                 { _line = 15
-                                                , _col = 46
+                                                , _col = 42
                                                 }
                                             , _end = AlexSourcePos
                                                 { _line = 15
-                                                , _col = 53
+                                                , _col = 49
                                                 }
                                             }
                                         ) "Boolean"
@@ -427,12 +427,12 @@
                             , FieldDefinition
                                 { _fldSpan = Span
                                     { _start = AlexSourcePos
-                                        { _line = 17
-                                        , _col = 2
+                                        { _line = 16
+                                        , _col = 3
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 17
-                                        , _col = 16
+                                        { _line = 16
+                                        , _col = 15
                                         }
                                     }
                                 , _fldDescription = Nothing
@@ -441,12 +441,12 @@
                                 , _fldType = NamedType
                                     ( Span
                                         { _start = AlexSourcePos
-                                            { _line = 17
-                                            , _col = 11
+                                            { _line = 16
+                                            , _col = 10
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 17
-                                            , _col = 16
+                                            { _line = 16
+                                            , _col = 15
                                             }
                                         }
                                     ) "Human"
@@ -465,12 +465,12 @@
             ( InterfaceTypeDefinition
                 { _itSpan = Span
                     { _start = AlexSourcePos
-                        { _line = 18
-                        , _col = 2
+                        { _line = 19
+                        , _col = 1
                         }
                     , _end = AlexSourcePos
-                        { _line = 18
-                        , _col = 42
+                        { _line = 21
+                        , _col = 2
                         }
                     }
                 , _itDescription = Nothing
@@ -481,23 +481,23 @@
                     ( FieldsDefinition
                         { _fdSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 18
-                                , _col = 23
+                                { _line = 19
+                                , _col = 20
                                 }
                             , _end = AlexSourcePos
-                                { _line = 18
-                                , _col = 42
+                                { _line = 21
+                                , _col = 2
                                 }
                             }
                         , _fdDefinitions = FieldDefinition
                             { _fldSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 18
-                                    , _col = 25
+                                    { _line = 20
+                                    , _col = 3
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 18
-                                    , _col = 40
+                                    { _line = 20
+                                    , _col = 16
                                     }
                                 }
                             , _fldDescription = Nothing
@@ -506,24 +506,24 @@
                             , _fldType = NonNullType
                                 ( Span
                                     { _start = AlexSourcePos
-                                        { _line = 18
-                                        , _col = 33
+                                        { _line = 20
+                                        , _col = 9
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 18
-                                        , _col = 40
+                                        { _line = 20
+                                        , _col = 16
                                         }
                                     }
                                 )
                                 ( NamedType
                                     ( Span
                                         { _start = AlexSourcePos
-                                            { _line = 18
-                                            , _col = 33
+                                            { _line = 20
+                                            , _col = 9
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 18
-                                            , _col = 39
+                                            { _line = 20
+                                            , _col = 15
                                             }
                                         }
                                     ) "String"
@@ -542,12 +542,12 @@
             ( InterfaceTypeDefinition
                 { _itSpan = Span
                     { _start = AlexSourcePos
-                        { _line = 19
-                        , _col = 2
+                        { _line = 23
+                        , _col = 1
                         }
                     , _end = AlexSourcePos
-                        { _line = 19
-                        , _col = 37
+                        { _line = 25
+                        , _col = 2
                         }
                     }
                 , _itDescription = Nothing
@@ -558,23 +558,23 @@
                     ( FieldsDefinition
                         { _fdSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 19
-                                , _col = 18
+                                { _line = 23
+                                , _col = 15
                                 }
                             , _end = AlexSourcePos
-                                { _line = 19
-                                , _col = 37
+                                { _line = 25
+                                , _col = 2
                                 }
                             }
                         , _fdDefinitions = FieldDefinition
                             { _fldSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 19
-                                    , _col = 20
+                                    { _line = 24
+                                    , _col = 3
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 19
-                                    , _col = 35
+                                    { _line = 24
+                                    , _col = 16
                                     }
                                 }
                             , _fldDescription = Nothing
@@ -583,24 +583,24 @@
                             , _fldType = NonNullType
                                 ( Span
                                     { _start = AlexSourcePos
-                                        { _line = 19
-                                        , _col = 28
+                                        { _line = 24
+                                        , _col = 9
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 19
-                                        , _col = 35
+                                        { _line = 24
+                                        , _col = 16
                                         }
                                     }
                                 )
                                 ( NamedType
                                     ( Span
                                         { _start = AlexSourcePos
-                                            { _line = 19
-                                            , _col = 28
+                                            { _line = 24
+                                            , _col = 9
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 19
-                                            , _col = 34
+                                            { _line = 24
+                                            , _col = 15
                                             }
                                         }
                                     ) "String"
@@ -619,12 +619,12 @@
             ( ObjectTypeDefinition
                 { _otdSpan = Span
                     { _start = AlexSourcePos
-                        { _line = 20
-                        , _col = 2
+                        { _line = 27
+                        , _col = 1
                         }
                     , _end = AlexSourcePos
-                        { _line = 20
-                        , _col = 78
+                        { _line = 30
+                        , _col = 2
                         }
                     }
                 , _otdDescription = Nothing
@@ -633,12 +633,12 @@
                     ( ImplementsInterfaces
                         { _iiSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 20
-                                , _col = 13
+                                { _line = 27
+                                , _col = 12
                                 }
                             , _end = AlexSourcePos
-                                { _line = 20
-                                , _col = 34
+                                { _line = 27
+                                , _col = 31
                                 }
                             }
                         , _iiInterfaces = "Sentient" :| []
@@ -649,23 +649,23 @@
                     ( FieldsDefinition
                         { _fdSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 20
-                                , _col = 36
+                                { _line = 27
+                                , _col = 32
                                 }
                             , _end = AlexSourcePos
-                                { _line = 20
-                                , _col = 78
+                                { _line = 30
+                                , _col = 2
                                 }
                             }
                         , _fdDefinitions = FieldDefinition
                             { _fldSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 20
-                                    , _col = 38
+                                    { _line = 28
+                                    , _col = 3
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 20
-                                    , _col = 53
+                                    { _line = 28
+                                    , _col = 16
                                     }
                                 }
                             , _fldDescription = Nothing
@@ -674,24 +674,24 @@
                             , _fldType = NonNullType
                                 ( Span
                                     { _start = AlexSourcePos
-                                        { _line = 20
-                                        , _col = 46
+                                        { _line = 28
+                                        , _col = 9
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 20
-                                        , _col = 53
+                                        { _line = 28
+                                        , _col = 16
                                         }
                                     }
                                 )
                                 ( NamedType
                                     ( Span
                                         { _start = AlexSourcePos
-                                            { _line = 20
-                                            , _col = 46
+                                            { _line = 28
+                                            , _col = 9
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 20
-                                            , _col = 52
+                                            { _line = 28
+                                            , _col = 15
                                             }
                                         }
                                     ) "String"
@@ -701,12 +701,12 @@
                             [ FieldDefinition
                                 { _fldSpan = Span
                                     { _start = AlexSourcePos
-                                        { _line = 20
-                                        , _col = 56
+                                        { _line = 29
+                                        , _col = 3
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 20
-                                        , _col = 76
+                                        { _line = 29
+                                        , _col = 21
                                         }
                                     }
                                 , _fldDescription = Nothing
@@ -715,12 +715,12 @@
                                 , _fldType = NamedType
                                     ( Span
                                         { _start = AlexSourcePos
-                                            { _line = 20
-                                            , _col = 70
+                                            { _line = 29
+                                            , _col = 15
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 20
-                                            , _col = 76
+                                            { _line = 29
+                                            , _col = 21
                                             }
                                         }
                                     ) "String"
@@ -739,12 +739,12 @@
             ( ObjectTypeDefinition
                 { _otdSpan = Span
                     { _start = AlexSourcePos
-                        { _line = 21
-                        , _col = 2
+                        { _line = 32
+                        , _col = 1
                         }
                     , _end = AlexSourcePos
-                        { _line = 21
-                        , _col = 72
+                        { _line = 35
+                        , _col = 2
                         }
                     }
                 , _otdDescription = Nothing
@@ -753,12 +753,12 @@
                     ( ImplementsInterfaces
                         { _iiSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 21
-                                , _col = 13
+                                { _line = 32
+                                , _col = 12
                                 }
                             , _end = AlexSourcePos
-                                { _line = 21
-                                , _col = 34
+                                { _line = 32
+                                , _col = 31
                                 }
                             }
                         , _iiInterfaces = "Sentient" :| []
@@ -769,23 +769,23 @@
                     ( FieldsDefinition
                         { _fdSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 21
-                                , _col = 36
+                                { _line = 32
+                                , _col = 32
                                 }
                             , _end = AlexSourcePos
-                                { _line = 21
-                                , _col = 72
+                                { _line = 35
+                                , _col = 2
                                 }
                             }
                         , _fdDefinitions = FieldDefinition
                             { _fldSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 21
-                                    , _col = 38
+                                    { _line = 33
+                                    , _col = 3
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 21
-                                    , _col = 53
+                                    { _line = 33
+                                    , _col = 16
                                     }
                                 }
                             , _fldDescription = Nothing
@@ -794,24 +794,24 @@
                             , _fldType = NonNullType
                                 ( Span
                                     { _start = AlexSourcePos
-                                        { _line = 21
-                                        , _col = 46
+                                        { _line = 33
+                                        , _col = 9
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 21
-                                        , _col = 53
+                                        { _line = 33
+                                        , _col = 16
                                         }
                                     }
                                 )
                                 ( NamedType
                                     ( Span
                                         { _start = AlexSourcePos
-                                            { _line = 21
-                                            , _col = 46
+                                            { _line = 33
+                                            , _col = 9
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 21
-                                            , _col = 52
+                                            { _line = 33
+                                            , _col = 15
                                             }
                                         }
                                     ) "String"
@@ -821,12 +821,12 @@
                             [ FieldDefinition
                                 { _fldSpan = Span
                                     { _start = AlexSourcePos
-                                        { _line = 21
-                                        , _col = 56
+                                        { _line = 34
+                                        , _col = 3
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 21
-                                        , _col = 70
+                                        { _line = 34
+                                        , _col = 15
                                         }
                                     }
                                 , _fldDescription = Nothing
@@ -835,36 +835,36 @@
                                 , _fldType = ListType
                                     ( Span
                                         { _start = AlexSourcePos
-                                            { _line = 21
-                                            , _col = 64
+                                            { _line = 34
+                                            , _col = 9
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 21
-                                            , _col = 70
+                                            { _line = 34
+                                            , _col = 15
                                             }
                                         }
                                     )
                                     ( NonNullType
                                         ( Span
                                             { _start = AlexSourcePos
-                                                { _line = 21
-                                                , _col = 65
+                                                { _line = 34
+                                                , _col = 10
                                                 }
                                             , _end = AlexSourcePos
-                                                { _line = 21
-                                                , _col = 69
+                                                { _line = 34
+                                                , _col = 14
                                                 }
                                             }
                                         )
                                         ( NamedType
                                             ( Span
                                                 { _start = AlexSourcePos
-                                                    { _line = 21
-                                                    , _col = 65
+                                                    { _line = 34
+                                                    , _col = 10
                                                     }
                                                 , _end = AlexSourcePos
-                                                    { _line = 21
-                                                    , _col = 68
+                                                    { _line = 34
+                                                    , _col = 13
                                                     }
                                                 }
                                             ) "Pet"
@@ -885,12 +885,12 @@
             ( EnumTypeDefinition
                 { _etdSpan = Span
                     { _start = AlexSourcePos
-                        { _line = 22
-                        , _col = 2
+                        { _line = 37
+                        , _col = 1
                         }
                     , _end = AlexSourcePos
-                        { _line = 22
-                        , _col = 27
+                        { _line = 39
+                        , _col = 2
                         }
                     }
                 , _etdDescription = Nothing
@@ -900,12 +900,12 @@
                     [ EnumValueDefinition
                         { _evdSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 22
-                                , _col = 21
+                                { _line = 38
+                                , _col = 3
                                 }
                             , _end = AlexSourcePos
-                                { _line = 22
-                                , _col = 25
+                                { _line = 38
+                                , _col = 7
                                 }
                             }
                         , _evdDescription = Nothing
@@ -923,12 +923,12 @@
             ( ObjectTypeDefinition
                 { _otdSpan = Span
                     { _start = AlexSourcePos
-                        { _line = 24
+                        { _line = 41
                         , _col = 1
                         }
                     , _end = AlexSourcePos
-                        { _line = 34
-                        , _col = 21
+                        { _line = 46
+                        , _col = 2
                         }
                     }
                 , _otdDescription = Nothing
@@ -937,12 +937,12 @@
                     ( ImplementsInterfaces
                         { _iiSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 26
-                                , _col = 1
+                                { _line = 41
+                                , _col = 10
                                 }
                             , _end = AlexSourcePos
-                                { _line = 26
-                                , _col = 17
+                                { _line = 41
+                                , _col = 24
                                 }
                             }
                         , _iiInterfaces = "Pet" :| []
@@ -953,23 +953,23 @@
                     ( FieldsDefinition
                         { _fdSpan = Span
                             { _start = AlexSourcePos
-                                { _line = 28
-                                , _col = 1
+                                { _line = 41
+                                , _col = 25
                                 }
                             , _end = AlexSourcePos
-                                { _line = 34
-                                , _col = 21
+                                { _line = 46
+                                , _col = 2
                                 }
                             }
                         , _fdDefinitions = FieldDefinition
                             { _fldSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 28
+                                    { _line = 42
                                     , _col = 3
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 28
-                                    , _col = 18
+                                    { _line = 42
+                                    , _col = 16
                                     }
                                 }
                             , _fldDescription = Nothing
@@ -978,24 +978,24 @@
                             , _fldType = NonNullType
                                 ( Span
                                     { _start = AlexSourcePos
-                                        { _line = 28
-                                        , _col = 11
+                                        { _line = 42
+                                        , _col = 9
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 28
-                                        , _col = 18
+                                        { _line = 42
+                                        , _col = 16
                                         }
                                     }
                                 )
                                 ( NamedType
                                     ( Span
                                         { _start = AlexSourcePos
-                                            { _line = 28
-                                            , _col = 11
+                                            { _line = 42
+                                            , _col = 9
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 28
-                                            , _col = 17
+                                            { _line = 42
+                                            , _col = 15
                                             }
                                         }
                                     ) "String"
@@ -1005,12 +1005,12 @@
                             [ FieldDefinition
                                 { _fldSpan = Span
                                     { _start = AlexSourcePos
-                                        { _line = 30
-                                        , _col = 2
+                                        { _line = 43
+                                        , _col = 3
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 30
-                                        , _col = 20
+                                        { _line = 43
+                                        , _col = 19
                                         }
                                     }
                                 , _fldDescription = Nothing
@@ -1019,12 +1019,12 @@
                                 , _fldType = NamedType
                                     ( Span
                                         { _start = AlexSourcePos
-                                            { _line = 30
-                                            , _col = 14
+                                            { _line = 43
+                                            , _col = 13
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 30
-                                            , _col = 20
+                                            { _line = 43
+                                            , _col = 19
                                             }
                                         }
                                     ) "String"
@@ -1033,12 +1033,12 @@
                             , FieldDefinition
                                 { _fldSpan = Span
                                     { _start = AlexSourcePos
-                                        { _line = 32
-                                        , _col = 2
+                                        { _line = 44
+                                        , _col = 3
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 32
-                                        , _col = 57
+                                        { _line = 44
+                                        , _col = 53
                                         }
                                     }
                                 , _fldDescription = Nothing
@@ -1047,12 +1047,12 @@
                                     ( InputValueDefinition
                                         { _ivdSpan = Span
                                             { _start = AlexSourcePos
-                                                { _line = 32
-                                                , _col = 20
+                                                { _line = 44
+                                                , _col = 19
                                                 }
                                             , _end = AlexSourcePos
-                                                { _line = 32
-                                                , _col = 43
+                                                { _line = 44
+                                                , _col = 42
                                                 }
                                             }
                                         , _ivdDescription = Nothing
@@ -1060,24 +1060,24 @@
                                         , _ivdType = NonNullType
                                             ( Span
                                                 { _start = AlexSourcePos
-                                                    { _line = 32
-                                                    , _col = 32
+                                                    { _line = 44
+                                                    , _col = 31
                                                     }
                                                 , _end = AlexSourcePos
-                                                    { _line = 32
-                                                    , _col = 43
+                                                    { _line = 44
+                                                    , _col = 42
                                                     }
                                                 }
                                             )
                                             ( NamedType
                                                 ( Span
                                                     { _start = AlexSourcePos
-                                                        { _line = 32
-                                                        , _col = 32
+                                                        { _line = 44
+                                                        , _col = 31
                                                         }
                                                     , _end = AlexSourcePos
-                                                        { _line = 32
-                                                        , _col = 42
+                                                        { _line = 44
+                                                        , _col = 41
                                                         }
                                                     }
                                                 ) "CatCommand"
@@ -1089,24 +1089,24 @@
                                 , _fldType = NonNullType
                                     ( Span
                                         { _start = AlexSourcePos
-                                            { _line = 32
-                                            , _col = 49
+                                            { _line = 44
+                                            , _col = 45
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 32
-                                            , _col = 57
+                                            { _line = 44
+                                            , _col = 53
                                             }
                                         }
                                     )
                                     ( NamedType
                                         ( Span
                                             { _start = AlexSourcePos
-                                                { _line = 32
-                                                , _col = 49
+                                                { _line = 44
+                                                , _col = 45
                                                 }
                                             , _end = AlexSourcePos
-                                                { _line = 32
-                                                , _col = 56
+                                                { _line = 44
+                                                , _col = 52
                                                 }
                                             }
                                         ) "Boolean"
@@ -1116,12 +1116,12 @@
                             , FieldDefinition
                                 { _fldSpan = Span
                                     { _start = AlexSourcePos
-                                        { _line = 34
-                                        , _col = 2
+                                        { _line = 45
+                                        , _col = 3
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 34
-                                        , _col = 19
+                                        { _line = 45
+                                        , _col = 18
                                         }
                                     }
                                 , _fldDescription = Nothing
@@ -1130,12 +1130,12 @@
                                 , _fldType = NamedType
                                     ( Span
                                         { _start = AlexSourcePos
-                                            { _line = 34
-                                            , _col = 16
+                                            { _line = 45
+                                            , _col = 15
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 34
-                                            , _col = 19
+                                            { _line = 45
+                                            , _col = 18
                                             }
                                         }
                                     ) "Int"
@@ -1154,12 +1154,12 @@
             ( UnionTypeDefinition
                 { _utSpan = Span
                     { _start = AlexSourcePos
-                        { _line = 35
-                        , _col = 2
+                        { _line = 48
+                        , _col = 1
                         }
                     , _end = AlexSourcePos
-                        { _line = 35
-                        , _col = 31
+                        { _line = 48
+                        , _col = 27
                         }
                     }
                 , _utdDescription = Nothing
@@ -1179,12 +1179,12 @@
             ( UnionTypeDefinition
                 { _utSpan = Span
                     { _start = AlexSourcePos
-                        { _line = 36
-                        , _col = 2
+                        { _line = 49
+                        , _col = 1
                         }
                     , _end = AlexSourcePos
-                        { _line = 36
-                        , _col = 35
+                        { _line = 49
+                        , _col = 31
                         }
                     }
                 , _utdDescription = Nothing
@@ -1204,12 +1204,12 @@
             ( UnionTypeDefinition
                 { _utSpan = Span
                     { _start = AlexSourcePos
-                        { _line = 37
-                        , _col = 2
+                        { _line = 50
+                        , _col = 1
                         }
                     , _end = AlexSourcePos
-                        { _line = 37
-                        , _col = 39
+                        { _line = 50
+                        , _col = 35
                         }
                     }
                 , _utdDescription = Nothing

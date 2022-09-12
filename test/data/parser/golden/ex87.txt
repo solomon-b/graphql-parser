@@ -1,98 +1,100 @@
 [ DefinitionExecutable
     ( ExecutableDefinitionOperation
-        ( OperationDefinition
-            { _odSpan = Span
-                { _start = AlexSourcePos
-                    { _line = 0
-                    , _col = 1
-                    }
-                , _end = AlexSourcePos
-                    { _line = 2
-                    , _col = 2
-                    }
-                }
-            , _odType = OperationTypeQuery
-            , _odName = Just "withNullableVariable"
-            , _odVariables = Just
-                ( VariableDefinition
-                    { _vdSpan = Span
-                        { _start = AlexSourcePos
-                            { _line = 0
-                            , _col = 28
-                            }
-                        , _end = AlexSourcePos
-                            { _line = 0
-                            , _col = 40
-                            }
+        ( OperationDefinitionTyped
+            ( TypedOperationDefinition
+                { _odSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 0
+                        , _col = 1
                         }
-                    , _vdName = "var"
-                    , _vdType = NamedType
-                        ( Span
+                    , _end = AlexSourcePos
+                        { _line = 2
+                        , _col = 2
+                        }
+                    }
+                , _odType = OperationTypeQuery
+                , _odName = Just "withNullableVariable"
+                , _odVariables = Just
+                    ( VariableDefinition
+                        { _vdSpan = Span
                             { _start = AlexSourcePos
                                 { _line = 0
-                                , _col = 34
+                                , _col = 28
                                 }
                             , _end = AlexSourcePos
                                 { _line = 0
                                 , _col = 40
                                 }
                             }
-                        ) "String"
-                    , _vdDefaultValue = Nothing
-                    , _vdDirectives = Nothing
-                    } :| []
-                )
-            , _odDirectives = Nothing
-            , _odSelectionSet = SelectionField
-                ( Field
-                    { _fSpan = Span
-                        { _start = AlexSourcePos
-                            { _line = 1
-                            , _col = 3
-                            }
-                        , _end = AlexSourcePos
-                            { _line = 1
-                            , _col = 39
-                            }
-                        }
-                    , _fAlias = Nothing
-                    , _fName = "fieldWithNonNullArg"
-                    , _fArguments = Just
-                        ( Arguments
-                            { argSpan = Span
+                        , _vdName = "$var"
+                        , _vdType = NamedType
+                            ( Span
                                 { _start = AlexSourcePos
-                                    { _line = 1
-                                    , _col = 23
+                                    { _line = 0
+                                    , _col = 34
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 1
-                                    , _col = 39
+                                    { _line = 0
+                                    , _col = 40
                                     }
                                 }
-                            , argArguments = fromList
-                                [
-                                    ( "nonNullArg"
-                                    , VVar
-                                        ( Span
-                                            { _start = AlexSourcePos
-                                                { _line = 1
-                                                , _col = 35
-                                                }
-                                            , _end = AlexSourcePos
-                                                { _line = 1
-                                                , _col = 39
-                                                }
-                                            }
-                                        ) "var"
-                                    )
-                                ]
+                            ) "String"
+                        , _vdDefaultValue = Nothing
+                        , _vdDirectives = Nothing
+                        } :| []
+                    )
+                , _odDirectives = Nothing
+                , _odSelectionSet = SelectionField
+                    ( Field
+                        { _fSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 1
+                                , _col = 3
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 1
+                                , _col = 39
+                                }
                             }
-                        )
-                    , _fDirectives = Nothing
-                    , _fSelectionSet = Nothing
-                    }
-                ) :| []
-            }
+                        , _fAlias = Nothing
+                        , _fName = "fieldWithNonNullArg"
+                        , _fArguments = Just
+                            ( Arguments
+                                { argSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 1
+                                        , _col = 23
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 1
+                                        , _col = 39
+                                        }
+                                    }
+                                , argArguments =
+                                    [
+                                        ( "nonNullArg"
+                                        , VVar
+                                            ( Span
+                                                { _start = AlexSourcePos
+                                                    { _line = 1
+                                                    , _col = 35
+                                                    }
+                                                , _end = AlexSourcePos
+                                                    { _line = 1
+                                                    , _col = 39
+                                                    }
+                                                }
+                                            ) "$var"
+                                        )
+                                    ]
+                                }
+                            )
+                        , _fDirectives = Nothing
+                        , _fSelectionSet = Nothing
+                        }
+                    ) :| []
+                }
+            )
         )
     )
 ]

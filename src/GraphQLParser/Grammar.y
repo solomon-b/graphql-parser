@@ -5,11 +5,10 @@ module GraphQLParser.Grammar where
 
 import Control.Monad.State (gets)
 import Data.Coerce
-import Data.HashMap.Strict (HashMap)
-import Data.HashMap.Strict qualified as Map
 import Data.List.NonEmpty qualified as NE
 import Data.Maybe (fromMaybe)
 import Data.Text (Text)
+import Data.Text qualified as Text
 import GraphQLParser.Error
 import GraphQLParser.Monad
 import GraphQLParser.Span
@@ -202,7 +201,7 @@ implementsInterfaces_
 fieldsDefinition :: { Maybe FieldsDefinition }
 fieldsDefinition
   : '{' fieldDefinitions '}' { Just (FieldsDefinition (locate $1 <> locate $3) $2) }
-  | %prec LOW { Nothing}
+  | %prec LOW { Nothing }
 
 fieldDefinitions :: { NE.NonEmpty FieldDefinition }
 fieldDefinitions
@@ -321,21 +320,20 @@ inputValueDefinition
 
 executableDefinition :: { ExecutableDefinition }
 executabledefinition
-  : operationDefinition { ExecutableDefinitionOperation $1}
+  : typedOperationDefinition { ExecutableDefinitionOperation (OperationDefinitionTyped $1) }
+  | selectionSet { ExecutableDefinitionOperation (OperationDefinitionUnTyped (locate $1) (unLoc $1) )}
   | fragmentDefinition { ExecutableDefinitionFragment $1}
 
-operationDefinition :: { OperationDefinition }
-operationDefinition
+typedOperationDefinition :: { TypedOperationDefinition }
+typedOperationDefinition
  : operationType directives selectionSet
-     { OperationDefinition (locate $1 <> locate $3 )(unLoc $1) Nothing mempty (fmap unLoc $2) (unLoc $3) }
+     { TypedOperationDefinition (locate $1 <> locate $3 )(unLoc $1) Nothing mempty (fmap unLoc $2) (unLoc $3) }
  | operationType name directives selectionSet
-     { OperationDefinition (locate $1 <> locate $4) (unLoc $1) (Just (unLoc $2)) mempty (fmap unLoc $3) (unLoc $4) }
+     { TypedOperationDefinition (locate $1 <> locate $4) (unLoc $1) (Just (unLoc $2)) mempty (fmap unLoc $3) (unLoc $4) }
  | operationType variableDefinitions directives selectionSet
-     { OperationDefinition (locate $1 <> locate $4) (unLoc $1) Nothing (Just $2) (fmap unLoc $3) (unLoc $4) }
+     { TypedOperationDefinition (locate $1 <> locate $4) (unLoc $1) Nothing (Just $2) (fmap unLoc $3) (unLoc $4) }
  | operationType name variableDefinitions directives selectionSet
-     { OperationDefinition (locate $1 <> locate $5) (unLoc $1) (Just (unLoc $2)) (Just $3) (fmap unLoc $4) (unLoc $5) }
- | selectionSet
-     { OperationDefinition (locate $1) OperationTypeQuery Nothing mempty Nothing (unLoc $1) }
+     { TypedOperationDefinition (locate $1 <> locate $5) (unLoc $1) (Just (unLoc $2)) (Just $3) (fmap unLoc $4) (unLoc $5) }
 
 --------------------------------------------------------------------------------
 
@@ -384,7 +382,7 @@ selection
 
 optValue :: { Maybe Value }
 optValue
-  : value { Just $1 }
+  : '=' valueConst { Just $2 }
   | %prec LOW { Nothing }
 
 values :: { [Value] }
@@ -394,6 +392,11 @@ values
 
 value :: { Value }
 value
+  : valueConst { $1 }
+  | variable { VVar (locate $1) (unLoc $1) }
+
+valueConst :: { Value }
+valueConst
   : 'null' { VNull (locate $1) }
   | stringValue { VString (locate $1) (unLoc $1) }
   | float { VFloat (locate $1) (unLoc $1) }
@@ -401,7 +404,10 @@ value
   | bool { VBoolean (locate $1) (unLoc $1) }
   | vlist { $1 }
   | vobject { $1 }
-  | '$' ident { VVar (locate $1 <> locate $2) (unLoc $2) }
+
+variable :: { Loc Text }
+variable
+  : '$' ident { Loc (locate $1 <> locate $2) ("$" <> unLoc $2) }
 
 stringValue :: { Loc Text }
 stringValue
@@ -419,10 +425,10 @@ vobject
   : '{' '}' { VObject (locate $1 <> locate $2) mempty }
   | '{' object '}' { VObject (locate $1 <> locate $3) $2 }
 
-object :: { HashMap Name Value }
+object :: { [(Name, Value)] }
 object
-  : objectField { uncurry Map.singleton $1 }
-  | objectField object { uncurry Map.insert $1 $2 }
+  : objectField { [$1] }
+| objectField object { $1 : $2 }
 
 objectField :: { (Name, Value) }
 objectField
@@ -447,12 +453,12 @@ name
 
 arguments :: { Arguments }
 arguments
-  : '(' arguments_ ')' { Arguments (locate $2) (unLoc $2) }
+  : '(' arguments_ ')' { Arguments (locate $2) (reverse (unLoc $2)) }
 
-arguments_ :: { Loc (HashMap Name Value) }
+arguments_ :: { Loc [(Name, Value)] }
 arguments_
-  : argument { Loc (locate $1) (uncurry Map.singleton (unLoc $1)) }
-  | arguments_ argument { Loc (locate $1 <> locate $2) (uncurry Map.insert (unLoc $2) (unLoc $1)) }
+  : argument { Loc (locate $1) [unLoc $1] }
+  | arguments_ argument { Loc (locate $1 <> locate $2) ((unLoc $2) : (unLoc $1)) }
 
 argument :: { Loc (Name, Value) }
 argument
@@ -470,7 +476,7 @@ variabledefinitions_
 
 variableDefinition :: { VariableDefinition }
 variabledefinition
-  : '$' name ':' type optValue directives { VariableDefinition (locate $1 <> maybeLoc (maybeLoc $4 $5) $6) (unLoc $2) $4 $5 (fmap unLoc $6) }
+  : variable ':' type optValue directives { VariableDefinition (locate $1 <> maybeLoc (maybeLoc $3 $4) $5) (Name $ unLoc $1) $3 $4 (fmap unLoc $5) }
 
 typeCondition :: { TypeCondition }
 typeCondition
@@ -499,7 +505,7 @@ directive
 
 description :: { Maybe (Loc Description) }
 description
-  : stringValue { Just $ Loc (locate $1) (Description (unLoc $1)) }
+  : stringValue { Just $ Loc (locate $1) (Description (Text.strip (unLoc $1))) }
   | { Nothing }
 
 optRepeatable :: { Maybe Span }

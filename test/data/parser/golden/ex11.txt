@@ -1,7 +1,7 @@
 [ DefinitionExecutable
     ( ExecutableDefinitionOperation
-        ( OperationDefinition
-            { _odSpan = Span
+        ( OperationDefinitionUnTyped
+            ( Span
                 { _start = AlexSourcePos
                     { _line = 0
                     , _col = 1
@@ -11,11 +11,8 @@
                     , _col = 2
                     }
                 }
-            , _odType = OperationTypeQuery
-            , _odName = Nothing
-            , _odVariables = Nothing
-            , _odDirectives = Nothing
-            , _odSelectionSet = SelectionField
+            )
+            ( SelectionField
                 ( Field
                     { _fSpan = Span
                         { _start = AlexSourcePos
@@ -41,7 +38,7 @@
                                     , _col = 13
                                     }
                                 }
-                            , argArguments = fromList
+                            , argArguments =
                                 [
                                     ( "id"
                                     , VInt
@@ -126,7 +123,7 @@
                                                     , _col = 38
                                                     }
                                                 }
-                                            , argArguments = fromList
+                                            , argArguments =
                                                 [
                                                     ( "width"
                                                     , VInt
@@ -168,7 +165,7 @@
                         )
                     }
                 ) :| []
-            }
+            )
         )
     )
 ]

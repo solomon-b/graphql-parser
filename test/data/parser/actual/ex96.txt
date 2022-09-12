@@ -39,7 +39,7 @@
                                         , _col = 68
                                         }
                                     }
-                                , argArguments = fromList
+                                , argArguments =
                                     [
                                         ( "url"
                                         , VString

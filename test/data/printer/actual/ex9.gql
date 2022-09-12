@@ -1,0 +1,11 @@
+{
+  me {
+    name
+  }
+}
+
+{
+  user(id: 4) {
+    name
+  }
+}

@@ -1,5 +1,0 @@
-query
-withNullableVariable
-($var: String  )
-
-{ fieldWithNonNullArg (nonNullArg: $var)  }

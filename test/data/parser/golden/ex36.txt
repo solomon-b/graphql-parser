@@ -77,7 +77,7 @@
                                 }
                             , _fldDescription = Just Description
 
-                                {  unDescription ="  Translates a string from a given language into a different language.\n  " }
+                                {  unDescription ="Translates a string from a given language into a different language." }
                             , _fldName = "translate"
                             , _fldArgumentsDefinition = Just
                                 ( InputValueDefinition
@@ -87,8 +87,8 @@
                                             , _col = 5
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 18
-                                            , _col = 46
+                                            { _line = 16
+                                            , _col = 27
                                             }
                                         }
                                     , _ivdDescription = Just Description
@@ -107,34 +107,23 @@
                                                 }
                                             }
                                         ) "Language"
-                                    , _ivdDefaultValue = Just
-                                        ( VString
-                                            ( Span
-                                                { _start = AlexSourcePos
-                                                    { _line = 18
-                                                    , _col = 5
-                                                    }
-                                                , _end = AlexSourcePos
-                                                    { _line = 18
-                                                    , _col = 46
-                                                    }
-                                                }
-                                            ) "The translated language to be returned."
-                                        )
+                                    , _ivdDefaultValue = Nothing
                                     , _ivdDirectives = Nothing
                                     } :|
                                     [ InputValueDefinition
                                         { _ivdSpan = Span
                                             { _start = AlexSourcePos
-                                                { _line = 19
+                                                { _line = 18
                                                 , _col = 5
                                                 }
                                             , _end = AlexSourcePos
-                                                { _line = 21
-                                                , _col = 33
+                                                { _line = 19
+                                                , _col = 25
                                                 }
                                             }
-                                        , _ivdDescription = Nothing
+                                        , _ivdDescription = Just Description
+
+                                            {  unDescription ="The translated language to be returned." }
                                         , _ivdName = "toLanguage"
                                         , _ivdType = NamedType
                                             ( Span
@@ -148,26 +137,13 @@
                                                     }
                                                 }
                                             ) "Language"
-                                        , _ivdDefaultValue = Just
-                                            ( VString
-                                                ( Span
-                                                    { _start = AlexSourcePos
-                                                        { _line = 21
-                                                        , _col = 5
-                                                        }
-                                                    , _end = AlexSourcePos
-                                                        { _line = 21
-                                                        , _col = 33
-                                                        }
-                                                    }
-                                                ) "The text to be translated."
-                                            )
+                                        , _ivdDefaultValue = Nothing
                                         , _ivdDirectives = Nothing
                                         }
                                     , InputValueDefinition
                                         { _ivdSpan = Span
                                             { _start = AlexSourcePos
-                                                { _line = 22
+                                                { _line = 21
                                                 , _col = 5
                                                 }
                                             , _end = AlexSourcePos
@@ -175,7 +151,9 @@
                                                 , _col = 17
                                                 }
                                             }
-                                        , _ivdDescription = Nothing
+                                        , _ivdDescription = Just Description
+
+                                            {  unDescription ="The text to be translated." }
                                         , _ivdName = "text"
                                         , _ivdType = NamedType
                                             ( Span

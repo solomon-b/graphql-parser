@@ -1,243 +1,106 @@
 [ DefinitionExecutable
     ( ExecutableDefinitionOperation
-        ( OperationDefinition
-            { _odSpan = Span
-                { _start = AlexSourcePos
-                    { _line = 0
-                    , _col = 1
-                    }
-                , _end = AlexSourcePos
-                    { _line = 13
-                    , _col = 2
-                    }
-                }
-            , _odType = OperationTypeQuery
-            , _odName = Just "noFragments"
-            , _odVariables = Nothing
-            , _odDirectives = Nothing
-            , _odSelectionSet = SelectionField
-                ( Field
-                    { _fSpan = Span
-                        { _start = AlexSourcePos
-                            { _line = 1
-                            , _col = 3
-                            }
-                        , _end = AlexSourcePos
-                            { _line = 12
-                            , _col = 4
-                            }
+        ( OperationDefinitionTyped
+            ( TypedOperationDefinition
+                { _odSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 0
+                        , _col = 1
                         }
-                    , _fAlias = Nothing
-                    , _fName = "user"
-                    , _fArguments = Just
-                        ( Arguments
-                            { argSpan = Span
-                                { _start = AlexSourcePos
-                                    { _line = 1
-                                    , _col = 8
-                                    }
-                                , _end = AlexSourcePos
-                                    { _line = 1
-                                    , _col = 13
-                                    }
+                    , _end = AlexSourcePos
+                        { _line = 13
+                        , _col = 2
+                        }
+                    }
+                , _odType = OperationTypeQuery
+                , _odName = Just "noFragments"
+                , _odVariables = Nothing
+                , _odDirectives = Nothing
+                , _odSelectionSet = SelectionField
+                    ( Field
+                        { _fSpan = Span
+                            { _start = AlexSourcePos
+                                { _line = 1
+                                , _col = 3
                                 }
-                            , argArguments = fromList
-                                [
-                                    ( "id"
-                                    , VInt
-                                        ( Span
-                                            { _start = AlexSourcePos
-                                                { _line = 1
-                                                , _col = 12
-                                                }
-                                            , _end = AlexSourcePos
-                                                { _line = 1
-                                                , _col = 13
-                                                }
-                                            }
-                                        ) 4
-                                    )
-                                ]
+                            , _end = AlexSourcePos
+                                { _line = 12
+                                , _col = 4
+                                }
                             }
-                        )
-                    , _fDirectives = Nothing
-                    , _fSelectionSet = Just
-                        ( SelectionField
-                            ( Field
-                                { _fSpan = Span
+                        , _fAlias = Nothing
+                        , _fName = "user"
+                        , _fArguments = Just
+                            ( Arguments
+                                { argSpan = Span
                                     { _start = AlexSourcePos
-                                        { _line = 2
-                                        , _col = 5
+                                        { _line = 1
+                                        , _col = 8
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 6
-                                        , _col = 6
+                                        { _line = 1
+                                        , _col = 13
                                         }
                                     }
-                                , _fAlias = Nothing
-                                , _fName = "friends"
-                                , _fArguments = Just
-                                    ( Arguments
-                                        { argSpan = Span
-                                            { _start = AlexSourcePos
-                                                { _line = 2
-                                                , _col = 13
-                                                }
-                                            , _end = AlexSourcePos
-                                                { _line = 2
-                                                , _col = 22
-                                                }
-                                            }
-                                        , argArguments = fromList
-                                            [
-                                                ( "first"
-                                                , VInt
-                                                    ( Span
-                                                        { _start = AlexSourcePos
-                                                            { _line = 2
-                                                            , _col = 20
-                                                            }
-                                                        , _end = AlexSourcePos
-                                                            { _line = 2
-                                                            , _col = 22
-                                                            }
-                                                        }
-                                                    ) 10
-                                                )
-                                            ]
-                                        }
-                                    )
-                                , _fDirectives = Nothing
-                                , _fSelectionSet = Just
-                                    ( SelectionField
-                                        ( Field
-                                            { _fSpan = Span
+                                , argArguments =
+                                    [
+                                        ( "id"
+                                        , VInt
+                                            ( Span
                                                 { _start = AlexSourcePos
-                                                    { _line = 3
-                                                    , _col = 7
+                                                    { _line = 1
+                                                    , _col = 12
                                                     }
                                                 , _end = AlexSourcePos
-                                                    { _line = 3
-                                                    , _col = 9
+                                                    { _line = 1
+                                                    , _col = 13
                                                     }
                                                 }
-                                            , _fAlias = Nothing
-                                            , _fName = "id"
-                                            , _fArguments = Nothing
-                                            , _fDirectives = Nothing
-                                            , _fSelectionSet = Nothing
-                                            }
-                                        ) :|
-                                        [ SelectionField
-                                            ( Field
-                                                { _fSpan = Span
-                                                    { _start = AlexSourcePos
-                                                        { _line = 4
-                                                        , _col = 7
-                                                        }
-                                                    , _end = AlexSourcePos
-                                                        { _line = 4
-                                                        , _col = 11
-                                                        }
-                                                    }
-                                                , _fAlias = Nothing
-                                                , _fName = "name"
-                                                , _fArguments = Nothing
-                                                , _fDirectives = Nothing
-                                                , _fSelectionSet = Nothing
-                                                }
-                                            )
-                                        , SelectionField
-                                            ( Field
-                                                { _fSpan = Span
-                                                    { _start = AlexSourcePos
-                                                        { _line = 5
-                                                        , _col = 7
-                                                        }
-                                                    , _end = AlexSourcePos
-                                                        { _line = 5
-                                                        , _col = 26
-                                                        }
-                                                    }
-                                                , _fAlias = Nothing
-                                                , _fName = "profilePic"
-                                                , _fArguments = Just
-                                                    ( Arguments
-                                                        { argSpan = Span
-                                                            { _start = AlexSourcePos
-                                                                { _line = 5
-                                                                , _col = 18
-                                                                }
-                                                            , _end = AlexSourcePos
-                                                                { _line = 5
-                                                                , _col = 26
-                                                                }
-                                                            }
-                                                        , argArguments = fromList
-                                                            [
-                                                                ( "size"
-                                                                , VInt
-                                                                    ( Span
-                                                                        { _start = AlexSourcePos
-                                                                            { _line = 5
-                                                                            , _col = 24
-                                                                            }
-                                                                        , _end = AlexSourcePos
-                                                                            { _line = 5
-                                                                            , _col = 26
-                                                                            }
-                                                                        }
-                                                                    ) 50
-                                                                )
-                                                            ]
-                                                        }
-                                                    )
-                                                , _fDirectives = Nothing
-                                                , _fSelectionSet = Nothing
-                                                }
-                                            )
-                                        ]
-                                    )
+                                            ) 4
+                                        )
+                                    ]
                                 }
-                            ) :|
-                            [ SelectionField
+                            )
+                        , _fDirectives = Nothing
+                        , _fSelectionSet = Just
+                            ( SelectionField
                                 ( Field
                                     { _fSpan = Span
                                         { _start = AlexSourcePos
-                                            { _line = 7
+                                            { _line = 2
                                             , _col = 5
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 11
+                                            { _line = 6
                                             , _col = 6
                                             }
                                         }
                                     , _fAlias = Nothing
-                                    , _fName = "mutualFriends"
+                                    , _fName = "friends"
                                     , _fArguments = Just
                                         ( Arguments
                                             { argSpan = Span
                                                 { _start = AlexSourcePos
-                                                    { _line = 7
-                                                    , _col = 19
+                                                    { _line = 2
+                                                    , _col = 13
                                                     }
                                                 , _end = AlexSourcePos
-                                                    { _line = 7
-                                                    , _col = 28
+                                                    { _line = 2
+                                                    , _col = 22
                                                     }
                                                 }
-                                            , argArguments = fromList
+                                            , argArguments =
                                                 [
                                                     ( "first"
                                                     , VInt
                                                         ( Span
                                                             { _start = AlexSourcePos
-                                                                { _line = 7
-                                                                , _col = 26
+                                                                { _line = 2
+                                                                , _col = 20
                                                                 }
                                                             , _end = AlexSourcePos
-                                                                { _line = 7
-                                                                , _col = 28
+                                                                { _line = 2
+                                                                , _col = 22
                                                                 }
                                                             }
                                                         ) 10
@@ -251,11 +114,11 @@
                                             ( Field
                                                 { _fSpan = Span
                                                     { _start = AlexSourcePos
-                                                        { _line = 8
+                                                        { _line = 3
                                                         , _col = 7
                                                         }
                                                     , _end = AlexSourcePos
-                                                        { _line = 8
+                                                        { _line = 3
                                                         , _col = 9
                                                         }
                                                     }
@@ -270,11 +133,11 @@
                                                 ( Field
                                                     { _fSpan = Span
                                                         { _start = AlexSourcePos
-                                                            { _line = 9
+                                                            { _line = 4
                                                             , _col = 7
                                                             }
                                                         , _end = AlexSourcePos
-                                                            { _line = 9
+                                                            { _line = 4
                                                             , _col = 11
                                                             }
                                                         }
@@ -289,11 +152,11 @@
                                                 ( Field
                                                     { _fSpan = Span
                                                         { _start = AlexSourcePos
-                                                            { _line = 10
+                                                            { _line = 5
                                                             , _col = 7
                                                             }
                                                         , _end = AlexSourcePos
-                                                            { _line = 10
+                                                            { _line = 5
                                                             , _col = 26
                                                             }
                                                         }
@@ -303,25 +166,25 @@
                                                         ( Arguments
                                                             { argSpan = Span
                                                                 { _start = AlexSourcePos
-                                                                    { _line = 10
+                                                                    { _line = 5
                                                                     , _col = 18
                                                                     }
                                                                 , _end = AlexSourcePos
-                                                                    { _line = 10
+                                                                    { _line = 5
                                                                     , _col = 26
                                                                     }
                                                                 }
-                                                            , argArguments = fromList
+                                                            , argArguments =
                                                                 [
                                                                     ( "size"
                                                                     , VInt
                                                                         ( Span
                                                                             { _start = AlexSourcePos
-                                                                                { _line = 10
+                                                                                { _line = 5
                                                                                 , _col = 24
                                                                                 }
                                                                             , _end = AlexSourcePos
-                                                                                { _line = 10
+                                                                                { _line = 5
                                                                                 , _col = 26
                                                                                 }
                                                                             }
@@ -337,12 +200,151 @@
                                             ]
                                         )
                                     }
-                                )
-                            ]
-                        )
-                    }
-                ) :| []
-            }
+                                ) :|
+                                [ SelectionField
+                                    ( Field
+                                        { _fSpan = Span
+                                            { _start = AlexSourcePos
+                                                { _line = 7
+                                                , _col = 5
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 11
+                                                , _col = 6
+                                                }
+                                            }
+                                        , _fAlias = Nothing
+                                        , _fName = "mutualFriends"
+                                        , _fArguments = Just
+                                            ( Arguments
+                                                { argSpan = Span
+                                                    { _start = AlexSourcePos
+                                                        { _line = 7
+                                                        , _col = 19
+                                                        }
+                                                    , _end = AlexSourcePos
+                                                        { _line = 7
+                                                        , _col = 28
+                                                        }
+                                                    }
+                                                , argArguments =
+                                                    [
+                                                        ( "first"
+                                                        , VInt
+                                                            ( Span
+                                                                { _start = AlexSourcePos
+                                                                    { _line = 7
+                                                                    , _col = 26
+                                                                    }
+                                                                , _end = AlexSourcePos
+                                                                    { _line = 7
+                                                                    , _col = 28
+                                                                    }
+                                                                }
+                                                            ) 10
+                                                        )
+                                                    ]
+                                                }
+                                            )
+                                        , _fDirectives = Nothing
+                                        , _fSelectionSet = Just
+                                            ( SelectionField
+                                                ( Field
+                                                    { _fSpan = Span
+                                                        { _start = AlexSourcePos
+                                                            { _line = 8
+                                                            , _col = 7
+                                                            }
+                                                        , _end = AlexSourcePos
+                                                            { _line = 8
+                                                            , _col = 9
+                                                            }
+                                                        }
+                                                    , _fAlias = Nothing
+                                                    , _fName = "id"
+                                                    , _fArguments = Nothing
+                                                    , _fDirectives = Nothing
+                                                    , _fSelectionSet = Nothing
+                                                    }
+                                                ) :|
+                                                [ SelectionField
+                                                    ( Field
+                                                        { _fSpan = Span
+                                                            { _start = AlexSourcePos
+                                                                { _line = 9
+                                                                , _col = 7
+                                                                }
+                                                            , _end = AlexSourcePos
+                                                                { _line = 9
+                                                                , _col = 11
+                                                                }
+                                                            }
+                                                        , _fAlias = Nothing
+                                                        , _fName = "name"
+                                                        , _fArguments = Nothing
+                                                        , _fDirectives = Nothing
+                                                        , _fSelectionSet = Nothing
+                                                        }
+                                                    )
+                                                , SelectionField
+                                                    ( Field
+                                                        { _fSpan = Span
+                                                            { _start = AlexSourcePos
+                                                                { _line = 10
+                                                                , _col = 7
+                                                                }
+                                                            , _end = AlexSourcePos
+                                                                { _line = 10
+                                                                , _col = 26
+                                                                }
+                                                            }
+                                                        , _fAlias = Nothing
+                                                        , _fName = "profilePic"
+                                                        , _fArguments = Just
+                                                            ( Arguments
+                                                                { argSpan = Span
+                                                                    { _start = AlexSourcePos
+                                                                        { _line = 10
+                                                                        , _col = 18
+                                                                        }
+                                                                    , _end = AlexSourcePos
+                                                                        { _line = 10
+                                                                        , _col = 26
+                                                                        }
+                                                                    }
+                                                                , argArguments =
+                                                                    [
+                                                                        ( "size"
+                                                                        , VInt
+                                                                            ( Span
+                                                                                { _start = AlexSourcePos
+                                                                                    { _line = 10
+                                                                                    , _col = 24
+                                                                                    }
+                                                                                , _end = AlexSourcePos
+                                                                                    { _line = 10
+                                                                                    , _col = 26
+                                                                                    }
+                                                                                }
+                                                                            ) 50
+                                                                        )
+                                                                    ]
+                                                                }
+                                                            )
+                                                        , _fDirectives = Nothing
+                                                        , _fSelectionSet = Nothing
+                                                        }
+                                                    )
+                                                ]
+                                            )
+                                        }
+                                    )
+                                ]
+                            )
+                        }
+                    ) :| []
+                }
+            )
         )
     )
 ]

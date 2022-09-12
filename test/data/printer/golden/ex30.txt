@@ -1,1 +1,0 @@
-query    { nearestThing (location: {lat: -53.211 lon: 12.43})  }

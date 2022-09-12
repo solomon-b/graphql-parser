@@ -1,30 +1,27 @@
 [ DefinitionExecutable
     ( ExecutableDefinitionOperation
-        ( OperationDefinition
-            { _odSpan = Span
+        ( OperationDefinitionUnTyped
+            ( Span
                 { _start = AlexSourcePos
                     { _line = 0
                     , _col = 1
                     }
                 , _end = AlexSourcePos
-                    { _line = 0
-                    , _col = 65
+                    { _line = 2
+                    , _col = 2
                     }
                 }
-            , _odType = OperationTypeQuery
-            , _odName = Nothing
-            , _odVariables = Nothing
-            , _odDirectives = Nothing
-            , _odSelectionSet = SelectionField
+            )
+            ( SelectionField
                 ( Field
                     { _fSpan = Span
                         { _start = AlexSourcePos
-                            { _line = 0
-                            , _col = 12
+                            { _line = 1
+                            , _col = 3
                             }
                         , _end = AlexSourcePos
-                            { _line = 0
-                            , _col = 61
+                            { _line = 1
+                            , _col = 54
                             }
                         }
                     , _fAlias = Nothing
@@ -33,63 +30,61 @@
                         ( Arguments
                             { argSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 0
-                                    , _col = 26
+                                    { _line = 1
+                                    , _col = 16
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 0
-                                    , _col = 61
+                                    { _line = 1
+                                    , _col = 54
                                     }
                                 }
-                            , argArguments = fromList
+                            , argArguments =
                                 [
                                     ( "location"
                                     , VObject
                                         ( Span
                                             { _start = AlexSourcePos
-                                                { _line = 0
-                                                , _col = 36
+                                                { _line = 1
+                                                , _col = 26
                                                 }
                                             , _end = AlexSourcePos
-                                                { _line = 0
-                                                , _col = 61
+                                                { _line = 1
+                                                , _col = 54
                                                 }
                                             }
                                         )
-                                        ( fromList
-                                            [
-                                                ( "lat"
-                                                , VFloat
-                                                    ( Span
-                                                        { _start = AlexSourcePos
-                                                            { _line = 0
-                                                            , _col = 42
-                                                            }
-                                                        , _end = AlexSourcePos
-                                                            { _line = 0
-                                                            , _col = 49
-                                                            }
+                                        [
+                                            ( "lat"
+                                            , VFloat
+                                                ( Span
+                                                    { _start = AlexSourcePos
+                                                        { _line = 1
+                                                        , _col = 33
                                                         }
-                                                    )
-                                                    ( -53.211 )
-                                                )
-                                            ,
-                                                ( "lon"
-                                                , VFloat
-                                                    ( Span
-                                                        { _start = AlexSourcePos
-                                                            { _line = 0
-                                                            , _col = 55
-                                                            }
-                                                        , _end = AlexSourcePos
-                                                            { _line = 0
-                                                            , _col = 60
-                                                            }
+                                                    , _end = AlexSourcePos
+                                                        { _line = 1
+                                                        , _col = 40
                                                         }
-                                                    ) 12.43
+                                                    }
                                                 )
-                                            ]
-                                        )
+                                                ( -53.211 )
+                                            )
+                                        ,
+                                            ( "lon"
+                                            , VFloat
+                                                ( Span
+                                                    { _start = AlexSourcePos
+                                                        { _line = 1
+                                                        , _col = 47
+                                                        }
+                                                    , _end = AlexSourcePos
+                                                        { _line = 1
+                                                        , _col = 52
+                                                        }
+                                                    }
+                                                ) 12.43
+                                            )
+                                        ]
                                     )
                                 ]
                             }
@@ -98,7 +93,7 @@
                     , _fSelectionSet = Nothing
                     }
                 ) :| []
-            }
+            )
         )
     )
 ]

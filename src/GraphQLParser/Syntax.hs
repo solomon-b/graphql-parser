@@ -1,12 +1,81 @@
 {-# LANGUAGE DeriveAnyClass #-}
-{-# LANGUAGE TypeOperators #-}
 
 -- | GraphQL IR
-module GraphQLParser.Syntax where
+module GraphQLParser.Syntax
+  ( -- * Documents
+    Document (..),
+    Definition (..),
+    -- * Type System Definitions
+    TypeSystemDefinitionOrExtension (..),
+    TypeSystemDefinition (..),
+
+    -- * Schema Definitions
+    SchemaDefinition (..),
+    RootOperationTypesDefinition (..),
+    RootOperationTypeDefinition (..),
+
+    -- * Type Definitions
+    TypeDefinition (..),
+    ScalarTypeDefinition (..),
+    ObjectTypeDefinition (..),
+    FieldsDefinition (..),
+    FieldDefinition (..),
+    InterfaceTypeDefinition (..),
+    ImplementsInterfaces (..),
+    UnionTypeDefinition (..),
+    EnumTypeDefinition (..),
+    EnumValueDefinition (..),
+    InputObjectTypeDefinition (..),
+    InputFieldsDefinition (..),
+    ArgumentsDefinition (..),
+    InputValueDefinition (..),
+
+    -- * Directive Definitions
+    DirectiveDefinition (..),
+    DirectiveLocation (..),
+    ExecutableDirectiveLocation (..),
+    TypeSystemDirectiveLocation (..),
+
+    -- * Executable Definitions
+    ExecutableDefinition (..),
+    OperationDefinition (..),
+    TypedOperationDefinition (..),
+
+    -- * Fragments
+    FragmentDefinition (..),
+    FragmentSpread (..),
+    InlineFragment (..),
+
+    -- * Fields
+    Field (..),
+
+    -- * Selections
+    SelectionSet (..),
+    Selection (..),
+
+    -- * Values
+    EnumValue (..),
+    Value (..),
+
+    -- * Misc
+    Description (..),
+    OperationType (..),
+    Name (..),
+    mkName,
+    VariablesDefinition (..),
+    VariableDefinition (..),
+    Arguments (..),
+    TypeCondition (..),
+    Type (..),
+    Directives (..),
+    Directive (..),
+    renderPretty,
+    renderPrettyBS,
+  )
+where
 
 import Control.DeepSeq (NFData)
 import Data.ByteString.Char8 qualified as B
-import Data.ByteString.Lazy qualified as BL
 import Data.Char qualified as C
 import Data.Foldable
 import Data.Hashable (Hashable)
@@ -16,7 +85,6 @@ import Data.Scientific (Scientific)
 import Data.Text (Text)
 import Data.Text qualified as T
 import Data.Text.Encoding qualified as TE
-import Data.Vector qualified as V
 import GHC.Generics (Generic)
 import GraphQLParser.Span qualified as S
 import Language.Haskell.TH.Syntax (Lift)
@@ -601,12 +669,6 @@ instance Pretty InlineFragment where
   pretty InlineFragment {..} =
     "..." <+?> _ifTypeCondition <+?> _ifDirectives <+> pretty _ifSelectionSet
 
---sep
---  [ "..." <> maybe mempty pretty _ifTypeCondition,
---    pretty _ifDirectives,
---    pretty _ifSelectionSet
---  ]
-
 --------------------------------------------------------------------------------
 -- Fields
 
@@ -882,10 +944,6 @@ instance Pretty Directive where
 (<-?>) x Nothing = x
 (<-?>) x (Just y) = x <> pretty y
 
-(<?+>) :: Pretty b => Maybe b -> Doc ann -> Doc ann
-(<?+>) Nothing x = x
-(<?+>) (Just y) x = pretty y <+> x
-
 withDescription :: Maybe Description -> Doc ann -> Doc ann
 withDescription Nothing x = x
 withDescription (Just x) y = vsep [pretty x, y]
@@ -898,9 +956,3 @@ renderPretty = renderDoc . pretty
 
 renderPrettyBS :: Pretty a => a -> B.ByteString
 renderPrettyBS = TE.encodeUtf8 . renderDoc . pretty
-
-renderVect :: Pretty a => V.Vector a -> Text
-renderVect = renderDoc . foldMap pretty
-
-renderBL :: BL.ByteString -> Text
-renderBL = TE.decodeUtf8 . BL.toStrict

@@ -25,7 +25,7 @@ import GraphQLParser.Token
 %error { failure }
 
 %right LOW
-%right '$' '{' '"' '"""'
+%right '{'
 
 %token
 
@@ -266,8 +266,8 @@ directivelocations
 
 directiveLocation :: { DirectiveLocation }
 directivelocation
-: executableDirectiveLocation { ExecDirLoc (locate $1) (unLoc $1) }
-| typeSystemDirectiveLocation { TypeSysDirLoc (locate $1) (unLoc $1) }
+  : executableDirectiveLocation { ExecDirLoc (locate $1) (unLoc $1) }
+  | typeSystemDirectiveLocation { TypeSysDirLoc (locate $1) (unLoc $1) }
 
 executableDirectiveLocation :: { Loc ExecutableDirectiveLocation }
 executableDirectiveLocation
@@ -282,17 +282,17 @@ executableDirectiveLocation
 
 typeSystemDirectiveLocation :: { Loc TypeSystemDirectiveLocation }
 typeSystemDirectiveLocation
-: 'SCHEMA' { Loc (locate $1) TSDLSCHEMA }
-| 'SCALAR' { Loc (locate $1) TSDLSCALAR }
-| 'OBJECT' { Loc (locate $1) TSDLOBJECT }
-| 'FIELD_DEFINITION' { Loc (locate $1) TSDLFIELD_DEFINITION }
-| 'ARGUMENT_DEFINITION' { Loc (locate $1) TSDLARGUMENT_DEFINITION }
-| 'INTERFACE' { Loc (locate $1) TSDLINTERFACE }
-| 'UNION' { Loc (locate $1) TSDLUNION }
-| 'ENUM' { Loc (locate $1) TSDLENUM }
-| 'ENUM_VALUE' { Loc (locate $1) TSDLENUM_VALUE }
-| 'INPUT_OBJECT' { Loc (locate $1) TSDLINPUT_OBJECT }
-| 'INPUT_FIELD_DEFINITION' { Loc (locate $1) TSDLINPUT_FIELD_DEFINITION }
+  : 'SCHEMA' { Loc (locate $1) TSDLSCHEMA }
+  | 'SCALAR' { Loc (locate $1) TSDLSCALAR }
+  | 'OBJECT' { Loc (locate $1) TSDLOBJECT }
+  | 'FIELD_DEFINITION' { Loc (locate $1) TSDLFIELD_DEFINITION }
+  | 'ARGUMENT_DEFINITION' { Loc (locate $1) TSDLARGUMENT_DEFINITION }
+  | 'INTERFACE' { Loc (locate $1) TSDLINTERFACE }
+  | 'UNION' { Loc (locate $1) TSDLUNION }
+  | 'ENUM' { Loc (locate $1) TSDLENUM }
+  | 'ENUM_VALUE' { Loc (locate $1) TSDLENUM_VALUE }
+  | 'INPUT_OBJECT' { Loc (locate $1) TSDLINPUT_OBJECT }
+  | 'INPUT_FIELD_DEFINITION' { Loc (locate $1) TSDLINPUT_FIELD_DEFINITION }
 
 --------------------------------------------------------------------------------
 
@@ -428,7 +428,7 @@ vobject
 object :: { [(Name, Value)] }
 object
   : objectField { [$1] }
-| objectField object { $1 : $2 }
+  | objectField object { $1 : $2 }
 
 objectField :: { (Name, Value) }
 objectField

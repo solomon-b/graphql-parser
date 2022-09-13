@@ -377,11 +377,15 @@ genFieldDefinitions =
   mkListNonEmpty genFieldDefinition >>= \defs ->
     pure $ FieldsDefinition dummySpan defs
 
+genRepeatable :: Gen Repeatable
+genRepeatable = Gen.element [Repeatable, NotRepeatable]
+
 genDirectiveDefinition :: Gen DirectiveDefinition
 genDirectiveDefinition = do
   _ddDescription <- Gen.maybe genDescription
   _ddName <- genName
   _ddArguments <- Gen.maybe genArgumentsDefinition
+  _ddRepeatable <- genRepeatable
   _ddLocations <- Gen.list (Range.linear 1 10) genDirectiveLocation
   let _ddSpan = dummySpan
   pure $ DirectiveDefinition {..}

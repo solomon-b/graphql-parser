@@ -256,9 +256,9 @@ inputObjectTypeDefinition
 directiveDefinition :: { DirectiveDefinition }
 directivedefinition
   : description 'directive' '@' dir argumentsDefinition optRepeatable 'on' directiveLocations
-      { DirectiveDefinition (fromMaybe (locate $2) (fmap locate $1) <> locate $8) (fmap unLoc $1) (unsafeMkName $ unLoc $4) $5 (unLoc $8) }
+      { DirectiveDefinition (fromMaybe (locate $2) (fmap locate $1) <> locate $8) (fmap unLoc $1) (unsafeMkName $ unLoc $4) $5 $6 (unLoc $8) }
   | description 'directive' '@' dir argumentsDefinition optRepeatable 'on' '|' directiveLocations
-      { DirectiveDefinition (fromMaybe (locate $2) (fmap locate $1) <> locate $9) (fmap unLoc $1) (unsafeMkName $ unLoc $4) $5 (unLoc $9) }
+      { DirectiveDefinition (fromMaybe (locate $2) (fmap locate $1) <> locate $9) (fmap unLoc $1) (unsafeMkName $ unLoc $4) $5 $6 (unLoc $9) }
 
 directiveLocations :: { Loc [DirectiveLocation] }
 directivelocations
@@ -509,10 +509,10 @@ description
   : stringValue { Just $ Loc (locate $1) (Description (Text.strip (unLoc $1))) }
   | { Nothing }
 
-optRepeatable :: { Maybe Span }
+optRepeatable :: { Repeatable }
 optRepeatable
-  : 'repeatable' { Just $1 }
-  | { Nothing }
+  : 'repeatable' { Repeatable }
+  | { NotRepeatable }
 
 --------------------------------------------------------------------------------
 

@@ -34,6 +34,7 @@ module GraphQLParser.Syntax
     -- * Directive Definitions
     DirectiveDefinition (..),
     DirectiveLocation (..),
+    Repeatable (..),
     ExecutableDirectiveLocation (..),
     TypeSystemDirectiveLocation (..),
 
@@ -330,8 +331,6 @@ instance Pretty ImplementsInterfaces where
   pretty ImplementsInterfaces {..} =
     "implements" <+> (sep $ punctuate " &" $ fmap pretty $ NE.toList _iiInterfaces)
 
---"implements" <+> foldl (\acc n -> "&" <+> pretty n <+> acc) "" _iiInterfaces
-
 -- | GraphQL Unions represent an object that could be one of a list of
 -- GraphQL Object types, but provides for no guaranteed fields between
 -- those types. They also differ from interfaces in that Object types
@@ -465,12 +464,12 @@ instance Pretty InputValueDefinition where
 --------------------------------------------------------------------------------
 -- Directive Definitions
 
--- TODO: Repeatable Option
 data DirectiveDefinition = DirectiveDefinition
   { _ddSpan :: S.Span,
     _ddDescription :: Maybe Description,
     _ddName :: Name,
     _ddArguments :: Maybe ArgumentsDefinition,
+    _ddRepeatable :: Repeatable,
     _ddLocations :: [DirectiveLocation]
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
@@ -503,6 +502,10 @@ instance Pretty DirectiveLocation where
   pretty = \case
     ExecDirLoc _sp edl -> pretty edl
     TypeSysDirLoc _sp tsdl -> pretty tsdl
+
+data Repeatable = Repeatable | NotRepeatable
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
 
 data ExecutableDirectiveLocation
   = EDLQUERY

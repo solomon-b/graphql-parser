@@ -315,7 +315,6 @@ instance Pretty InterfaceTypeDefinition where
   pretty InterfaceTypeDefinition {..} =
     withDescription _itDescription $ "interface" <+> pretty _itName <+?> _itInterfaces <+?> _itDirectives <+?> _itFields
 
--- TODO: Use a Vector
 data ImplementsInterfaces = ImplementsInterfaces
   { _iiSpan :: S.Span,
     _iiInterfaces :: NE.NonEmpty Name
@@ -326,7 +325,6 @@ data ImplementsInterfaces = ImplementsInterfaces
 instance S.Located ImplementsInterfaces where
   locate = _iiSpan
 
--- TODO:
 instance Pretty ImplementsInterfaces where
   pretty ImplementsInterfaces {..} =
     "implements" <+> (sep $ punctuate " &" $ fmap pretty $ NE.toList _iiInterfaces)
@@ -341,6 +339,7 @@ data UnionTypeDefinition = UnionTypeDefinition
     _utdDescription :: Maybe Description,
     _utdName :: Name,
     _utdDirectives :: Maybe Directives,
+    -- TODO: Should this be NonEmpty?
     _utdMemberTypes :: [Name]
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
@@ -562,13 +561,113 @@ instance Pretty TypeSystemDirectiveLocation where
 --------------------------------------------------------------------------------
 -- Type System Extension Definitions
 
--- TODO:
-data TypeSystemExtension = TypeSystemExtension
+data TypeSystemExtension
+  = TSSchemaExtension SchemaExtension
+  | TSTypeExtension TypeExtension
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
 
 instance Pretty TypeSystemExtension where
-  pretty _ = "TODO Type System Extensions"
+  pretty = \case
+    TSSchemaExtension se -> pretty se
+    TSTypeExtension te -> pretty te
+
+data SchemaExtension = SchemaExtension
+  { seDirectives :: Maybe (NE.NonEmpty Directive),
+    seRootOperationTypeDefinitions :: Maybe RootOperationTypesDefinition
+  }
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
+
+instance Pretty SchemaExtension where
+  pretty SchemaExtension {..} =
+      "extend schema" <+?> seDirectives <+?> seRootOperationTypeDefinitions
+
+data TypeExtension
+  = TEScalar ScalarTypeExtension
+  | TEObject ObjectTypeExtension
+  | TEInterface InterfaceTypeExtension
+  | TEUnion UnionTypeExtension
+  | TEEnum EnumTypeExtension
+  | TEInputObject InputObjectTypeExtension
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
+
+instance Pretty TypeExtension where
+  pretty = \case
+    TEScalar ste -> pretty ste
+    TEObject ote -> pretty ote
+    TEInterface ite -> pretty ite
+    TEUnion ute -> pretty ute
+    TEEnum ete -> pretty ete
+    TEInputObject iote -> pretty iote
+
+data ScalarTypeExtension = ScalarTypeExtension
+  { steName :: Name,
+    steDirectives :: Maybe Directives
+  }
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
+
+instance Pretty ScalarTypeExtension where
+  pretty ScalarTypeExtension {..} = "extend scalar" <+> pretty steName <+?> steDirectives
+
+data ObjectTypeExtension = ObjectTypeExtension
+  { oteName :: Name,
+    oteInterfaces :: Maybe ImplementsInterfaces,
+    oteDirectives :: Maybe Directives,
+    oteFields :: Maybe FieldsDefinition
+  }
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
+
+instance Pretty ObjectTypeExtension where
+  pretty ObjectTypeExtension {..} = "extend type" <+> pretty oteName <+?> oteInterfaces <+?> oteDirectives <+?> oteFields
+
+data InterfaceTypeExtension = InterfaceTypeExtension
+  { iteName :: Name,
+    iteInterfaces :: Maybe ImplementsInterfaces,
+    iteDirectives :: Maybe Directives,
+    iteFields :: Maybe FieldsDefinition
+  }
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
+
+instance Pretty InterfaceTypeExtension where
+  pretty InterfaceTypeExtension {..} = "extend interface" <+> pretty iteName <+?> iteInterfaces <+?> iteDirectives <+?> iteFields
+
+data UnionTypeExtension = UnionTypeExtension
+  { uteName :: Name,
+    uteDirectives :: Maybe Directives,
+    uteMemberTypes :: Maybe (NE.NonEmpty Name)
+  }
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
+
+instance Pretty UnionTypeExtension where
+  pretty UnionTypeExtension {..} = "extend union" <+> pretty uteName <+?> uteDirectives <+?> uteMemberTypes
+
+data EnumTypeExtension = EnumTypeExtension
+  { eteName :: Name,
+    eteDirectives :: Maybe Directives,
+    eteValuesDefinition :: Maybe (NE.NonEmpty EnumValueDefinition)
+  }
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
+
+instance Pretty EnumTypeExtension where
+  pretty EnumTypeExtension {..} = "extend union" <+> pretty eteName <+?> eteDirectives <+?> eteValuesDefinition
+
+data InputObjectTypeExtension = InputObjectTypeExtension
+  { ioteName :: Name,
+    ioteDirectives :: Maybe Directives,
+    ioteFieldsDefinition :: Maybe InputFieldsDefinition
+  }
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
+
+instance Pretty InputObjectTypeExtension where
+  pretty InputObjectTypeExtension {..} = "extend input" <+> pretty ioteName <+?> ioteDirectives <+?> ioteFieldsDefinition
 
 --------------------------------------------------------------------------------
 -- Executable Definitions

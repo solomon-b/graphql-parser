@@ -29,7 +29,7 @@ type ParserOf a = B.ByteString -> Either ParseError a
 -- | Parser tests.
 parserSpec :: Spec
 parserSpec = describe "Parser" $ do
-  parserGoldenSpec runParseGraphQL "test/data/parser"
+  parserGoldenSpec parseGraphQL "test/data/parser"
 
 -- | 'Golden' parser tests for each of the files in the @examples@ subdirectory
 -- found in the project directory hard-coded into this function.

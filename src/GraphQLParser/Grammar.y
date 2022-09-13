@@ -19,6 +19,7 @@ import GraphQLParser.Token
 --------------------------------------------------------------------------------
 
 %name parseGraphQLDocument graphqlDocument
+%name parseExecutableDocument executableDefinition
 %name parseName name
 %tokentype { Token }
 %monad { Parser }

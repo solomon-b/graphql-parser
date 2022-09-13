@@ -1,36 +1,36 @@
 module GraphQLParser
   ( module T,
     module Syntax,
-    module L,
     module M,
-    module P,
     module S,
     module E,
-    runLex,
-    runParseGraphQL,
-    runParseName,
+    parseGraphQL,
+    parseExecutableDocument,
+    parseName,
   )
 where
 
 import Data.ByteString qualified as B
 import GraphQLParser.Error as E
-import GraphQLParser.Grammar as P
-import GraphQLParser.Lexer as L
+import GraphQLParser.Grammar qualified as P
+import GraphQLParser.Lexer qualified as L
 import GraphQLParser.Monad as M
 import GraphQLParser.Span as S
 import GraphQLParser.Syntax as Syntax
 import GraphQLParser.Token as T
 
-runLex :: B.ByteString -> Either ParseError [Token]
-runLex bs = M.runParser [] bs L.lexer
-
-runParseGraphQL :: B.ByteString -> Either ParseError Document
-runParseGraphQL bs = M.runParser [] bs $ do
+parseGraphQL :: B.ByteString -> Either ParseError Document
+parseGraphQL bs = M.runParser [] bs $ do
   toks <- L.lexer
   P.parseGraphQLDocument toks
 
-runParseName :: MonadFail m => B.ByteString -> m Name
-runParseName bs =
+parseExecutableDocument :: B.ByteString -> Either ParseError ExecutableDefinition
+parseExecutableDocument bs = M.runParser [] bs $ do
+  toks <- L.lexer
+  P.parseExecutableDocument toks
+
+parseName :: MonadFail m => B.ByteString -> m Name
+parseName bs =
   let result = M.runParser [] bs $ do
         toks <- L.lexer
         fmap unLoc $ P.parseName toks

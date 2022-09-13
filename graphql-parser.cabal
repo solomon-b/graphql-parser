@@ -84,6 +84,7 @@ library
     GraphQLParser.QQ
     GraphQLParser.Span
     GraphQLParser.Syntax
+    GraphQLParser.Syntax.Name
     GraphQLParser.Token
 
   other-modules:      Paths_graphql_parser

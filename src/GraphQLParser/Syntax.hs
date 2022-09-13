@@ -5,6 +5,7 @@ module GraphQLParser.Syntax
   ( -- * Documents
     Document (..),
     Definition (..),
+
     -- * Type System Definitions
     TypeSystemDefinitionOrExtension (..),
     TypeSystemDefinition (..),
@@ -76,9 +77,10 @@ module GraphQLParser.Syntax
   )
 where
 
+--------------------------------------------------------------------------------
+
 import Control.DeepSeq (NFData)
 import Data.ByteString.Char8 qualified as B
-import Data.Char qualified as C
 import Data.Foldable
 import Data.Hashable (Hashable)
 import Data.List qualified as List
@@ -89,6 +91,7 @@ import Data.Text qualified as T
 import Data.Text.Encoding qualified as TE
 import GHC.Generics (Generic)
 import GraphQLParser.Span qualified as S
+import GraphQLParser.Syntax.Name
 import Language.Haskell.TH.Syntax (Lift)
 import Prettyprinter (Doc, Pretty (..), concatWith, defaultLayoutOptions, dquote, encloseSep, flatAlt, group, hsep, indent, layoutPretty, line, parens, punctuate, sep, surround, tupled, vsep, (<+>))
 import Prettyprinter.Render.Text (renderStrict)
@@ -825,26 +828,6 @@ instance Pretty OperationType where
     OperationTypeQuery -> "query"
     OperationTypeMutation -> "mutation"
     OperationTypeSubscription -> "subscription"
-
-newtype Name = Name {unName :: Text}
-  deriving stock (Lift)
-  deriving newtype (Eq, Ord, Show, Read, Hashable, NFData)
-
-instance Pretty Name where
-  pretty = pretty . unName
-
-mkName :: Text -> Maybe Name
-mkName text =
-  T.uncons text >>= \(first, body) ->
-    if matchFirst first && T.all matchBody body
-      then Just (Name text)
-      else Nothing
-  where
-    matchFirst c = c == '_' || C.isAsciiUpper c || C.isAsciiLower c
-    matchBody c = c == '_' || C.isAsciiUpper c || C.isAsciiLower c || C.isDigit c
-
-unsafeMkName :: Text -> Name
-unsafeMkName = Name
 
 newtype VariablesDefinition = VariablesDefinition
   {variablesDefinition :: NE.NonEmpty VariableDefinition}

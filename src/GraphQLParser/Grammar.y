@@ -255,9 +255,9 @@ inputObjectTypeDefinition
 directiveDefinition :: { DirectiveDefinition }
 directivedefinition
   : description 'directive' '@' dir argumentsDefinition optRepeatable 'on' directiveLocations
-      { DirectiveDefinition (fromMaybe (locate $2) (fmap locate $1) <> locate $8) (fmap unLoc $1) (Name $ unLoc $4) $5 (unLoc $8) }
+      { DirectiveDefinition (fromMaybe (locate $2) (fmap locate $1) <> locate $8) (fmap unLoc $1) (unsafeMkName $ unLoc $4) $5 (unLoc $8) }
   | description 'directive' '@' dir argumentsDefinition optRepeatable 'on' '|' directiveLocations
-      { DirectiveDefinition (fromMaybe (locate $2) (fmap locate $1) <> locate $9) (fmap unLoc $1) (Name $ unLoc $4) $5 (unLoc $9) }
+      { DirectiveDefinition (fromMaybe (locate $2) (fmap locate $1) <> locate $9) (fmap unLoc $1) (unsafeMkName $ unLoc $4) $5 (unLoc $9) }
 
 directiveLocations :: { Loc [DirectiveLocation] }
 directivelocations
@@ -449,7 +449,7 @@ aliasAndName
 
 name :: { Loc Name }
 name
-  : ident { Loc (locate $1) (Name (unLoc $1)) }
+  : ident { Loc (locate $1) (unsafeMkName (unLoc $1)) }
 
 arguments :: { Arguments }
 arguments
@@ -476,7 +476,7 @@ variabledefinitions_
 
 variableDefinition :: { VariableDefinition }
 variabledefinition
-  : variable ':' type optValue directives { VariableDefinition (locate $1 <> maybeLoc (maybeLoc $3 $4) $5) (Name $ unLoc $1) $3 $4 (fmap unLoc $5) }
+  : variable ':' type optValue directives { VariableDefinition (locate $1 <> maybeLoc (maybeLoc $3 $4) $5) (unsafeMkName $ unLoc $1) $3 $4 (fmap unLoc $5) }
 
 typeCondition :: { TypeCondition }
 typeCondition
@@ -500,8 +500,8 @@ directives_
 
 directive :: { Directive }
 directive
-  : '@' dir { Directive (locate $1 <> locate $2) (Name $ unLoc $2) Nothing }
-  | '@' dir arguments { Directive (locate $1 <> locate $3) (Name $ unLoc $2) (Just $3) }
+  : '@' dir { Directive (locate $1 <> locate $2) (unsafeMkName $ unLoc $2) Nothing }
+  | '@' dir arguments { Directive (locate $1 <> locate $3) (unsafeMkName $ unLoc $2) (Just $3) }
 
 description :: { Maybe (Loc Description) }
 description

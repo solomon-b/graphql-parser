@@ -106,7 +106,7 @@ genGraphqlName =
     <> Gen.text (Range.linear 0 11) alphaNum_
 
 genName :: Gen Name
-genName = Name <$> genGraphqlName
+genName = unsafeMkName <$> genGraphqlName
 
 genTypeCondition :: Gen TypeCondition
 genTypeCondition = fmap TypeCondition genName

@@ -60,8 +60,10 @@ module GraphQLParser.Syntax
     -- * Misc
     Description (..),
     OperationType (..),
-    Name (..),
+    Name,
     mkName,
+    unName,
+    unsafeMkName,
     VariablesDefinition (..),
     VariableDefinition (..),
     Arguments (..),
@@ -840,6 +842,9 @@ mkName text =
   where
     matchFirst c = c == '_' || C.isAsciiUpper c || C.isAsciiLower c
     matchBody c = c == '_' || C.isAsciiUpper c || C.isAsciiLower c || C.isDigit c
+
+unsafeMkName :: Text -> Name
+unsafeMkName = Name
 
 newtype VariablesDefinition = VariablesDefinition
   {variablesDefinition :: NE.NonEmpty VariableDefinition}

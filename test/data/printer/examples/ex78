@@ -1,83 +1,86 @@
 [ DefinitionTypeSystem
-    ( TypeSystemDefinitionType
-        ( ETDef
-            ( EnumTypeDefinition
-                { _etdSpan = Span
-                    { _start = AlexSourcePos
-                        { _line = 0
-                        , _col = 1
+    ( TyDefinition
+        ( TypeSystemDefinitionType
+            ( ETDef
+                ( EnumTypeDefinition
+                    { _etdSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 0
+                            , _col = 1
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 5
+                            , _col = 2
+                            }
                         }
-                    , _end = AlexSourcePos
-                        { _line = 5
-                        , _col = 2
+                    , _etdDescription = Nothing
+                    , _etdName = "Direction"
+                    , _etdDirectives = Nothing
+                    , _etdValueDefinitions = EnumValuesDefinition
+                        { unEnumValuesDefinition = EnumValueDefinition
+                            { _evdSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 1
+                                    , _col = 3
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 1
+                                    , _col = 8
+                                    }
+                                }
+                            , _evdDescription = Nothing
+                            , _evdName = "NORTH"
+                            , _evdDirectives = Nothing
+                            } :|
+                            [ EnumValueDefinition
+                                { _evdSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 2
+                                        , _col = 3
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 2
+                                        , _col = 7
+                                        }
+                                    }
+                                , _evdDescription = Nothing
+                                , _evdName = "EAST"
+                                , _evdDirectives = Nothing
+                                }
+                            , EnumValueDefinition
+                                { _evdSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 3
+                                        , _col = 3
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 3
+                                        , _col = 8
+                                        }
+                                    }
+                                , _evdDescription = Nothing
+                                , _evdName = "SOUTH"
+                                , _evdDirectives = Nothing
+                                }
+                            , EnumValueDefinition
+                                { _evdSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 4
+                                        , _col = 3
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 4
+                                        , _col = 7
+                                        }
+                                    }
+                                , _evdDescription = Nothing
+                                , _evdName = "WEST"
+                                , _evdDirectives = Nothing
+                                }
+                            ]
                         }
                     }
-                , _etdDescription = Nothing
-                , _etdName = "Direction"
-                , _etdDirectives = Nothing
-                , _etdValueDefinitions =
-                    [ EnumValueDefinition
-                        { _evdSpan = Span
-                            { _start = AlexSourcePos
-                                { _line = 1
-                                , _col = 3
-                                }
-                            , _end = AlexSourcePos
-                                { _line = 1
-                                , _col = 8
-                                }
-                            }
-                        , _evdDescription = Nothing
-                        , _evdName = "NORTH"
-                        , _evdDirectives = Nothing
-                        }
-                    , EnumValueDefinition
-                        { _evdSpan = Span
-                            { _start = AlexSourcePos
-                                { _line = 2
-                                , _col = 3
-                                }
-                            , _end = AlexSourcePos
-                                { _line = 2
-                                , _col = 7
-                                }
-                            }
-                        , _evdDescription = Nothing
-                        , _evdName = "EAST"
-                        , _evdDirectives = Nothing
-                        }
-                    , EnumValueDefinition
-                        { _evdSpan = Span
-                            { _start = AlexSourcePos
-                                { _line = 3
-                                , _col = 3
-                                }
-                            , _end = AlexSourcePos
-                                { _line = 3
-                                , _col = 8
-                                }
-                            }
-                        , _evdDescription = Nothing
-                        , _evdName = "SOUTH"
-                        , _evdDirectives = Nothing
-                        }
-                    , EnumValueDefinition
-                        { _evdSpan = Span
-                            { _start = AlexSourcePos
-                                { _line = 4
-                                , _col = 3
-                                }
-                            , _end = AlexSourcePos
-                                { _line = 4
-                                , _col = 7
-                                }
-                            }
-                        , _evdDescription = Nothing
-                        , _evdName = "WEST"
-                        , _evdDirectives = Nothing
-                        }
-                    ]
-                }
+                )
             )
         )
     )

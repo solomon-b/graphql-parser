@@ -1,138 +1,140 @@
 [ DefinitionTypeSystem
-    ( TypeSystemDefinitionType
-        ( OTDef
-            ( ObjectTypeDefinition
-                { _otdSpan = Span
-                    { _start = AlexSourcePos
-                        { _line = 0
-                        , _col = 1
-                        }
-                    , _end = AlexSourcePos
-                        { _line = 3
-                        , _col = 2
-                        }
-                    }
-                , _otdDescription = Nothing
-                , _otdName = "ExampleType"
-                , _otdImplementsInterfaces = Nothing
-                , _otdDirectives = Nothing
-                , _otdFieldsDefinition = Just
-                    ( FieldsDefinition
-                        { _fdSpan = Span
-                            { _start = AlexSourcePos
-                                { _line = 0
-                                , _col = 18
-                                }
-                            , _end = AlexSourcePos
-                                { _line = 3
-                                , _col = 2
-                                }
+    ( TyDefinition
+        ( TypeSystemDefinitionType
+            ( OTDef
+                ( ObjectTypeDefinition
+                    { _otdSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 0
+                            , _col = 1
                             }
-                        , _fdDefinitions = FieldDefinition
-                            { _fldSpan = Span
+                        , _end = AlexSourcePos
+                            { _line = 3
+                            , _col = 2
+                            }
+                        }
+                    , _otdDescription = Nothing
+                    , _otdName = "ExampleType"
+                    , _otdImplementsInterfaces = Nothing
+                    , _otdDirectives = Nothing
+                    , _otdFieldsDefinition = Just
+                        ( FieldsDefinition
+                            { _fdSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 1
-                                    , _col = 3
+                                    { _line = 0
+                                    , _col = 18
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 1
-                                    , _col = 19
+                                    { _line = 3
+                                    , _col = 2
                                     }
                                 }
-                            , _fldDescription = Nothing
-                            , _fldName = "newField"
-                            , _fldArgumentsDefinition = Nothing
-                            , _fldType = NamedType
-                                ( Span
+                            , _fdDefinitions = FieldDefinition
+                                { _fldSpan = Span
                                     { _start = AlexSourcePos
                                         { _line = 1
-                                        , _col = 13
+                                        , _col = 3
                                         }
                                     , _end = AlexSourcePos
                                         { _line = 1
                                         , _col = 19
                                         }
                                     }
-                                ) "String"
-                            , _fldDirectives = Nothing
-                            } :|
-                            [ FieldDefinition
-                                { _fldSpan = Span
-                                    { _start = AlexSourcePos
-                                        { _line = 2
-                                        , _col = 3
-                                        }
-                                    , _end = AlexSourcePos
-                                        { _line = 2
-                                        , _col = 57
-                                        }
-                                    }
                                 , _fldDescription = Nothing
-                                , _fldName = "oldField"
+                                , _fldName = "newField"
                                 , _fldArgumentsDefinition = Nothing
                                 , _fldType = NamedType
                                     ( Span
                                         { _start = AlexSourcePos
-                                            { _line = 2
+                                            { _line = 1
                                             , _col = 13
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 2
+                                            { _line = 1
                                             , _col = 19
                                             }
                                         }
                                     ) "String"
-                                , _fldDirectives = Just
-                                    ( Directive
-                                        { _dSpan = Span
+                                , _fldDirectives = Nothing
+                                } :|
+                                [ FieldDefinition
+                                    { _fldSpan = Span
+                                        { _start = AlexSourcePos
+                                            { _line = 2
+                                            , _col = 3
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 2
+                                            , _col = 57
+                                            }
+                                        }
+                                    , _fldDescription = Nothing
+                                    , _fldName = "oldField"
+                                    , _fldArgumentsDefinition = Nothing
+                                    , _fldType = NamedType
+                                        ( Span
                                             { _start = AlexSourcePos
                                                 { _line = 2
-                                                , _col = 20
+                                                , _col = 13
                                                 }
                                             , _end = AlexSourcePos
                                                 { _line = 2
-                                                , _col = 57
+                                                , _col = 19
                                                 }
                                             }
-                                        , _dName = "deprecated"
-                                        , _dArguments = Just
-                                            ( Arguments
-                                                { argSpan = Span
-                                                    { _start = AlexSourcePos
-                                                        { _line = 2
-                                                        , _col = 32
-                                                        }
-                                                    , _end = AlexSourcePos
-                                                        { _line = 2
-                                                        , _col = 57
-                                                        }
+                                        ) "String"
+                                    , _fldDirectives = Just
+                                        ( Directive
+                                            { _dSpan = Span
+                                                { _start = AlexSourcePos
+                                                    { _line = 2
+                                                    , _col = 20
                                                     }
-                                                , argArguments =
-                                                    [
-                                                        ( "reason"
-                                                        , VString
-                                                            ( Span
-                                                                { _start = AlexSourcePos
-                                                                    { _line = 2
-                                                                    , _col = 40
-                                                                    }
-                                                                , _end = AlexSourcePos
-                                                                    { _line = 2
-                                                                    , _col = 57
-                                                                    }
-                                                                }
-                                                            ) "Use `newField`."
-                                                        )
-                                                    ]
+                                                , _end = AlexSourcePos
+                                                    { _line = 2
+                                                    , _col = 57
+                                                    }
                                                 }
-                                            )
-                                        } :| []
-                                    )
-                                }
-                            ]
-                        }
-                    )
-                }
+                                            , _dName = "deprecated"
+                                            , _dArguments = Just
+                                                ( Arguments
+                                                    { argSpan = Span
+                                                        { _start = AlexSourcePos
+                                                            { _line = 2
+                                                            , _col = 32
+                                                            }
+                                                        , _end = AlexSourcePos
+                                                            { _line = 2
+                                                            , _col = 57
+                                                            }
+                                                        }
+                                                    , argArguments =
+                                                        [
+                                                            ( "reason"
+                                                            , VString
+                                                                ( Span
+                                                                    { _start = AlexSourcePos
+                                                                        { _line = 2
+                                                                        , _col = 40
+                                                                        }
+                                                                    , _end = AlexSourcePos
+                                                                        { _line = 2
+                                                                        , _col = 57
+                                                                        }
+                                                                    }
+                                                                ) "Use `newField`."
+                                                            )
+                                                        ]
+                                                    }
+                                                )
+                                            } :| []
+                                        )
+                                    }
+                                ]
+                            }
+                        )
+                    }
+                )
             )
         )
     )

@@ -1,206 +1,200 @@
 [ DefinitionTypeSystem
-    ( TypeSystemDefinitionType
-        ( OTDef
-            ( ObjectTypeDefinition
-                { _otdSpan = Span
-                    { _start = AlexSourcePos
-                        { _line = 0
-                        , _col = 1
-                        }
-                    , _end = AlexSourcePos
-                        { _line = 2
-                        , _col = 2
-                        }
-                    }
-                , _otdDescription = Nothing
-                , _otdName = "Query"
-                , _otdImplementsInterfaces = Nothing
-                , _otdDirectives = Nothing
-                , _otdFieldsDefinition = Just
-                    ( FieldsDefinition
-                        { _fdSpan = Span
-                            { _start = AlexSourcePos
-                                { _line = 0
-                                , _col = 12
-                                }
-                            , _end = AlexSourcePos
-                                { _line = 2
-                                , _col = 2
-                                }
+    ( TyDefinition
+        ( TypeSystemDefinitionType
+            ( OTDef
+                ( ObjectTypeDefinition
+                    { _otdSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 0
+                            , _col = 1
                             }
-                        , _fdDefinitions = FieldDefinition
-                            { _fldSpan = Span
+                        , _end = AlexSourcePos
+                            { _line = 2
+                            , _col = 2
+                            }
+                        }
+                    , _otdDescription = Nothing
+                    , _otdName = "Query"
+                    , _otdImplementsInterfaces = Nothing
+                    , _otdDirectives = Nothing
+                    , _otdFieldsDefinition = Just
+                        ( FieldsDefinition
+                            { _fdSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 1
-                                    , _col = 3
+                                    { _line = 0
+                                    , _col = 12
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 1
-                                    , _col = 11
+                                    { _line = 2
+                                    , _col = 2
                                     }
                                 }
-                            , _fldDescription = Nothing
-                            , _fldName = "dog"
-                            , _fldArgumentsDefinition = Nothing
-                            , _fldType = NamedType
-                                ( Span
+                            , _fdDefinitions = FieldDefinition
+                                { _fldSpan = Span
                                     { _start = AlexSourcePos
                                         { _line = 1
-                                        , _col = 8
+                                        , _col = 3
                                         }
                                     , _end = AlexSourcePos
                                         { _line = 1
                                         , _col = 11
                                         }
                                     }
-                                ) "Dog"
-                            , _fldDirectives = Nothing
-                            } :| []
-                        }
-                    )
-                }
+                                , _fldDescription = Nothing
+                                , _fldName = "dog"
+                                , _fldArgumentsDefinition = Nothing
+                                , _fldType = NamedType
+                                    ( Span
+                                        { _start = AlexSourcePos
+                                            { _line = 1
+                                            , _col = 8
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 1
+                                            , _col = 11
+                                            }
+                                        }
+                                    ) "Dog"
+                                , _fldDirectives = Nothing
+                                } :| []
+                            }
+                        )
+                    }
+                )
             )
         )
     )
 , DefinitionTypeSystem
-    ( TypeSystemDefinitionType
-        ( ETDef
-            ( EnumTypeDefinition
-                { _etdSpan = Span
-                    { _start = AlexSourcePos
-                        { _line = 4
-                        , _col = 1
-                        }
-                    , _end = AlexSourcePos
-                        { _line = 8
-                        , _col = 2
-                        }
-                    }
-                , _etdDescription = Nothing
-                , _etdName = "DogCommand"
-                , _etdDirectives = Nothing
-                , _etdValueDefinitions =
-                    [ EnumValueDefinition
-                        { _evdSpan = Span
-                            { _start = AlexSourcePos
-                                { _line = 5
-                                , _col = 3
-                                }
-                            , _end = AlexSourcePos
-                                { _line = 5
-                                , _col = 6
-                                }
+    ( TyDefinition
+        ( TypeSystemDefinitionType
+            ( ETDef
+                ( EnumTypeDefinition
+                    { _etdSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 4
+                            , _col = 1
                             }
-                        , _evdDescription = Nothing
-                        , _evdName = "SIT"
-                        , _evdDirectives = Nothing
-                        }
-                    , EnumValueDefinition
-                        { _evdSpan = Span
-                            { _start = AlexSourcePos
-                                { _line = 6
-                                , _col = 3
-                                }
-                            , _end = AlexSourcePos
-                                { _line = 6
-                                , _col = 7
-                                }
+                        , _end = AlexSourcePos
+                            { _line = 8
+                            , _col = 2
                             }
-                        , _evdDescription = Nothing
-                        , _evdName = "DOWN"
-                        , _evdDirectives = Nothing
                         }
-                    , EnumValueDefinition
-                        { _evdSpan = Span
-                            { _start = AlexSourcePos
-                                { _line = 7
-                                , _col = 3
-                                }
-                            , _end = AlexSourcePos
-                                { _line = 7
-                                , _col = 7
-                                }
-                            }
-                        , _evdDescription = Nothing
-                        , _evdName = "HEEL"
-                        , _evdDirectives = Nothing
-                        }
-                    ]
-                }
-            )
-        )
-    )
-, DefinitionTypeSystem
-    ( TypeSystemDefinitionType
-        ( OTDef
-            ( ObjectTypeDefinition
-                { _otdSpan = Span
-                    { _start = AlexSourcePos
-                        { _line = 10
-                        , _col = 1
-                        }
-                    , _end = AlexSourcePos
-                        { _line = 17
-                        , _col = 2
-                        }
-                    }
-                , _otdDescription = Nothing
-                , _otdName = "Dog"
-                , _otdImplementsInterfaces = Just
-                    ( ImplementsInterfaces
-                        { _iiSpan = Span
-                            { _start = AlexSourcePos
-                                { _line = 10
-                                , _col = 10
-                                }
-                            , _end = AlexSourcePos
-                                { _line = 10
-                                , _col = 24
-                                }
-                            }
-                        , _iiInterfaces = "Pet" :| []
-                        }
-                    )
-                , _otdDirectives = Nothing
-                , _otdFieldsDefinition = Just
-                    ( FieldsDefinition
-                        { _fdSpan = Span
-                            { _start = AlexSourcePos
-                                { _line = 10
-                                , _col = 25
-                                }
-                            , _end = AlexSourcePos
-                                { _line = 17
-                                , _col = 2
-                                }
-                            }
-                        , _fdDefinitions = FieldDefinition
-                            { _fldSpan = Span
+                    , _etdDescription = Nothing
+                    , _etdName = "DogCommand"
+                    , _etdDirectives = Nothing
+                    , _etdValueDefinitions = EnumValuesDefinition
+                        { unEnumValuesDefinition = EnumValueDefinition
+                            { _evdSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 11
+                                    { _line = 5
                                     , _col = 3
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 11
-                                    , _col = 16
+                                    { _line = 5
+                                    , _col = 6
                                     }
                                 }
-                            , _fldDescription = Nothing
-                            , _fldName = "name"
-                            , _fldArgumentsDefinition = Nothing
-                            , _fldType = NonNullType
-                                ( Span
+                            , _evdDescription = Nothing
+                            , _evdName = "SIT"
+                            , _evdDirectives = Nothing
+                            } :|
+                            [ EnumValueDefinition
+                                { _evdSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 6
+                                        , _col = 3
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 6
+                                        , _col = 7
+                                        }
+                                    }
+                                , _evdDescription = Nothing
+                                , _evdName = "DOWN"
+                                , _evdDirectives = Nothing
+                                }
+                            , EnumValueDefinition
+                                { _evdSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 7
+                                        , _col = 3
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 7
+                                        , _col = 7
+                                        }
+                                    }
+                                , _evdDescription = Nothing
+                                , _evdName = "HEEL"
+                                , _evdDirectives = Nothing
+                                }
+                            ]
+                        }
+                    }
+                )
+            )
+        )
+    )
+, DefinitionTypeSystem
+    ( TyDefinition
+        ( TypeSystemDefinitionType
+            ( OTDef
+                ( ObjectTypeDefinition
+                    { _otdSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 10
+                            , _col = 1
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 17
+                            , _col = 2
+                            }
+                        }
+                    , _otdDescription = Nothing
+                    , _otdName = "Dog"
+                    , _otdImplementsInterfaces = Just
+                        ( ImplementsInterfaces
+                            { _iiSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 10
+                                    , _col = 10
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 10
+                                    , _col = 24
+                                    }
+                                }
+                            , _iiInterfaces = "Pet" :| []
+                            }
+                        )
+                    , _otdDirectives = Nothing
+                    , _otdFieldsDefinition = Just
+                        ( FieldsDefinition
+                            { _fdSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 10
+                                    , _col = 25
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 17
+                                    , _col = 2
+                                    }
+                                }
+                            , _fdDefinitions = FieldDefinition
+                                { _fldSpan = Span
                                     { _start = AlexSourcePos
                                         { _line = 11
-                                        , _col = 9
+                                        , _col = 3
                                         }
                                     , _end = AlexSourcePos
                                         { _line = 11
                                         , _col = 16
                                         }
                                     }
-                                )
-                                ( NamedType
+                                , _fldDescription = Nothing
+                                , _fldName = "name"
+                                , _fldArgumentsDefinition = Nothing
+                                , _fldType = NonNullType
                                     ( Span
                                         { _start = AlexSourcePos
                                             { _line = 11
@@ -208,109 +202,109 @@
                                             }
                                         , _end = AlexSourcePos
                                             { _line = 11
-                                            , _col = 15
+                                            , _col = 16
                                             }
                                         }
-                                    ) "String"
-                                )
-                            , _fldDirectives = Nothing
-                            } :|
-                            [ FieldDefinition
-                                { _fldSpan = Span
-                                    { _start = AlexSourcePos
-                                        { _line = 12
-                                        , _col = 3
-                                        }
-                                    , _end = AlexSourcePos
-                                        { _line = 12
-                                        , _col = 19
-                                        }
-                                    }
-                                , _fldDescription = Nothing
-                                , _fldName = "nickname"
-                                , _fldArgumentsDefinition = Nothing
-                                , _fldType = NamedType
-                                    ( Span
+                                    )
+                                    ( NamedType
+                                        ( Span
+                                            { _start = AlexSourcePos
+                                                { _line = 11
+                                                , _col = 9
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 11
+                                                , _col = 15
+                                                }
+                                            }
+                                        ) "String"
+                                    )
+                                , _fldDirectives = Nothing
+                                } :|
+                                [ FieldDefinition
+                                    { _fldSpan = Span
                                         { _start = AlexSourcePos
                                             { _line = 12
-                                            , _col = 13
+                                            , _col = 3
                                             }
                                         , _end = AlexSourcePos
                                             { _line = 12
                                             , _col = 19
                                             }
                                         }
-                                    ) "String"
-                                , _fldDirectives = Nothing
-                                }
-                            , FieldDefinition
-                                { _fldSpan = Span
-                                    { _start = AlexSourcePos
-                                        { _line = 13
-                                        , _col = 3
-                                        }
-                                    , _end = AlexSourcePos
-                                        { _line = 13
-                                        , _col = 18
-                                        }
+                                    , _fldDescription = Nothing
+                                    , _fldName = "nickname"
+                                    , _fldArgumentsDefinition = Nothing
+                                    , _fldType = NamedType
+                                        ( Span
+                                            { _start = AlexSourcePos
+                                                { _line = 12
+                                                , _col = 13
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 12
+                                                , _col = 19
+                                                }
+                                            }
+                                        ) "String"
+                                    , _fldDirectives = Nothing
                                     }
-                                , _fldDescription = Nothing
-                                , _fldName = "barkVolume"
-                                , _fldArgumentsDefinition = Nothing
-                                , _fldType = NamedType
-                                    ( Span
+                                , FieldDefinition
+                                    { _fldSpan = Span
                                         { _start = AlexSourcePos
                                             { _line = 13
-                                            , _col = 15
+                                            , _col = 3
                                             }
                                         , _end = AlexSourcePos
                                             { _line = 13
                                             , _col = 18
                                             }
                                         }
-                                    ) "Int"
-                                , _fldDirectives = Nothing
-                                }
-                            , FieldDefinition
-                                { _fldSpan = Span
-                                    { _start = AlexSourcePos
-                                        { _line = 14
-                                        , _col = 3
-                                        }
-                                    , _end = AlexSourcePos
-                                        { _line = 14
-                                        , _col = 53
-                                        }
-                                    }
-                                , _fldDescription = Nothing
-                                , _fldName = "doesKnowCommand"
-                                , _fldArgumentsDefinition = Just
-                                    ( InputValueDefinition
-                                        { _ivdSpan = Span
+                                    , _fldDescription = Nothing
+                                    , _fldName = "barkVolume"
+                                    , _fldArgumentsDefinition = Nothing
+                                    , _fldType = NamedType
+                                        ( Span
                                             { _start = AlexSourcePos
-                                                { _line = 14
-                                                , _col = 19
+                                                { _line = 13
+                                                , _col = 15
                                                 }
                                             , _end = AlexSourcePos
-                                                { _line = 14
-                                                , _col = 42
+                                                { _line = 13
+                                                , _col = 18
                                                 }
                                             }
-                                        , _ivdDescription = Nothing
-                                        , _ivdName = "dogCommand"
-                                        , _ivdType = NonNullType
-                                            ( Span
+                                        ) "Int"
+                                    , _fldDirectives = Nothing
+                                    }
+                                , FieldDefinition
+                                    { _fldSpan = Span
+                                        { _start = AlexSourcePos
+                                            { _line = 14
+                                            , _col = 3
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 14
+                                            , _col = 53
+                                            }
+                                        }
+                                    , _fldDescription = Nothing
+                                    , _fldName = "doesKnowCommand"
+                                    , _fldArgumentsDefinition = Just
+                                        ( InputValueDefinition
+                                            { _ivdSpan = Span
                                                 { _start = AlexSourcePos
                                                     { _line = 14
-                                                    , _col = 31
+                                                    , _col = 19
                                                     }
                                                 , _end = AlexSourcePos
                                                     { _line = 14
                                                     , _col = 42
                                                     }
                                                 }
-                                            )
-                                            ( NamedType
+                                            , _ivdDescription = Nothing
+                                            , _ivdName = "dogCommand"
+                                            , _ivdType = NonNullType
                                                 ( Span
                                                     { _start = AlexSourcePos
                                                         { _line = 14
@@ -318,28 +312,28 @@
                                                         }
                                                     , _end = AlexSourcePos
                                                         { _line = 14
-                                                        , _col = 41
+                                                        , _col = 42
                                                         }
                                                     }
-                                                ) "DogCommand"
-                                            )
-                                        , _ivdDefaultValue = Nothing
-                                        , _ivdDirectives = Nothing
-                                        } :| []
-                                    )
-                                , _fldType = NonNullType
-                                    ( Span
-                                        { _start = AlexSourcePos
-                                            { _line = 14
-                                            , _col = 45
-                                            }
-                                        , _end = AlexSourcePos
-                                            { _line = 14
-                                            , _col = 53
-                                            }
-                                        }
-                                    )
-                                    ( NamedType
+                                                )
+                                                ( NamedType
+                                                    ( Span
+                                                        { _start = AlexSourcePos
+                                                            { _line = 14
+                                                            , _col = 31
+                                                            }
+                                                        , _end = AlexSourcePos
+                                                            { _line = 14
+                                                            , _col = 41
+                                                            }
+                                                        }
+                                                    ) "DogCommand"
+                                                )
+                                            , _ivdDefaultValue = Nothing
+                                            , _ivdDirectives = Nothing
+                                            } :| []
+                                        )
+                                    , _fldType = NonNullType
                                         ( Span
                                             { _start = AlexSourcePos
                                                 { _line = 14
@@ -347,69 +341,69 @@
                                                 }
                                             , _end = AlexSourcePos
                                                 { _line = 14
-                                                , _col = 52
+                                                , _col = 53
                                                 }
                                             }
-                                        ) "Boolean"
-                                    )
-                                , _fldDirectives = Nothing
-                                }
-                            , FieldDefinition
-                                { _fldSpan = Span
-                                    { _start = AlexSourcePos
-                                        { _line = 15
-                                        , _col = 3
-                                        }
-                                    , _end = AlexSourcePos
-                                        { _line = 15
-                                        , _col = 50
-                                        }
-                                    }
-                                , _fldDescription = Nothing
-                                , _fldName = "isHouseTrained"
-                                , _fldArgumentsDefinition = Just
-                                    ( InputValueDefinition
-                                        { _ivdSpan = Span
-                                            { _start = AlexSourcePos
-                                                { _line = 15
-                                                , _col = 18
-                                                }
-                                            , _end = AlexSourcePos
-                                                { _line = 15
-                                                , _col = 39
-                                                }
-                                            }
-                                        , _ivdDescription = Nothing
-                                        , _ivdName = "atOtherHomes"
-                                        , _ivdType = NamedType
+                                        )
+                                        ( NamedType
                                             ( Span
                                                 { _start = AlexSourcePos
-                                                    { _line = 15
-                                                    , _col = 32
+                                                    { _line = 14
+                                                    , _col = 45
                                                     }
                                                 , _end = AlexSourcePos
-                                                    { _line = 15
-                                                    , _col = 39
+                                                    { _line = 14
+                                                    , _col = 52
                                                     }
                                                 }
                                             ) "Boolean"
-                                        , _ivdDefaultValue = Nothing
-                                        , _ivdDirectives = Nothing
-                                        } :| []
-                                    )
-                                , _fldType = NonNullType
-                                    ( Span
+                                        )
+                                    , _fldDirectives = Nothing
+                                    }
+                                , FieldDefinition
+                                    { _fldSpan = Span
                                         { _start = AlexSourcePos
                                             { _line = 15
-                                            , _col = 42
+                                            , _col = 3
                                             }
                                         , _end = AlexSourcePos
                                             { _line = 15
                                             , _col = 50
                                             }
                                         }
-                                    )
-                                    ( NamedType
+                                    , _fldDescription = Nothing
+                                    , _fldName = "isHouseTrained"
+                                    , _fldArgumentsDefinition = Just
+                                        ( InputValueDefinition
+                                            { _ivdSpan = Span
+                                                { _start = AlexSourcePos
+                                                    { _line = 15
+                                                    , _col = 18
+                                                    }
+                                                , _end = AlexSourcePos
+                                                    { _line = 15
+                                                    , _col = 39
+                                                    }
+                                                }
+                                            , _ivdDescription = Nothing
+                                            , _ivdName = "atOtherHomes"
+                                            , _ivdType = NamedType
+                                                ( Span
+                                                    { _start = AlexSourcePos
+                                                        { _line = 15
+                                                        , _col = 32
+                                                        }
+                                                    , _end = AlexSourcePos
+                                                        { _line = 15
+                                                        , _col = 39
+                                                        }
+                                                    }
+                                                ) "Boolean"
+                                            , _ivdDefaultValue = Nothing
+                                            , _ivdDirectives = Nothing
+                                            } :| []
+                                        )
+                                    , _fldType = NonNullType
                                         ( Span
                                             { _start = AlexSourcePos
                                                 { _line = 15
@@ -417,446 +411,454 @@
                                                 }
                                             , _end = AlexSourcePos
                                                 { _line = 15
-                                                , _col = 49
+                                                , _col = 50
                                                 }
                                             }
-                                        ) "Boolean"
+                                        )
+                                        ( NamedType
+                                            ( Span
+                                                { _start = AlexSourcePos
+                                                    { _line = 15
+                                                    , _col = 42
+                                                    }
+                                                , _end = AlexSourcePos
+                                                    { _line = 15
+                                                    , _col = 49
+                                                    }
+                                                }
+                                            ) "Boolean"
+                                        )
+                                    , _fldDirectives = Nothing
+                                    }
+                                , FieldDefinition
+                                    { _fldSpan = Span
+                                        { _start = AlexSourcePos
+                                            { _line = 16
+                                            , _col = 3
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 16
+                                            , _col = 15
+                                            }
+                                        }
+                                    , _fldDescription = Nothing
+                                    , _fldName = "owner"
+                                    , _fldArgumentsDefinition = Nothing
+                                    , _fldType = NamedType
+                                        ( Span
+                                            { _start = AlexSourcePos
+                                                { _line = 16
+                                                , _col = 10
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 16
+                                                , _col = 15
+                                                }
+                                            }
+                                        ) "Human"
+                                    , _fldDirectives = Nothing
+                                    }
+                                ]
+                            }
+                        )
+                    }
+                )
+            )
+        )
+    )
+, DefinitionTypeSystem
+    ( TyDefinition
+        ( TypeSystemDefinitionType
+            ( ITDef
+                ( InterfaceTypeDefinition
+                    { _itSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 19
+                            , _col = 1
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 21
+                            , _col = 2
+                            }
+                        }
+                    , _itDescription = Nothing
+                    , _itName = "Sentient"
+                    , _itInterfaces = Nothing
+                    , _itDirectives = Nothing
+                    , _itFields = Just
+                        ( FieldsDefinition
+                            { _fdSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 19
+                                    , _col = 20
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 21
+                                    , _col = 2
+                                    }
+                                }
+                            , _fdDefinitions = FieldDefinition
+                                { _fldSpan = Span
+                                    { _start = AlexSourcePos
+                                        { _line = 20
+                                        , _col = 3
+                                        }
+                                    , _end = AlexSourcePos
+                                        { _line = 20
+                                        , _col = 16
+                                        }
+                                    }
+                                , _fldDescription = Nothing
+                                , _fldName = "name"
+                                , _fldArgumentsDefinition = Nothing
+                                , _fldType = NonNullType
+                                    ( Span
+                                        { _start = AlexSourcePos
+                                            { _line = 20
+                                            , _col = 9
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 20
+                                            , _col = 16
+                                            }
+                                        }
+                                    )
+                                    ( NamedType
+                                        ( Span
+                                            { _start = AlexSourcePos
+                                                { _line = 20
+                                                , _col = 9
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 20
+                                                , _col = 15
+                                                }
+                                            }
+                                        ) "String"
                                     )
                                 , _fldDirectives = Nothing
+                                } :| []
+                            }
+                        )
+                    }
+                )
+            )
+        )
+    )
+, DefinitionTypeSystem
+    ( TyDefinition
+        ( TypeSystemDefinitionType
+            ( ITDef
+                ( InterfaceTypeDefinition
+                    { _itSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 23
+                            , _col = 1
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 25
+                            , _col = 2
+                            }
+                        }
+                    , _itDescription = Nothing
+                    , _itName = "Pet"
+                    , _itInterfaces = Nothing
+                    , _itDirectives = Nothing
+                    , _itFields = Just
+                        ( FieldsDefinition
+                            { _fdSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 23
+                                    , _col = 15
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 25
+                                    , _col = 2
+                                    }
                                 }
-                            , FieldDefinition
+                            , _fdDefinitions = FieldDefinition
                                 { _fldSpan = Span
                                     { _start = AlexSourcePos
-                                        { _line = 16
+                                        { _line = 24
                                         , _col = 3
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 16
-                                        , _col = 15
+                                        { _line = 24
+                                        , _col = 16
                                         }
                                     }
                                 , _fldDescription = Nothing
-                                , _fldName = "owner"
+                                , _fldName = "name"
                                 , _fldArgumentsDefinition = Nothing
-                                , _fldType = NamedType
+                                , _fldType = NonNullType
                                     ( Span
                                         { _start = AlexSourcePos
-                                            { _line = 16
-                                            , _col = 10
+                                            { _line = 24
+                                            , _col = 9
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 16
-                                            , _col = 15
+                                            { _line = 24
+                                            , _col = 16
                                             }
                                         }
-                                    ) "Human"
+                                    )
+                                    ( NamedType
+                                        ( Span
+                                            { _start = AlexSourcePos
+                                                { _line = 24
+                                                , _col = 9
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 24
+                                                , _col = 15
+                                                }
+                                            }
+                                        ) "String"
+                                    )
                                 , _fldDirectives = Nothing
-                                }
-                            ]
-                        }
-                    )
-                }
+                                } :| []
+                            }
+                        )
+                    }
+                )
             )
         )
     )
 , DefinitionTypeSystem
-    ( TypeSystemDefinitionType
-        ( ITDef
-            ( InterfaceTypeDefinition
-                { _itSpan = Span
-                    { _start = AlexSourcePos
-                        { _line = 19
-                        , _col = 1
-                        }
-                    , _end = AlexSourcePos
-                        { _line = 21
-                        , _col = 2
-                        }
-                    }
-                , _itDescription = Nothing
-                , _itName = "Sentient"
-                , _itInterfaces = Nothing
-                , _itDirectives = Nothing
-                , _itFields = Just
-                    ( FieldsDefinition
-                        { _fdSpan = Span
-                            { _start = AlexSourcePos
-                                { _line = 19
-                                , _col = 20
-                                }
-                            , _end = AlexSourcePos
-                                { _line = 21
-                                , _col = 2
-                                }
+    ( TyDefinition
+        ( TypeSystemDefinitionType
+            ( OTDef
+                ( ObjectTypeDefinition
+                    { _otdSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 27
+                            , _col = 1
                             }
-                        , _fdDefinitions = FieldDefinition
-                            { _fldSpan = Span
+                        , _end = AlexSourcePos
+                            { _line = 30
+                            , _col = 2
+                            }
+                        }
+                    , _otdDescription = Nothing
+                    , _otdName = "Alien"
+                    , _otdImplementsInterfaces = Just
+                        ( ImplementsInterfaces
+                            { _iiSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 20
-                                    , _col = 3
+                                    { _line = 27
+                                    , _col = 12
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 20
-                                    , _col = 16
+                                    { _line = 27
+                                    , _col = 31
                                     }
                                 }
-                            , _fldDescription = Nothing
-                            , _fldName = "name"
-                            , _fldArgumentsDefinition = Nothing
-                            , _fldType = NonNullType
-                                ( Span
-                                    { _start = AlexSourcePos
-                                        { _line = 20
-                                        , _col = 9
-                                        }
-                                    , _end = AlexSourcePos
-                                        { _line = 20
-                                        , _col = 16
-                                        }
-                                    }
-                                )
-                                ( NamedType
-                                    ( Span
-                                        { _start = AlexSourcePos
-                                            { _line = 20
-                                            , _col = 9
-                                            }
-                                        , _end = AlexSourcePos
-                                            { _line = 20
-                                            , _col = 15
-                                            }
-                                        }
-                                    ) "String"
-                                )
-                            , _fldDirectives = Nothing
-                            } :| []
-                        }
-                    )
-                }
-            )
-        )
-    )
-, DefinitionTypeSystem
-    ( TypeSystemDefinitionType
-        ( ITDef
-            ( InterfaceTypeDefinition
-                { _itSpan = Span
-                    { _start = AlexSourcePos
-                        { _line = 23
-                        , _col = 1
-                        }
-                    , _end = AlexSourcePos
-                        { _line = 25
-                        , _col = 2
-                        }
-                    }
-                , _itDescription = Nothing
-                , _itName = "Pet"
-                , _itInterfaces = Nothing
-                , _itDirectives = Nothing
-                , _itFields = Just
-                    ( FieldsDefinition
-                        { _fdSpan = Span
-                            { _start = AlexSourcePos
-                                { _line = 23
-                                , _col = 15
-                                }
-                            , _end = AlexSourcePos
-                                { _line = 25
-                                , _col = 2
-                                }
+                            , _iiInterfaces = "Sentient" :| []
                             }
-                        , _fdDefinitions = FieldDefinition
-                            { _fldSpan = Span
+                        )
+                    , _otdDirectives = Nothing
+                    , _otdFieldsDefinition = Just
+                        ( FieldsDefinition
+                            { _fdSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 24
-                                    , _col = 3
+                                    { _line = 27
+                                    , _col = 32
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 24
-                                    , _col = 16
+                                    { _line = 30
+                                    , _col = 2
                                     }
                                 }
-                            , _fldDescription = Nothing
-                            , _fldName = "name"
-                            , _fldArgumentsDefinition = Nothing
-                            , _fldType = NonNullType
-                                ( Span
-                                    { _start = AlexSourcePos
-                                        { _line = 24
-                                        , _col = 9
-                                        }
-                                    , _end = AlexSourcePos
-                                        { _line = 24
-                                        , _col = 16
-                                        }
-                                    }
-                                )
-                                ( NamedType
-                                    ( Span
-                                        { _start = AlexSourcePos
-                                            { _line = 24
-                                            , _col = 9
-                                            }
-                                        , _end = AlexSourcePos
-                                            { _line = 24
-                                            , _col = 15
-                                            }
-                                        }
-                                    ) "String"
-                                )
-                            , _fldDirectives = Nothing
-                            } :| []
-                        }
-                    )
-                }
-            )
-        )
-    )
-, DefinitionTypeSystem
-    ( TypeSystemDefinitionType
-        ( OTDef
-            ( ObjectTypeDefinition
-                { _otdSpan = Span
-                    { _start = AlexSourcePos
-                        { _line = 27
-                        , _col = 1
-                        }
-                    , _end = AlexSourcePos
-                        { _line = 30
-                        , _col = 2
-                        }
-                    }
-                , _otdDescription = Nothing
-                , _otdName = "Alien"
-                , _otdImplementsInterfaces = Just
-                    ( ImplementsInterfaces
-                        { _iiSpan = Span
-                            { _start = AlexSourcePos
-                                { _line = 27
-                                , _col = 12
-                                }
-                            , _end = AlexSourcePos
-                                { _line = 27
-                                , _col = 31
-                                }
-                            }
-                        , _iiInterfaces = "Sentient" :| []
-                        }
-                    )
-                , _otdDirectives = Nothing
-                , _otdFieldsDefinition = Just
-                    ( FieldsDefinition
-                        { _fdSpan = Span
-                            { _start = AlexSourcePos
-                                { _line = 27
-                                , _col = 32
-                                }
-                            , _end = AlexSourcePos
-                                { _line = 30
-                                , _col = 2
-                                }
-                            }
-                        , _fdDefinitions = FieldDefinition
-                            { _fldSpan = Span
-                                { _start = AlexSourcePos
-                                    { _line = 28
-                                    , _col = 3
-                                    }
-                                , _end = AlexSourcePos
-                                    { _line = 28
-                                    , _col = 16
-                                    }
-                                }
-                            , _fldDescription = Nothing
-                            , _fldName = "name"
-                            , _fldArgumentsDefinition = Nothing
-                            , _fldType = NonNullType
-                                ( Span
-                                    { _start = AlexSourcePos
-                                        { _line = 28
-                                        , _col = 9
-                                        }
-                                    , _end = AlexSourcePos
-                                        { _line = 28
-                                        , _col = 16
-                                        }
-                                    }
-                                )
-                                ( NamedType
-                                    ( Span
-                                        { _start = AlexSourcePos
-                                            { _line = 28
-                                            , _col = 9
-                                            }
-                                        , _end = AlexSourcePos
-                                            { _line = 28
-                                            , _col = 15
-                                            }
-                                        }
-                                    ) "String"
-                                )
-                            , _fldDirectives = Nothing
-                            } :|
-                            [ FieldDefinition
+                            , _fdDefinitions = FieldDefinition
                                 { _fldSpan = Span
                                     { _start = AlexSourcePos
-                                        { _line = 29
+                                        { _line = 28
                                         , _col = 3
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 29
-                                        , _col = 21
+                                        { _line = 28
+                                        , _col = 16
                                         }
                                     }
                                 , _fldDescription = Nothing
-                                , _fldName = "homePlanet"
+                                , _fldName = "name"
                                 , _fldArgumentsDefinition = Nothing
-                                , _fldType = NamedType
+                                , _fldType = NonNullType
                                     ( Span
+                                        { _start = AlexSourcePos
+                                            { _line = 28
+                                            , _col = 9
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 28
+                                            , _col = 16
+                                            }
+                                        }
+                                    )
+                                    ( NamedType
+                                        ( Span
+                                            { _start = AlexSourcePos
+                                                { _line = 28
+                                                , _col = 9
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 28
+                                                , _col = 15
+                                                }
+                                            }
+                                        ) "String"
+                                    )
+                                , _fldDirectives = Nothing
+                                } :|
+                                [ FieldDefinition
+                                    { _fldSpan = Span
                                         { _start = AlexSourcePos
                                             { _line = 29
-                                            , _col = 15
+                                            , _col = 3
                                             }
                                         , _end = AlexSourcePos
                                             { _line = 29
                                             , _col = 21
                                             }
                                         }
-                                    ) "String"
-                                , _fldDirectives = Nothing
-                                }
-                            ]
-                        }
-                    )
-                }
+                                    , _fldDescription = Nothing
+                                    , _fldName = "homePlanet"
+                                    , _fldArgumentsDefinition = Nothing
+                                    , _fldType = NamedType
+                                        ( Span
+                                            { _start = AlexSourcePos
+                                                { _line = 29
+                                                , _col = 15
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 29
+                                                , _col = 21
+                                                }
+                                            }
+                                        ) "String"
+                                    , _fldDirectives = Nothing
+                                    }
+                                ]
+                            }
+                        )
+                    }
+                )
             )
         )
     )
 , DefinitionTypeSystem
-    ( TypeSystemDefinitionType
-        ( OTDef
-            ( ObjectTypeDefinition
-                { _otdSpan = Span
-                    { _start = AlexSourcePos
-                        { _line = 32
-                        , _col = 1
-                        }
-                    , _end = AlexSourcePos
-                        { _line = 35
-                        , _col = 2
-                        }
-                    }
-                , _otdDescription = Nothing
-                , _otdName = "Human"
-                , _otdImplementsInterfaces = Just
-                    ( ImplementsInterfaces
-                        { _iiSpan = Span
-                            { _start = AlexSourcePos
-                                { _line = 32
-                                , _col = 12
-                                }
-                            , _end = AlexSourcePos
-                                { _line = 32
-                                , _col = 31
-                                }
+    ( TyDefinition
+        ( TypeSystemDefinitionType
+            ( OTDef
+                ( ObjectTypeDefinition
+                    { _otdSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 32
+                            , _col = 1
                             }
-                        , _iiInterfaces = "Sentient" :| []
-                        }
-                    )
-                , _otdDirectives = Nothing
-                , _otdFieldsDefinition = Just
-                    ( FieldsDefinition
-                        { _fdSpan = Span
-                            { _start = AlexSourcePos
-                                { _line = 32
-                                , _col = 32
-                                }
-                            , _end = AlexSourcePos
-                                { _line = 35
-                                , _col = 2
-                                }
+                        , _end = AlexSourcePos
+                            { _line = 35
+                            , _col = 2
                             }
-                        , _fdDefinitions = FieldDefinition
-                            { _fldSpan = Span
+                        }
+                    , _otdDescription = Nothing
+                    , _otdName = "Human"
+                    , _otdImplementsInterfaces = Just
+                        ( ImplementsInterfaces
+                            { _iiSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 33
-                                    , _col = 3
+                                    { _line = 32
+                                    , _col = 12
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 33
-                                    , _col = 16
+                                    { _line = 32
+                                    , _col = 31
                                     }
                                 }
-                            , _fldDescription = Nothing
-                            , _fldName = "name"
-                            , _fldArgumentsDefinition = Nothing
-                            , _fldType = NonNullType
-                                ( Span
+                            , _iiInterfaces = "Sentient" :| []
+                            }
+                        )
+                    , _otdDirectives = Nothing
+                    , _otdFieldsDefinition = Just
+                        ( FieldsDefinition
+                            { _fdSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 32
+                                    , _col = 32
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 35
+                                    , _col = 2
+                                    }
+                                }
+                            , _fdDefinitions = FieldDefinition
+                                { _fldSpan = Span
                                     { _start = AlexSourcePos
                                         { _line = 33
-                                        , _col = 9
+                                        , _col = 3
                                         }
                                     , _end = AlexSourcePos
                                         { _line = 33
                                         , _col = 16
                                         }
                                     }
-                                )
-                                ( NamedType
-                                    ( Span
-                                        { _start = AlexSourcePos
-                                            { _line = 33
-                                            , _col = 9
-                                            }
-                                        , _end = AlexSourcePos
-                                            { _line = 33
-                                            , _col = 15
-                                            }
-                                        }
-                                    ) "String"
-                                )
-                            , _fldDirectives = Nothing
-                            } :|
-                            [ FieldDefinition
-                                { _fldSpan = Span
-                                    { _start = AlexSourcePos
-                                        { _line = 34
-                                        , _col = 3
-                                        }
-                                    , _end = AlexSourcePos
-                                        { _line = 34
-                                        , _col = 15
-                                        }
-                                    }
                                 , _fldDescription = Nothing
-                                , _fldName = "pets"
+                                , _fldName = "name"
                                 , _fldArgumentsDefinition = Nothing
-                                , _fldType = ListType
+                                , _fldType = NonNullType
                                     ( Span
                                         { _start = AlexSourcePos
-                                            { _line = 34
+                                            { _line = 33
                                             , _col = 9
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 34
-                                            , _col = 15
+                                            { _line = 33
+                                            , _col = 16
                                             }
                                         }
                                     )
-                                    ( NonNullType
+                                    ( NamedType
+                                        ( Span
+                                            { _start = AlexSourcePos
+                                                { _line = 33
+                                                , _col = 9
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 33
+                                                , _col = 15
+                                                }
+                                            }
+                                        ) "String"
+                                    )
+                                , _fldDirectives = Nothing
+                                } :|
+                                [ FieldDefinition
+                                    { _fldSpan = Span
+                                        { _start = AlexSourcePos
+                                            { _line = 34
+                                            , _col = 3
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 34
+                                            , _col = 15
+                                            }
+                                        }
+                                    , _fldDescription = Nothing
+                                    , _fldName = "pets"
+                                    , _fldArgumentsDefinition = Nothing
+                                    , _fldType = ListType
                                         ( Span
                                             { _start = AlexSourcePos
                                                 { _line = 34
-                                                , _col = 10
+                                                , _col = 9
                                                 }
                                             , _end = AlexSourcePos
                                                 { _line = 34
-                                                , _col = 14
+                                                , _col = 15
                                                 }
                                             }
                                         )
-                                        ( NamedType
+                                        ( NonNullType
                                             ( Span
                                                 { _start = AlexSourcePos
                                                     { _line = 34
@@ -864,130 +866,134 @@
                                                     }
                                                 , _end = AlexSourcePos
                                                     { _line = 34
-                                                    , _col = 13
+                                                    , _col = 14
                                                     }
                                                 }
-                                            ) "Pet"
+                                            )
+                                            ( NamedType
+                                                ( Span
+                                                    { _start = AlexSourcePos
+                                                        { _line = 34
+                                                        , _col = 10
+                                                        }
+                                                    , _end = AlexSourcePos
+                                                        { _line = 34
+                                                        , _col = 13
+                                                        }
+                                                    }
+                                                ) "Pet"
+                                            )
                                         )
-                                    )
-                                , _fldDirectives = Nothing
-                                }
-                            ]
-                        }
-                    )
-                }
+                                    , _fldDirectives = Nothing
+                                    }
+                                ]
+                            }
+                        )
+                    }
+                )
             )
         )
     )
 , DefinitionTypeSystem
-    ( TypeSystemDefinitionType
-        ( ETDef
-            ( EnumTypeDefinition
-                { _etdSpan = Span
-                    { _start = AlexSourcePos
-                        { _line = 37
-                        , _col = 1
-                        }
-                    , _end = AlexSourcePos
-                        { _line = 39
-                        , _col = 2
-                        }
-                    }
-                , _etdDescription = Nothing
-                , _etdName = "CatCommand"
-                , _etdDirectives = Nothing
-                , _etdValueDefinitions =
-                    [ EnumValueDefinition
-                        { _evdSpan = Span
-                            { _start = AlexSourcePos
-                                { _line = 38
-                                , _col = 3
-                                }
-                            , _end = AlexSourcePos
-                                { _line = 38
-                                , _col = 7
-                                }
+    ( TyDefinition
+        ( TypeSystemDefinitionType
+            ( ETDef
+                ( EnumTypeDefinition
+                    { _etdSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 37
+                            , _col = 1
                             }
-                        , _evdDescription = Nothing
-                        , _evdName = "JUMP"
-                        , _evdDirectives = Nothing
-                        }
-                    ]
-                }
-            )
-        )
-    )
-, DefinitionTypeSystem
-    ( TypeSystemDefinitionType
-        ( OTDef
-            ( ObjectTypeDefinition
-                { _otdSpan = Span
-                    { _start = AlexSourcePos
-                        { _line = 41
-                        , _col = 1
-                        }
-                    , _end = AlexSourcePos
-                        { _line = 46
-                        , _col = 2
-                        }
-                    }
-                , _otdDescription = Nothing
-                , _otdName = "Cat"
-                , _otdImplementsInterfaces = Just
-                    ( ImplementsInterfaces
-                        { _iiSpan = Span
-                            { _start = AlexSourcePos
-                                { _line = 41
-                                , _col = 10
-                                }
-                            , _end = AlexSourcePos
-                                { _line = 41
-                                , _col = 24
-                                }
+                        , _end = AlexSourcePos
+                            { _line = 39
+                            , _col = 2
                             }
-                        , _iiInterfaces = "Pet" :| []
                         }
-                    )
-                , _otdDirectives = Nothing
-                , _otdFieldsDefinition = Just
-                    ( FieldsDefinition
-                        { _fdSpan = Span
-                            { _start = AlexSourcePos
-                                { _line = 41
-                                , _col = 25
-                                }
-                            , _end = AlexSourcePos
-                                { _line = 46
-                                , _col = 2
-                                }
-                            }
-                        , _fdDefinitions = FieldDefinition
-                            { _fldSpan = Span
+                    , _etdDescription = Nothing
+                    , _etdName = "CatCommand"
+                    , _etdDirectives = Nothing
+                    , _etdValueDefinitions = EnumValuesDefinition
+                        { unEnumValuesDefinition = EnumValueDefinition
+                            { _evdSpan = Span
                                 { _start = AlexSourcePos
-                                    { _line = 42
+                                    { _line = 38
                                     , _col = 3
                                     }
                                 , _end = AlexSourcePos
-                                    { _line = 42
-                                    , _col = 16
+                                    { _line = 38
+                                    , _col = 7
                                     }
                                 }
-                            , _fldDescription = Nothing
-                            , _fldName = "name"
-                            , _fldArgumentsDefinition = Nothing
-                            , _fldType = NonNullType
-                                ( Span
+                            , _evdDescription = Nothing
+                            , _evdName = "JUMP"
+                            , _evdDirectives = Nothing
+                            } :| []
+                        }
+                    }
+                )
+            )
+        )
+    )
+, DefinitionTypeSystem
+    ( TyDefinition
+        ( TypeSystemDefinitionType
+            ( OTDef
+                ( ObjectTypeDefinition
+                    { _otdSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 41
+                            , _col = 1
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 46
+                            , _col = 2
+                            }
+                        }
+                    , _otdDescription = Nothing
+                    , _otdName = "Cat"
+                    , _otdImplementsInterfaces = Just
+                        ( ImplementsInterfaces
+                            { _iiSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 41
+                                    , _col = 10
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 41
+                                    , _col = 24
+                                    }
+                                }
+                            , _iiInterfaces = "Pet" :| []
+                            }
+                        )
+                    , _otdDirectives = Nothing
+                    , _otdFieldsDefinition = Just
+                        ( FieldsDefinition
+                            { _fdSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 41
+                                    , _col = 25
+                                    }
+                                , _end = AlexSourcePos
+                                    { _line = 46
+                                    , _col = 2
+                                    }
+                                }
+                            , _fdDefinitions = FieldDefinition
+                                { _fldSpan = Span
                                     { _start = AlexSourcePos
                                         { _line = 42
-                                        , _col = 9
+                                        , _col = 3
                                         }
                                     , _end = AlexSourcePos
                                         { _line = 42
                                         , _col = 16
                                         }
                                     }
-                                )
-                                ( NamedType
+                                , _fldDescription = Nothing
+                                , _fldName = "name"
+                                , _fldArgumentsDefinition = Nothing
+                                , _fldType = NonNullType
                                     ( Span
                                         { _start = AlexSourcePos
                                             { _line = 42
@@ -995,81 +1001,81 @@
                                             }
                                         , _end = AlexSourcePos
                                             { _line = 42
-                                            , _col = 15
+                                            , _col = 16
                                             }
                                         }
-                                    ) "String"
-                                )
-                            , _fldDirectives = Nothing
-                            } :|
-                            [ FieldDefinition
-                                { _fldSpan = Span
-                                    { _start = AlexSourcePos
-                                        { _line = 43
-                                        , _col = 3
-                                        }
-                                    , _end = AlexSourcePos
-                                        { _line = 43
-                                        , _col = 19
-                                        }
-                                    }
-                                , _fldDescription = Nothing
-                                , _fldName = "nickname"
-                                , _fldArgumentsDefinition = Nothing
-                                , _fldType = NamedType
-                                    ( Span
+                                    )
+                                    ( NamedType
+                                        ( Span
+                                            { _start = AlexSourcePos
+                                                { _line = 42
+                                                , _col = 9
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 42
+                                                , _col = 15
+                                                }
+                                            }
+                                        ) "String"
+                                    )
+                                , _fldDirectives = Nothing
+                                } :|
+                                [ FieldDefinition
+                                    { _fldSpan = Span
                                         { _start = AlexSourcePos
                                             { _line = 43
-                                            , _col = 13
+                                            , _col = 3
                                             }
                                         , _end = AlexSourcePos
                                             { _line = 43
                                             , _col = 19
                                             }
                                         }
-                                    ) "String"
-                                , _fldDirectives = Nothing
-                                }
-                            , FieldDefinition
-                                { _fldSpan = Span
-                                    { _start = AlexSourcePos
-                                        { _line = 44
-                                        , _col = 3
-                                        }
-                                    , _end = AlexSourcePos
-                                        { _line = 44
-                                        , _col = 53
-                                        }
-                                    }
-                                , _fldDescription = Nothing
-                                , _fldName = "doesKnowCommand"
-                                , _fldArgumentsDefinition = Just
-                                    ( InputValueDefinition
-                                        { _ivdSpan = Span
+                                    , _fldDescription = Nothing
+                                    , _fldName = "nickname"
+                                    , _fldArgumentsDefinition = Nothing
+                                    , _fldType = NamedType
+                                        ( Span
                                             { _start = AlexSourcePos
-                                                { _line = 44
-                                                , _col = 19
+                                                { _line = 43
+                                                , _col = 13
                                                 }
                                             , _end = AlexSourcePos
-                                                { _line = 44
-                                                , _col = 42
+                                                { _line = 43
+                                                , _col = 19
                                                 }
                                             }
-                                        , _ivdDescription = Nothing
-                                        , _ivdName = "catCommand"
-                                        , _ivdType = NonNullType
-                                            ( Span
+                                        ) "String"
+                                    , _fldDirectives = Nothing
+                                    }
+                                , FieldDefinition
+                                    { _fldSpan = Span
+                                        { _start = AlexSourcePos
+                                            { _line = 44
+                                            , _col = 3
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 44
+                                            , _col = 53
+                                            }
+                                        }
+                                    , _fldDescription = Nothing
+                                    , _fldName = "doesKnowCommand"
+                                    , _fldArgumentsDefinition = Just
+                                        ( InputValueDefinition
+                                            { _ivdSpan = Span
                                                 { _start = AlexSourcePos
                                                     { _line = 44
-                                                    , _col = 31
+                                                    , _col = 19
                                                     }
                                                 , _end = AlexSourcePos
                                                     { _line = 44
                                                     , _col = 42
                                                     }
                                                 }
-                                            )
-                                            ( NamedType
+                                            , _ivdDescription = Nothing
+                                            , _ivdName = "catCommand"
+                                            , _ivdType = NonNullType
                                                 ( Span
                                                     { _start = AlexSourcePos
                                                         { _line = 44
@@ -1077,28 +1083,28 @@
                                                         }
                                                     , _end = AlexSourcePos
                                                         { _line = 44
-                                                        , _col = 41
+                                                        , _col = 42
                                                         }
                                                     }
-                                                ) "CatCommand"
-                                            )
-                                        , _ivdDefaultValue = Nothing
-                                        , _ivdDirectives = Nothing
-                                        } :| []
-                                    )
-                                , _fldType = NonNullType
-                                    ( Span
-                                        { _start = AlexSourcePos
-                                            { _line = 44
-                                            , _col = 45
-                                            }
-                                        , _end = AlexSourcePos
-                                            { _line = 44
-                                            , _col = 53
-                                            }
-                                        }
-                                    )
-                                    ( NamedType
+                                                )
+                                                ( NamedType
+                                                    ( Span
+                                                        { _start = AlexSourcePos
+                                                            { _line = 44
+                                                            , _col = 31
+                                                            }
+                                                        , _end = AlexSourcePos
+                                                            { _line = 44
+                                                            , _col = 41
+                                                            }
+                                                        }
+                                                    ) "CatCommand"
+                                                )
+                                            , _ivdDefaultValue = Nothing
+                                            , _ivdDirectives = Nothing
+                                            } :| []
+                                        )
+                                    , _fldType = NonNullType
                                         ( Span
                                             { _start = AlexSourcePos
                                                 { _line = 44
@@ -1106,120 +1112,133 @@
                                                 }
                                             , _end = AlexSourcePos
                                                 { _line = 44
-                                                , _col = 52
+                                                , _col = 53
                                                 }
                                             }
-                                        ) "Boolean"
-                                    )
-                                , _fldDirectives = Nothing
-                                }
-                            , FieldDefinition
-                                { _fldSpan = Span
-                                    { _start = AlexSourcePos
-                                        { _line = 45
-                                        , _col = 3
-                                        }
-                                    , _end = AlexSourcePos
-                                        { _line = 45
-                                        , _col = 18
-                                        }
+                                        )
+                                        ( NamedType
+                                            ( Span
+                                                { _start = AlexSourcePos
+                                                    { _line = 44
+                                                    , _col = 45
+                                                    }
+                                                , _end = AlexSourcePos
+                                                    { _line = 44
+                                                    , _col = 52
+                                                    }
+                                                }
+                                            ) "Boolean"
+                                        )
+                                    , _fldDirectives = Nothing
                                     }
-                                , _fldDescription = Nothing
-                                , _fldName = "meowVolume"
-                                , _fldArgumentsDefinition = Nothing
-                                , _fldType = NamedType
-                                    ( Span
+                                , FieldDefinition
+                                    { _fldSpan = Span
                                         { _start = AlexSourcePos
                                             { _line = 45
-                                            , _col = 15
+                                            , _col = 3
                                             }
                                         , _end = AlexSourcePos
                                             { _line = 45
                                             , _col = 18
                                             }
                                         }
-                                    ) "Int"
-                                , _fldDirectives = Nothing
-                                }
-                            ]
-                        }
-                    )
-                }
+                                    , _fldDescription = Nothing
+                                    , _fldName = "meowVolume"
+                                    , _fldArgumentsDefinition = Nothing
+                                    , _fldType = NamedType
+                                        ( Span
+                                            { _start = AlexSourcePos
+                                                { _line = 45
+                                                , _col = 15
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 45
+                                                , _col = 18
+                                                }
+                                            }
+                                        ) "Int"
+                                    , _fldDirectives = Nothing
+                                    }
+                                ]
+                            }
+                        )
+                    }
+                )
             )
         )
     )
 , DefinitionTypeSystem
-    ( TypeSystemDefinitionType
-        ( UTDef
-            ( UnionTypeDefinition
-                { _utSpan = Span
-                    { _start = AlexSourcePos
-                        { _line = 48
-                        , _col = 1
+    ( TyDefinition
+        ( TypeSystemDefinitionType
+            ( UTDef
+                ( UnionTypeDefinition
+                    { _utSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 48
+                            , _col = 1
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 48
+                            , _col = 27
+                            }
                         }
-                    , _end = AlexSourcePos
-                        { _line = 48
-                        , _col = 27
-                        }
+                    , _utdDescription = Nothing
+                    , _utdName = "CatOrDog"
+                    , _utdDirectives = Nothing
+                    , _utdMemberTypes = UnionMembers
+                        { unUnionMembers = "Cat" :| [ "Dog" ] }
                     }
-                , _utdDescription = Nothing
-                , _utdName = "CatOrDog"
-                , _utdDirectives = Nothing
-                , _utdMemberTypes =
-                    [ "Cat"
-                    , "Dog"
-                    ]
-                }
+                )
             )
         )
     )
 , DefinitionTypeSystem
-    ( TypeSystemDefinitionType
-        ( UTDef
-            ( UnionTypeDefinition
-                { _utSpan = Span
-                    { _start = AlexSourcePos
-                        { _line = 49
-                        , _col = 1
+    ( TyDefinition
+        ( TypeSystemDefinitionType
+            ( UTDef
+                ( UnionTypeDefinition
+                    { _utSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 49
+                            , _col = 1
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 49
+                            , _col = 31
+                            }
                         }
-                    , _end = AlexSourcePos
-                        { _line = 49
-                        , _col = 31
-                        }
+                    , _utdDescription = Nothing
+                    , _utdName = "DogOrHuman"
+                    , _utdDirectives = Nothing
+                    , _utdMemberTypes = UnionMembers
+                        { unUnionMembers = "Dog" :| [ "Human" ] }
                     }
-                , _utdDescription = Nothing
-                , _utdName = "DogOrHuman"
-                , _utdDirectives = Nothing
-                , _utdMemberTypes =
-                    [ "Dog"
-                    , "Human"
-                    ]
-                }
+                )
             )
         )
     )
 , DefinitionTypeSystem
-    ( TypeSystemDefinitionType
-        ( UTDef
-            ( UnionTypeDefinition
-                { _utSpan = Span
-                    { _start = AlexSourcePos
-                        { _line = 50
-                        , _col = 1
+    ( TyDefinition
+        ( TypeSystemDefinitionType
+            ( UTDef
+                ( UnionTypeDefinition
+                    { _utSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 50
+                            , _col = 1
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 50
+                            , _col = 35
+                            }
                         }
-                    , _end = AlexSourcePos
-                        { _line = 50
-                        , _col = 35
-                        }
+                    , _utdDescription = Nothing
+                    , _utdName = "HumanOrAlien"
+                    , _utdDirectives = Nothing
+                    , _utdMemberTypes = UnionMembers
+                        { unUnionMembers = "Human" :| [ "Alien" ] }
                     }
-                , _utdDescription = Nothing
-                , _utdName = "HumanOrAlien"
-                , _utdDirectives = Nothing
-                , _utdMemberTypes =
-                    [ "Human"
-                    , "Alien"
-                    ]
-                }
+                )
             )
         )
     )

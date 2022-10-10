@@ -35,6 +35,7 @@ import GraphQLParser.Token
 -- Reserved Words
 'directive'    { TokIdentifier (Loc $$ "directive") }
 'enum'         { TokIdentifier (Loc $$ "enum") }
+'extend'       { TokIdentifier (Loc $$ "extend") }
 'fragment'     { TokIdentifier (Loc $$ "fragment") }
 'implements'   { TokIdentifier (Loc $$ "implements") }
 'interface'    { TokIdentifier (Loc $$ "interface") }
@@ -118,13 +119,15 @@ executableOrTypeSystemDefiniton
 
 graphqlDefinition :: { Definition }
 graphqldefinition
-  : typeSystemDefinition { DefinitionTypeSystem $1 }
+  : typeSystemDefinitionOrExtension { DefinitionTypeSystem $1 }
   | executableDefinition { DefinitionExecutable $1 }
 
 --------------------------------------------------------------------------------
 
--- TODO:
--- typeSystemDefinitionOrExtension :: { TypeSystemDefinitionOrExtension }
+typeSystemDefinitionOrExtension :: { TypeSystemDefinitionOrExtension }
+typesystemdefinitionorextension
+  : typeSystemDefinition { TyDefinition $1 }
+  | typeSystemExtension { TyExtension $1 }
 
 typeSystemDefinition :: { TypeSystemDefinition }
 typeSystemDefinition
@@ -132,8 +135,59 @@ typeSystemDefinition
   | typeDefinition { TypeSystemDefinitionType $1 }
   | directiveDefinition { TypeSystemDefinitionDirective $1 }
 
--- TODO:
--- typeSystemExtension :: { TypeSystemExtension }
+typeSystemExtension :: { TypeSystemExtension }
+typesystemextension
+  : schemaExtension { TSSchemaExtension $1 }
+  | typeExtension { TSTypeExtension $1 }
+
+schemaExtension :: { SchemaExtension }
+schemaextension
+  : 'extend' 'schema' directives '{' rootOperationTypesDefinition '}'
+      { SchemaExtension (locate $1 <> locate $6) (fmap unLoc $3) (Just $5) }
+  | 'extend' 'schema' directives { SchemaExtension (locate $1 <> maybe (locate $2) locate $3) (fmap unLoc $3) Nothing }
+
+typeExtension :: { TypeExtension }
+typeExtension
+  : scalarTypeExtension { TEScalar $1 }
+  | objectTypeExtension { TEObject $1 }
+  | interfaceTypeExtension { TEInterface $1 }
+  | unionTypeExtension { TEUnion $1 }
+  | enumTypeExtension { TEEnum $1 }
+  | inputObjectTypeExtension { TEInputObject $1 }
+
+scalarTypeExtension :: { ScalarTypeExtension }
+scalarTypeExtension
+  : 'extend' 'scalar' name directives { ScalarTypeExtension (locate $1 <> maybe (locate $3) locate $4) (unLoc $3) (fmap unLoc $4) }
+
+objectTypeExtension :: { ObjectTypeExtension }
+objectTypeExtension
+  : 'extend' 'type' name implementsInterfaces directives fieldsDefinition
+      { ObjectTypeExtension (locate $1 <> maybe (maybe (maybe (locate $3) locate $4) locate $5) locate $6) (unLoc $3) $4 (fmap unLoc $5) $6 }
+
+interfaceTypeExtension :: { InterfaceTypeExtension }
+interfaceTypeExtension
+  : 'extend' 'interface' name implementsInterfaces directives fieldsDefinition
+      { InterfaceTypeExtension (locate $1 <> maybe (maybe (maybe (locate $3) locate $4) locate $5) locate $6) (unLoc $3) $4 (fmap unLoc $5) $6 }
+
+unionTypeExtension :: { UnionTypeExtension }
+unionTypeExtension
+  : 'extend' 'union' name directives unionMembers
+      { UnionTypeExtension (locate $1 <> locate $5) (unLoc $3) (fmap unLoc $4) (Just $ UnionMembers $ unLoc $5) }
+  | 'extend' 'union' name directives
+      { UnionTypeExtension (locate $1 <> maybe (locate $3) locate $4) (unLoc $3) (fmap unLoc $4) Nothing }
+
+enumTypeExtension :: { EnumTypeExtension }
+enumTypeExtension
+  : 'extend' 'enum' name directives '{' enumValuesDefinition '}'
+      { EnumTypeExtension (locate $1 <> locate $7) (unLoc $3) (fmap unLoc $4) (Just $ EnumValuesDefinition $6) }
+  | 'extend' 'enum' name directives { EnumTypeExtension (locate $1 <> maybe (locate $3) locate $4) (unLoc $3) (fmap unLoc $4) Nothing }
+
+inputObjectTypeExtension :: { InputObjectTypeExtension }
+inputObjectTypeExtension
+  : 'extend' 'input' name directives '{' inputValuesDefinition '}'
+      { InputObjectTypeExtension (locate $1 <> locate $7) (unLoc $3) (fmap unLoc $4) (Just $ InputFieldsDefinition $6) }
+  | 'extend' 'input' name directives
+      { InputObjectTypeExtension (locate $1 <> maybe (locate $3) locate $4) (unLoc $3) (fmap unLoc $4) Nothing }
 
 --------------------------------------------------------------------------------
 
@@ -199,7 +253,7 @@ implementsInterfaces_
 
 --------------------------------------------------------------------------------
 
-fieldsDefinition :: { Maybe FieldsDefinition }
+fieldsDefinition :: { (Maybe FieldsDefinition) }
 fieldsDefinition
   : '{' fieldDefinitions '}' { Just (FieldsDefinition (locate $1 <> locate $3) $2) }
   | %prec LOW { Nothing }
@@ -219,26 +273,28 @@ fieldDefinition
 unionTypeDefinition :: { UnionTypeDefinition }
 unionTypeDefinition
   : description 'union' name directives '=' unionMembers
-      { UnionTypeDefinition (fromMaybe (locate $2) (fmap locate $1) <> locate $6) (fmap unLoc $1) (unLoc $3) (fmap unLoc $4) (unLoc $6) } 
+      { UnionTypeDefinition (fromMaybe (locate $2) (fmap locate $1) <> locate $6) (fmap unLoc $1) (unLoc $3) (fmap unLoc $4) (UnionMembers $ unLoc $6) } 
   | description 'union' name directives '=' '|' unionMembers
-      { UnionTypeDefinition (fromMaybe (locate $2) (fmap locate $1) <> locate $7) (fmap unLoc $1) (unLoc $3) (fmap unLoc $4) (unLoc $7) } 
+      { UnionTypeDefinition (fromMaybe (locate $2) (fmap locate $1) <> locate $7) (fmap unLoc $1) (unLoc $3) (fmap unLoc $4) (UnionMembers $ unLoc $7) } 
 
-unionMembers :: { Loc [Name] }
+-- TODO: Try some coerce BS here
+unionMembers :: { Loc (NE.NonEmpty Name) }
 unionMembers
-  : name { Loc (locate $1) [unLoc $1] }
-  | name '|' unionMembers { Loc (locate $1 <> locate $3) (unLoc $1 : (unLoc $3)) }
+  : name { Loc (locate $1) (pure (unLoc $1)) }
+  | name '|' unionMembers { Loc (locate $1 <> locate $3) (unLoc $1 NE.<| (unLoc $3)) }
 
 --------------------------------------------------------------------------------
 
 enumTypeDefinition :: { EnumTypeDefinition }
 enumTypeDefinition
   : description 'enum' name directives '{' enumValuesDefinition '}'
-      { EnumTypeDefinition (fromMaybe (locate $2) (fmap locate $1) <> locate $7) (fmap unLoc $1) (unLoc $3) (fmap unLoc $4) $6 }
+      { EnumTypeDefinition (fromMaybe (locate $2) (fmap locate $1) <> locate $7) (fmap unLoc $1) (unLoc $3) (fmap unLoc $4) (EnumValuesDefinition $6) }
 
-enumValuesDefinition :: { [EnumValueDefinition] }
+-- TODO: Do some coerce BS here
+enumValuesDefinition :: { NE.NonEmpty EnumValueDefinition }
 enumValuesDefinition
-  : enumValueDefinition { [$1] }
-  | enumValueDefinition enumValuesDefinition { $1 : $2 }
+  : enumValueDefinition { pure $1 }
+  | enumValueDefinition enumValuesDefinition { $1 NE.<| $2 }
 
 enumValueDefinition :: { EnumValueDefinition }
 enumValueDefinition
@@ -248,8 +304,10 @@ enumValueDefinition
 
 inputObjectTypeDefinition :: { InputObjectTypeDefinition }
 inputObjectTypeDefinition
-  : description 'input' name directives inputFieldsDefinition
-      { InputObjectTypeDefinition (fromMaybe (locate $2) (fmap locate $1) <> maybeLoc (maybeLoc $3 $4) $5) (fmap unLoc $1) (unLoc $3) (fmap unLoc $4) $5 }
+  : description 'input' name directives '{' inputValuesDefinition '}'
+      { InputObjectTypeDefinition (fromMaybe (locate $2) (fmap locate $1) <> locate $7) (fmap unLoc $1) (unLoc $3) (fmap unLoc $4) (Just $ InputFieldsDefinition $6) }
+  | description 'input' name directives
+      { InputObjectTypeDefinition (fromMaybe (locate $2) (fmap locate $1) <> maybe (locate $3) locate $4) (fmap unLoc $1) (unLoc $3) (fmap unLoc $4) Nothing }
 
 --------------------------------------------------------------------------------
 
@@ -259,6 +317,11 @@ directivedefinition
       { DirectiveDefinition (fromMaybe (locate $2) (fmap locate $1) <> locate $8) (fmap unLoc $1) (unsafeMkName $ unLoc $4) $5 $6 (unLoc $8) }
   | description 'directive' '@' dir argumentsDefinition optRepeatable 'on' '|' directiveLocations
       { DirectiveDefinition (fromMaybe (locate $2) (fmap locate $1) <> locate $9) (fmap unLoc $1) (unsafeMkName $ unLoc $4) $5 $6 (unLoc $9) }
+
+argumentsDefinition :: { Maybe ArgumentsDefinition }
+argumentsDefinition
+  : '(' inputValuesDefinition ')' { Just (ArgumentsDefinition $2) }
+  | { Nothing }
 
 directiveLocations :: { Loc [DirectiveLocation] }
 directivelocations
@@ -297,15 +360,10 @@ typeSystemDirectiveLocation
 
 --------------------------------------------------------------------------------
 
-inputFieldsDefinition :: { Maybe InputFieldsDefinition }
-inputFieldsDefinition
-  : '{' inputValuesDefinition '}' { Just (InputFieldsDefinition (locate $1 <> locate $3) $2) }
-  | %prec LOW { Nothing }
-
-argumentsDefinition :: { Maybe ArgumentsDefinition }
-argumentsDefinition
-  : '(' inputValuesDefinition ')' { Just (ArgumentsDefinition $2) }
-  | { Nothing }
+--inputFieldsDefinition :: { Maybe InputFieldsDefinition }
+--inputFieldsDefinition
+--  : '{' inputValuesDefinition '}' { Just (InputFieldsDefinition (locate $1 <> locate $3) $2) }
+--  | %prec LOW { Nothing }
 
 inputValuesDefinition :: { NE.NonEmpty InputValueDefinition }
 inputValuesDefinition

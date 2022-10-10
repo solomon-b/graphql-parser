@@ -1,35 +1,37 @@
 [ DefinitionTypeSystem
-    ( TypeSystemDefinitionDirective
-        ( DirectiveDefinition
-            { _ddSpan = Span
-                { _start = AlexSourcePos
-                    { _line = 0
-                    , _col = 1
-                    }
-                , _end = AlexSourcePos
-                    { _line = 0
-                    , _col = 28
-                    }
-                }
-            , _ddDescription = Nothing
-            , _ddName = "example"
-            , _ddArguments = Nothing
-            , _ddRepeatable = NotRepeatable
-            , _ddLocations =
-                [ ExecDirLoc
-                    ( Span
-                        { _start = AlexSourcePos
-                            { _line = 0
-                            , _col = 23
-                            }
-                        , _end = AlexSourcePos
-                            { _line = 0
-                            , _col = 28
-                            }
+    ( TyDefinition
+        ( TypeSystemDefinitionDirective
+            ( DirectiveDefinition
+                { _ddSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 0
+                        , _col = 1
                         }
-                    ) EDLFIELD
-                ]
-            }
+                    , _end = AlexSourcePos
+                        { _line = 0
+                        , _col = 28
+                        }
+                    }
+                , _ddDescription = Nothing
+                , _ddName = "example"
+                , _ddArguments = Nothing
+                , _ddRepeatable = NotRepeatable
+                , _ddLocations =
+                    [ ExecDirLoc
+                        ( Span
+                            { _start = AlexSourcePos
+                                { _line = 0
+                                , _col = 23
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 0
+                                , _col = 28
+                                }
+                            }
+                        ) EDLFIELD
+                    ]
+                }
+            )
         )
     )
 , DefinitionExecutable

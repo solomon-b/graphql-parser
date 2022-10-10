@@ -1,92 +1,84 @@
 [ DefinitionTypeSystem
-    ( TypeSystemDefinitionType
-        ( IOTDef
-            ( InputObjectTypeDefinition
-                { _iotSpan = Span
-                    { _start = AlexSourcePos
-                        { _line = 0
-                        , _col = 1
-                        }
-                    , _end = AlexSourcePos
-                        { _line = 3
-                        , _col = 2
-                        }
-                    }
-                , _iotDescription = Nothing
-                , _iotName = "Point2D"
-                , _iotDirectives = Nothing
-                , _iotValueDefinitions = Just
-                    ( InputFieldsDefinition
-                        { _ifdSpan = Span
-                            { _start = AlexSourcePos
-                                { _line = 0
-                                , _col = 15
-                                }
-                            , _end = AlexSourcePos
-                                { _line = 3
-                                , _col = 2
-                                }
+    ( TyDefinition
+        ( TypeSystemDefinitionType
+            ( IOTDef
+                ( InputObjectTypeDefinition
+                    { _iotSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 0
+                            , _col = 1
                             }
-                        , _ifdDefinition = InputValueDefinition
-                            { _ivdSpan = Span
-                                { _start = AlexSourcePos
-                                    { _line = 1
-                                    , _col = 3
-                                    }
-                                , _end = AlexSourcePos
-                                    { _line = 1
-                                    , _col = 11
-                                    }
-                                }
-                            , _ivdDescription = Nothing
-                            , _ivdName = "x"
-                            , _ivdType = NamedType
-                                ( Span
-                                    { _start = AlexSourcePos
-                                        { _line = 1
-                                        , _col = 6
-                                        }
-                                    , _end = AlexSourcePos
-                                        { _line = 1
-                                        , _col = 11
-                                        }
-                                    }
-                                ) "Float"
-                            , _ivdDefaultValue = Nothing
-                            , _ivdDirectives = Nothing
-                            } :|
-                            [ InputValueDefinition
+                        , _end = AlexSourcePos
+                            { _line = 3
+                            , _col = 2
+                            }
+                        }
+                    , _iotDescription = Nothing
+                    , _iotName = "Point2D"
+                    , _iotDirectives = Nothing
+                    , _iotValueDefinitions = Just
+                        ( InputFieldsDefinition
+                            { _ifdDefinition = InputValueDefinition
                                 { _ivdSpan = Span
                                     { _start = AlexSourcePos
-                                        { _line = 2
+                                        { _line = 1
                                         , _col = 3
                                         }
                                     , _end = AlexSourcePos
-                                        { _line = 2
+                                        { _line = 1
                                         , _col = 11
                                         }
                                     }
                                 , _ivdDescription = Nothing
-                                , _ivdName = "y"
+                                , _ivdName = "x"
                                 , _ivdType = NamedType
                                     ( Span
                                         { _start = AlexSourcePos
-                                            { _line = 2
+                                            { _line = 1
                                             , _col = 6
                                             }
                                         , _end = AlexSourcePos
-                                            { _line = 2
+                                            { _line = 1
                                             , _col = 11
                                             }
                                         }
                                     ) "Float"
                                 , _ivdDefaultValue = Nothing
                                 , _ivdDirectives = Nothing
-                                }
-                            ]
-                        }
-                    )
-                }
+                                } :|
+                                [ InputValueDefinition
+                                    { _ivdSpan = Span
+                                        { _start = AlexSourcePos
+                                            { _line = 2
+                                            , _col = 3
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 2
+                                            , _col = 11
+                                            }
+                                        }
+                                    , _ivdDescription = Nothing
+                                    , _ivdName = "y"
+                                    , _ivdType = NamedType
+                                        ( Span
+                                            { _start = AlexSourcePos
+                                                { _line = 2
+                                                , _col = 6
+                                                }
+                                            , _end = AlexSourcePos
+                                                { _line = 2
+                                                , _col = 11
+                                                }
+                                            }
+                                        ) "Float"
+                                    , _ivdDefaultValue = Nothing
+                                    , _ivdDirectives = Nothing
+                                    }
+                                ]
+                            }
+                        )
+                    }
+                )
             )
         )
     )

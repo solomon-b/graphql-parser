@@ -46,8 +46,11 @@ type Cat implements Pet {
   meowVolume: Int
 }
 
-union CatOrDog = Cat | Dog
+union CatOrDog = | Cat
+| Dog
 
-union DogOrHuman = Dog | Human
+union DogOrHuman = | Dog
+| Human
 
-union HumanOrAlien = Human | Alien
+union HumanOrAlien = | Human
+| Alien

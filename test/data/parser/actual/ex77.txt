@@ -1,25 +1,25 @@
 [ DefinitionTypeSystem
-    ( TypeSystemDefinitionType
-        ( UTDef
-            ( UnionTypeDefinition
-                { _utSpan = Span
-                    { _start = AlexSourcePos
-                        { _line = 0
-                        , _col = 1
+    ( TyDefinition
+        ( TypeSystemDefinitionType
+            ( UTDef
+                ( UnionTypeDefinition
+                    { _utSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 0
+                            , _col = 1
+                            }
+                        , _end = AlexSourcePos
+                            { _line = 2
+                            , _col = 11
+                            }
                         }
-                    , _end = AlexSourcePos
-                        { _line = 2
-                        , _col = 11
-                        }
+                    , _utdDescription = Nothing
+                    , _utdName = "SearchResult"
+                    , _utdDirectives = Nothing
+                    , _utdMemberTypes = UnionMembers
+                        { unUnionMembers = "Photo" :| [ "Person" ] }
                     }
-                , _utdDescription = Nothing
-                , _utdName = "SearchResult"
-                , _utdDirectives = Nothing
-                , _utdMemberTypes =
-                    [ "Photo"
-                    , "Person"
-                    ]
-                }
+                )
             )
         )
     )

@@ -1,1 +1,2 @@
-union SearchResult = Photo | Person
+union SearchResult = | Photo
+| Person

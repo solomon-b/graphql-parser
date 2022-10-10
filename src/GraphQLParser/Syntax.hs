@@ -24,12 +24,25 @@ module GraphQLParser.Syntax
     InterfaceTypeDefinition (..),
     ImplementsInterfaces (..),
     UnionTypeDefinition (..),
+    UnionMembers (..),
     EnumTypeDefinition (..),
+    EnumValuesDefinition (..),
     EnumValueDefinition (..),
     InputObjectTypeDefinition (..),
     InputFieldsDefinition (..),
     ArgumentsDefinition (..),
     InputValueDefinition (..),
+
+    -- * Type System Extensions
+    TypeSystemExtension (..),
+    SchemaExtension (..),
+    TypeExtension (..),
+    ScalarTypeExtension (..),
+    ObjectTypeExtension (..),
+    InterfaceTypeExtension (..),
+    UnionTypeExtension (..),
+    EnumTypeExtension (..),
+    InputObjectTypeExtension (..),
 
     -- * Directive Definitions
     DirectiveDefinition (..),
@@ -110,7 +123,7 @@ newtype Document = Document {getDefinitions :: [Definition]}
 instance Pretty Document where
   pretty (Document defs) = concatWith (surround (line <> line)) $ fmap pretty defs
 
-data Definition = DefinitionExecutable ExecutableDefinition | DefinitionTypeSystem TypeSystemDefinition
+data Definition = DefinitionExecutable ExecutableDefinition | DefinitionTypeSystem TypeSystemDefinitionOrExtension
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
 
@@ -130,6 +143,11 @@ data TypeSystemDefinitionOrExtension
   | TyExtension TypeSystemExtension
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
+
+instance Pretty TypeSystemDefinitionOrExtension where
+  pretty = \case
+    TyDefinition tsd -> pretty tsd
+    TyExtension tse -> pretty tse
 
 data TypeSystemDefinition
   = TypeSystemDefinitionSchema SchemaDefinition
@@ -339,8 +357,7 @@ data UnionTypeDefinition = UnionTypeDefinition
     _utdDescription :: Maybe Description,
     _utdName :: Name,
     _utdDirectives :: Maybe Directives,
-    -- TODO: Should this be NonEmpty?
-    _utdMemberTypes :: [Name]
+    _utdMemberTypes :: UnionMembers
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
@@ -351,13 +368,21 @@ instance S.Located UnionTypeDefinition where
 instance Pretty UnionTypeDefinition where
   pretty UnionTypeDefinition {..} =
     withDescription _utdDescription $
-      case length _utdMemberTypes > 2 of
+      case NE.length (unUnionMembers _utdMemberTypes) > 2 of
+        -- TODO: FIX ME
         True ->
           vsep
             [ "union" <+> pretty _utdName <+?> _utdDirectives <+> "=",
-              indent 2 $ vsep $ fmap (("|" <+>) . pretty) _utdMemberTypes
+              indent 2 $ pretty _utdMemberTypes
             ]
-        False -> "union" <+> pretty _utdName <+?> _utdDirectives <+> "=" <+> hsep (List.intersperse "|" $ fmap (pretty) _utdMemberTypes)
+        False -> "union" <+> pretty _utdName <+?> _utdDirectives <+> "=" <+> pretty _utdMemberTypes
+
+newtype UnionMembers = UnionMembers { unUnionMembers :: NE.NonEmpty Name}
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
+   
+instance Pretty UnionMembers where
+  pretty UnionMembers {..} = vsep $ fmap (("|" <+>) . pretty) $ NE.toList unUnionMembers
 
 -- | GraphQL Enum types, like Scalar types, also represent leaf values
 -- in a GraphQL type system. However Enum types describe the set of
@@ -367,8 +392,7 @@ data EnumTypeDefinition = EnumTypeDefinition
     _etdDescription :: Maybe Description,
     _etdName :: Name,
     _etdDirectives :: Maybe Directives,
-    -- TODO: Should this be NonEmpty?
-    _etdValueDefinitions :: [EnumValueDefinition]
+    _etdValueDefinitions :: EnumValuesDefinition
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
@@ -379,8 +403,15 @@ instance S.Located EnumTypeDefinition where
 instance Pretty EnumTypeDefinition where
   pretty EnumTypeDefinition {..} =
     withDescription _etdDescription $
-      "enum" <+> pretty _etdName <+?> _etdDirectives
-        <+> vsep ["{", indent 2 (vsep (fmap pretty _etdValueDefinitions)), "}"]
+      "enum" <+> pretty _etdName <+?> _etdDirectives <+> pretty _etdValueDefinitions
+
+newtype EnumValuesDefinition = EnumValuesDefinition { unEnumValuesDefinition :: NE.NonEmpty EnumValueDefinition }
+  deriving stock (Eq, Ord, Show, Read, Lift, Generic)
+  deriving anyclass (NFData)
+
+instance Pretty EnumValuesDefinition where
+  pretty EnumValuesDefinition {..} =
+    vsep ["{", indent 2 (vsep (fmap pretty $ NE.toList unEnumValuesDefinition)), "}"]
 
 data EnumValueDefinition = EnumValueDefinition
   { _evdSpan :: S.Span,
@@ -418,15 +449,9 @@ instance Pretty InputObjectTypeDefinition where
   pretty InputObjectTypeDefinition {..} =
     withDescription _iotDescription $ "input" <+> pretty _iotName <+?> _iotDirectives <+?> _iotValueDefinitions
 
-data InputFieldsDefinition = InputFieldsDefinition
-  { _ifdSpan :: S.Span,
-    _ifdDefinition :: NE.NonEmpty InputValueDefinition
-  }
+newtype InputFieldsDefinition = InputFieldsDefinition {_ifdDefinition :: NE.NonEmpty InputValueDefinition}
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
-
-instance S.Located InputFieldsDefinition where
-  locate = _ifdSpan
 
 instance Pretty InputFieldsDefinition where
   pretty InputFieldsDefinition {..} =
@@ -573,7 +598,8 @@ instance Pretty TypeSystemExtension where
     TSTypeExtension te -> pretty te
 
 data SchemaExtension = SchemaExtension
-  { seDirectives :: Maybe (NE.NonEmpty Directive),
+  { seSpan :: S.Span,
+    seDirectives :: Maybe Directives,
     seRootOperationTypeDefinitions :: Maybe RootOperationTypesDefinition
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
@@ -582,6 +608,9 @@ data SchemaExtension = SchemaExtension
 instance Pretty SchemaExtension where
   pretty SchemaExtension {..} =
       "extend schema" <+?> seDirectives <+?> seRootOperationTypeDefinitions
+
+instance S.Located SchemaExtension where
+  locate SchemaExtension {seSpan} = seSpan
 
 data TypeExtension
   = TEScalar ScalarTypeExtension
@@ -603,7 +632,8 @@ instance Pretty TypeExtension where
     TEInputObject iote -> pretty iote
 
 data ScalarTypeExtension = ScalarTypeExtension
-  { steName :: Name,
+  { steSpan :: S.Span,
+    steName :: Name,
     steDirectives :: Maybe Directives
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
@@ -612,8 +642,12 @@ data ScalarTypeExtension = ScalarTypeExtension
 instance Pretty ScalarTypeExtension where
   pretty ScalarTypeExtension {..} = "extend scalar" <+> pretty steName <+?> steDirectives
 
+instance S.Located ScalarTypeExtension where
+  locate ScalarTypeExtension {steSpan} = steSpan
+
 data ObjectTypeExtension = ObjectTypeExtension
-  { oteName :: Name,
+  { oteSpan :: S.Span,
+    oteName :: Name,
     oteInterfaces :: Maybe ImplementsInterfaces,
     oteDirectives :: Maybe Directives,
     oteFields :: Maybe FieldsDefinition
@@ -624,8 +658,12 @@ data ObjectTypeExtension = ObjectTypeExtension
 instance Pretty ObjectTypeExtension where
   pretty ObjectTypeExtension {..} = "extend type" <+> pretty oteName <+?> oteInterfaces <+?> oteDirectives <+?> oteFields
 
+instance S.Located ObjectTypeExtension where
+  locate ObjectTypeExtension {oteSpan} = oteSpan
+
 data InterfaceTypeExtension = InterfaceTypeExtension
-  { iteName :: Name,
+  { iteSpan :: S.Span,
+    iteName :: Name,
     iteInterfaces :: Maybe ImplementsInterfaces,
     iteDirectives :: Maybe Directives,
     iteFields :: Maybe FieldsDefinition
@@ -636,10 +674,14 @@ data InterfaceTypeExtension = InterfaceTypeExtension
 instance Pretty InterfaceTypeExtension where
   pretty InterfaceTypeExtension {..} = "extend interface" <+> pretty iteName <+?> iteInterfaces <+?> iteDirectives <+?> iteFields
 
+instance S.Located InterfaceTypeExtension where
+  locate InterfaceTypeExtension {iteSpan} = iteSpan
+
 data UnionTypeExtension = UnionTypeExtension
-  { uteName :: Name,
+  { uteSpan :: S.Span,
+    uteName :: Name,
     uteDirectives :: Maybe Directives,
-    uteMemberTypes :: Maybe (NE.NonEmpty Name)
+    uteMemberTypes :: Maybe UnionMembers
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
@@ -647,19 +689,27 @@ data UnionTypeExtension = UnionTypeExtension
 instance Pretty UnionTypeExtension where
   pretty UnionTypeExtension {..} = "extend union" <+> pretty uteName <+?> uteDirectives <+?> uteMemberTypes
 
+instance S.Located UnionTypeExtension where
+  locate UnionTypeExtension {uteSpan} = uteSpan
+
 data EnumTypeExtension = EnumTypeExtension
-  { eteName :: Name,
+  { eteSpan :: S.Span,
+    eteName :: Name,
     eteDirectives :: Maybe Directives,
-    eteValuesDefinition :: Maybe (NE.NonEmpty EnumValueDefinition)
+    eteValuesDefinition :: Maybe EnumValuesDefinition
   }
   deriving stock (Eq, Ord, Show, Read, Lift, Generic)
   deriving anyclass (NFData)
 
 instance Pretty EnumTypeExtension where
-  pretty EnumTypeExtension {..} = "extend union" <+> pretty eteName <+?> eteDirectives <+?> eteValuesDefinition
+  pretty EnumTypeExtension {..} = "extend enum" <+> pretty eteName <+?> eteDirectives <+?> eteValuesDefinition
+
+instance S.Located EnumTypeExtension where
+  locate EnumTypeExtension {eteSpan} = eteSpan
 
 data InputObjectTypeExtension = InputObjectTypeExtension
-  { ioteName :: Name,
+  { ioteSpan :: S.Span,
+    ioteName :: Name,
     ioteDirectives :: Maybe Directives,
     ioteFieldsDefinition :: Maybe InputFieldsDefinition
   }
@@ -668,6 +718,9 @@ data InputObjectTypeExtension = InputObjectTypeExtension
 
 instance Pretty InputObjectTypeExtension where
   pretty InputObjectTypeExtension {..} = "extend input" <+> pretty ioteName <+?> ioteDirectives <+?> ioteFieldsDefinition
+
+instance S.Located InputObjectTypeExtension where
+  locate InputObjectTypeExtension {ioteSpan} = ioteSpan
 
 --------------------------------------------------------------------------------
 -- Executable Definitions

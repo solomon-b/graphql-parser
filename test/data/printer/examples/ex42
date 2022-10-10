@@ -1,132 +1,136 @@
 [ DefinitionTypeSystem
-    ( TypeSystemDefinitionType
-        ( STDef
-            ( ScalarTypeDefinition
-                { _stSpan = Span
-                    { _start = AlexSourcePos
-                        { _line = 0
-                        , _col = 1
-                        }
-                    , _end = AlexSourcePos
-                        { _line = 0
-                        , _col = 68
-                        }
-                    }
-                , _stDescription = Nothing
-                , _stName = "UUID"
-                , _stDirectives = Just
-                    ( Directive
-                        { _dSpan = Span
-                            { _start = AlexSourcePos
-                                { _line = 0
-                                , _col = 13
-                                }
-                            , _end = AlexSourcePos
-                                { _line = 0
-                                , _col = 68
-                                }
+    ( TyDefinition
+        ( TypeSystemDefinitionType
+            ( STDef
+                ( ScalarTypeDefinition
+                    { _stSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 0
+                            , _col = 1
                             }
-                        , _dName = "specifiedBy"
-                        , _dArguments = Just
-                            ( Arguments
-                                { argSpan = Span
-                                    { _start = AlexSourcePos
-                                        { _line = 0
-                                        , _col = 26
-                                        }
-                                    , _end = AlexSourcePos
-                                        { _line = 0
-                                        , _col = 68
-                                        }
+                        , _end = AlexSourcePos
+                            { _line = 0
+                            , _col = 68
+                            }
+                        }
+                    , _stDescription = Nothing
+                    , _stName = "UUID"
+                    , _stDirectives = Just
+                        ( Directive
+                            { _dSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 0
+                                    , _col = 13
                                     }
-                                , argArguments =
-                                    [
-                                        ( "url"
-                                        , VString
-                                            ( Span
-                                                { _start = AlexSourcePos
-                                                    { _line = 0
-                                                    , _col = 31
-                                                    }
-                                                , _end = AlexSourcePos
-                                                    { _line = 0
-                                                    , _col = 68
-                                                    }
-                                                }
-                                            ) "https://tools.ietf.org/html/rfc4122"
-                                        )
-                                    ]
+                                , _end = AlexSourcePos
+                                    { _line = 0
+                                    , _col = 68
+                                    }
                                 }
-                            )
-                        } :| []
-                    )
-                }
+                            , _dName = "specifiedBy"
+                            , _dArguments = Just
+                                ( Arguments
+                                    { argSpan = Span
+                                        { _start = AlexSourcePos
+                                            { _line = 0
+                                            , _col = 26
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 0
+                                            , _col = 68
+                                            }
+                                        }
+                                    , argArguments =
+                                        [
+                                            ( "url"
+                                            , VString
+                                                ( Span
+                                                    { _start = AlexSourcePos
+                                                        { _line = 0
+                                                        , _col = 31
+                                                        }
+                                                    , _end = AlexSourcePos
+                                                        { _line = 0
+                                                        , _col = 68
+                                                        }
+                                                    }
+                                                ) "https://tools.ietf.org/html/rfc4122"
+                                            )
+                                        ]
+                                    }
+                                )
+                            } :| []
+                        )
+                    }
+                )
             )
         )
     )
 , DefinitionTypeSystem
-    ( TypeSystemDefinitionType
-        ( STDef
-            ( ScalarTypeDefinition
-                { _stSpan = Span
-                    { _start = AlexSourcePos
-                        { _line = 2
-                        , _col = 1
-                        }
-                    , _end = AlexSourcePos
-                        { _line = 2
-                        , _col = 67
-                        }
-                    }
-                , _stDescription = Nothing
-                , _stName = "URL"
-                , _stDirectives = Just
-                    ( Directive
-                        { _dSpan = Span
-                            { _start = AlexSourcePos
-                                { _line = 2
-                                , _col = 12
-                                }
-                            , _end = AlexSourcePos
-                                { _line = 2
-                                , _col = 67
-                                }
+    ( TyDefinition
+        ( TypeSystemDefinitionType
+            ( STDef
+                ( ScalarTypeDefinition
+                    { _stSpan = Span
+                        { _start = AlexSourcePos
+                            { _line = 2
+                            , _col = 1
                             }
-                        , _dName = "specifiedBy"
-                        , _dArguments = Just
-                            ( Arguments
-                                { argSpan = Span
-                                    { _start = AlexSourcePos
-                                        { _line = 2
-                                        , _col = 25
-                                        }
-                                    , _end = AlexSourcePos
-                                        { _line = 2
-                                        , _col = 67
-                                        }
+                        , _end = AlexSourcePos
+                            { _line = 2
+                            , _col = 67
+                            }
+                        }
+                    , _stDescription = Nothing
+                    , _stName = "URL"
+                    , _stDirectives = Just
+                        ( Directive
+                            { _dSpan = Span
+                                { _start = AlexSourcePos
+                                    { _line = 2
+                                    , _col = 12
                                     }
-                                , argArguments =
-                                    [
-                                        ( "url"
-                                        , VString
-                                            ( Span
-                                                { _start = AlexSourcePos
-                                                    { _line = 2
-                                                    , _col = 30
-                                                    }
-                                                , _end = AlexSourcePos
-                                                    { _line = 2
-                                                    , _col = 67
-                                                    }
-                                                }
-                                            ) "https://tools.ietf.org/html/rfc3986"
-                                        )
-                                    ]
+                                , _end = AlexSourcePos
+                                    { _line = 2
+                                    , _col = 67
+                                    }
                                 }
-                            )
-                        } :| []
-                    )
-                }
+                            , _dName = "specifiedBy"
+                            , _dArguments = Just
+                                ( Arguments
+                                    { argSpan = Span
+                                        { _start = AlexSourcePos
+                                            { _line = 2
+                                            , _col = 25
+                                            }
+                                        , _end = AlexSourcePos
+                                            { _line = 2
+                                            , _col = 67
+                                            }
+                                        }
+                                    , argArguments =
+                                        [
+                                            ( "url"
+                                            , VString
+                                                ( Span
+                                                    { _start = AlexSourcePos
+                                                        { _line = 2
+                                                        , _col = 30
+                                                        }
+                                                    , _end = AlexSourcePos
+                                                        { _line = 2
+                                                        , _col = 67
+                                                        }
+                                                    }
+                                                ) "https://tools.ietf.org/html/rfc3986"
+                                            )
+                                        ]
+                                    }
+                                )
+                            } :| []
+                        )
+                    }
+                )
             )
         )
     )

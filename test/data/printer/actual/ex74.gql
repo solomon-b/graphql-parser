@@ -1,4 +1,5 @@
-union SearchResult = Photo | Person
+union SearchResult = | Photo
+| Person
 
 type Person {
   name: String

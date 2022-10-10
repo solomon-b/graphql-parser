@@ -47,6 +47,17 @@ module GraphQLParser.Generator
     genExecutableDirectiveLocation,
     genTypeSystemDirectiveLocation,
 
+    -- * Extensions
+    genTypeSystemExtension,
+    genSchemaExtension,
+    genTypeExtension,
+    genScalarTypeExtension,
+    genObjectTypeExtension,
+    genInterfaceTypeExtension,
+    genUnionTypeExtension,
+    genEnumTypeExtension,
+    genInputObjectTypeExtension,
+
     -- * Structure
     genSelectionSet,
     genSelection,
@@ -86,7 +97,7 @@ generate = Gen.sample
 
 genDocument :: Gen Document
 genDocument =
-  Document <$> Gen.list (Range.linear 0 3) (Gen.choice [DefinitionExecutable <$> genExecutableDefinition, DefinitionTypeSystem <$> genTypeSystemDefinition])
+  Document <$> Gen.list (Range.linear 0 3) (Gen.choice [DefinitionExecutable <$> genExecutableDefinition, DefinitionTypeSystem <$> genTypeSystemDefinitionOrExtension])
 
 -------------------------------------------------------------------------------
 -- Identifiers
@@ -243,6 +254,13 @@ genFragmentDefinition = do
   let _frdSpan = dummySpan
   pure $ FragmentDefinition {..}
 
+genTypeSystemDefinitionOrExtension :: Gen TypeSystemDefinitionOrExtension
+genTypeSystemDefinitionOrExtension =
+  Gen.choice
+    [ TyDefinition <$> genTypeSystemDefinition,
+      TyExtension <$> genTypeSystemExtension
+    ]
+
 genTypeSystemDefinition :: Gen TypeSystemDefinition
 genTypeSystemDefinition =
   Gen.choice
@@ -258,6 +276,10 @@ genSchemaDefinition = do
   _sdRootOperationTypeDefinitions <- fmap RootOperationTypesDefinition (mkListNonEmpty genRootOperationTypeDefinition)
   let _sdSpan = dummySpan
   pure $ SchemaDefinition {..}
+
+genRootOperationTypesDefinition :: Gen RootOperationTypesDefinition
+genRootOperationTypesDefinition =
+  RootOperationTypesDefinition <$> mkListNonEmpty genRootOperationTypeDefinition
 
 genRootOperationTypeDefinition :: Gen RootOperationTypeDefinition
 genRootOperationTypeDefinition = do
@@ -320,14 +342,17 @@ genUnionTypeDefinition =
     <*> Gen.maybe genDescription
     <*> genName
     <*> Gen.maybe genDirectives
-    <*> mkList genName
+    <*> genUnionMembers
+
+genUnionMembers :: Gen UnionMembers
+genUnionMembers = UnionMembers <$> mkListNonEmpty genName
 
 genEnumTypeDefinition :: Gen EnumTypeDefinition
 genEnumTypeDefinition = do
   _etdDescription <- Gen.maybe genDescription
   _etdName <- genName
   _etdDirectives <- Gen.maybe genDirectives
-  _etdValueDefinitions <- mkList genEnumValueDefinition
+  _etdValueDefinitions <- genEnumValuesDefinition
   let _etdSpan = dummySpan
   pure $ EnumTypeDefinition {..}
 
@@ -349,6 +374,9 @@ genInputValueDefinition = do
   _ivdDirectives <- Gen.maybe genDirectives
   let _ivdSpan = dummySpan
   pure $ InputValueDefinition {..}
+
+genEnumValuesDefinition :: Gen EnumValuesDefinition
+genEnumValuesDefinition = EnumValuesDefinition <$> mkListNonEmpty genEnumValueDefinition
 
 genEnumValueDefinition :: Gen EnumValueDefinition
 genEnumValueDefinition = do
@@ -392,8 +420,7 @@ genDirectiveDefinition = do
 
 genInputFieldsDefinition :: Gen InputFieldsDefinition
 genInputFieldsDefinition =
-  mkListNonEmpty genInputValueDefinition >>= \defs ->
-    pure $ InputFieldsDefinition dummySpan defs
+  InputFieldsDefinition <$> mkListNonEmpty genInputValueDefinition
 
 genArgumentsDefinition :: Gen ArgumentsDefinition
 genArgumentsDefinition = ArgumentsDefinition <$> mkListNonEmpty genInputValueDefinition
@@ -432,6 +459,83 @@ genTypeSystemDirectiveLocation =
       TSDLINPUT_OBJECT,
       TSDLINPUT_FIELD_DEFINITION
     ]
+
+-------------------------------------------------------------------------------
+-- Extensions
+
+genTypeSystemExtension :: Gen TypeSystemExtension
+genTypeSystemExtension =
+  Gen.choice
+    [ TSSchemaExtension <$> genSchemaExtension,
+      TSTypeExtension <$> genTypeExtension
+    ]
+
+genSchemaExtension :: Gen SchemaExtension
+genSchemaExtension = do
+  let seSpan = dummySpan
+  seDirectives <- Gen.maybe genDirectives
+  seRootOperationTypeDefinitions <- Gen.maybe genRootOperationTypesDefinition
+  pure SchemaExtension {..}
+
+genTypeExtension :: Gen TypeExtension
+genTypeExtension =
+  Gen.choice
+    [ TEScalar <$> genScalarTypeExtension,
+      TEObject <$> genObjectTypeExtension,
+      TEInterface <$> genInterfaceTypeExtension,
+      TEUnion <$> genUnionTypeExtension,
+      TEEnum <$> genEnumTypeExtension,
+      TEInputObject <$> genInputObjectTypeExtension
+    ]
+
+genScalarTypeExtension :: Gen ScalarTypeExtension
+genScalarTypeExtension = do
+  let steSpan = dummySpan
+  steName <- genName
+  steDirectives <- Gen.maybe genDirectives
+  pure ScalarTypeExtension {..}
+
+genObjectTypeExtension :: Gen ObjectTypeExtension
+genObjectTypeExtension = do
+  let oteSpan = dummySpan
+  oteName <- genName
+  oteInterfaces <- Gen.maybe genImplementsInterfaces
+  oteDirectives <- Gen.maybe genDirectives
+  oteFields <- Gen.maybe genFieldDefinitions
+  pure ObjectTypeExtension {..}
+
+genInterfaceTypeExtension :: Gen InterfaceTypeExtension
+genInterfaceTypeExtension = do
+  let iteSpan = dummySpan
+  iteName <- genName
+  iteInterfaces <- Gen.maybe genImplementsInterfaces
+  iteDirectives <- Gen.maybe genDirectives
+  iteFields <- Gen.maybe genFieldDefinitions
+  pure InterfaceTypeExtension {..}
+
+genUnionTypeExtension :: Gen UnionTypeExtension
+genUnionTypeExtension = do
+  let uteSpan = dummySpan
+  uteName <- genName
+  uteDirectives <- Gen.maybe genDirectives
+  uteMemberTypes <- Gen.maybe genUnionMembers
+  pure UnionTypeExtension {..}
+
+genEnumTypeExtension :: Gen EnumTypeExtension
+genEnumTypeExtension = do
+  let eteSpan = dummySpan
+  eteName <- genName
+  eteDirectives <- Gen.maybe genDirectives
+  eteValuesDefinition <- Gen.maybe genEnumValuesDefinition
+  pure EnumTypeExtension {..}
+
+genInputObjectTypeExtension :: Gen InputObjectTypeExtension
+genInputObjectTypeExtension = do
+  let ioteSpan = dummySpan
+  ioteName <- genName
+  ioteDirectives <- Gen.maybe genDirectives
+  ioteFieldsDefinition <- Gen.maybe genInputFieldsDefinition
+  pure InputObjectTypeExtension {..}
 
 -------------------------------------------------------------------------------
 -- Structure

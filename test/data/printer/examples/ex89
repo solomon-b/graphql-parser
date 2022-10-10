@@ -1,59 +1,61 @@
 [ DefinitionTypeSystem
-    ( TypeSystemDefinitionDirective
-        ( DirectiveDefinition
-            { _ddSpan = Span
-                { _start = AlexSourcePos
-                    { _line = 0
-                    , _col = 1
+    ( TyDefinition
+        ( TypeSystemDefinitionDirective
+            ( DirectiveDefinition
+                { _ddSpan = Span
+                    { _start = AlexSourcePos
+                        { _line = 0
+                        , _col = 1
+                        }
+                    , _end = AlexSourcePos
+                        { _line = 3
+                        , _col = 20
+                        }
                     }
-                , _end = AlexSourcePos
-                    { _line = 3
-                    , _col = 20
-                    }
+                , _ddDescription = Nothing
+                , _ddName = "example"
+                , _ddArguments = Nothing
+                , _ddRepeatable = NotRepeatable
+                , _ddLocations =
+                    [ ExecDirLoc
+                        ( Span
+                            { _start = AlexSourcePos
+                                { _line = 1
+                                , _col = 5
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 1
+                                , _col = 10
+                                }
+                            }
+                        ) EDLFIELD
+                    , ExecDirLoc
+                        ( Span
+                            { _start = AlexSourcePos
+                                { _line = 2
+                                , _col = 5
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 2
+                                , _col = 20
+                                }
+                            }
+                        ) EDLFRAGMENT_SPREAD
+                    , ExecDirLoc
+                        ( Span
+                            { _start = AlexSourcePos
+                                { _line = 3
+                                , _col = 5
+                                }
+                            , _end = AlexSourcePos
+                                { _line = 3
+                                , _col = 20
+                                }
+                            }
+                        ) EDLINLINE_FRAGMENT
+                    ]
                 }
-            , _ddDescription = Nothing
-            , _ddName = "example"
-            , _ddArguments = Nothing
-            , _ddRepeatable = NotRepeatable
-            , _ddLocations =
-                [ ExecDirLoc
-                    ( Span
-                        { _start = AlexSourcePos
-                            { _line = 1
-                            , _col = 5
-                            }
-                        , _end = AlexSourcePos
-                            { _line = 1
-                            , _col = 10
-                            }
-                        }
-                    ) EDLFIELD
-                , ExecDirLoc
-                    ( Span
-                        { _start = AlexSourcePos
-                            { _line = 2
-                            , _col = 5
-                            }
-                        , _end = AlexSourcePos
-                            { _line = 2
-                            , _col = 20
-                            }
-                        }
-                    ) EDLFRAGMENT_SPREAD
-                , ExecDirLoc
-                    ( Span
-                        { _start = AlexSourcePos
-                            { _line = 3
-                            , _col = 5
-                            }
-                        , _end = AlexSourcePos
-                            { _line = 3
-                            , _col = 20
-                            }
-                        }
-                    ) EDLINLINE_FRAGMENT
-                ]
-            }
+            )
         )
     )
 ]
